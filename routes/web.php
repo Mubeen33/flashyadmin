@@ -1,5 +1,7 @@
 <?php
 
+use App\Category;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +22,25 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/categories', function () {
+
+    $categoris = Category::where('parent_id',0)->get();
+    
+    return view('categories',["categoris" => $categoris]);
+
+});
+
+Route::post('/subcat', function (Request $request) {
+
+    $parent_id = $request->cat_id;
+    
+    $subcategories = Category::where('id',$parent_id)
+                          ->with('subcategories')
+                          ->get();
+
+    return response()->json([
+        'subcategories' => $subcategories
+    ]);
+   
+})->name('subcat');
