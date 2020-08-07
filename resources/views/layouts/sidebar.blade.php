@@ -53,6 +53,8 @@
                         </li>
                     </ul>
                 </li>
+                <li class=" navigation-header"><span>Vendors</span></li>
+                <li><a href="{{url('vendor-requests')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List View">Vendor Requests</span></a></li>
                 <li class=" navigation-header"><span>UI Elements</span>
                 </li>
                 <li class=" nav-item"><a href="#"><i class="feather icon-list"></i><span class="menu-title" data-i18n="Data List">Data List</span><span class="badge badge badge-primary badge-pill float-right mr-2">New</span></a>
