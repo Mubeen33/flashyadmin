@@ -1,5 +1,7 @@
 <?php
 
+use App\Category;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +23,29 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
 // Vendor Routes
 Route::get('vendor-requests','vendor\VendorController@vendorRequest');
 Route::get('vendor-approve/{id}','vendor\VendorController@vendorData');
+
+Route::get('/categories', function () {
+
+    $categoris = Category::where('parent_id',0)->get();
+    
+    return view('categories',["categoris" => $categoris]);
+
+});
+
+Route::post('/subcat', function (Request $request) {
+
+    $parent_id = $request->cat_id;
+    
+    $subcategories = Category::where('id',$parent_id)
+                          ->with('subcategories')
+                          ->get();
+
+    return response()->json([
+        'subcategories' => $subcategories
+    ]);
+   
+})->name('subcat');
