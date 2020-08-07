@@ -28,6 +28,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('vendor-requests','vendor\VendorController@vendorRequest');
 Route::get('vendor-approve/{id}','vendor\VendorController@vendorData');
 
+Route::get('/addcat', function () {
+
+    $categoris = Category::where('parent_id',0)->get();
+    
+    return view('addcat',["categoris" => $categoris]);
+
+});
+
+
 Route::get('/categories', function () {
 
     $categoris = Category::where('parent_id',0)->get();
