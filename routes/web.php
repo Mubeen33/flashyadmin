@@ -20,3 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Vendor Routes
+Route::get('vendor-requests','vendor\VendorController@vendorRequest');
+Route::get('vendor-approve/{id}','vendor\VendorController@vendorData');
