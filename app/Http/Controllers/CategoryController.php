@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\DB;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -14,7 +15,16 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->paginate(5);
+        $categories = Category::leftjoin('categories as cat', 'categories.parent_id', '=', 'cat.id')
+        ->select('categories.*', 'cat.name as parent_name')            
+        ->paginate(5);
+
+        //$users = DB::table('users')
+            //->join('contacts', 'users.id', '=', 'contacts.user_id')
+            //->join('orders', 'users.id', '=', 'orders.user_id')
+            //->select('users.*', 'contacts.phone', 'orders.price')
+          //  ->get();
+
         return view('categories',compact('categories'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }

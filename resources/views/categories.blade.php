@@ -35,32 +35,12 @@
                                                  @foreach ($categories as $category)
                                                 <tr>
                                                     <td>{{ $category->id }}</td>
-                                                    <td><i class="fa fa-circle font-small-3 text-success mr-50"></i>{{ $category->name }}</td>
-                                                    <td class="p-1">
-                                                        <ul class="list-unstyled users-list m-0  d-flex align-items-center">
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Vinnie Mostowy" class="avatar pull-up">
-                                                                <img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-5.jpg" alt="Avatar" height="30" width="30">
-                                                            </li>
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Elicia Rieske" class="avatar pull-up">
-                                                                <img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="Avatar" height="30" width="30">
-                                                            </li>
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Julee Rossignol" class="avatar pull-up">
-                                                                <img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-10.jpg" alt="Avatar" height="30" width="30">
-                                                            </li>
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Darcey Nooner" class="avatar pull-up">
-                                                                <img class="media-object rounded-circle" src="../../../app-assets/images/portrait/small/avatar-s-8.jpg" alt="Avatar" height="30" width="30">
-                                                            </li>
-                                                        </ul>
-                                                    </td>
-                                                    <td>Anniston, Alabama</td>
-                                                    <td>
-                                                        <span>130 km</span>
-                                                        <div class="progress progress-bar-success mt-1 mb-0">
-                                                            <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>14:58 26/07/2018</td>
-                                                    <td>28/07/2018</td>
+                                                    <td>{{ $category->name }}</td>
+                                                    <td>{{ $category->parent_name }}</td>
+                                                    <td>{{ $category->display_order }}</td>
+                                                    <td>{{ $category->visibility }}</td>
+                                                    <td>{{ $category->  show_on_homepage }}</td>
+                                                    <td>Edit >> Delete</td>
                                                 </tr>
                                                 @endforeach
                                                
