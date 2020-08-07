@@ -17,6 +17,8 @@
                         </li>
                         <li><a href="dashboard-ecommerce.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="eCommerce">eCommerce</span></a>
                         </li>
+                        <li><a href="/categories" target="_blank"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="eCommerce">Categories</span></a>
+                        </li>
                     </ul>
                 </li>
                 <li class=" navigation-header"><span>Apps</span>
