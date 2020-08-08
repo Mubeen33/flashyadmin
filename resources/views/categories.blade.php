@@ -17,6 +17,17 @@
                                 <div class="card-header">
                                     <h4 class="mb-0">Categories</h4>
                                 </div>
+
+
+                               <div class="pull-right">
+                                    <a class="btn btn-success" href="{{ route('categories.create') }}" style="float: right; margin-right: 25px;"> Create New Category</a>
+                                </div> 
+
+                                @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
                                 <div class="card-content">
                                     <div class="table-responsive mt-1">
                                         <table class="table table-hover-animation mb-0">
@@ -40,7 +51,7 @@
                                                     <td>{{ $category->display_order }}</td>
                                                     <td>{{ $category->visibility }}</td>
                                                     <td>{{ $category->  show_on_homepage }}</td>
-                                                    <td>Edit >> Delete</td>
+                                                    <td><a class="btn btn-primary" href="{{ route('categories.edit',$category->id) }}">Edit</a></td>
                                                 </tr>
                                                 @endforeach
                                                
