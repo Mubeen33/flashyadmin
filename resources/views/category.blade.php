@@ -24,7 +24,7 @@
                                 </div><!-- /.box-header -->
 
                                 <!-- form start -->
-                                <form action="h/vendor/create-category" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                                <form action="/vendor/create-category" enctype="multipart/form-data" method="post" accept-charset="utf-8">
                                     @csrf
 
                                 <input type="hidden" name="parent_id" value="0">
@@ -98,7 +98,7 @@
                                                 <li class="d-inline-block mr-2">
                                                     <fieldset>
                                                         <div class="custom-control custom-radio">
-                                                            <input type="radio" class="custom-control-input" name="customRadio" id="customRadio1" checked="">
+                                                            <input type="radio" class="custom-control-input" name="visibility_yes" id="customRadio1" checked="">
                                                             <label class="custom-control-label" for="customRadio1">Yes</label>
                                                         </div>
                                                     </fieldset>
@@ -106,7 +106,7 @@
                                                 <li class="d-inline-block mr-2">
                                                     <fieldset>
                                                         <div class="custom-control custom-radio">
-                                                            <input type="radio" class="custom-control-input" name="customRadio" id="customRadio2">
+                                                            <input type="radio" class="custom-control-input" name="visibility_no" id="customRadio2">
                                                             <label class="custom-control-label" for="customRadio2">No</label>
                                                         </div>
                                                     </fieldset>
@@ -116,62 +116,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-sm-4 col-xs-12">
-                                                <label>Show on Homepage</label>
-                                            </div>
-                                          
-                                           
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="d-inline-block mr-2">
-                                                    <fieldset>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" class="custom-control-input" name="customRadio" id="customRadio1" checked="">
-                                                            <label class="custom-control-label" for="customRadio1">Yes</label>
-                                                        </div>
-                                                    </fieldset>
-                                                </li>
-                                                <li class="d-inline-block mr-2">
-                                                    <fieldset>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" class="custom-control-input" name="customRadio" id="customRadio2">
-                                                            <label class="custom-control-label" for="customRadio2">No</label>
-                                                        </div>
-                                                    </fieldset>
-                                                </li>
-                                                
-                                            </ul>
-                                       
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-sm-4 col-xs-12">
-                                                <label>Show Category Image on the Navigation</label>
-                                            </div>
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="d-inline-block mr-2">
-                                                    <fieldset>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" class="custom-control-input" name="customRadio" id="customRadio5" checked="">
-                                                            <label class="custom-control-label" for="customRadio1">Yes</label>
-                                                        </div>
-                                                    </fieldset>
-                                                </li>
-                                                <li class="d-inline-block mr-2">
-                                                    <fieldset>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" class="custom-control-input" name="customRadio" id="customRadio2">
-                                                            <label class="custom-control-label" for="customRadio2">No</label>
-                                                        </div>
-                                                    </fieldset>
-                                                </li>
-                                                
-                                            </ul>
-                                        </div>
-                                    </div>
+                                   
 
                                     <div class="form-group">
                                         <label class="control-label">Image</label>
