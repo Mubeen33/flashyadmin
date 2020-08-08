@@ -1,6 +1,6 @@
 @include('layouts/header')
 <link href="{{asset('src/selectstyle.css')}}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="{{asset('src/themify-icons.css')}}">
 
     <!-- BEGIN: Content-->
     <div class="app-content content">
@@ -529,7 +529,7 @@
 
 @include('layouts/footer')
 
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="{{asset('src/jquery-1.12.4.min.js')}}"></script>
 <script src="{{asset('src/selectstyle.js')}}"></script>
 <script>
         $(function(){
