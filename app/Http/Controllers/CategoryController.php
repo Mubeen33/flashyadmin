@@ -36,7 +36,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('add-category');
     }
 
     /**
@@ -47,7 +47,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'slug' => 'required',
+        ]);
+  
+        Category::create($request->all());
+        return redirect()->route('categories.index')->with('success','Category created successfully.');        
     }
 
     /**
@@ -69,7 +75,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('edit-category',compact('category'));
     }
 
     /**
@@ -81,8 +87,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'slug' => 'required',
+        ]);
+  
+        $category->update($request->all());
+        return redirect()->route('categories.index')->with('success','Category updated successfully.');        
     }
+
 
     /**
      * Remove the specified resource from storage.

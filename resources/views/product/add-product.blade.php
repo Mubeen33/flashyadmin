@@ -1,4 +1,7 @@
 @include('layouts/header')
+<link href="{{asset('src/selectstyle.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{asset('src/themify-icons.css')}}">
+
     <!-- BEGIN: Content-->
     <div class="app-content content">
         <div class="content-overlay"></div>
@@ -141,509 +144,466 @@
                 </section>
                 <!--/ Text alignment -->
 
-                <!-- Text transform -->
+
+                    <!-- Category Selection starts -->
+                       <section id="text-alignment" class="card overflow-hidden">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="card-text">
+                                <div class="form-group">
+                                    <label for="title">Select Categories</label>
+                                    <input  class="form-control select_categories"  data-toggle="modal" data-target="#xlarge" type="text" class="form-control" required maxlength="100" placeholder="Product Title" />
+                                </div>
+                                
+                                    
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                    <!-- Category Selection  closed -->
+
+
+                   <!-- category modal  -->
+            <div class="modal-size-xl mr-1 mb-1 d-inline-block">
+                  <!-- Button trigger modal -->
+                
+
+                  <!-- Modal -->
+                  <div class="modal fade text-left" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title" id="myModalLabel16">Select Categoires</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                        </div>
+                        <div class="modal-body" style="height: 300px;">
+                         <div class="row">
+                            <!-- First section -->
+                            <div class="col-md-3">
+                             <div id="state">
+                                    <i class="ti-angle-down"></i>
+                                    <select name="state" onchange="getCategory(this)">
+                                         <option value="1">Electronics</option>
+                                         <option value="1">Fashion</option>
+                                    </select>
+                              </div>
+   
+                            </div>
+                            <!-- second section -->
+                            <div class="col-md-3">
+                                <div >
+                                    <div class="select select_2"  style="display: none;">
+                                        <i class="ti-angle-down"></i>
+                                        <select onchange="getCategory2(this)" class="select_2" name="select" id="select">
+                                            <option value="" selected>Choose option</option>
+                                            <option value="2">Sub 1</option>
+                                            <option value="2">Sub 2</option>
+                                            <option value="2">Sub 3</option>
+                                              <option value="2">Sub 4</option>
+                                            <option value="2">Sub 5</option>
+                                            <option value="2">Sub 6</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- third section -->
+                            <div class="col-md-3">
+                               <div >
+                                     <div class="select select_3" style="display: none;">
+                                            <i class="ti-angle-down"></i>
+                                            <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                                <option value="" selected>Choose option</option>
+                                                <option value="3">Sub 1</option>
+                                                <option value="3">Sub 2</option>
+                                                <option value="3">Sub 3</option>
+                                                  <option value="3">Sub 4</option>
+                                                <option value="3">OSub 5</option>
+                                                <option value="3">Sub 6</option>
+                                                </select>
+                                        </div>
+                                </div>
+                            </div>
+                            <!-- fourth section -->
+                            <div class="col-md-3">
+                                <div >
+                                     <div class="select select_4" style="display: none;">
+                                            <i class="ti-angle-down"></i>
+                                            <select onchange="getCategory4(this)" name="select" id="select">
+                                                <option value="" selected>Choose option</option>
+                                                <option value="4">Sub 1</option>
+                                                <option value="4">Sub 2</option>
+                                                  <option value="4">Sub 3</option>
+                                            <option value="4">OSub 4</option>
+                                            <option value="4">Sub 5</option>
+                                                <option value="4">Sub 6</option>
+                                            </select>
+                                        </div>
+                                </div>
+                            </div>
+                         </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary waves-effect waves-light" data-dismiss="modal">Accept</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                 <!-- Category model closed -->
+
+
+
+
+
+                 <section id="text-transform" class="card overflow-hidden">
+                    <div class="card-header">
+                        <h4 class="card-title">Product Attribution</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                        <form class="form form-horizontal">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <span>SPF Rating</span>
+                                              </div>
+                                                                  <div class="col-md-8">
+                                                                     <div class="select select_3">
+                                                                            <i class="ti-angle-down"></i>
+                                                                            <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                                                                <option value="" selected>Choose option</option>
+                                                                                <option value="3">Sub 1</option>
+                                                                                <option value="3">Sub 2</option>
+                                                                                <option value="3">Sub 3</option>
+                                                                                  <option value="3">Sub 4</option>
+                                                                                <option value="3">OSub 5</option>
+                                                                                <option value="3">Sub 6</option>
+                                                                                </select>
+                                                                          </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-4">
+                                                                    <span>Make up finish</span>
+                                                                  </div>
+                                                                    <div class="col-md-8">
+                                                                     <div class="select select_3" >
+                                                                            <i class="ti-angle-down"></i>
+                                                                            <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                                                                <option value="" selected>Choose option</option>
+                                                                                <option value="3">Sub 1</option>
+                                                                                <option value="3">Sub 2</option>
+                                                                                <option value="3">Sub 3</option>
+                                                                                  <option value="3">Sub 4</option>
+                                                                                <option value="3">OSub 5</option>
+                                                                                <option value="3">Sub 6</option>
+                                                                                </select>
+                                                                          </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="form-group row">
+                                                                            <div class="col-md-4">
+                                                                            <span>Watter proof</span>
+                                                                          </div>
+                                                                            <div class="col-md-8">
+                                                                     <div class="select select_3">
+                                                                            <i class="ti-angle-down"></i>
+                                                                            <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                                                                <option value="" selected>Choose option</option>
+                                                                                <option value="3">Sub 1</option>
+                                                                                <option value="3">Sub 2</option>
+                                                                                <option value="3">Sub 3</option>
+                                                                                  <option value="3">Sub 4</option>
+                                                                                <option value="3">OSub 5</option>
+                                                                                <option value="3">Sub 6</option>
+                                                                                </select>
+                                                                          </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-4">
+                                                                        <span>Warranty type</span>
+                                                                      </div>
+                                                                     <div class="col-md-8">
+                                                                     <div class="select select_3">
+                                                                            <i class="ti-angle-down"></i>
+                                                                            <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                                                                <option value="" selected>Choose option</option>
+                                                                                <option value="3">Sub 1</option>
+                                                                                <option value="3">Sub 2</option>
+                                                                                <option value="3">Sub 3</option>
+                                                                                  <option value="3">Sub 4</option>
+                                                                                <option value="3">OSub 5</option>
+                                                                                <option value="3">Sub 6</option>
+                                                                                </select>
+                                                                          </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-4">
+                                                                        <span>Warranty Period Months</span>
+                                                                      </div>
+                                                                     <div class="col-md-8">
+                                                                     <div class="select select_3">
+                                                                            <i class="ti-angle-down"></i>
+                                                                            <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                                                                <option value="" selected>Choose option</option>
+                                                                                <option value="3">Sub 1</option>
+                                                                                <option value="3">Sub 2</option>
+                                                                                <option value="3">Sub 3</option>
+                                                                                  <option value="3">Sub 4</option>
+                                                                                <option value="3">OSub 5</option>
+                                                                                <option value="3">Sub 6</option>
+                                                                                </select>
+                                                                          </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                          
+                                                </form>
+                                            </div>
+                        
+                                  </div>
+                </section>
+
+
+
                 <section id="text-transform" class="card overflow-hidden">
                     <div class="card-header">
-                        <h4 class="card-title">Text transform</h4>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="card-text">
-                                <p>Transform text in components with text capitalization classes.</p>
-                                <p>Note how <code class="highlighter-rouge">text-capitalize</code> only changes the first letter of each word,
-                                    leaving the case of any other letters unaffected.</p>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table mb-0 table-mx-0">
-                                <thead>
-                                    <tr>
-                                        <th>Example</th>
-                                        <th>Classes</th>
-                                        <th>Snippet</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <p class="text-lowercase">Lowercased text.</p>
-                                        </td>
-                                        <td><code>.text-lowercase</code></td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="text-lowercase"&gt;Lowercased text.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="text-uppercase">Uppercased text.</p>
-                                        </td>
-                                        <td><code>.text-uppercase</code></td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code class="language-html">
-                                &lt;p class="text-uppercase"&gt;Uppercased text.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="text-capitalize">CapiTaliZed text.</p>
-                                        </td>
-                                        <td><code>.text-capitalize</code></td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code class="language-html">
-                                &lt;p class="text-capitalize"&gt;CapiTaliZed text.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
-                <!--/ Text transform -->
+                        <div class="col-md-8">
+                        <h4 class="card-title">Product Variants (Options)</h4>
+                        <p >
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
 
-                <!-- Text option -->
-                <section id="text-option" class="card overflow-hidden">
-                    <div class="card-header">
-                        <h4 class="card-title">Text option</h4>
+
+                        </p>
+                        </div>
+
+                        <div class="col-md-4">
+                             <div class="select select_3">
+                                    <i class="ti-angle-down"></i>
+                                    <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                        <option value="" selected>Choose option</option>
+                                        <option value="3">Sub 1</option>
+                                        <option value="3">Sub 2</option>
+                                        <option value="3">Sub 3</option>
+                                          <option value="3">Sub 4</option>
+                                        <option value="3">OSub 5</option>
+                                        <option value="3">Sub 6</option>
+                                        </select>
+                                  </div>
+                        </div>
                     </div>
+                    <div class="devider"></div>
                     <div class="card-content">
                         <div class="card-body">
-                            <div class="card-text">
-                                <h5 class="mb-1">Font size</h5>
-                                <p>Vuexy Admin provide font large & small sizes variant classes to change font size.</p>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table mb-0 table-mx-0">
-                                <thead>
-                                    <tr>
-                                        <th>Example</th>
-                                        <th>Classes</th>
-                                        <th>Snippet</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <span class="font-large-3">Large lg text size.</span>
-                                        </td>
-                                        <td>
-                                            <code>.font-large-3</code>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="font-large-3" &gt;Large lg text size.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span class="font-large-2">Large lg text size.</span>
-                                        </td>
-                                        <td>
-                                            <code>.font-large-2</code>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="font-large-2" &gt;Large lg text size.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span class="font-large-1">Large lg text size.</span>
-                                        </td>
-                                        <td>
-                                            <code>.font-large-1</code>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="font-large-1" &gt;Large lg text size.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span class="font-medium-3">Large md text size.</span>
-                                        </td>
-                                        <td>
-                                            <code>.font-medium-3</code>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="font-medium-3" &gt;Large md text size.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span class="font-medium-2">Large md text size.</span>
-                                        </td>
-                                        <td>
-                                            <code>.font-medium-2</code>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="font-medium-2" &gt;Large md text size.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span class="font-medium-1">Large sm text size.</span>
-                                        </td>
-                                        <td>
-                                            <code>.font-medium-1</code>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="font-medium-1" &gt;Large sm text size.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>Normal base text size.</p>
-                                        </td>
-                                        <td>
-                                            N/A
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt;Normal base text size.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span class="font-small-3">Small lg text size.</span>
-                                        </td>
-                                        <td>
-                                            <code>.font-small-3</code>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="font-small-3" &gt;Small lg text size.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span class="font-small-2">Small md text size.</span>
-                                        </td>
-                                        <td>
-                                            <code>.font-small-2</code>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="font-small-2" &gt;Small md text size.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span class="font-small-1">Small sm text size.</span>
-                                        </td>
-                                        <td>
-                                            <code>.font-small-1</code>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="font-small-1" &gt;Small sm text size.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-text">
-                                <h5 class="my-1">Font weight</h5>
-                                <p>Vuexy Admin provide font weight class <code>.text-bold-{weight}</code>, where
-                                    <code>{weight} value can be 300, 400, 500, 600, 700.</code></p>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table mb-0 table-mx-0">
-                                <thead>
-                                    <tr>
-                                        <th>Example</th>
-                                        <th>Classes</th>
-                                        <th>Snippet</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <p class="text-bold-300">Font weight 300</p>
-                                        </td>
-                                        <td><code>.text-bold-300</code></td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="text-bold-300"&gt;Font weight 300.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="text-bold-400">Font weight 400</p>
-                                        </td>
-                                        <td><code>.text-bold-400</code></td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="text-bold-400"&gt;Font weight 400.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="text-bold-600">Font weight 600</p>
-                                        </td>
-                                        <td><code>.text-bold-600</code></td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="text-bold-600"&gt;Font weight 600.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="text-bold-700">Font weight 700</p>
-                                        </td>
-                                        <td><code>.text-bold-700</code></td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p class="text-bold-700"&gt;Font weight 700.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-text">
-                                <h5 class="my-1">Inline text elements</h5>
-                                <p>Styling for common inline HTML5 elements.</p>
-                                <p><code class="highlighter-rouge">.mark</code> and <code class="highlighter-rouge">.small</code> classes are
-                                    also available to apply the same styles as <code class="highlighter-rouge">&lt;mark&gt;</code> and <code class="highlighter-rouge">&lt;small&gt;</code> while avoiding any unwanted semantic implications that the
-                                    tags would bring.</p>
-                                <p class="">While not shown above, feel free to use <code class="highlighter-rouge">&lt;b&gt;</code> and <code class="highlighter-rouge">&lt;i&gt;</code> in HTML5. <code class="highlighter-rouge">&lt;b&gt;</code> is
-                                    meant to highlight words or phrases
-                                    without conveying additional importance while <code class="highlighter-rouge">&lt;i&gt;</code> is mostly for
-                                    voice, technical terms, etc.</p>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table mb-0 table-mx-0">
-                                <thead>
-                                    <tr>
-                                        <th>Example</th>
-                                        <th>Snippet</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <p>You can use the mark tag to
-                                                <mark>highlight</mark> text.</p>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt;You can use the mark tag to &lt;mark&gt;highlight&lt;/mark&gt; text.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>
-                                                <del>This line of text is meant to be treated as deleted text.</del>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt;&lt;del&gt;This line of text is meant to be treated as deleted text.&lt;/del&gt;&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>
-                                                <s>This line of text is meant to be treated as no longer accurate.</s>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt;&lt;s&gt;This line of text is meant to be treated as no longer accurate.&lt;/s&gt;&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>
-                                                This line of text
-                                                <ins>is meant to be treated as an addition to the document.</ins>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt;&lt;ins&gt;This line of text is meant to be treated as an addition to the document.&lt;/ins&gt;&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p><u>This line of text will render as underlined</u></p>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt;&lt;u&gt;This line of text will render as underlined.&lt;/u&gt;&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p><small>This line of text is meant to be treated as fine print.</small></p>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt;&lt;small&gt;This line of text is meant to be treated as fine print.&lt;/small&gt;&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p><strong>This line rendered as bold text.</strong></p>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt;&lt;strong&gt;This line rendered as bold text.&lt;/strong&gt;&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p><em>This line rendered as italicized text.</em></p>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt;&lt;em&gt;This line rendered as italicized text.&lt;/em&gt;&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>Sample
-                                                <abbr title="" data-popup="tooltip" data-original-title="Abbr title">abbreviation</abbr>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt; Sample &lt;abbr&gt;Abbreviations.&lt;/abbr&gt;&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>Sample
-                                                <abbr title="HyperText Markup Language" class="initialism">HTML</abbr> title.</p>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt; Sample &lt;abbr title="HyperText Markup Language" class="initialism"&gt;HTML.&lt;/abbr&gt;&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <var>y</var> =
-                                            <var>m</var>
-                                            <var>x</var> +
-                                            <var>b</var>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt; For indicating variables use the &lt;var&gt; tag.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>Edit settings, press
-                                                <kbd>
-                                                    <kbd>ctrl</kbd> +
-                                                    <kbd>,</kbd>
-                                                </kbd>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt; Use the &lt;kbd&gt;  to indicate input that is typically entered via keyboard.&lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <samp>This text is meant to be treated as sample output from a computer program.</samp>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt; For indicating sample output from a program use the  &lt;samp&gt;  tag. &lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <code>Inline code snippet</code>
-                                        </td>
-                                        <td>
-                                            <pre class="language-html">
-                              <code>
-                                &lt;p&gt; Wrap inline snippets of code with &lt;code&gt; tag. &lt;/p&gt;</code>
-                            </pre>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        <form class="form form-horizontal">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group row">
+                                           
+                                                            <div class="col-12">
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-3">
+                                                                 
+                                                                        <div class="form-group">
+                                                                            <label for="first-name-vertical">Primary Color</label>
+                                                                            <input type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="First Name">
+                                                                        </div>
+                                   
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                 
+                                                                        <div class="form-group">
+                                                                            <label for="first-name-vertical">Color Name</label>
+                                                                            <input type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="First Name">
+                                                                        </div>
+                                   
+                                                                  </div>
+                                                                  <div class="col-md-3">
+                                                                 
+                                                                        <div class="form-group">
+                                                                            <label for="first-name-vertical">Secondary Color</label>
+                                                                            <input type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="First Name">
+                                                                        </div>
+                                   
+                                                                  </div>
+                                                                  <div class="col-md-3">
+                                                                 
+                                                                        <div class="form-group">
+                                                                            <label for="first-name-vertical">Secondary Color Name</label>
+                                                                            <input type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="First Name">
+                                                                        </div>
+                                   
+                                                                    </div>
+                                                                   
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-sm-3 text-center">
+                                                                        <div class="col-12 primary-image">
+                                                                            <i class="feather icon-camera f28"></i>
+                                                                            <p class="use-web-link">
+                                                                                <strong>Upload Image 1</strong>
+                                                                                <br />
+                                                                                <small>Or <a href="javascript:void(0)">use link from web</a></small>
+                                                                            </p>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="col-sm-3 text-center">
+                                                                        <div class="col-12 primary-image">
+                                                                            <i class="feather icon-camera f28"></i>
+                                                                            <p class="use-web-link">
+                                                                                <strong>Upload Image 2</strong>
+                                                                                <br />
+                                                                                <small>Or <a href="javascript:void(0)">use link from web</a></small>
+                                                                            </p>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                        <div class="col-sm-3 text-center">
+                                                                        <div class="col-12 primary-image">
+                                                                            <i class="feather icon-camera f28"></i>
+                                                                            <p class="use-web-link">
+                                                                                <strong>Upload Image 3</strong>
+                                                                                <br />
+                                                                                <small>Or <a href="javascript:void(0)">use link from web</a></small>
+                                                                            </p>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="col-sm-3 text-center">
+                                                                        <div class="col-12 primary-image">
+                                                                            <i class="feather icon-camera f28"></i>
+                                                                            <p class="use-web-link">
+                                                                                <strong>Upload  Image 4</strong>
+                                                                                <br />
+                                                                                <small>Or <a href="javascript:void(0)">use link from web</a></small>
+                                                                            </p>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                           
+                                                    </div>
+                                                            
+                                          <button style="float: right;" type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
+                                                </form>
+                                            </div>
+                        
+                                  </div>
                 </section>
-                <!--/ Text option -->
+
+
+
+
+
 
             </div>
         </div>
     </div>
     <!-- END: Content-->
+
+
 @include('layouts/footer')
+
+    <script src="{{asset('src/jquery-1.12.4.min.js')}}"></script>
+<script src="{{asset('src/selectstyle.js')}}"></script>
+<script>
+        $(function(){
+            $('.select').jselect_search({
+                fillable : true, // allow custom item on the dropdown upon search input trigger
+                searchable : true // set to searchable items
+            });
+
+            $('#state').attr('data-pagination',1);
+
+            $('#state').jselect_search({
+                fillable : true, // allow custom item on the dropdown upon search input trigger
+                searchable : true, // set to searchable items
+                on_top_edge : function(){
+                    if( parseInt( $('#state').attr('data-pagination') ) > 1 ){
+                        $('#state').attr('data-pagination',parseInt( $('#state').attr('data-pagination') )-1);
+                    }
+                },
+                on_bottom_edge : function(){
+                    if( parseInt( $('#state').attr('data-pagination') ) >= 1 ){
+                        $('#state').attr('data-pagination',parseInt( $('#state').attr('data-pagination') )+1);
+                    }
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+     var category = ['>>',];
+     function getCategory(id){
+        console.log(id.value);
+        localStorage.setItem("main", id.value);
+        $('.select_2').show();
+         
+      
+         category.push(id.value);
+          $('.select_categories').val(category);
+            
+        }
+    function getCategory2(id){
+           console.log(id.value);
+          localStorage.setItem("sub-1", id.value);
+        $('.select_3').show();
+      
+         category.push(id.value);
+          $('.select_categories').val(category);
+            
+        }
+    function getCategory3(id){
+          console.log(id.value);
+          localStorage.setItem("sub-2", id.value);
+        $('.select_4').show();
+               category.push(id.value);
+                $('.select_categories').val(category);
+        }
+    function getCategory4(id){
+          console.log(id.value);
+          localStorage.setItem("sub-3", id.value);
+          category.push(id.value);
+            $('.select_categories').val(category);
+    }
+
+
+</script>
+
+
+
