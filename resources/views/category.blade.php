@@ -10,7 +10,7 @@
 @section('content')
 
             <div class="content-body">
-                <!-- account setting page start -->
+                <!-- account setting page starts -->
                 <section id="page-account-settings">
                     <div class="row">
                    
