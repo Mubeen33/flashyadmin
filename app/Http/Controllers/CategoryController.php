@@ -75,7 +75,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('edit-category',compact('category'));
     }
 
     /**
@@ -87,8 +87,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'slug' => 'required',
+        ]);
+  
+        $category->update($request->all());
+        return redirect()->route('categories.index')->with('success','Category updated successfully.');        
     }
+
 
     /**
      * Remove the specified resource from storage.
