@@ -18,6 +18,11 @@
                                     <h4 class="mb-0">Categories</h4>
                                 </div>
 
+
+                               <div class="pull-right">
+                                    <a class="btn btn-success" href="{{ route('categories.create') }}" style="float: right; margin-right: 25px;"> Create New Category</a>
+                                </div> 
+
                                 @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
