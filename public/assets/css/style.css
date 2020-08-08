@@ -9,3 +9,13 @@ NOTE:
 ------
 PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+/* Usman Ali */
+.primary-image{background: #f4f4f4; padding: 106px 4px; border: 1px dashed #ddd;}
+.thumb{background: #f4f4f4; padding: 30px 4px; border: 1px dashed #ddd;}
+.use-web-link{font-size:11px; color:#888;}
+.use-web-link a{color:#888; border-bottom:1px solid #ddd;}
+.images-instructions{border: 1px solid #ffa50091; padding:15px;}
+.images-instructions ul{padding-left:15px;}
+#text-alignment label{font-weight:bold; margin-bottom:3px;}
+input, textarea, select{border-radius:0px !important;}

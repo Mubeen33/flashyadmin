@@ -23,6 +23,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/add-product', 'ProductController@index');
 
 // Vendor Routes
 Route::get('vendor-requests','vendor\VendorController@vendorRequest');
