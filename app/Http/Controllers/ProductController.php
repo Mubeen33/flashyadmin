@@ -25,6 +25,11 @@ class ProductController extends Controller
     {
         return view('product/add-product');
     }
+	
+    public function test()
+    {
+        return view('ui/add-product');
+    }
 
     public function categories()
     {
