@@ -26,21 +26,35 @@
                                 <!-- form start -->
                                 <form action="h/vendor/create-category" enctype="multipart/form-data" method="post" accept-charset="utf-8">
                                     @csrf
-									
+									<input type="hidden" id="catId" data-id="0" />
                                 <div class="box-body">
-                                	<div class="form-group">
-										<label>Category Name (English)</label>
-										<select class="form-control" onChange="getCategory(this)">
-											<option value="">Select Category</option>
-											@if(!empty($categories))
-												@foreach($categories as $c)
-													<option value="{{ $c->id }}">
-														{{ $c->name }}
-													</option>
-												@endforeach
-											@endif
-										</select>
+                                	<div class="row" id="catSection">
+                                		<div class="col-sm-12 form-group">
+											<label>Category Name</label>
+											<select class="form-control" onChange="getCategory(this)" data-id="child-1">
+												<option value="">Select Category</option>
+												@if(!empty($categories))
+													@foreach($categories as $c)
+														<option value="{{ $c->id }}">
+															{{ $c->name }}
+														</option>
+													@endforeach
+												@endif
+											</select>
+										</div>
+										<div id="child-1" class="col-sm-12 p-0">
+											
+										</div>
+										<div id="child-2" class="col-sm-12 p-0">
+											
+										</div>
+										<div id="child-3" class="col-sm-12 p-0">
+											
+										</div>
 									</div>
+                                	
+										
+										
                                        
                                     
                                     <div class="form-group">
@@ -112,9 +126,12 @@
                 </section>
                 <!-- account setting page end -->
 <script>
+	var cId = 0;
 	function getCategory(id){
 		var parent_id = $(id).find('option:selected').val();
-		var select_id = $(id).attr('id');
+		var select_id = $(id).attr('data-id');
+		var select_id_numb = $(id).attr('data-id').split('-');
+		cId = parseInt(select_id_numb[1]) + 1;
 		var data = {'cat_id': parent_id,  "_token": "{{ csrf_token() }}"};
 		if(parent_id !== ''){
 			$.ajax({
@@ -122,17 +139,30 @@
 				data: data,
 				type: 'POST',
 				success: function(resp){
-					var json = $.parseJSON(resp);
+					console.log(resp);
+					var json = resp;
 					var outPut = '';
-					for(i in json){
-						outPut = "<option value='"+json[i].id+"'>"+json[i].name+"</option>";
+					$.each(resp.subcategories[0].subcategories,function(index,subcategory){
+                        outPut +='<option value="'+subcategory.id+'">'+subcategory.name+'</option>';
+					})
+					if(outPut !== ''){
+						var selectSecSubCat = '<div class="col-sm-12 form-group"><label>Child 1</label><select class="form-control" onChange="getCategory(this)" data-id="child-'+cId+'"><option value="">Select Category</option> '+outPut+' </select> </div>';
+						$('#child-'+cId).html(selectSecSubCat);
 					}
-					$('#'+select_id).html('<option value="">Select Category</option>'+outPut);
 				}
 			});
 		}
 		else{
-			$('#'+select_id).html();
+			if(cId > 0){
+				$('#child-1').empty();
+				$('#child-2').empty();
+				$('#child-3').empty();
+			}else if(cId > 1){
+				$('#child-2').empty();
+				$('#child-3').empty();
+			}else if(cId > 2){
+				$('#child-3').empty();
+			}
 		}
 	}
 </script>
