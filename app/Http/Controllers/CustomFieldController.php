@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\CustomField;
 use App\Category;
+use App\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Response;
+use Redirect;
 
 class CustomFieldController extends Controller
 {
@@ -16,12 +19,12 @@ class CustomFieldController extends Controller
      */
     public function index()
     {
-		$categories = DB::table('categories')
-					->select('*')
-					->orderBy('id', 'DESC')
-					->where('parent_id',Null)
+		$categories = DB::table('custom_fields as cf')
+					->select('cf.*', 'c.name')
+					->orderBy('cf.id', 'DESC')
+					->leftjoin('categories as c', 'c.id', 'cf.category_id')
 					->get();
-        return view('custom-fields', compact('categories'));
+        return view('custom-fields-list', compact('categories'));
     }
 
     /**
@@ -31,7 +34,12 @@ class CustomFieldController extends Controller
      */
     public function create()
     {
-        return view('add-category');
+       $categories = DB::table('categories')
+					->select('*')
+					->orderBy('id', 'DESC')
+					->where('parent_id', 0)
+					->get();
+        return view('custom-fields', compact('categories'));
     }
 
     /**
@@ -42,12 +50,26 @@ class CustomFieldController extends Controller
      */
     public function store(Request $request)
     {
-//        $request->validate([
-//            'name' => 'required',
-//            'slug' => 'required',
-//        ]);
-//  
-//        Category::create($request->all());
+        $data = array(
+			'category_id' => $request->category, 
+			'sub_category_1' => $request->child_1, 
+			'sub_category_2' => $request->child_2, 
+			'sub_category_3' => $request->child_3, 
+			'name_eng' => $request->name_eng, 
+			'name_dus' => $request->name_deu, 
+			'field_width' => $request->row_width, 
+			'required' => $request->is_required, 
+			'field_order' => $request->field_order, 
+			'field_type' => $request->field_type,  
+			'status' => $request->status, 
+			'user_id' => 1
+		);  
+        $insert = CustomField::create($data);
+		if($insert){
+			echo 'Custom Field Created Successfully';
+		}else{
+			print_r($insert);
+		}
 //        return redirect()->route('categories.index')->with('success','Category created successfully.');        
     }
 
@@ -101,41 +123,5 @@ class CustomFieldController extends Controller
     public function destroy(Category $category)
     {
         //
-    }
-
-    //Add custom
-    public function add_custom(Request $request){
-        // dd($request->all());
-
-        $c = new CustomField;
-
-      $c->parent_id = $request->parent;
-      $c->child2_id = $request->child_2;
-      $c->child3_id = $request->child_3;
-      $c->name1 = $request->name_lang_1;
-      $c->name2 = $request->name_lang_2;
-      $c->row_width = $request->row_width;
-      $c->is_required = $request->is_required;
-      $c->status = $request->status;
-      $c->field_order = $request->field_order;
-      $c->field_type = $request->field_type;
-
-    //   $c->save();
-
-      if($c->save()){
-        return redirect()->back()->withErrors(['success', 'Added Successfully']);
-      }else{
-        return redirect()->back()->withErrors(['error', 'Something Wrong,Try again Later']);
-      }
-      
-
-    }
-    public function list()
-    {
-        $data = DB::table('custom_fields')
-                ->where('status',1)
-                ->get();
-
-                return view('custom-fields-list',compact('data'));
     }
 }

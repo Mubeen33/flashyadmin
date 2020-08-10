@@ -9,10 +9,7 @@ class CustomField extends Model
     protected $connection = 'mysql';
     protected $table = 'custom_fields';
 	
-
     protected $fillable = [
-        'id', 'parent_id', 'child2_id', 'child3_id', 'name1', 'name2', 'row_width', 'is_required', 'status', 'field_order', 'field_type'
+        'category_id', 'sub_category_1', 'sub_category_2', 'name_eng', 'name_dus', 'field_width', 'required', 'field_order', 'field_type', 'create_at', 'updated_at', 'status', 'user_id'
     ];
-
-   
 }

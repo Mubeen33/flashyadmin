@@ -72,3 +72,5 @@ Route::prefix('admin')->group(function (){
 //Route::resource('categories','Category');
 Route::resource('categories','CategoryController');
 Route::resource('custom-fields','CustomFieldController');
+Route::get('add-custom-fields','CustomFieldController@create')->name('create');
+Route::post('/create-custom-fields','CustomFieldController@store')->name('create-custom-fields');
