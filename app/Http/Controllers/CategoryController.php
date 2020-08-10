@@ -66,6 +66,7 @@ class CategoryController extends Controller
       
           $visible =$request->visibility_yes.$request->visibility_no;
           $show_on_home_page =$request->homepage_yes.$request->homepage_no;
+          $show_category_image =$request->show_category_yes.$request->show_category_no;
           if ($request->category_image != '') {
           $image = $request->file('category_image');
           $name = time().'.'.$image->getClientOriginalExtension();
@@ -84,7 +85,7 @@ class CategoryController extends Controller
                   $category->commission =   $request->homepage_order;
                   $category->visibility =   $visible;
                   $category->show_on_homepage =   $visible;
-                  $category->show_image_nav =   $visible;
+                  $category->show_image_nav =   $show_category_image;
                   $category->image =   $name;
                   $category->is_active =   1;
                   $category->is_disabled =   0;
