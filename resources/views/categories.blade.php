@@ -14,23 +14,18 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card-header">
-                                    <h4 class="mb-0">Categories</h4>
+                                <div class="card-header col-sm-12 text-right">
+                                    <a class="btn btn-success" href="{{ url('/add-category') }}" style="margin-right: 25px;"> Create New Category</a>
                                 </div>
-
-
-                               <div class="pull-right">
-                                    <a class="btn btn-success" href="{{ route('categories.create') }}" style="float: right; margin-right: 25px;"> Create New Category</a>
-                                </div> 
 
                                 @if ($message = Session::get('success'))
-                                <div class="alert alert-success">
-                                    <p>{{ $message }}</p>
-                                </div>
-                            @endif
+									<div class="alert alert-success">
+										<p>{{ $message }}</p>
+									</div>
+                            	@endif
                                 <div class="card-content">
                                     <div class="table-responsive mt-1">
-                                        <table class="table table-hover-animation mb-0">
+                                        <table class="table table-striped table-hover-animation mb-0">
                                             <thead>
                                                 <tr>
                                                     <th>Id</th>
@@ -49,7 +44,17 @@
                                                     <td>{{ $category['display_order'] }}</td>
                                                     <td>{{ $category['visibility'] }}</td>
                                                     <td>{{ $category['show_on_homepage'] }}</td>
-                                                    <td><a class="btn btn-primary" href="{{ route('categories.edit',$category['id']) }}">Edit</a></td>
+                                                    <td>
+														<div class="dropdown">
+															<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 8px 20px;">
+																Action
+															</button>
+															<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+																<a class="dropdown-item" href="{{ route('categories.edit',$category['id']) }}">Edit</a>
+																<a class="dropdown-item" href="javascript:void(0)">Delete</a>
+															</div>
+														</div>
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                                
@@ -62,6 +67,5 @@
                     </div>
                 </section>
                 <!-- Dashboard Analytics end -->
-
             </div>
 @endsection        
