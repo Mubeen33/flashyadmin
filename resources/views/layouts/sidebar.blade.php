@@ -42,7 +42,7 @@
 							</a>
                         </li>
                         <li>
-                        	<a href="{{ url('custom-field') }}">
+                        	<a href="{{ url('custom-fields') }}">
 								<i class="feather icon-circle"></i>
                        			<span class="menu-item" data-i18n="Custom Fields">Custom Fields</span>
 							</a>
