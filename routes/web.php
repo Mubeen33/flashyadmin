@@ -63,7 +63,7 @@ Route::post('/subcat', function (Request $request) {
 
 
 
-Route::prefix('vendor')->group(function (){
+Route::prefix('admin')->group(function (){
     
     Route::get('/profile','VendorController@profile_setup');
     Route::post('/profile_setup','VendorController@post_profile');
