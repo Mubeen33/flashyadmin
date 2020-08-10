@@ -37,7 +37,7 @@ Route::get('/addcat', function () {
 
 });
 
-/*
+
 Route::get('/categories', function () {
 
     $categoris = Category::where('parent_id',0)->get();
@@ -45,8 +45,6 @@ Route::get('/categories', function () {
     return view('categories',["categoris" => $categoris]);
 
 });
-
-*/
 
 Route::post('/subcat', function (Request $request) {
 
@@ -62,8 +60,7 @@ Route::post('/subcat', function (Request $request) {
    
 })->name('subcat');
 
-//Route::resource('categories','Category');
-Route::resource('categories','CategoryController');
+
 
 
 Route::prefix('vendor')->group(function (){
