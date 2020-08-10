@@ -27,22 +27,22 @@
                                 <form action="h/vendor/create-category" enctype="multipart/form-data" method="post" accept-charset="utf-8">
                                     @csrf
 									<input type="hidden" id="catId" data-id="0" />
-                                <div class="box-body">
+                                <div class="box-body" style="padding:20px;">
                                 	<div class="row" id="catSection">
                                 		<div class="col-sm-12 form-group">
 											<label>Category Name</label>
-											<select class="form-control" onChange="getCategory(this)" data-id="child-1">
+											<select name="parent" class="form-control" onChange="getCategory(this)" data-id="child-1">
 												<option value="">Select Category</option>
 												@if(!empty($categories))
 													@foreach($categories as $c)
-														<option value="{{ $c->id }}">
+														<option  value="{{ $c->id }}">
 															{{ $c->name }}
 														</option>
 													@endforeach
 												@endif
 											</select>
 										</div>
-										<div id="child-1" class="col-sm-12 p-0">
+										<div id="child-1"  class="col-sm-12 p-0">
 											
 										</div>
 										<div id="child-2" class="col-sm-12 p-0">
@@ -56,66 +56,79 @@
 										
 										
                                        
-                                    
-                                    <div class="form-group">
-                                        <label class="control-label">
-											Slug						
-											<small>(If you leave it blank, it will be generated automatically.)</small>
-                                        </label>
-                                        <input type="text" class="form-control" name="slug_lang" placeholder="Slug">
-                                    </div>
-                                    
-                                    <div class="row">
-										<div class="form-group col-sm-3">
-											<label>Parent Category</label>
-											<select class="form-control" name="parent_id[]" onchange="get_subcategories(this.value, 0);" required="">
-												<option value="0">None</option>
-												<option value="1">Clothing</option>
-												<option value="2">Shoes</option>
-												<option value="3">Home &amp; Living</option>
-												<option value="4">Jewelry &amp; Accessories</option>
-												<option value="5">Toys &amp; Entertainment</option>
-												<option value="6">Graphics &amp; Photos</option>
-												<option value="7">Video &amp; Audio</option>
-												<option value="8">Web Templates  &amp; Code</option>
-											</select>
-											<div id="subcategories_container"></div>
-										</div>
-                                   	</div>
-
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-sm-4 col-xs-12">
-                                                <label>Visibility</label>
-                                            </div>
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="d-inline-block mr-2">
-                                                    <fieldset>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" class="custom-control-input" name="customRadio" id="customRadio1" checked="">
-                                                            <label class="custom-control-label" for="customRadio1">Yes</label>
-                                                        </div>
-                                                    </fieldset>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="control-label">Image</label>
-                                        <div class="display-block">
-                                            <a class="btn btn-primary btn-sm btn-file-upload">
-                                                Select Image							<input type="file" id="Multifileupload" name="file" size="40" accept=".png, .jpg, .jpeg, .gif">
-                                            </a>
-                                        </div>
-                                        <div id="MultidvPreview" class="image-preview"></div>
-                                    </div>
-
+									<div class="form-group">
+                                <label>Field Name (English)</label>
+                                <input type="text" class="form-control" name="name_lang_1" placeholder="Field Name" maxlength="255" required>
+                            </div>
+                                                    <div class="form-group">
+                                <label>Field Name (Deutsch)</label>
+                                <input type="text" class="form-control" name="name_lang_2" placeholder="Field Name" maxlength="255" required>
+                            </div>
+                        
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Row Width</label>
                                 </div>
+                                <div class="col-sm-3 col-xs-12 col-option">
+                                    <input type="radio" name="row_width" value="half" id="row_width_1" class="square-purple" checked>
+                                    <label for="row_width_1" class="option-label">Half Width</label>
+                                </div>
+                                <div class="col-sm-3 col-xs-12 col-option">
+                                    <input type="radio" name="row_width" value="full" id="row_width_2" class="square-purple">
+                                    <label for="row_width_2" class="option-label">Full Width</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <label class="control-label">Required</label>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <input type="checkbox" name="is_required" value="1" class="square-purple">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-12">
+                                    <label>Status</label>
+                                </div>
+                                <div class="col-sm-3 col-xs-12 col-option">
+                                    <input type="radio" name="status" value="1" id="status_1" class="square-purple" checked>
+                                    <label for="status_1" class="option-label">Active</label>
+                                </div>
+                                <div class="col-sm-3 col-xs-12 col-option">
+                                    <input type="radio" name="status" value="0" id="status_2" class="square-purple">
+                                    <label for="status_2" class="option-label">Inactive</label>
+                                </div>
+                            </div>
+                        </div>
+
+						<div class="form-group">
+                            <label>Order</label>
+                            <input type="number" class="form-control" name="field_order" placeholder="Order" min="1" max="99999" value="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select class="form-control" name="field_type">
+                                <option value="text">Text</option>
+                                <option value="textarea">Textarea</option>
+                                <option value="number">Number</option>
+                                <option value="checkbox">Checkbox (Multiple Selection)</option>
+                                <option value="radio_button">Radio Button (Single Selection)</option>
+                                <option value="dropdown">Dropdown (Single Selection)</option>
+                                <option value="date">Date</option>
+                            </select>
+                        </div>
 
                                 <!-- /.box-body -->
                                 <div class="box-footer">
-                                    <button type="submit" class="btn btn-primary pull-right">Add Category</button>
+                                    <button style="margin-bottom:20px;" type="submit" class="btn btn-primary pull-right">Save and Continue</button>
                                 </div>
                                 <!-- /.box-footer -->
                                 </form><!-- form end -->
@@ -146,7 +159,7 @@
                         outPut +='<option value="'+subcategory.id+'">'+subcategory.name+'</option>';
 					})
 					if(outPut !== ''){
-						var selectSecSubCat = '<div class="col-sm-12 form-group"><label>Child 1</label><select class="form-control" onChange="getCategory(this)" data-id="child-'+cId+'"><option value="">Select Category</option> '+outPut+' </select> </div>';
+						var selectSecSubCat = '<div class="col-sm-12 form-group"><label>Child 1</label><select name="child_'+cId+'" class="form-control" onChange="getCategory(this)" data-id="child-'+cId+'"><option value="">Select Category</option> '+outPut+' </select> </div>';
 						$('#child-'+cId).html(selectSecSubCat);
 					}
 				}
