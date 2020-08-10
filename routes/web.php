@@ -46,19 +46,7 @@ Route::get('/categories', function () {
 
 });
 
-Route::post('/subcat', function (Request $request) {
-
-    $parent_id = $request->cat_id;
-    
-    $subcategories = Category::where('id',$parent_id)
-                          ->with('subcategories')
-                          ->get();
-	
-    return response()->json([
-        'subcategories' => $subcategories
-    ]);
-   
-})->name('subcat');
+Route::post('/subcat', 'CategoryController@get_category')->name('subcat');
 
 
 Route::prefix('admin')->group(function (){

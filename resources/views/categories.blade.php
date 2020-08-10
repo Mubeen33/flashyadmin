@@ -35,7 +35,6 @@
                                                 <tr>
                                                     <th>Id</th>
                                                     <th>Category Name</th>
-                                                    <th>Parent Category</th>
                                                     <th>Order</th>
                                                     <th>Visibility</th>
                                                     <th>Show on Homepage</th>
@@ -45,17 +44,15 @@
                                             <tbody>
                                                  @foreach ($categories as $category)
                                                 <tr>
-                                                    <td>{{ $category->id }}</td>
-                                                    <td>{{ $category->name }}</td>
-                                                    <td>{{ $category->parent_name }}</td>
-                                                    <td>{{ $category->display_order }}</td>
-                                                    <td>{{ $category->visibility }}</td>
-                                                    <td>{{ $category->  show_on_homepage }}</td>
-                                                    <td><a class="btn btn-primary" href="{{ route('categories.edit',$category->id) }}">Edit</a></td>
+                                                    <td>{{ $category['id'] }}</td>
+                                                    <td>{{ $category['name'] }}</td>
+                                                    <td>{{ $category['display_order'] }}</td>
+                                                    <td>{{ $category['visibility'] }}</td>
+                                                    <td>{{ $category['show_on_homepage'] }}</td>
+                                                    <td><a class="btn btn-primary" href="{{ route('categories.edit',$category['id']) }}">Edit</a></td>
                                                 </tr>
                                                 @endforeach
                                                
-                                                {!! $categories->links() !!}
                                             </tbody>
                                         </table>
                                     </div>

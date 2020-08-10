@@ -23,20 +23,44 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = DB::table('categories')
+        $cat = DB::table('categories')
                       ->select('*')
-                      ->where('is_active')
+                      ->where('visibility', 1)
+                      ->where('parent_id', 0)
                       ->get();
-     
-
-        //$users = DB::table('users')
-            //->join('contacts', 'users.id', '=', 'contacts.user_id')
-            //->join('orders', 'users.id', '=', 'orders.user_id')
-            //->select('users.*', 'contacts.phone', 'orders.price')
-          //  ->get();
-
-        return view('categories',compact('categories'))
+		$categories = array();
+		foreach($cat as $c){
+			$child = DB::table('categories')
+                      ->select('*')
+                      ->where('visibility', 1)
+                      ->where('parent_id', $c->id)
+                      ->get();
+			if(count($child) > 0){
+				foreach($child as $cc){
+					// if has child level -1
+					$categories[] = array(
+						'id' => $cc->id,
+						'name' => $c->name .' > '. $cc->name,
+						'display_order' => $cc->display_order,
+						'visibility' => $cc->visibility,
+						'show_on_homepage' => $cc->show_on_homepage,
+					);	
+				}
+			}else{
+				//if has no any child
+				$categories[] = array(
+					'id' => $c->id,
+					'name' => $c->name,
+					'display_order' => $cc->display_order,
+					'visibility' => $cc->visibility,
+					'show_on_homepage' => $cc->show_on_homepage,
+				);
+			}
+		}
+     	return view('categories',compact('categories'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
+		
+		
     }
 
     /**
@@ -59,11 +83,14 @@ class CategoryController extends Controller
     }
 
     public function get_category(Request $request){
-      $category = DB::table('categories')
-            ->select('*')
-            ->where('parent_id',$request->id)
-            ->get();
-      echo json_encode($category);
+      $parent_id = $request->cat_id;
+        $subcategories = Category::select('id', 'name')->where('id',$parent_id)
+                          ->with('subcategories')
+                          ->get();
+		
+		return response()->json([
+			'subcategories' => $subcategories
+		]);
     }
     
     public function create_category(Request $request)
