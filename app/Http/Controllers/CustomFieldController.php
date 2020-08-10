@@ -19,7 +19,7 @@ class CustomFieldController extends Controller
 		$categories = DB::table('categories')
 					->select('*')
 					->orderBy('id', 'DESC')
-					->where('parent_id', 0)
+					->where('parent_id',Null)
 					->get();
         return view('custom-fields', compact('categories'));
     }
@@ -101,5 +101,41 @@ class CustomFieldController extends Controller
     public function destroy(Category $category)
     {
         //
+    }
+
+    //Add custom
+    public function add_custom(Request $request){
+        // dd($request->all());
+
+        $c = new CustomField;
+
+      $c->parent_id = $request->parent;
+      $c->child2_id = $request->child_2;
+      $c->child3_id = $request->child_3;
+      $c->name1 = $request->name_lang_1;
+      $c->name2 = $request->name_lang_2;
+      $c->row_width = $request->row_width;
+      $c->is_required = $request->is_required;
+      $c->status = $request->status;
+      $c->field_order = $request->field_order;
+      $c->field_type = $request->field_type;
+
+    //   $c->save();
+
+      if($c->save()){
+        return redirect()->back()->withErrors(['success', 'Added Successfully']);
+      }else{
+        return redirect()->back()->withErrors(['error', 'Something Wrong,Try again Later']);
+      }
+      
+
+    }
+    public function list()
+    {
+        $data = DB::table('custom_fields')
+                ->where('status',1)
+                ->get();
+
+                return view('custom-fields-list',compact('data'));
     }
 }
