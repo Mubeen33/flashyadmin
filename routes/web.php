@@ -61,8 +61,6 @@ Route::post('/subcat', function (Request $request) {
 })->name('subcat');
 
 
-
-
 Route::prefix('admin')->group(function (){
     
     Route::get('/profile','VendorController@profile_setup');
@@ -83,3 +81,6 @@ Route::prefix('admin')->group(function (){
     Route::post('/create-slider','CategoryController@create_slider');
 
 });
+//Route::resource('categories','Category');
+Route::resource('categories','CategoryController');
+Route::resource('custom-fields','CustomFieldController');

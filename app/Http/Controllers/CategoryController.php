@@ -23,9 +23,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::leftjoin('categories as cat', 'categories.parent_id', '=', 'cat.id')
-        ->select('categories.*', 'cat.name as parent_name')            
-        ->paginate(5);
+        $categories = DB::table('categories')
+                      ->select('*')
+                      ->where('is_active')
+                      ->get();
+     
 
         //$users = DB::table('users')
             //->join('contacts', 'users.id', '=', 'contacts.user_id')
@@ -50,8 +52,18 @@ class CategoryController extends Controller
         // }else{
         //      return redirect('/login');
         // }
-         return view('vendor.category');
+        $categories = DB::table('categories')->get();
+               // dd($categories);  
+         return view('vendor.category',compact('categories'));
       
+    }
+
+    public function get_category(Request $request){
+      $category = DB::table('categories')
+            ->select('*')
+            ->where('parent_id',$request->id)
+            ->get();
+      echo json_encode($category);
     }
     
     public function create_category(Request $request)
@@ -63,7 +75,17 @@ class CategoryController extends Controller
         // }
 
           // dd($request->all());
-      
+          if($request->parent_id != ''){
+            $parent_id =$request->sub_level_1;
+
+          }elseif($request->sub_level_1 !=''){
+
+            $parent_id =$request->sub_level_2;
+          }else{
+            $parent_id =$request->sub_level_3;
+          }
+          dd($parent_id);
+         
           $visible =$request->visibility_yes.$request->visibility_no;
           $show_on_home_page =$request->homepage_yes.$request->homepage_no;
           $show_category_image =$request->show_category_yes.$request->show_category_no;
@@ -74,7 +96,7 @@ class CategoryController extends Controller
           $image->move($destinationPath, $name);}
         
         $category = new Categories;
-                  $category->parent_id = $request->parent_id;
+                  $category->parent_id = $parent_id;
                   $category->name = $request->name_lang_1;
                   $category->slug = $request->slug_lang;
                   $category->title_meta_tag = $request->title_meta_tag;
