@@ -1,29 +1,16 @@
-@include('layouts/header')
+@extends('layouts.master')
+@section('page-title','Add New Product')
+        
 <link href="{{asset('src/selectstyle.css')}}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{{asset('src/themify-icons.css')}}">
+<link rel="stylesheet" href="{{asset('src/themify-icons.css')}}">
 
-    <!-- BEGIN: Content-->
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="header-navbar-shadow"></div>
-        <div class="content-wrapper">
-            <div class="content-header row">
-                <div class="content-header-left col-md-9 col-12 mb-2">
-                    <div class="row breadcrumbs-top">
-                        <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">Add New Product</h2>
-                            <div class="breadcrumb-wrapper col-12">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="{{ url('/add-product') }}">Add New Product</a>
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+@section('breadcrumbs')                            
+    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+    <li class="breadcrumb-item active">Add New Product</li>
+@endsection    
+                            
+@section('content')
+
             <div class="content-body">
                 <!-- Contextual colors -->
                 <section id="contextual-colors" class="card overflow-hidden">
@@ -522,88 +509,78 @@
 
 
             </div>
-        </div>
-    </div>
-    <!-- END: Content-->
-
-
-@include('layouts/footer')
 
     <script src="{{asset('src/jquery-1.12.4.min.js')}}"></script>
-<script src="{{asset('src/selectstyle.js')}}"></script>
-<script>
-        $(function(){
-            $('.select').jselect_search({
-                fillable : true, // allow custom item on the dropdown upon search input trigger
-                searchable : true // set to searchable items
-            });
+	<script src="{{asset('src/selectstyle.js')}}"></script>
+	<script>
+		$(function(){
+			$('.select').jselect_search({
+				fillable : true, // allow custom item on the dropdown upon search input trigger
+				searchable : true // set to searchable items
+			});
 
-            $('#state').attr('data-pagination',1);
+			$('#state').attr('data-pagination',1);
 
-            $('#state').jselect_search({
-                fillable : true, // allow custom item on the dropdown upon search input trigger
-                searchable : true, // set to searchable items
-                on_top_edge : function(){
-                    if( parseInt( $('#state').attr('data-pagination') ) > 1 ){
-                        $('#state').attr('data-pagination',parseInt( $('#state').attr('data-pagination') )-1);
-                    }
-                },
-                on_bottom_edge : function(){
-                    if( parseInt( $('#state').attr('data-pagination') ) >= 1 ){
-                        $('#state').attr('data-pagination',parseInt( $('#state').attr('data-pagination') )+1);
-                    }
-                }
-            });
-        });
-    </script>
-    <script type="text/javascript">
+			$('#state').jselect_search({
+			fillable : true, // allow custom item on the dropdown upon search input trigger
+			searchable : true, // set to searchable items
+			on_top_edge : function(){
+				if( parseInt( $('#state').attr('data-pagination') ) > 1 ){
+					$('#state').attr('data-pagination',parseInt( $('#state').attr('data-pagination') )-1);
+				}
+			},
+				on_bottom_edge : function(){
+					if( parseInt( $('#state').attr('data-pagination') ) >= 1 ){
+					$('#state').attr('data-pagination',parseInt( $('#state').attr('data-pagination') )+1);
+					}
+				}
+			});
+		});
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-36251023-1']);
-  _gaq.push(['_setDomainName', 'jqueryscript.net']);
-  _gaq.push(['_trackPageview']);
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-36251023-1']);
+		_gaq.push(['_setDomainName', 'jqueryscript.net']);
+		_gaq.push(['_trackPageview']);
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-     var category = ['>>',];
-     function getCategory(id){
-        console.log(id.value);
-        localStorage.setItem("main", id.value);
-        $('.select_2').show();
-         
-      
-         category.push(id.value);
-          $('.select_categories').val(category);
-            
-        }
-    function getCategory2(id){
-           console.log(id.value);
-          localStorage.setItem("sub-1", id.value);
-        $('.select_3').show();
-      
-         category.push(id.value);
-          $('.select_categories').val(category);
-            
-        }
-    function getCategory3(id){
-          console.log(id.value);
-          localStorage.setItem("sub-2", id.value);
-        $('.select_4').show();
-               category.push(id.value);
-                $('.select_categories').val(category);
-        }
-    function getCategory4(id){
-          console.log(id.value);
-          localStorage.setItem("sub-3", id.value);
-          category.push(id.value);
-            $('.select_categories').val(category);
-    }
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+		var category = ['>>',];
+		function getCategory(id){
+			console.log(id.value);
+			localStorage.setItem("main", id.value);
+			$('.select_2').show();
 
 
-</script>
+			category.push(id.value);
+			$('.select_categories').val(category);
 
+		}
+		function getCategory2(id){
+			console.log(id.value);
+			localStorage.setItem("sub-1", id.value);
+			$('.select_3').show();
 
+			category.push(id.value);
+			$('.select_categories').val(category);
+
+		}
+		function getCategory3(id){
+			console.log(id.value);
+			localStorage.setItem("sub-2", id.value);
+			$('.select_4').show();
+			category.push(id.value);
+			$('.select_categories').val(category);
+		}
+		function getCategory4(id){
+			console.log(id.value);
+			localStorage.setItem("sub-3", id.value);
+			category.push(id.value);
+			$('.select_categories').val(category);
+		}
+	</script>
+
+@endsection
 

@@ -53,7 +53,7 @@ Route::post('/subcat', function (Request $request) {
     $subcategories = Category::where('id',$parent_id)
                           ->with('subcategories')
                           ->get();
-
+	
     return response()->json([
         'subcategories' => $subcategories
     ]);
