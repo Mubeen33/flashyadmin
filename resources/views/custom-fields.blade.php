@@ -30,7 +30,7 @@
                                 <div class="box-body">
                                 	<div class="form-group">
 										<label>Category Name (English)</label>
-										<select class="form-control" onChange="getChileCategories(this)">
+										<select class="form-control" onChange="getCategory(this)">
 											<option value="">Select Category</option>
 											@if(!empty($categories))
 												@foreach($categories as $c)
@@ -111,6 +111,30 @@
                     </div>
                 </section>
                 <!-- account setting page end -->
-
+<script>
+	function getCategory(id){
+		var parent_id = $(id).find('option:selected').val();
+		var select_id = $(id).attr('id');
+		var data = {'cat_id': parent_id,  "_token": "{{ csrf_token() }}"};
+		if(parent_id !== ''){
+			$.ajax({
+				url: '{{ url("/subcat") }}',
+				data: data,
+				type: 'POST',
+				success: function(resp){
+					var json = $.parseJSON(resp);
+					var outPut = '';
+					for(i in json){
+						outPut = "<option value='"+json[i].id+"'>"+json[i].name+"</option>";
+					}
+					$('#'+select_id).html('<option value="">Select Category</option>'+outPut);
+				}
+			});
+		}
+		else{
+			$('#'+select_id).html();
+		}
+	}
+</script>
       
 @endsection      
