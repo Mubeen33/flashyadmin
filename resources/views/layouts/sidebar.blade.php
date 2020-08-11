@@ -49,6 +49,24 @@
                         </li>
                     </ul>
                 </li>
+                <li class=" nav-item">
+                   	<a href="javascript:void(0)">
+                   		<i class="feather icon-list"></i>
+                   		<span class="menu-title" data-i18n="Products">Slider</span>
+						<!--<span class="badge badge badge-warning badge-pill float-right mr-2">2</span>-->
+					</a>
+                    <ul class="menu-content">
+                        
+                        <li>
+                        	<a href="/admin/create-slider">
+								<i class="feather icon-circle"></i>
+                       			<span class="menu-item" data-i18n="Add New">Add New</span>
+							</a>
+                        </li>
+                       
+                       
+                    </ul>
+                </li>
                 <li class="navigation-header">
                 	<span>Apps</span>
                 </li>

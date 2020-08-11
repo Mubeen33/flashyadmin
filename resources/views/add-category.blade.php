@@ -5,8 +5,9 @@
 @section('breadcrumbs')                            
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active">Category</li>
+    <a href="/categories">
     <button type="button" style="float:right; margin-left:200px;" class="btn mr-1 mb-1 btn-primary btn-sm waves-effect waves-light"><i class="fa fa-list"></i> View Category List</button>
-  
+  </a>
 @endsection    
 <link href="{{asset('src/selectstyle.css')}}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{asset('src/themify-icons.css')}}">

@@ -29,6 +29,8 @@ Route::get('/add-product', 'ProductController@index');
 Route::get('vendor-requests','vendor\VendorController@vendorRequest');
 Route::get('vendor-approve/{id}','vendor\VendorController@vendorData');
 
+Route::post('/edit','CategoryController@edit_cal');
+
 Route::get('/addcat', function () {
 
     $categoris = Category::where('parent_id',0)->get();
@@ -62,6 +64,9 @@ Route::prefix('admin')->group(function (){
     Route::get('/create-slider','CategoryController@slider_view');
     Route::post('/create-slider','CategoryController@create_slider');
 
+    //Update Slider
+    Route::post('/update-slider','CategoryController@update_slider');
+
 });
 //Route::resource('categories','Category');
 Route::resource('categories','CategoryController');
@@ -79,5 +84,15 @@ Route::post('/create-custom-fields','CustomFieldController@store')->name('create
 // Delete Custom Field
 Route::get('/{id}/delete/custom-fields','CustomFieldController@delete_custom_field')->name('delete');
 
+//Delete Slider
+Route::get('/{id}/delete/slider','CategoryController@delete_slider');
+
 //Delete Category
 Route::get('/{id}/delete/category','CategoryController@delete_category');
+
+// Add product
+Route::get('/{id}/edit/custom-fields','CustomFieldController@edit_custom_field')->name('edit');
+Route::post('/push/custom-fields-data/','CustomFieldController@push_editable_data')->name('edit');
+Route::post('/add-products','ProductController@create_product')->name('add-products');
+
+

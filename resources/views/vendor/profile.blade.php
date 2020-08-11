@@ -79,7 +79,7 @@
                                                     <button class="btn btn-sm btn-outline-warning ml-50 waves-effect waves-light" onclick="overview()" style="margin-top: 16px;"><i class="fa fa-pencil-square"> Edit </i></button>
                                                 </div>
                                                 <hr>
-                                                <form  method="post" enctype="multipart/form-data" action="/vendor/profile_setup">
+                                                <form  method="post" enctype="multipart/form-data" action="/admin/profile_setup">
                                                 @csrf    
                                                 <div class="row">
                                                         <div class="col-12">
@@ -156,7 +156,7 @@
                                                     <button class="btn btn-sm btn-outline-warning ml-50 waves-effect waves-light" onclick="business()" style="margin-top: 16px;"><i class="fa fa-pencil-square"> Edit </i></button>
                                                 </div>
                                                 <hr>
-                                                <form  method="post" enctype="multipart/form-data" action="/vendor/profile_setup_business">
+                                                <form  method="post" enctype="multipart/form-data" action="/admin/profile_setup_business">
                                                 @csrf    
                                                 <div class="row">
                                                         
@@ -188,7 +188,7 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label for="account-name">Business Doc's</label>
-                                                                    <a href="/vendor_docs/{{$bank[0]->debit_order_form}}" target="_blank">{{$bank[0]->debit_order_form}}</a>
+                                                                    <a href="/admin_docs/{{$bank[0]->debit_order_form}}" target="_blank">{{$bank[0]->debit_order_form}}</a>
                                                                    
                                                                  </div>
                                                             </div>
@@ -236,7 +236,7 @@
                                            <button class="btn btn-sm btn-outline-warning ml-50 waves-effect waves-light" onclick="addresses()" style="margin-top: 16px;"><i class="fa fa-pencil-square"> Edit </i></button>
                                        </div>
                                        <hr>
-                                       <form  method="post" enctype="multipart/form-data" action="/vendor/profile_setup_address">
+                                       <form  method="post" enctype="multipart/form-data" action="/admin/profile_setup_address">
                                        @csrf    
                                        <div class="row">
                                                
@@ -317,7 +317,7 @@
                                                 <button class="btn btn-sm btn-outline-warning ml-50 waves-effect waves-light" onclick="bank_details()" style="margin-top: 16px;"><i class="fa fa-pencil-square"> Edit </i></button>
                                             </div>
                                             <hr>
-                                       <form  method="post" enctype="multipart/form-data" action="/vendor/bank_details">
+                                       <form  method="post" enctype="multipart/form-data" action="/admin/bank_details">
                                        @csrf    
                                        <div class="row">
                                                
@@ -357,7 +357,7 @@
                                                     <div class="form-group">
                                                         <div class="controls">
                                                             <label for="account-name">Debit Order Form</label>
-                                                            <a href="/vendor_docs/{{$bank[0]->debit_order_form}}" target="_blank">{{$bank[0]->debit_order_form}}</a>
+                                                            <a href="/admin_docs/{{$bank[0]->debit_order_form}}" target="_blank">{{$bank[0]->debit_order_form}}</a>
                                                             
                                                             </div>
                                                     </div>

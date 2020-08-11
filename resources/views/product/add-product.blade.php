@@ -27,6 +27,7 @@
 								<div class="row">
 									<div class="col-sm-8">
 										<div class="row">
+                                        <form enctype="multipart/form-data" class="dropzone col-sm-12" style="padding-bottom:12px;" method="post" action="/add-products">
 											<!-- <div class="col-sm-6 text-center" onclick="uploadImage1()">
                                             <img id="thumbnail" style="width:20%; margin-top:10px; display:none;"  src="" alt="image"/>
 												<div class="col-12 primary-image">
@@ -84,17 +85,10 @@
 													</div>
 												</div>
 											</div> -->
-                                            <form id="my-awesome-dropzone" class="dropzone" action="upload.php">
-    <div class="dropzone-previews"></div>
-    <!-- this is were the previews should be shown. -->
-
-    <!-- Now setup your input fields -->
-    <!-- <input type="text" name="Name"/>
-    <input type="text" name="Description"/>
-
-    <button type="submit">Submit data and files!</button> -->
-
-</form>
+                                                @csrf
+                                                 <div class="dropzone-previews "></div>
+                                                
+                                              
 										</div>
 									</div>
 									<div class="col-sm-4 images-instructions">
@@ -122,25 +116,25 @@
                             <div class="card-text">
                                 <div class="form-group">
                                 	<label for="title">Product Title</label>
-                                	<input type="text" class="form-control" required maxlength="100" placeholder="Product Title" />
+                                	<input name="product_title" type="text" class="form-control" required maxlength="100" placeholder="Product Title" />
                                 </div>
                                 <div class="row">
                                 	<div class="col-sm-6">
                                 		<div class="form-group">
 											<label for="title">Brand</label>
-											<input type="text" class="form-control" required maxlength="100" placeholder="Search brand here" />
+											<input name="brand_name" type="text" class="form-control" required maxlength="100" placeholder="Search brand here" />
 										</div>	
                                 	</div>
                                 	<div class="col-sm-6">
                                 		<div class="form-group">
 											<label for="title">Product Code (SKU)</label>
-											<input type="text" class="form-control" maxlength="100" />
+											<input name="product_code" type="text" class="form-control" maxlength="100" />
 										</div>
                                 	</div>
                                 </div>
                                 <div class="form-group">
                                 	<label for="title">Short Description</label>
-                                	<textarea class="form-control" placeholder="Enter Product Short Description" rows="4"></textarea>
+                                	<textarea name="short_description" class="form-control" placeholder="Enter Product Short Description" rows="4"></textarea>
                                 </div>
 									
                             </div>
@@ -157,7 +151,7 @@
                             <div class="card-text">
                                 <div class="form-group">
                                     <label for="title">Select Categories</label>
-                                    <input  class="form-control select_categories"  data-toggle="modal" data-target="#xlarge" type="text" class="form-control" required maxlength="100" placeholder="Product Title" />
+                                    <input  name="categories[]" class="form-control select_categories"  data-toggle="modal" data-target="#xlarge" type="text" class="form-control" required maxlength="100" placeholder="Product Title" />
                                 </div>
                                 
                                     
@@ -189,7 +183,7 @@
                             <div class="col-md-3">
                              <div id="state">
                                     <i class="ti-angle-down"></i>
-                                    <select name="state" onchange="getCategory(this)">
+                                    <select name="parent_id" onchange="getCategory(this)">
                                          <option value="1">Electronics</option>
                                          <option value="1">Fashion</option>
                                     </select>
@@ -201,7 +195,7 @@
                                 <div >
                                     <div class="select select_2"  style="display: none;">
                                         <i class="ti-angle-down"></i>
-                                        <select onchange="getCategory2(this)" class="select_2" name="select" id="select">
+                                        <select onchange="getCategory2(this)" class="select_2" name="child-1" id="select">
                                             <option value="" selected>Choose option</option>
                                             <option value="2">Sub 1</option>
                                             <option value="2">Sub 2</option>
@@ -218,7 +212,7 @@
                                <div >
                                      <div class="select select_3" style="display: none;">
                                             <i class="ti-angle-down"></i>
-                                            <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                            <select onchange="getCategory3(this)" class="select_3" name="child-2" id="select">
                                                 <option value="" selected>Choose option</option>
                                                 <option value="3">Sub 1</option>
                                                 <option value="3">Sub 2</option>
@@ -235,7 +229,7 @@
                                 <div >
                                      <div class="select select_4" style="display: none;">
                                             <i class="ti-angle-down"></i>
-                                            <select onchange="getCategory4(this)" name="select" id="select">
+                                            <select onchange="getCategory4(this)" name="child-3" id="select">
                                                 <option value="" selected>Choose option</option>
                                                 <option value="4">Sub 1</option>
                                                 <option value="4">Sub 2</option>
@@ -268,7 +262,7 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                        <form class="form form-horizontal">
+                       
                             <div class="form-body">
                                 <div class="row">
                                     <div class="col-12">
@@ -279,7 +273,7 @@
                                                                   <div class="col-md-8">
                                                                      <div class="select select_3">
                                                                             <i class="ti-angle-down"></i>
-                                                                            <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                                                            <select onchange="getCategory3(this)" class="select_3" name="spf_rating" id="select">
                                                                                 <option value="" selected>Choose option</option>
                                                                                 <option value="3">Sub 1</option>
                                                                                 <option value="3">Sub 2</option>
@@ -300,7 +294,7 @@
                                                                     <div class="col-md-8">
                                                                      <div class="select select_3" >
                                                                             <i class="ti-angle-down"></i>
-                                                                            <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                                                            <select onchange="getCategory3(this)" class="select_3" name="make_up_finish" id="select">
                                                                                 <option value="" selected>Choose option</option>
                                                                                 <option value="3">Sub 1</option>
                                                                                 <option value="3">Sub 2</option>
@@ -321,7 +315,7 @@
                                                                             <div class="col-md-8">
                                                                      <div class="select select_3">
                                                                             <i class="ti-angle-down"></i>
-                                                                            <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                                                            <select onchange="getCategory3(this)" class="select_3" name="water_proof" id="select">
                                                                                 <option value="" selected>Choose option</option>
                                                                                 <option value="3">Sub 1</option>
                                                                                 <option value="3">Sub 2</option>
@@ -342,7 +336,7 @@
                                                                      <div class="col-md-8">
                                                                      <div class="select select_3">
                                                                             <i class="ti-angle-down"></i>
-                                                                            <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                                                            <select onchange="getCategory3(this)" class="select_3" name="warranty_type" id="select">
                                                                                 <option value="" selected>Choose option</option>
                                                                                 <option value="3">Sub 1</option>
                                                                                 <option value="3">Sub 2</option>
@@ -364,7 +358,7 @@
                                                                      <div class="col-md-8">
                                                                      <div class="select select_3">
                                                                             <i class="ti-angle-down"></i>
-                                                                            <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                                                            <select onchange="getCategory3(this)" class="select_3" name="warranty_period" id="select">
                                                                                 <option value="" selected>Choose option</option>
                                                                                 <option value="3">Sub 1</option>
                                                                                 <option value="3">Sub 2</option>
@@ -379,7 +373,7 @@
                                                             </div>
                                                             
                                           
-                                                </form>
+                                               
                                             </div>
                         
                                   </div>
@@ -401,7 +395,7 @@
                         <div class="col-md-4">
                              <div class="select select_3">
                                     <i class="ti-angle-down"></i>
-                                    <select onchange="getCategory3(this)" class="select_3" name="select" id="select">
+                                    <select onchange="getCategory3(this)" class="select_3" name="variants" id="select">
                                         <option value="" selected>Choose option</option>
                                         <option value="3">Sub 1</option>
                                         <option value="3">Sub 2</option>
@@ -428,7 +422,7 @@
                                                                  
                                                                         <div class="form-group">
                                                                             <label for="first-name-vertical">Primary Color</label>
-                                                                            <input type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="First Name">
+                                                                            <input name="primary_color" type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="First Name">
                                                                         </div>
                                    
                                                                     </div>
@@ -436,7 +430,7 @@
                                                                  
                                                                         <div class="form-group">
                                                                             <label for="first-name-vertical">Color Name</label>
-                                                                            <input type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="First Name">
+                                                                            <input name="color_name" type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="First Name">
                                                                         </div>
                                    
                                                                   </div>
@@ -444,7 +438,7 @@
                                                                  
                                                                         <div class="form-group">
                                                                             <label for="first-name-vertical">Secondary Color</label>
-                                                                            <input type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="First Name">
+                                                                            <input name="secondary_color" type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="First Name">
                                                                         </div>
                                    
                                                                   </div>
@@ -452,7 +446,7 @@
                                                                  
                                                                         <div class="form-group">
                                                                             <label for="first-name-vertical">Secondary Color Name</label>
-                                                                            <input type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="First Name">
+                                                                            <input name="secondayr_color_name" type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="First Name">
                                                                         </div>
                                    
                                                                     </div>
@@ -515,10 +509,11 @@
                                                     </div>
                                                             
                                           <button style="float: right;" type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
-                                                </form>
+                                              
                                             </div>
                         
                                   </div>
+                                  </form>
                 </section>
 
 
@@ -649,7 +644,9 @@ function showMyImage(fileInput) {
             reader.readAsDataURL(file);
         }    
     }
-    $(function () {
+
+// dropzone function starts
+$(function () {
   Dropzone.options.myAwesomeDropzone = {
     previewsContainer: '.dropzone-previews',
     autoProcessQueue: false,
@@ -680,8 +677,8 @@ function showMyImage(fileInput) {
     }
   };
 });
-
-	</script>
+// Dropzone function closed
+</script>
 
    
 

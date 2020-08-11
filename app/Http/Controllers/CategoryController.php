@@ -82,6 +82,7 @@ class CategoryController extends Controller
 						);	
 					}
 				}
+				dd($categories);
 			}else{
 				//if has no any child
 				$categories[] = array(
@@ -93,6 +94,7 @@ class CategoryController extends Controller
 				);
 			}
 		}
+		
      	return view('categories',compact('categories'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -234,12 +236,40 @@ class CategoryController extends Controller
                     return redirect()->back()->with('error','Something wrong, please try agian later');
                 }
 	}
+
+	//Delete Slider 
+     public function delete_slider($id){
+
+		$data = Images::where('id', $id)
+        ->update([
+            'is_active' => 0, 
+			]);
+			
+			if($data == true){
+                //    dd('Custom Field Updated Successfully');
+                     return redirect()->back()->with('success','Slider Deleted successfully.'); 
+                }else{
+                    // print_r($id);
+                    return redirect()->back()->with('error','Something wrong, please try agian later');
+                }
+
+	 }
+
+
     // Vendor Loging Out Function CLosed
  	
 	public function register()
     {   
        return redirect('/register');
-    }
+	}
+	
+	public function edit_cal(Request $request){
+	//    $request->id;
+	$data = DB::table('images')->select('*')->where('id',$request->id)->get();
+	$dt= json_encode($data);
+	echo $dt;
+
+	}
 	
  	public function vendor_register(Request $request)
     {   
@@ -306,7 +336,56 @@ class CategoryController extends Controller
               }
 
             }
-  	
+	  
+
+	public function update_slider(Request $request){
+		if ($request->file != '')  {
+			$image = $request->file('file');
+			$name = $image->getClientoriginalName();
+			$destinationPath = public_path('/images/slider/');
+			$image->move($destinationPath, $name);
+			}else{
+				$data = DB::table('images')
+						->where('id',$request->slider_id)
+						->get();
+				$name = $data[0]->desktop_image;
+			}
+
+			if($request->file_mobile != ''){
+
+			  $image2 = $request->file('file_mobile');
+			  $file_mobile = $image2->getClientoriginalName();
+			  $destinationPath = public_path('/images/slider/');
+			  $image2->move($destinationPath, $file_mobile);
+			}else{
+				$data = DB::table('images')
+						->where('id',$request->slider_id)
+						->get();
+				$file_mobile = $data[0]->mobile_image;
+			}
+		Images::where('id', $request->slider_id)
+		->update([
+			'language'=>$request->lang_id, 
+			'title'=>$request->title, 
+			'description'=>$request->description,
+			'link'=>$request->link, 
+			'order'=>$request->item_order, 
+			'botton_text'=>$request->button_text, 
+			'text_color'=>$request->text_color, 
+			'botton_color'=>$request->botton_color, 
+			'botton_text_color'=>$request->button_text_color, 
+			'animation_title'=>$request->animation_title, 
+			'animation_description'=>$request->animation_description, 
+			'animation_button'=>$request->animation_button, 
+			'desktop_image'=>$name, 
+			'mobile_image'=> $file_mobile, 
+			'is_active'=>1, 
+			'is_deleted'=>0,
+		 ]);
+		//  dd("Successful");
+		return redirect()->back()->with('message', 'Updated successfully..');
+	}
+
 	public function post_business(Request $request)
 	{   
                      // dd($request->all());
@@ -384,20 +463,23 @@ class CategoryController extends Controller
   	
 	public function create_slider(Request $request)
 	{   
-			 // dd($request->all());
-			if($request->session()->has('active'))
-			{
-				if ($request->file != '') {
+			//  dd($request->all());
+			// if($request->session()->has('active'))
+			// {
+				if ($request->file != '')  {
 				$image = $request->file('file');
-				$name = time().'.'.$image->getClientOriginalExtension();
+				$name = $image->getClientoriginalName();
 				$destinationPath = public_path('/images/slider/');
 				$image->move($destinationPath, $name);
-
+				}
+				if($request->file_mobile != ''){
 
 				  $image2 = $request->file('file_mobile');
-				  $file_mobile = time().'.'.$image2->getClientOriginalExtension();
+				  $file_mobile = $image2->getClientoriginalName();
 				  $destinationPath = public_path('/images/slider/');
 				  $image2->move($destinationPath, $file_mobile);
+				}
+					// dd($name .'+++++++++++'. $file_mobile);
 
 					Images::create([
 						'language'=>$request->lang_id, 
@@ -413,16 +495,16 @@ class CategoryController extends Controller
 						'animation_description'=>$request->animation_description, 
 						'animation_button'=>$request->animation_button, 
 						'desktop_image'=>$name, 
-						'mobile_image'=>$file_mobile, 
+						'mobile_image'=> $file_mobile, 
 						'is_active'=>1, 
 						'is_deleted'=>0,
 
 					]);
 				   return redirect()->back()->with('message', 'Slider added successfully..');
-			}else{
-				 return redirect('/login');
-			}
-	  }
+			// }else{
+			// 	 return redirect('/login');
+			// }
+	  
 
 	}
 

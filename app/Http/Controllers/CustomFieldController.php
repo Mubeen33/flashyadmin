@@ -91,7 +91,7 @@ class CustomFieldController extends Controller
          
         if($insert == true){
         //    dd('Custom Field Updated Successfully');
-             return redirect('/custom-fields')->with('success','custom field updated successfully.'); 
+             return redirect('/custom-fields')->with('success','Custom field updated successfully.'); 
         }else{
             // print_r($id);
             return redirect('/custom-fields')->with('error','Something wrong, please try agian later');
@@ -108,7 +108,7 @@ class CustomFieldController extends Controller
     public function store(Request $request)
     {
         $data = array(
-			'category_id' => $request->category, 
+			'category_id' => $request->parent, 
 			'sub_category_1' => $request->child_1, 
 			'sub_category_2' => $request->child_2, 
 			'sub_category_3' => $request->child_3, 
@@ -134,12 +134,12 @@ class CustomFieldController extends Controller
     public function delete_custom_field($id){
         $insert = CustomField::where('id', $id)
         ->update([
-            'status' => 'N', 
+            'status' => 'I', 
             ]);
 
             if($insert == true){
                 //    dd('Custom Field Updated Successfully');
-                     return redirect()->back()->with('success','custom field Deleted successfully.'); 
+                     return redirect()->back()->with('success','Custom field Deleted successfully.'); 
                 }else{
                     // print_r($id);
                     return redirect()->back()->with('error','Something wrong, please try agian later');

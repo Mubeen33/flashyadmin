@@ -23,7 +23,11 @@
             <!-- include message block -->
             <div class="col-sm-12">
             </div>
-
+			@if ($message = Session::get('success'))
+				<div class="alert alert-success">
+					<p>{{ $message }}</p>
+				</div>
+			@endif
             <div class="box-body">
                 <div class="row">
                     <div class="col-sm-12">
@@ -59,7 +63,14 @@
 											<td>{{ $dc->field_type }}</td>
 											<td>{{ $dc->required }}</td>
 											<td>{{ $dc->field_order }}</td>
-											<td>{{ $dc->status }}</td>
+											<td>
+											@if($dc->status == 'I')
+											<span class="badge badge-danger">{{ 'In-Active' }}</span>
+
+											@else
+											<span class="badge badge-success">{{ 'Active' }}</span>
+											@endif
+											</td>
 											<td>
 												<div class="dropdown">
 													<button class="btn btn-primary dropdown-toggle waves-effect waves-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 8px 20px;">
