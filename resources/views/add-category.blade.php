@@ -6,7 +6,7 @@
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active">Category</li>
     <a href="/categories">
-    <button type="button" style="float:right; margin-left:200px;" class="btn mr-1 mb-1 btn-primary btn-sm waves-effect waves-light"><i class="fa fa-list"></i> View Category List</button>
+    <a href="{{ url('/categories') }}" style="margin-left: 200px; padding: 15px; font-size: 13px; position: relative; right: -128px;" class="btn mr-1 mb-1 btn-primary btn-sm waves-effect waves-light"><i class="fa fa-list"></i> View Category List</a>
   </a>
 @endsection    
 <link href="{{asset('src/selectstyle.css')}}" rel="stylesheet" type="text/css">
@@ -236,7 +236,7 @@ if(isset($edit_cat) && !empty($edit_cat)){
                                             </a>
                                         </div>
 
-                                        <img id="thumbnil" style="width:20%; margin-top:10px;"  src="" alt="image"/>
+                                        <img id="thumbnil" style="margin-top:10px; max-height:50px; display: none;"  src="" alt="image"/>
                                     </div>
 
                                 </div>
@@ -418,6 +418,7 @@ function visible_no(){
 			reader.onload = (function(aImg) { 
 				return function(e) { 
 					aImg.src = e.target.result; 
+					$('#thumbnil').css('display', 'block')
 				}; 
 			})(img);
 			reader.readAsDataURL(file);

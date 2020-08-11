@@ -51,16 +51,31 @@ class CustomFieldController extends Controller
 					->select('*')
 					->where('id', $id)
                     ->get();
-                    // dd($custome_field_data);
-        $categories = DB::table('categories')
-                    
-                    ->whereIn('id',[$custome_field_data[0]->category_id,$custome_field_data[0]->sub_category_1,$custome_field_data[0]->sub_category_2,$custome_field_data[0]->sub_category_3])
+		
+	 	// dd($custome_field_data);	
+		$categories = '';
+		$sub_1 = '';
+        if($custome_field_data[0]->category_id != 0){
+			$categories = DB::table('categories')
+                    ->where('id',$custome_field_data[0]->category_id)
                     ->select('*')
                     ->get();
-        //  dd($categories[0]->id);
+			
+			$sub_1 = DB::table('categories')
+                    ->where('parent_id',$custome_field_data[0]->category_id)
+                    ->select('*')
+                    ->get();	
+		}
+		$sub_2 = '';
+		if($custome_field_data[0]->sub_category_2 != 0){
+			$sub_2 = DB::table('categories')
+                    ->where('parent_id',$custome_field_data[0]->sub_category_1)
+                    ->select('*')
+                    ->get();	
+		}
        
       
-        return view('custom-fields', compact('categories','custome_field_data'));
+        return view('custom-fields', compact('categories','custome_field_data', 'sub_1', 'sub_2'));
     }
 
 
@@ -84,7 +99,7 @@ class CustomFieldController extends Controller
             'required' => $request->is_required, 
             'field_order' => $request->field_order, 
             'field_type' => $request->field_type,  
-            'status' => $request->status, 
+            'visibility' => $request->status, 
             'user_id' => 1
             ]);
         
@@ -107,7 +122,7 @@ class CustomFieldController extends Controller
      */
     public function store(Request $request)
     {
-        $data = array(
+		$data = array(
 			'category_id' => $request->parent, 
 			'sub_category_1' => $request->child_1, 
 			'sub_category_2' => $request->child_2, 
@@ -118,7 +133,7 @@ class CustomFieldController extends Controller
 			'required' => $request->is_required, 
 			'field_order' => $request->field_order, 
 			'field_type' => $request->field_type,  
-			'status' => $request->status, 
+			'visibility' => 1,
 			'user_id' => 1
 		);  
         $insert = CustomField::create($data);
@@ -134,7 +149,7 @@ class CustomFieldController extends Controller
     public function delete_custom_field($id){
         $insert = CustomField::where('id', $id)
         ->update([
-            'status' => 'I', 
+            'visibility' => 2, 
             ]);
 
             if($insert == true){

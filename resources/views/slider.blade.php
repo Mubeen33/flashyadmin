@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('page-title','Add Slider')
+@section('page-title','Banners')
         
 
 @section('breadcrumbs')                            
@@ -25,7 +25,7 @@
                                 <div class="box box-primary">
                                     <!-- /.box-header -->
                                     <div class="box-header with-border">
-                                        <h3 class="box-title">Add Slider Item</h3>
+                                        <h3 class="box-title">Add New Banner</h3>
                                     </div><!-- /.box-header -->
 
                                     <!-- form start -->
@@ -292,10 +292,11 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-7 col-md-12 card">
+                            <div class="col-lg-7 col-md-12">
+                                <div class="card">
                                 <div class="box">
                                     <div class="box-header with-border">
-                                        <h3 class="box-title">Slider Items</h3>
+                                        <h3 class="box-title" style="padding: 20px 15px 0; position: absolute; left: 0; top: 0; z-index: 99;">Slider Items</h3>
                                     </div><!-- /.box-header -->
 
                                     <!-- include message block -->
@@ -318,9 +319,18 @@
                                                                 <div style="float:right;" id="cs_datatable_lang_filter" class="dataTables_filter"><label>Search
                                                                     <input type="search" class="form-control input-sm" placeholder="" aria-controls="cs_datatable_lang"></label>
                                                                 </div>
-                                                                    <table class="table table-bordered table-striped dataTable no-footer" id="cs_datatable_lang" role="grid" aria-describedby="cs_datatable_lang_info">
+                                                                    <table class="table table-bordered table-striped dataTable no-footer" id="cs_datatable_lang" role="grid" aria-describedby="cs_datatable_lang_info" style="position:relative; top:15px;">
                                                         <thead>
-                                                        <tr role="row"><th width="20" class="sorting_desc" tabindex="0" aria-controls="cs_datatable_lang" rowspan="1" colspan="1" aria-label="Id: activate to sort column ascending" aria-sort="descending" style="width: 12px;">Id</th><th class="sorting" tabindex="0" aria-controls="cs_datatable_lang" rowspan="1" colspan="1" aria-label="Image: activate to sort column ascending" style="width: 180px;">Image</th><th class="sorting" tabindex="0" aria-controls="cs_datatable_lang" rowspan="1" colspan="1" aria-label="Language: activate to sort column ascending" style="width: 59px;">Language</th><th class="sorting" tabindex="0" aria-controls="cs_datatable_lang" rowspan="1" colspan="1" aria-label="Order: activate to sort column ascending" style="width: 35px;">Order</th><th class="th-options sorting" tabindex="0" aria-controls="cs_datatable_lang" rowspan="1" colspan="1" aria-label="Options: activate to sort column ascending" style="width: 86px;">Options</th></tr>
+                                                        <tr role="row">
+                                                        <th width="20" class="sorting_desc" tabindex="0" aria-controls="cs_datatable_lang" rowspan="1" colspan="1" aria-label="Id: activate to sort column ascending" aria-sort="descending" style="width: 12px;">Id</th>
+                                                        
+                                                        <th class="sorting" tabindex="0" aria-controls="cs_datatable_lang" rowspan="1" colspan="1" aria-label="Image: activate to sort column ascending" style="width: 180px;">Image</th>
+                                                        
+                                                        <th class="sorting" tabindex="0" aria-controls="cs_datatable_lang" rowspan="1" colspan="1" aria-label="Language: activate to sort column ascending" style="width: 59px;">Language</th>
+                                                        
+                                                        <th class="sorting" tabindex="0" aria-controls="cs_datatable_lang" rowspan="1" colspan="1" aria-label="Order: activate to sort column ascending" style="width: 35px;">Order</th>
+                                                        
+                                                        <th class="th-options sorting" tabindex="0" aria-controls="cs_datatable_lang" rowspan="1" colspan="1" aria-label="Options: activate to sort column ascending" style="width: 86px;">Options</th></tr>
                                                         </thead>
                                                         <tbody>
                                                        @if(count($slider) >0)
@@ -329,7 +339,7 @@
                                                             <tr role="row" class="even">
                                                                 <td class="sorting_1">{{$index++}}</td>
                                                                 <td>
-                                                                    <img src="/images/slider/{{$s->desktop_image}}" alt="" style="width: 100px;height:100px;">
+                                                                    <a href="{{url('/images/slider/'.$s->desktop_image)}}" target="_blank"><img src="/images/slider/{{$s->desktop_image}}" alt="" style="width: 100px;border-radius: 5px; padding: 5px; box-shadow: 0px 0px 5px #7d73ff7a;"></a>
                                                                 </td>
                                                                 <td>
                                                                 {{$s->language}} 
@@ -337,18 +347,16 @@
                                                                 <td>    {{$s->order}}  </td>
 
                                                                 <td>
-                                                                    <div class="dropdown">
-                                                                        <button class="btn bg-purple dropdown-toggle btn-select-option" type="button" data-toggle="dropdown">Select an option                                                    <span class="caret"></span>
-                                                                        </button>
-                                                                        <ul class="dropdown-menu options-dropdown">
-                                                                            <li>
-                                                                                <a href="javascript:void(0)" id="edit" onclick="update_item('{{$s->id}}');"><i class="fa fa-edit option-icon"></i>Edit</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="/{{ $s->id }}/delete/slider" onclick="delete_item('{{$s->id}}');"><i class="fa fa-trash option-icon"></i>Delete</a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
+                                                                   <div class="dropdown">
+																		<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 8px 20px;">
+																			Action
+																		</button>
+																		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+																			<a href="javascript:void(0)" class="dropdown-item" id="edit" onclick="update_item('{{$s->id}}');">Edit</a>
+																			<a class="dropdown-item" href="/{{ $s->id }}/delete/slider" onclick="delete_item('{{$s->id}}');">Delete</a>
+																		</div>
+																	</div>
+                                                                   
                                                                 </td>
                                                             </tr>
                                                             @endforeach
@@ -357,6 +365,7 @@
                                                             @endif
                                                         </tbody>
                                                     </table><div class="dataTables_info" id="cs_datatable_lang_info" role="status" aria-live="polite"> </div><div class="dataTables_paginate paging_simple_numbers" id="cs_datatable_lang_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="cs_datatable_lang_previous"><a href="#" aria-controls="cs_datatable_lang" data-dt-idx="0" tabindex="0">‹</a></li><li class="paginate_button active"><a href="#" aria-controls="cs_datatable_lang" data-dt-idx="1" tabindex="0">@php count($slider); @endphp</a></li><li class="paginate_button next disabled" id="cs_datatable_lang_next"><a href="#" aria-controls="cs_datatable_lang" data-dt-idx="2" tabindex="0">›</a></li></ul></div></div>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -394,8 +403,7 @@
             var ht = this.height;
             var wdh = this.width;
             
-            
-            if (ht != 1920 && wdh != 600) {
+            if (ht != 600 && wdh != 1920) {
                
                 alert("Width and Height must be 1920px * 600px");
                   $('#h2').css('border-color','red');

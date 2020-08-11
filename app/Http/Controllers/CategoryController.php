@@ -82,7 +82,6 @@ class CategoryController extends Controller
 						);	
 					}
 				}
-				dd($categories);
 			}else{
 				//if has no any child
 				$categories[] = array(
@@ -181,8 +180,7 @@ class CategoryController extends Controller
         // }
          $slider = DB::table('images')
                     ->select('*')
-                    ->where('is_active',1)
-                    ->where('is_deleted',0)
+			 		->where('visibility', array(1,0))
                     ->get();
             return view('slider',compact('slider'));
       
@@ -242,16 +240,16 @@ class CategoryController extends Controller
 
 		$data = Images::where('id', $id)
         ->update([
-            'is_active' => 0, 
-			]);
-			
-			if($data == true){
-                //    dd('Custom Field Updated Successfully');
-                     return redirect()->back()->with('success','Slider Deleted successfully.'); 
-                }else{
-                    // print_r($id);
-                    return redirect()->back()->with('error','Something wrong, please try agian later');
-                }
+			'visibility' => 2, 
+		]);
+
+		if($data == true){
+		//    dd('Custom Field Updated Successfully');
+		return redirect()->back()->with('success','Slider Deleted successfully.'); 
+		}else{
+		// print_r($id);
+		return redirect()->back()->with('error','Something wrong, please try agian later');
+		}
 
 	 }
 
@@ -379,8 +377,7 @@ class CategoryController extends Controller
 			'animation_button'=>$request->animation_button, 
 			'desktop_image'=>$name, 
 			'mobile_image'=> $file_mobile, 
-			'is_active'=>1, 
-			'is_deleted'=>0,
+			'visibility'=>1, 
 		 ]);
 		//  dd("Successful");
 		return redirect()->back()->with('message', 'Updated successfully..');
@@ -496,8 +493,7 @@ class CategoryController extends Controller
 						'animation_button'=>$request->animation_button, 
 						'desktop_image'=>$name, 
 						'mobile_image'=> $file_mobile, 
-						'is_active'=>1, 
-						'is_deleted'=>0,
+						'visibility'=>1, 
 
 					]);
 				   return redirect()->back()->with('message', 'Slider added successfully..');

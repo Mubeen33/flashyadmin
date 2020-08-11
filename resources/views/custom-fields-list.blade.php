@@ -61,14 +61,19 @@
 											<td>{{ $dc->name_eng }}</td>
 											<td>{{ $dc->name_dus }}</td>
 											<td>{{ $dc->field_type }}</td>
-											<td>{{ $dc->required }}</td>
+											<td>
+												@if($dc->required == 1)
+												<span class="badge badge-success">Yes</span>
+												@else
+												<span class="badge badge-warning">No</span>
+												@endif
+											</td>
 											<td>{{ $dc->field_order }}</td>
 											<td>
-											@if($dc->status == 'I')
-											<span class="badge badge-danger">{{ 'In-Active' }}</span>
-
+											@if($dc->visibility == 1)
+											<span class="badge badge-success">Yes</span>
 											@else
-											<span class="badge badge-success">{{ 'Active' }}</span>
+											<span class="badge badge-warning">No</span>
 											@endif
 											</td>
 											<td>

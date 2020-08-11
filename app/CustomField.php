@@ -10,6 +10,6 @@ class CustomField extends Model
     protected $table = 'custom_fields';
 	
     protected $fillable = [
-        'category_id', 'sub_category_1', 'sub_category_2', 'name_eng', 'name_dus', 'field_width', 'required', 'field_order', 'field_type', 'create_at', 'updated_at', 'status', 'user_id'
+        'category_id', 'sub_category_1', 'sub_category_2', 'name_eng', 'name_dus', 'field_width', 'required', 'field_order', 'field_type', 'create_at', 'updated_at', 'visibility', 'user_id'
     ];
 }

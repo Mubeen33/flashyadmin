@@ -28,66 +28,83 @@
 											<label>Category Name</label>
 											<select name="parent" class="form-control" onChange="getCategory(this)" data-id="child-0">
 												<option value="">Select Category</option>
-											@if(Request::segment(2) == 'edit')
-											
-												@if(!empty($categories))
-													@foreach($categories as $c)
-													
-														<option  value="{{ $c->id }}" {{ ( $c->id == $custome_field_data[0]->category_id) ? 'selected' : '' }}>
-															{{ $c->name }}
-														</option>
-													@endforeach
-												@endif
-											@else
-												@if(!empty($categories))
-														@foreach($categories as $c)
-															<option  value="{{ $c->id }}">
-																{{ $c->name }}
-															</option>
-														@endforeach
-												@endif
-											@endif
-											</select>
-										</div>
-										<div id="child-1"  class="col-sm-12 p-0">
-											<select name="child_1" class="form-control" onChange="getCategory(this)" data-id="child-0">
-													<option value="">Select Category</option>
 												@if(Request::segment(2) == 'edit')
-												
 													@if(!empty($categories))
 														@foreach($categories as $c)
-														@if($c->parent_id == $custome_field_data[0]->category_id)
-															<option  value="{{ $c->id }}" {{ ( $c->id == $custome_field_data[0]->sub_category_1) ? 'selected' : '' }}>
+
+															<option  value="{{ $c->id }}" {{ ( $c->id == $custome_field_data[0]->category_id) ? 'selected' : '' }}>
 																{{ $c->name }}
 															</option>
-														@endif
 														@endforeach
 													@endif
 												@else
-												
+													@if(!empty($categories))
+															@foreach($categories as $c)
+																<option  value="{{ $c->id }}">
+																	{{ $c->name }}
+																</option>
+															@endforeach
+													@endif
 												@endif
 											</select>
+										</div>
+										<div id="child-1"  class="col-sm-12 p-0">
+											@if(Request::segment(2) == 'edit')
+												@if(!empty($sub_1))
+													<div class="col-sm-12 form-group">
+														<label>Sub Category 1</label>
+														<select name="child_1" class="form-control" onChange="getCategory(this)" data-id="child-1">
+															<option value="" disabled>Sub Category 1</option> 
+															@foreach($sub_1 as $s)
+																<option value="{{ $s->id }}"
+																<?php if($s->id == $custome_field_data[0]->sub_category_1){echo 'selected';}?>
+																>
+																{{ $s->name }}
+																</option>
+															@endforeach
+														</select> 
+													</div>
+												@endif
+											@endif
 										</div>
 										<div id="child-2" class="col-sm-12 p-0">
-										<select name="child_2" class="form-control" onChange="getCategory(this)" data-id="child-0">
-													<option value="">Select Category</option>
-										@if(Request::segment(2) == 'edit')
-												
-												@if(!empty($categories))
-													@foreach($categories as $c)
-													@if($c->parent_id == $custome_field_data[0]->sub_category_1)
-														<option  value="{{ $c->id }}" {{ ( $c->id == $custome_field_data[0]->sub_category_2) ? 'selected' : '' }}>
-															{{ $c->name }}
-														</option>
-													@endif
-													@endforeach
+											@if(Request::segment(2) == 'edit')
+												@if(!empty($sub_2))
+													<div class="col-sm-12 form-group">
+														<label>Sub Category 2</label>
+														<select name="child_2" class="form-control" onChange="getCategory(this)" data-id="child-2">
+															<option value="" disabled>Sub Category 2</option> 
+															@foreach($sub_2 as $s)
+																<option value="{{ $s->id }}"
+																<?php if($s->id == $custome_field_data[0]->sub_category_2){echo 'selected';}?>
+																>
+																{{ $s->name }}
+																</option>
+															@endforeach
+														</select> 
+													</div>
 												@endif
-											@else
-											
 											@endif
-											</select>
 										</div>
-										<div id="child-3" class="col-sm-12 p-0"></div>
+										<div id="child-3" class="col-sm-12 p-0">
+											@if(Request::segment(2) == 'edit')
+												@if(!empty($sub_3))
+													<div class="col-sm-12 form-group">
+														<label>Sub Category 3</label>
+														<select name="child_3" class="form-control" onChange="getCategory(this)" data-id="child-3">
+															<option value="" disabled>Sub Category 3</option> 
+															@foreach($sub_3 as $s)
+																<option value="{{ $s->id }}"
+																<?php if($s->id == $custome_field_data[0]->sub_category_3){echo 'selected';}?>
+																>
+																{{ $s->name }}
+																</option>
+															@endforeach
+														</select> 
+													</div>
+												@endif
+											@endif
+										</div>
 									</div>
 
 									<div class="form-group">
@@ -146,22 +163,22 @@
 											<div class="col-sm-6 col-xs-12">
 												<label>Status</label>
 											</div>
-											@if(Request::segment(2) == 'edit' && $custome_field_data[0]->status =='A')
+											@if(Request::segment(2) == 'edit' && $custome_field_data[0]->visibility == 1)
 											<div class="col-sm-3 col-xs-12 col-option">
-												<input type="radio" name="status" value="A" id="status_1" class="square-purple" checked>
+												<input type="radio" name="visibility" value="1" id="status_1" class="square-purple" checked>
 												<label for="status_1" class="option-label">Active</label>
 											</div>
 											<div class="col-sm-3 col-xs-12 col-option">
-												<input type="radio" name="status" value="I" id="status_2" class="square-purple">
+												<input type="radio" name="visibility" value="0" id="status_2" class="square-purple">
 												<label for="status_2" class="option-label">Inactive</label>
 											</div>
 											@else
 											<div class="col-sm-3 col-xs-12 col-option">
-												<input type="radio" name="status" value="A" id="status_1" class="square-purple" >
+												<input type="radio" name="status" value="1" id="status_1" class="square-purple" >
 												<label for="status_1" class="option-label">Active</label>
 											</div>
 											<div class="col-sm-3 col-xs-12 col-option">
-												<input type="radio" name="status" value="I" id="status_2" class="square-purple" checked>
+												<input type="radio" name="status" value="0" id="status_2" class="square-purple" checked>
 												<label for="status_2" class="option-label">Inactive</label>
 											</div>
 											@endif
