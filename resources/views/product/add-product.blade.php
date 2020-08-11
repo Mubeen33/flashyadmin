@@ -3,6 +3,10 @@
         
 <link href="{{asset('src/selectstyle.css')}}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{asset('src/themify-icons.css')}}">
+<script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.js"></script>
 
 @section('breadcrumbs')                            
     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
@@ -23,7 +27,7 @@
 								<div class="row">
 									<div class="col-sm-8">
 										<div class="row">
-											<div class="col-sm-6 text-center" onclick="uploadImage1()">
+											<!-- <div class="col-sm-6 text-center" onclick="uploadImage1()">
                                             <img id="thumbnail" style="width:20%; margin-top:10px; display:none;"  src="" alt="image"/>
 												<div class="col-12 primary-image">
 													<i class="feather icon-camera f28" ></i>
@@ -79,7 +83,18 @@
 														</div>
 													</div>
 												</div>
-											</div>
+											</div> -->
+                                            <form id="my-awesome-dropzone" class="dropzone" action="upload.php">
+    <div class="dropzone-previews"></div>
+    <!-- this is were the previews should be shown. -->
+
+    <!-- Now setup your input fields -->
+    <!-- <input type="text" name="Name"/>
+    <input type="text" name="Description"/>
+
+    <button type="submit">Submit data and files!</button> -->
+
+</form>
 										</div>
 									</div>
 									<div class="col-sm-4 images-instructions">
@@ -515,6 +530,8 @@
 
     <script src="{{asset('src/jquery-1.12.4.min.js')}}"></script>
 	<script src="{{asset('src/selectstyle.js')}}"></script>
+
+    
 	<script>
 		$(function(){
 			$('.select').jselect_search({
@@ -632,6 +649,37 @@ function showMyImage(fileInput) {
             reader.readAsDataURL(file);
         }    
     }
+    $(function () {
+  Dropzone.options.myAwesomeDropzone = {
+    previewsContainer: '.dropzone-previews',
+    autoProcessQueue: false,
+    uploadMultiple: false,
+    parallelUploads: 100,
+    maxFiles: 100,
+    init: function () {
+      var myDropzone = this;
+
+      this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        myDropzone.processQueue();
+      });
+    },
+    sending: function(file, xhr, formData) {
+      alert('sending');
+    },
+    sendingmultiple: function (file, xhr, formData) {
+      alert("successfully");
+    },
+    successmultiple: function (file, xhr, formData) {
+      alert("successfully");
+
+    },
+    error: function (a, errorMessage, xhr) {
+      alert("Error");
+    }
+  };
+});
 
 	</script>
 
