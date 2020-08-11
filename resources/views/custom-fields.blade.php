@@ -18,36 +18,85 @@
 						<div class="box-header with-border">
 							<div class="left"></div><!-- /.box-header -->
 								<!-- form start -->
-							<form action="{{ url('/create-custom-fields') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+							<form action="@if(Request::segment(2) == 'edit'){{'/push/custom-fields-data'}} @else {{ url('/create-custom-fields') }} @endif" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 								@csrf
 								<input type="hidden" id="catId" data-id="0" />
+								<input type="hidden" id="catId" data-id="0" name="custom_id" value="@if(Request::segment(2) == 'edit') {{$custome_field_data[0]->id}} @else @endif" />
 								<div class="box-body" style="padding:20px;">
 									<div class="row" id="catSection">
 										<div class="col-sm-12 form-group">
 											<label>Category Name</label>
 											<select name="category" class="form-control" onChange="getCategory(this)" data-id="child-0">
 												<option value="">Select Category</option>
+											@if(Request::segment(2) == 'edit')
+											
 												@if(!empty($categories))
 													@foreach($categories as $c)
-														<option  value="{{ $c->id }}">
+													
+														<option  value="{{ $c->id }}" {{ ( $c->id == $custome_field_data[0]->category_id) ? 'selected' : '' }}>
 															{{ $c->name }}
 														</option>
 													@endforeach
 												@endif
+											@else
+												@if(!empty($categories))
+														@foreach($categories as $c)
+															<option  value="{{ $c->id }}">
+																{{ $c->name }}
+															</option>
+														@endforeach
+												@endif
+											@endif
 											</select>
 										</div>
-										<div id="child-1"  class="col-sm-12 p-0"></div>
-										<div id="child-2" class="col-sm-12 p-0"></div>
+										<div id="child-1"  class="col-sm-12 p-0">
+											<select name="category" class="form-control" onChange="getCategory(this)" data-id="child-0">
+													<option value="">Select Category</option>
+												@if(Request::segment(2) == 'edit')
+												
+													@if(!empty($categories))
+														@foreach($categories as $c)
+														@if($c->parent_id == $custome_field_data[0]->category_id)
+															<option  value="{{ $c->id }}" {{ ( $c->id == $custome_field_data[0]->sub_category_1) ? 'selected' : '' }}>
+																{{ $c->name }}
+															</option>
+														@endif
+														@endforeach
+													@endif
+												@else
+												
+												@endif
+											</select>
+										</div>
+										<div id="child-2" class="col-sm-12 p-0">
+										<select name="category" class="form-control" onChange="getCategory(this)" data-id="child-0">
+													<option value="">Select Category</option>
+										@if(Request::segment(2) == 'edit')
+												
+												@if(!empty($categories))
+													@foreach($categories as $c)
+													@if($c->parent_id == $custome_field_data[0]->sub_category_1)
+														<option  value="{{ $c->id }}" {{ ( $c->id == $custome_field_data[0]->sub_category_2) ? 'selected' : '' }}>
+															{{ $c->name }}
+														</option>
+													@endif
+													@endforeach
+												@endif
+											@else
+											
+											@endif
+											</select>
+										</div>
 										<div id="child-3" class="col-sm-12 p-0"></div>
 									</div>
 
 									<div class="form-group">
 										<label>Field Name (English)</label>
-										<input type="text" class="form-control" name="name_eng" placeholder="Field Name" maxlength="255" required>
+										<input type="text" class="form-control" value="@if(Request::segment(2) == 'edit') {{$custome_field_data[0]->name_eng }} @else @endif" name="name_eng" placeholder="Field Name" maxlength="255" required>
 									</div>
 									<div class="form-group">
 										<label>Field Name (Deutsch)</label>
-										<input type="text" class="form-control" name="name_deu" placeholder="Field Name" maxlength="255" required>
+										<input type="text" class="form-control" value="@if(Request::segment(2) == 'edit') {{$custome_field_data[0]->name_dus }} @else @endif"  name="name_deu" placeholder="Field Name" maxlength="255" required>
 									</div>
 
 									<div class="form-group">
@@ -55,6 +104,7 @@
 											<div class="col-sm-6">
 												<label>Row Width</label>
 											</div>
+										@if(Request::segment(2) == 'edit' && $custome_field_data[0]->field_width =='half')
 											<div class="col-sm-3 col-xs-12 col-option">
 												<input type="radio" name="row_width" value="half" id="row_width_1" class="square-purple" checked>
 												<label for="row_width_1" class="option-label">Half Width</label>
@@ -63,6 +113,16 @@
 												<input type="radio" name="row_width" value="full" id="row_width_2" class="square-purple">
 												<label for="row_width_2" class="option-label">Full Width</label>
 											</div>
+										@else
+										 <div class="col-sm-3 col-xs-12 col-option">
+												<input type="radio" name="row_width" value="half" id="row_width_1" class="square-purple">
+												<label for="row_width_1" class="option-label">Half Width</label>
+											</div>
+											<div class="col-sm-3 col-xs-12 col-option">
+												<input type="radio" name="row_width" value="full" id="row_width_2" class="square-purple"  checked>
+												<label for="row_width_2" class="option-label">Full Width</label>
+											</div>
+										@endif
 										</div>
 									</div>
 
@@ -72,7 +132,11 @@
 												<label class="control-label">Required</label>
 											</div>
 											<div class="col-md-6 col-sm-12">
-												<input type="checkbox" name="is_required" value="1" class="square-purple">
+											@if(Request::segment(2) == 'edit' && $custome_field_data[0]->required =='1')
+												<input type="checkbox" name="is_required" value="1" class="square-purple" checked required>
+											@else
+											<input type="checkbox" name="is_required" value="1" class="square-purple">
+											@endif
 											</div>
 										</div>
 									</div>
@@ -82,6 +146,7 @@
 											<div class="col-sm-6 col-xs-12">
 												<label>Status</label>
 											</div>
+											@if(Request::segment(2) == 'edit' && $custome_field_data[0]->status =='A')
 											<div class="col-sm-3 col-xs-12 col-option">
 												<input type="radio" name="status" value="A" id="status_1" class="square-purple" checked>
 												<label for="status_1" class="option-label">Active</label>
@@ -90,25 +155,107 @@
 												<input type="radio" name="status" value="I" id="status_2" class="square-purple">
 												<label for="status_2" class="option-label">Inactive</label>
 											</div>
+											@else
+											<div class="col-sm-3 col-xs-12 col-option">
+												<input type="radio" name="status" value="A" id="status_1" class="square-purple" >
+												<label for="status_1" class="option-label">Active</label>
+											</div>
+											<div class="col-sm-3 col-xs-12 col-option">
+												<input type="radio" name="status" value="I" id="status_2" class="square-purple" checked>
+												<label for="status_2" class="option-label">Inactive</label>
+											</div>
+											@endif
+											
 										</div>
 									</div>
 
 									<div class="form-group">
 										<label>Order</label>
+										@if(Request::segment(2) == 'edit')
+										<input type="number" value="{{$custome_field_data[0]->field_order}}" class="form-control" name="field_order" placeholder="Order" min="1" max="99999" value="1" required>
+										@else
 										<input type="number" class="form-control" name="field_order" placeholder="Order" min="1" max="99999" value="1" required>
+									
+										@endif
 									</div>
 
 									<div class="form-group">
 										<label>Type</label>
-										<select class="form-control" name="field_type">
-											<option value="text">Text</option>
-											<option value="textarea">Textarea</option>
-											<option value="number">Number</option>
-											<option value="checkbox">Checkbox (Multiple Selection)</option>
-											<option value="radio_button">Radio Button (Single Selection)</option>
-											<option value="dropdown">Dropdown (Single Selection)</option>
-											<option value="date">Date</option>
-										</select>
+										
+											<select class="form-control" name="field_type">
+											@if(Request::segment(2) == 'edit' && $custome_field_data[0]->field_type =='text')
+												<option value="text" selected>Text</option>
+												<option value="textarea" >Textarea</option>
+												<option value="number" > Number</option>
+												<option value="checkbox" >Checkbox (Multiple Selection)</option>
+												<option value="radio_button" >Radio Button (Single Selection)</option>
+												<option value="dropdown" >Dropdown (Single Selection)</option>
+												<option value="date" >Date</option>
+											@elseif(Request::segment(2) == 'edit' && $custome_field_data[0]->field_type =='textarea')
+												<option value="textarea" selected>Textarea</option>
+												<option value="text" >Text</option>
+												
+												<option value="number" > Number</option>
+												<option value="checkbox" >Checkbox (Multiple Selection)</option>
+												<option value="radio_button" >Radio Button (Single Selection)</option>
+												<option value="dropdown" >Dropdown (Single Selection)</option>
+												<option value="date" >Date</option>
+											@elseif(Request::segment(2) == 'edit' && $custome_field_data[0]->field_type =='number')
+												<option value="number" selected> Number</option>
+												<option value="text" >Text</option>
+												<option value="textarea" >Textarea</option>
+												
+												<option value="checkbox" >Checkbox (Multiple Selection)</option>
+												<option value="radio_button" >Radio Button (Single Selection)</option>
+												<option value="dropdown" >Dropdown (Single Selection)</option>
+												<option value="date" >Date</option>
+											@elseif(Request::segment(2) == 'edit' && $custome_field_data[0]->field_type =='checkbox')
+												<option value="checkbox" selected>Checkbox (Multiple Selection)</option>
+												<option value="text" >Text</option>
+												<option value="textarea" >Textarea</option>
+												<option value="number" > Number</option>
+											
+												<option value="radio_button" >Radio Button (Single Selection)</option>
+												<option value="dropdown" >Dropdown (Single Selection)</option>
+												<option value="date" >Date</option>
+											@elseif(Request::segment(2) == 'edit' && $custome_field_data[0]->field_type =='radio_button')
+												<option value="radio_button" selected>Radio Button (Single Selection)</option>
+												<option value="text" >Text</option>
+												<option value="textarea" >Textarea</option>
+												<option value="number" > Number</option>
+												<option value="checkbox" >Checkbox (Multiple Selection)</option>
+											
+												<option value="dropdown" >Dropdown (Single Selection)</option>
+												<option value="date" >Date</option>
+											@elseif(Request::segment(2) == 'edit' && $custome_field_data[0]->field_type =='dropdown')
+												<option value="dropdown" selected>Dropdown (Single Selection)</option>
+												<option value="text" >Text</option>
+												<option value="textarea" >Textarea</option>
+												<option value="number" > Number</option>
+												<option value="checkbox" >Checkbox (Multiple Selection)</option>
+												<option value="radio_button" >Radio Button (Single Selection)</option>
+											
+												<option value="date" >Date</option>
+											@elseif(Request::segment(2) == 'edit' && $custome_field_data[0]->field_type =='date')
+												<option value="date" selected>Date</option>
+												<option value="text" >Text</option>
+												<option value="textarea" >Textarea</option>
+												<option value="number" > Number</option>
+												<option value="checkbox" >Checkbox (Multiple Selection)</option>
+												<option value="radio_button" >Radio Button (Single Selection)</option>
+												<option value="dropdown" >Dropdown (Single Selection)</option>
+									
+											@else
+											<option value="text" >Text</option>
+											<option value="textarea" >Textarea</option>
+											<option value="number" > Number</option>
+											<option value="checkbox" >Checkbox (Multiple Selection)</option>
+											<option value="radio_button" >Radio Button (Single Selection)</option>
+											<option value="dropdown" >Dropdown (Single Selection)</option>
+											<option value="date" >Date</option>
+											@endif
+											</select>
+									
 									</div>
 									<div class="box-footer">
 										<button style="margin-bottom:20px;" type="submit" class="btn btn-primary pull-right">Save and Continue</button>

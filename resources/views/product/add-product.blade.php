@@ -23,14 +23,17 @@
 								<div class="row">
 									<div class="col-sm-8">
 										<div class="row">
-											<div class="col-sm-6 text-center">
+											<div class="col-sm-6 text-center" onclick="uploadImage1()">
+                                            <img id="thumbnail" style="width:20%; margin-top:10px; display:none;"  src="" alt="image"/>
 												<div class="col-12 primary-image">
-													<i class="feather icon-camera f28"></i>
-													<p class="use-web-link">
+													<i class="feather icon-camera f28" ></i>
+                                                    
+													<p class="use-web-link" type="file" id="file">
 														<strong>Upload Primary Image</strong>
 														<br />
 														<small>Or <a href="javascript:void(0)">use link from web</a></small>
-													</p>
+                                                        <input id="file-input" type="file" name="name" style="display: none;" />
+                                                    </p>
 												</div>
 											</div>
 											<div class="col-sm-6">
@@ -580,7 +583,59 @@
 			category.push(id.value);
 			$('.select_categories').val(category);
 		}
+
+
+    //     function uploadImage1(){
+    //         $('#file-input').trigger('click');
+        
+    // }
+function uploadImage1(contentType, multiple) {
+    // debugger
+  var input = document.createElement("input");
+  input.type = "file";
+  input.multiple = multiple;
+  input.accept = contentType;
+  return new Promise(function(resolve) {
+    document.activeElement.onfocus = function() {
+      document.activeElement.onfocus = null;
+      setTimeout(resolve, 100);
+    };
+    input.onchange = function() {
+      var files = Array.from(input.files);
+      if (multiple)
+        return resolve(files);
+      resolve(files[0]);
+    };
+    input.click();
+  });
+}
+
+
+// Show Image preview
+function showMyImage(fileInput) {
+        var files = fileInput.files;
+        for (var i = 0; i < files.length; i++) {           
+            var file = files[i];
+            var imageType = /image.*/;     
+            if (!file.type.match(imageType)) {
+                continue;
+            }           
+            var img=document.getElementById("thumbnil");            
+            img.file = file;    
+            var reader = new FileReader();
+            reader.onload = (function(aImg) { 
+                return function(e) { 
+                    aImg.src = e.target.result; 
+                }; 
+            })(img);
+            $('#thumbnail').show();
+            reader.readAsDataURL(file);
+        }    
+    }
+
 	</script>
+
+   
 
 @endsection
 
