@@ -39,18 +39,13 @@ Route::get('/addcat', function () {
 
 
 Route::get('/categories', function () {
-
     $categoris = Category::where('parent_id',0)->get();
-    
     return view('categories',["categoris" => $categoris]);
-
 });
-
 Route::post('/subcat', 'CategoryController@get_category')->name('subcat');
 
 
-Route::prefix('admin')->group(function (){
-    
+Route::prefix('admin')->group(function (){    
     Route::get('/profile','VendorController@profile_setup');
     Route::post('/profile_setup','VendorController@post_profile');
     Route::post('/profile_setup_address','VendorController@post_addresses');
@@ -60,9 +55,8 @@ Route::prefix('admin')->group(function (){
     Route::post('/logout','VendorController@logout');
     Route::get('/registration','VendorController@register');
     Route::post('/registration','VendorController@vendor_register');
-
     // Category Routes
-    Route::get('/create-category','CategoryController@category_view');
+    Route::get('/create-category','CategoryController@create');
     Route::post('/create-category','CategoryController@create_category');
         // Slider Routes
     Route::get('/create-slider','CategoryController@slider_view');
@@ -71,6 +65,10 @@ Route::prefix('admin')->group(function (){
 });
 //Route::resource('categories','Category');
 Route::resource('categories','CategoryController');
+Route::get('/add-category','CategoryController@create');
+Route::get('/edit/{id}','CategoryController@edit')->name('edit');
+
+
 Route::resource('custom-fields','CustomFieldController');
 Route::get('add-custom-fields','CustomFieldController@create')->name('create');
 Route::post('/create-custom-fields','CustomFieldController@store')->name('create-custom-fields');

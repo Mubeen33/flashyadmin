@@ -6,7 +6,8 @@
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active">Categories</li>
 @endsection    
-                            
+         
+                  
 @section('content')            
             <div class="content-body">
                 <!-- Dashboard Analytics Start -->
@@ -50,7 +51,7 @@
 																Action
 															</button>
 															<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-																<a class="dropdown-item" href="{{ route('categories.edit',$category['id']) }}">Edit</a>
+																<a class="dropdown-item" href="{{ url('edit/'.$category['id']) }}">Edit</a>
 																<a class="dropdown-item" href="javascript:void(0)">Delete</a>
 															</div>
 														</div>
