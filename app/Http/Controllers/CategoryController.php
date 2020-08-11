@@ -87,9 +87,9 @@ class CategoryController extends Controller
 				$categories[] = array(
 					'id' => $c->id,
 					'name' => $c->name,
-					'display_order' => $cc->display_order,
-					'visibility' => $cc->visibility,
-					'show_on_homepage' => $cc->show_on_homepage,
+					'display_order' => $c->display_order,
+					'visibility' => $c->visibility,
+					'show_on_homepage' => $c->show_on_homepage,
 				);
 			}
 		}
@@ -217,7 +217,23 @@ class CategoryController extends Controller
            }
     
     
-    }
+	}
+	
+	// Delete Category
+	public function delete_category($id){
+		$insert = Categories::where('id', $id)
+        ->update([
+            'visibility' => 0, 
+            ]);
+
+            if($insert == true){
+                //    dd('Custom Field Updated Successfully');
+                     return redirect()->back()->with('success','Category Deleted successfully.'); 
+                }else{
+                    // print_r($id);
+                    return redirect()->back()->with('error','Something wrong, please try agian later');
+                }
+	}
     // Vendor Loging Out Function CLosed
  	
 	public function register()

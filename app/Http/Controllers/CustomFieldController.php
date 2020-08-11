@@ -51,6 +51,7 @@ class CustomFieldController extends Controller
 					->select('*')
 					->where('id', $id)
                     ->get();
+                    // dd($custome_field_data);
         $categories = DB::table('categories')
                     
                     ->whereIn('id',[$custome_field_data[0]->category_id,$custome_field_data[0]->sub_category_1,$custome_field_data[0]->sub_category_2,$custome_field_data[0]->sub_category_3])
@@ -68,12 +69,12 @@ class CustomFieldController extends Controller
 
     public function push_editable_data(Request $request)
     {   
-       
+    //    dd($request->all());
        $id = $request->custom_id;
     
         $insert = CustomField::where('id', $id)
         ->update([
-            'category_id' => $request->category, 
+            'category_id' => $request->parent, 
             'sub_category_1' => $request->child_1, 
             'sub_category_2' => $request->child_2, 
             'sub_category_3' => $request->child_3, 
@@ -89,9 +90,11 @@ class CustomFieldController extends Controller
         
          
         if($insert == true){
-           dd('Custom Field Updated Successfully');
+        //    dd('Custom Field Updated Successfully');
+             return redirect('/custom-fields')->with('success','custom field updated successfully.'); 
         }else{
-            print_r($id);
+            // print_r($id);
+            return redirect('/custom-fields')->with('error','Something wrong, please try agian later');
         }
          return view('custom-fields', compact('categories','custome_field_data'));
     }
@@ -125,6 +128,22 @@ class CustomFieldController extends Controller
 			print_r($insert);
 		}
 //        return redirect()->route('categories.index')->with('success','Category created successfully.');        
+    }
+
+    // Delete Custom Field
+    public function delete_custom_field($id){
+        $insert = CustomField::where('id', $id)
+        ->update([
+            'status' => 'N', 
+            ]);
+
+            if($insert == true){
+                //    dd('Custom Field Updated Successfully');
+                     return redirect()->back()->with('success','custom field Deleted successfully.'); 
+                }else{
+                    // print_r($id);
+                    return redirect()->back()->with('error','Something wrong, please try agian later');
+                }
     }
 
     /**

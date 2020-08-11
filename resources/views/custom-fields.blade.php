@@ -26,7 +26,7 @@
 									<div class="row" id="catSection">
 										<div class="col-sm-12 form-group">
 											<label>Category Name</label>
-											<select name="category" class="form-control" onChange="getCategory(this)" data-id="child-0">
+											<select name="parent" class="form-control" onChange="getCategory(this)" data-id="child-0">
 												<option value="">Select Category</option>
 											@if(Request::segment(2) == 'edit')
 											
@@ -50,7 +50,7 @@
 											</select>
 										</div>
 										<div id="child-1"  class="col-sm-12 p-0">
-											<select name="category" class="form-control" onChange="getCategory(this)" data-id="child-0">
+											<select name="child_1" class="form-control" onChange="getCategory(this)" data-id="child-0">
 													<option value="">Select Category</option>
 												@if(Request::segment(2) == 'edit')
 												
@@ -69,7 +69,7 @@
 											</select>
 										</div>
 										<div id="child-2" class="col-sm-12 p-0">
-										<select name="category" class="form-control" onChange="getCategory(this)" data-id="child-0">
+										<select name="child_2" class="form-control" onChange="getCategory(this)" data-id="child-0">
 													<option value="">Select Category</option>
 										@if(Request::segment(2) == 'edit')
 												

@@ -52,7 +52,7 @@
 															</button>
 															<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 																<a class="dropdown-item" href="{{ url('edit/'.$category['id']) }}">Edit</a>
-																<a class="dropdown-item" href="javascript:void(0)">Delete</a>
+																<a class="dropdown-item" href="/{{ $category['id']}}/delete/category">Delete</a>
 															</div>
 														</div>
                                                     </td>

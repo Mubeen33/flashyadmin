@@ -67,7 +67,7 @@
 													</button>
 													<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 30px, 0px);">
 														<a class="dropdown-item" href="/{{ $dc->id }}/edit/custom-fields">Edit</a>
-														<a class="dropdown-item" href="javascript:void(0)">Delete</a>
+														<a class="dropdown-item" href="/{{ $dc->id }}/delete/custom-fields">Delete</a>
 													</div>
 												</div>
 											</td>
