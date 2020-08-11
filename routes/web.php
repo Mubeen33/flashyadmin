@@ -75,3 +75,8 @@ Route::get('add-custom-fields','CustomFieldController@create')->name('create');
 Route::get('/{id}/edit/custom-fields','CustomFieldController@edit_custom_field')->name('edit');
 Route::post('/push/custom-fields-data/','CustomFieldController@push_editable_data')->name('edit');
 Route::post('/create-custom-fields','CustomFieldController@store')->name('create-custom-fields');
+
+// Add product
+Route::get('/{id}/edit/custom-fields','CustomFieldController@edit_custom_field')->name('edit');
+Route::post('/push/custom-fields-data/','CustomFieldController@push_editable_data')->name('edit');
+Route::post('/add-products','ProductController@create_product')->name('add-products');

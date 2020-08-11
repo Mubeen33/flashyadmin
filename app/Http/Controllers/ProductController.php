@@ -25,6 +25,11 @@ class ProductController extends Controller
     {
         return view('product/add-product');
     }
+    public function create_product(Request $request)
+    {   
+        dd($request->all());
+         return view('product/add-product');
+    }
 	
     public function test()
     {

@@ -368,9 +368,9 @@ class CategoryController extends Controller
   	
 	public function create_slider(Request $request)
 	{   
-			 // dd($request->all());
-			if($request->session()->has('active'))
-			{
+			//  dd($request->all());
+			// if($request->session()->has('active'))
+			// {
 				if ($request->file != '') {
 				$image = $request->file('file');
 				$name = time().'.'.$image->getClientOriginalExtension();
@@ -403,9 +403,9 @@ class CategoryController extends Controller
 
 					]);
 				   return redirect()->back()->with('message', 'Slider added successfully..');
-			}else{
-				 return redirect('/login');
-			}
+			// }else{
+			// 	 return redirect('/login');
+			// }
 	  }
 
 	}
