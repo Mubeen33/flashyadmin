@@ -235,11 +235,13 @@ pre code {
           transition : all 0.25s ease;
   background-color : #FFFFFF;
 }
+/*
 .table-hover-animation tbody tr:hover {
   -webkit-transform : translateY(-4px);
       -ms-transform : translateY(-4px);
           transform : translateY(-4px);
 }
+*/
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
   .table-hover-animation tr:hover {

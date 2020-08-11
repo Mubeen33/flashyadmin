@@ -11,6 +11,37 @@
 <link href="{{asset('src/selectstyle.css')}}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{asset('src/themify-icons.css')}}">
 
+@php
+if(isset($edit_cat) && !empty($edit_cat)){
+	$name = $edit_cat[0]->name;
+	$slug = $edit_cat[0]->slug;
+	$title_meta_tag = $edit_cat[0]->title_meta_tag;
+	$description = $edit_cat[0]->description;
+	$keyword = $edit_cat[0]->keyword;
+	$commission = $edit_cat[0]->commission;
+	$visibility = $edit_cat[0]->visibility;
+	$show_on_homepage = $edit_cat[0]->show_on_homepage;
+	$homepage_sort_order = $edit_cat[0]->homepage_sort_order;
+	$display_order = $edit_cat[0]->display_order;
+	if($edit_cat[0]->parent_id == 0){
+		$parent_id = $edit_cat[0]->id;
+	}else{
+		$parent_id = $edit_cat[0]->parent_id;
+	}
+}else{
+    $name = '';
+	$slug = '';
+	$title_meta_tag = '';
+	$description = '';
+	$keyword = '';
+	$commission = '';
+	$visibility = '';
+	$show_on_homepage = '';
+	$homepage_sort_order = '';
+	$display_order = '';
+	$parent_id = '';              
+}
+@endphp
                             
 @section('content')
 
@@ -44,39 +75,39 @@
 
                                         <div class="form-group">
                                             <label>Category Name</label>
-                                            <input type="text" class="form-control" name="name_lang_1" placeholder="Category Name" maxlength="255" required="">
+                                            <input type="text" class="form-control" name="name_lang_1" placeholder="Category Name" maxlength="255" required value="{{ $name }}">
                                         </div>
                                        
                                     
                                     <div class="form-group">
                                         <label class="control-label">Slug						<small>(If you leave it blank, it will be generated automatically.)</small>
                                         </label>
-                                        <input type="text" class="form-control" name="slug_lang" placeholder="Slug">
+                                        <input type="text" class="form-control" name="slug_lang" placeholder="Slug" value="{{ $slug }}">
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label">Title (Meta Tag)</label>
-                                        <input type="text" class="form-control" name="title_meta_tag" placeholder="Title (Meta Tag)" value="">
+                                        <input type="text" class="form-control" name="title_meta_tag" value="{{ $title_meta_tag }}" placeholder="Title (Meta Tag)" value="">
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label">Description (Meta Tag)</label>
-                                        <input type="text" class="form-control" name="description" placeholder="Description (Meta Tag)" value="">
+                                        <input type="text" class="form-control" name="description" value="{{ $description }}" placeholder="Description (Meta Tag)" value="">
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label">Keywords (Meta Tag)</label>
-                                        <input type="text" class="form-control" name="keywords" placeholder="Keywords (Meta Tag)" value="">
+                                        <input type="text" class="form-control" name="keywords" value="{{ $keyword }}" placeholder="Keywords (Meta Tag)" value="">
                                     </div>
 
                                     <div class="form-group">
                                         <label>Order</label>
-                                        <input type="number" class="form-control" name="category_order" placeholder="Order" value="" min="1" max="99999" required="">
+                                        <input type="number" class="form-control" name="category_order" value="{{ $display_order }}" placeholder="Order" value="" min="1" max="99999" required="">
                                     </div>
 
                                     <div class="form-group">
                                         <label>Homepage Order</label>
-                                        <input type="number" class="form-control" name="homepage_order" placeholder="Homepage Order" value="" min="1" max="99999" required="">
+                                        <input type="number" class="form-control" name="homepage_order" value="{{ $homepage_sort_order }}" placeholder="Homepage Order" value="" min="1" max="99999" required="">
                                     </div>
                                     
                                     <div class="row">
@@ -87,7 +118,7 @@
 													<option value="">--Select parent--</option>
 													@foreach($categories as $c)
 														@if($c->parent_id == Null)
-															<option value="{{$c->id}}">{{$c->name}}</option>
+															<option value="{{$c->id}}" <?php if($parent_id == $c->id){echo 'selected';}?>>{{$c->name}}</option>
 														@endif
 													@endforeach
 												</select>

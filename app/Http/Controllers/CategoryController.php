@@ -36,15 +36,51 @@ class CategoryController extends Controller
                       ->where('parent_id', $c->id)
                       ->get();
 			if(count($child) > 0){
-				foreach($child as $cc){
-					// if has child level -1
+				if(!in_array($c->name, $categories)){
 					$categories[] = array(
-						'id' => $cc->id,
-						'name' => $c->name .' > '. $cc->name,
-						'display_order' => $cc->display_order,
-						'visibility' => $cc->visibility,
-						'show_on_homepage' => $cc->show_on_homepage,
-					);	
+						'id' => $c->id,
+						'name' => $c->name,
+						'display_order' => $c->display_order,
+						'visibility' => $c->visibility,
+						'show_on_homepage' => $c->show_on_homepage,
+					);
+				}
+				
+				// if has child level -1
+				foreach($child as $cc){
+					$child_1 = DB::table('categories')
+                      ->select('*')
+                      ->where('visibility', 1)
+                      ->where('parent_id', $cc->id)
+                      ->get();
+					if(count($child) > 0){
+						
+						$categories[] = array(
+							'id' => $cc->id,
+							'name' => $c->name .' > '. $cc->name,
+							'display_order' => $cc->display_order,
+							'visibility' => $cc->visibility,
+							'show_on_homepage' => $cc->show_on_homepage,
+						);
+						
+						foreach($child_1 as $cc_1){
+							$categories[] = array(
+								'id' => $cc_1->id,
+								'name' => $c->name .' > '. $cc->name .' > '. $cc_1->name,
+								'display_order' => $cc_1->display_order,
+								'visibility' => $cc_1->visibility,
+								'show_on_homepage' => $cc_1->show_on_homepage,
+							);	
+						}
+					}else{
+						$categories[] = array(
+							'id' => $cc->id,
+							'name' => $c->name .' > '. $cc->name,
+							'display_order' => $cc->display_order,
+							'visibility' => $cc->visibility,
+							'show_on_homepage' => $cc->show_on_homepage,
+						);	
+					}
 				}
 			}else{
 				//if has no any child
@@ -59,27 +95,6 @@ class CategoryController extends Controller
 		}
      	return view('categories',compact('categories'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
-		
-		
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-     public function category_view(Request $request)
-    {   
-        // if($request->session()->has('active'))
-        // {   
-        // }else{
-        //      return redirect('/login');
-        // }
-        $categories = DB::table('categories')->get();
-               // dd($categories);  
-         return view('vendor.category',compact('categories'));
-      
     }
 
     public function get_category(Request $request){
@@ -94,56 +109,67 @@ class CategoryController extends Controller
     }
     
     public function create_category(Request $request)
-    {   
-        // if($request->session()->has('active'))
-        // {   
-        // }else{
-        //      return redirect('/login');
-        // }
+    {    
+		
+		//parent_id_settings
+		
+		if(isset($request->child_3)){
+			if($request->child_3 == 0 || $request->child_3 == ''){
+				$parent_id = $request->child_2;
+			}else{
+				$parent_id = $request->child_3;	
+			}
+		}else if(isset($request->child_2)){
+			if($request->child_2 == 0 || $request->child_2 == ''){
+				$parent_id = $request->child_1;
+			}else{
+				$parent_id = $request->child_2;	
+			}
+		}else if(isset($request->child_1)){
+			if($request->child_1 == 0 || $request->child_1 == ''){
+				$parent_id = $request->category_id;
+			}else{
+				$parent_id = $request->child_1;	
+			}
+		}else{
+			$parent_id=0;
+		}
+		
+		
+		$visible = $request->visibility_yes.$request->visibility_no;
+		$show_on_home_page = $request->homepage_yes.$request->homepage_no;
+		$show_category_image = $request->show_category_yes.$request->show_category_no;
 
-          // dd($request->all());
-          if($request->parent_id != ''){
-            $parent_id =$request->sub_level_1;
+		if ($request->category_image != '') {
+			$image = $request->file('category_image');
+			$name = time().'.'.$image->getClientOriginalExtension();
+			$destinationPath = public_path('/images/category/');
+			$image->move($destinationPath, $name);
+		}
 
-          }elseif($request->sub_level_1 !=''){
-
-            $parent_id =$request->sub_level_2;
-          }else{
-            $parent_id =$request->sub_level_3;
-          }
-          dd($parent_id);
-         
-          $visible =$request->visibility_yes.$request->visibility_no;
-          $show_on_home_page =$request->homepage_yes.$request->homepage_no;
-          $show_category_image =$request->show_category_yes.$request->show_category_no;
-          if ($request->category_image != '') {
-          $image = $request->file('category_image');
-          $name = time().'.'.$image->getClientOriginalExtension();
-          $destinationPath = public_path('/images/category/');
-          $image->move($destinationPath, $name);}
-        
-        $category = new Categories;
-                  $category->parent_id = $parent_id;
-                  $category->name = $request->name_lang_1;
-                  $category->slug = $request->slug_lang;
-                  $category->title_meta_tag = $request->title_meta_tag;
-                  $category->description = $request->description;
-                  $category->keywords = $request->keywords;
-                  $category->category_order =   $request->category_order;
-                  $category->homepage_order =   $request->homepage_order;
-                  $category->commission =   $request->homepage_order;
-                  $category->visibility =   $visible;
-                  $category->show_on_homepage =   $visible;
-                  $category->show_image_nav =   $show_category_image;
-                  $category->image =   $name;
-                  $category->is_active =   1;
-                  $category->is_disabled =   0;
-          if($category->save()){
-            return redirect()->back()->with('message', 'Category Added Successfully...');
-          }
-         return view('vendor.category');
-      
+		$category = new Categories;
+		$category->parent_id = $parent_id;
+		$category->name = $request->name_lang_1;
+		$category->slug = $request->slug_lang;
+		$category->title_meta_tag = $request->title_meta_tag;
+		$category->description = $request->description;
+		$category->keyword = $request->keywords;
+		$category->display_order =   $request->category_order;
+		$category->homepage_sort_order =   $request->homepage_order;
+		$category->commission =   $request->homepage_order;
+		$category->visibility =   1;
+		$category->show_on_homepage =   1;
+		//$category->show_image_nav =   $show_category_image;
+		//$category->image =   $name;
+		//$category->is_active =   1;
+		//$category->is_disabled =   0;
+		if($category->save()){
+			echo 'saved';
+		}else{
+			echo 'error';
+		}
     }
+	
     public function slider_view(Request $request)
     {   
         // if($request->session()->has('active'))
@@ -193,11 +219,13 @@ class CategoryController extends Controller
     
     }
     // Vendor Loging Out Function CLosed
-     public function register()
+ 	
+	public function register()
     {   
        return redirect('/register');
     }
-     public function vendor_register(Request $request)
+	
+ 	public function vendor_register(Request $request)
     {   
        $vendor = new Vendor;
                 $vendor->first_name = $request->first_name;
@@ -214,8 +242,8 @@ class CategoryController extends Controller
     
 
 
-         public function profile_setup(Request $request)
-            {   
+ 	public function profile_setup(Request $request)
+	 {   
                 $data = DB::table('vendor')
                     ->join('vendor_details','vendor_details.vendor_id','=','vendor.id')
                     ->select('*')
@@ -236,8 +264,8 @@ class CategoryController extends Controller
               }
             
 
-            public function post_profile(Request $request)
-            {   
+	public function post_profile(Request $request)
+	{   
                      // dd($request->all());
                     if($request->session()->has('active'))
                     {
@@ -262,8 +290,9 @@ class CategoryController extends Controller
               }
 
             }
-              public function post_business(Request $request)
-            {   
+  	
+	public function post_business(Request $request)
+	{   
                      // dd($request->all());
                     if($request->session()->has('active'))
                     {
@@ -288,96 +317,98 @@ class CategoryController extends Controller
               }
 
             }
-             public function post_addresses(Request $request)
-            {   
-                    // dd($request->all());
-                    if($request->session()->has('active'))
-                    {
-                       
-                        VendorDetail::where('vendor_id', $request->session()->get('active'))
-                           ->update([
-                                'recipient_name'=>$request->recipient_name, 
-                                'street_address'=>$request->street_address, 
-                                'street_no'=>$request->street_no, 
-                                'city'=>$request->city,
-                                'country'=>$request->country, 
-                                'postal_code'=>$request->postal_code, 
-                            ]);
-                           return redirect()->back()->with('message', 'Updated successfully..');
-                    }else{
-                         return redirect('/login');
-                    }
-              }
+             
+	public function post_addresses(Request $request)
+	{   
+			// dd($request->all());
+			if($request->session()->has('active'))
+			{
+
+				VendorDetail::where('vendor_id', $request->session()->get('active'))
+				   ->update([
+						'recipient_name'=>$request->recipient_name, 
+						'street_address'=>$request->street_address, 
+						'street_no'=>$request->street_no, 
+						'city'=>$request->city,
+						'country'=>$request->country, 
+						'postal_code'=>$request->postal_code, 
+					]);
+				   return redirect()->back()->with('message', 'Updated successfully..');
+			}else{
+				 return redirect('/login');
+			}
+	  }
          
-        public function post_bank(Request $request)
-            {   
-                    // dd($request->all());
-                    if($request->session()->has('active'))
-                    {
-                       if ($request->debit_order_form != '') {
-                        $image = $request->file('debit_order_form');
-                        $name = time().'.'.$image->getClientOriginalExtension();
-                        $destinationPath = public_path('/vendor_docs/');
-                        $image->move($destinationPath, $name);
-                      
-                        BankDetail::where('vendor_id', $request->session()->get('active'))
-                           ->update([
-                                'fullname'=>$request->fullname, 
-                                'bank_name'=>$request->bank_name, 
-                                'account_no'=>$request->account_no, 
-                                'branch_code'=>$request->branch_code,
-                                'debit_order_form'=>$name, 
-                                'approval_status'=>0, 
-                            ]);
-                           return redirect()->back()->with('message', 'Updated successfully..');
-                    }else{
-                         return redirect('/login');
-                    }
-              }
-          }
-          public function create_slider(Request $request)
-            {   
-                     // dd($request->all());
-                    if($request->session()->has('active'))
-                    {
-                        if ($request->file != '') {
-                        $image = $request->file('file');
-                        $name = time().'.'.$image->getClientOriginalExtension();
-                        $destinationPath = public_path('/images/slider/');
-                        $image->move($destinationPath, $name);
+	public function post_bank(Request $request)
+	{   
+				// dd($request->all());
+				if($request->session()->has('active'))
+				{
+				   if ($request->debit_order_form != '') {
+					$image = $request->file('debit_order_form');
+					$name = time().'.'.$image->getClientOriginalExtension();
+					$destinationPath = public_path('/vendor_docs/');
+					$image->move($destinationPath, $name);
 
-                        
-                          $image2 = $request->file('file_mobile');
-                          $file_mobile = time().'.'.$image2->getClientOriginalExtension();
-                          $destinationPath = public_path('/images/slider/');
-                          $image2->move($destinationPath, $file_mobile);
-                      
-                        Images::create([
-                                'language'=>$request->lang_id, 
-                                'title'=>$request->title, 
-                                'description'=>$request->description,
-                                'link'=>$request->link, 
-                                  'order'=>$request->item_order, 
-                                    'botton_text'=>$request->button_text, 
-                                      'text_color'=>$request->text_color, 
-                                        'botton_color'=>$request->botton_color, 
-                                          'botton_text_color'=>$request->button_text_color, 
-                                            'animation_title'=>$request->animation_title, 
-                                              'animation_description'=>$request->animation_description, 
-                                                'animation_button'=>$request->animation_button, 
-                                                  'desktop_image'=>$name, 
-                                                    'mobile_image'=>$file_mobile, 
-                                                      'is_active'=>1, 
-                                'is_deleted'=>0,
-                                
-                            ]);
-                           return redirect()->back()->with('message', 'Slider added successfully..');
-                    }else{
-                         return redirect('/login');
-                    }
-              }
+					BankDetail::where('vendor_id', $request->session()->get('active'))
+					   ->update([
+							'fullname'=>$request->fullname, 
+							'bank_name'=>$request->bank_name, 
+							'account_no'=>$request->account_no, 
+							'branch_code'=>$request->branch_code,
+							'debit_order_form'=>$name, 
+							'approval_status'=>0, 
+						]);
+					   return redirect()->back()->with('message', 'Updated successfully..');
+				}else{
+					 return redirect('/login');
+				}
+		  }
+	  }
+  	
+	public function create_slider(Request $request)
+	{   
+			 // dd($request->all());
+			if($request->session()->has('active'))
+			{
+				if ($request->file != '') {
+				$image = $request->file('file');
+				$name = time().'.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/images/slider/');
+				$image->move($destinationPath, $name);
 
-            }
+
+				  $image2 = $request->file('file_mobile');
+				  $file_mobile = time().'.'.$image2->getClientOriginalExtension();
+				  $destinationPath = public_path('/images/slider/');
+				  $image2->move($destinationPath, $file_mobile);
+
+					Images::create([
+						'language'=>$request->lang_id, 
+						'title'=>$request->title, 
+						'description'=>$request->description,
+						'link'=>$request->link, 
+						'order'=>$request->item_order, 
+						'botton_text'=>$request->button_text, 
+						'text_color'=>$request->text_color, 
+						'botton_color'=>$request->botton_color, 
+						'botton_text_color'=>$request->button_text_color, 
+						'animation_title'=>$request->animation_title, 
+						'animation_description'=>$request->animation_description, 
+						'animation_button'=>$request->animation_button, 
+						'desktop_image'=>$name, 
+						'mobile_image'=>$file_mobile, 
+						'is_active'=>1, 
+						'is_deleted'=>0,
+
+					]);
+				   return redirect()->back()->with('message', 'Slider added successfully..');
+			}else{
+				 return redirect('/login');
+			}
+	  }
+
+	}
 
 
 
@@ -385,7 +416,12 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('add-category');
+		$categories = DB::table('categories')
+					->select('*')
+					->orderBy('id', 'DESC')
+					->where('parent_id', 0)
+					->get();
+        return view('add-category', compact('categories'));
     }
 
     /**
@@ -422,9 +458,23 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Request $category)
     {
-        return view('edit-category',compact('category'));
+        $edit_cat = DB::table('categories')
+					->select('*')
+					->orderBy('id', 'DESC')
+					->where('id', request()->segment(2))
+					->get();
+		
+		
+		//getting all parent categories
+		$categories = DB::table('categories')
+					->select('*')
+					->orderBy('id', 'DESC')
+					->where('parent_id', 0)
+					->get();
+		
+        return view('add-category', compact('edit_cat', 'categories'));
     }
 
     /**
