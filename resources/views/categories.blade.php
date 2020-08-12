@@ -37,10 +37,12 @@
                                         <table class="table table-striped table-hover-animation mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>Id</th>
+                                                    <!-- <th>Id</th> -->
+                                                    <th>Thumbnail</th>
                                                     <th>Category Name</th>
                                                     <th>Order</th>
                                                     <th>Visibility</th>
+                                                    <!-- <th>Thumbnail</th> -->
                                                     <th>Show on Homepage</th>
                                                     <th>Options</th>
                                                 </tr>
@@ -52,7 +54,10 @@
                                                 
                                                  @foreach ($categories as $category)
                                                 <tr>
-                                                    <td>{{ $index }}</td>
+                                                    <!-- <td>{{ $index }}</td> -->
+                                                    <td>
+                                                    <img src="{{url('/images/category/'.$category['image'])}}" alt="profile Pic" height="50" width="50">
+                                                    </td>
                                                     <td>{{ $category['name'] }}</td>
                                                     <td>{{ $category['display_order'] }}</td>
                                                     <td>
@@ -64,6 +69,9 @@
                                                     	}
                                                     	@endphp
 													</td>
+                                                    <!-- <td>
+                                                    <img src="{{url('/images/category/'.$category['image'])}}" alt="profile Pic" height="50" width="50">
+                                                    </td> -->
                                                     <td>
                                                     	@php
                                                     	if($category['show_on_homepage']){

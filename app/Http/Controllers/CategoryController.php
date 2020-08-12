@@ -10,6 +10,8 @@ use App\VendorDetail;
 use App\BankDetail;
 use App\Home_Page;
 use App\Inquiry;
+use App\Role;
+use App\Menu;
 use DB;
 use Hash;
 use Illuminate\Http\Request;
@@ -42,6 +44,7 @@ class CategoryController extends Controller
 						'name' => $c->name,
 						'display_order' => $c->display_order,
 						'visibility' => $c->visibility,
+						'image' => $c->image,
 						'show_on_homepage' => $c->show_on_homepage,
 					);
 				}
@@ -60,6 +63,7 @@ class CategoryController extends Controller
 							'name' => $c->name .' > '. $cc->name,
 							'display_order' => $cc->display_order,
 							'visibility' => $cc->visibility,
+							'image' => $cc->image,
 							'show_on_homepage' => $cc->show_on_homepage,
 						);
 						
@@ -69,6 +73,7 @@ class CategoryController extends Controller
 								'name' => $c->name .' > '. $cc->name .' > '. $cc_1->name,
 								'display_order' => $cc_1->display_order,
 								'visibility' => $cc_1->visibility,
+								'image' => $c->image,
 								'show_on_homepage' => $cc_1->show_on_homepage,
 							);	
 						}
@@ -78,6 +83,7 @@ class CategoryController extends Controller
 							'name' => $c->name .' > '. $cc->name,
 							'display_order' => $cc->display_order,
 							'visibility' => $cc->visibility,
+							'image' => $cc->image,
 							'show_on_homepage' => $cc->show_on_homepage,
 						);	
 					}
@@ -89,11 +95,12 @@ class CategoryController extends Controller
 					'name' => $c->name,
 					'display_order' => $c->display_order,
 					'visibility' => $c->visibility,
+					'image' => $c->image,
 					'show_on_homepage' => $c->show_on_homepage,
 				);
 			}
 		}
-		
+		// dd($cat);
      	return view('categories',compact('categories'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -141,9 +148,9 @@ class CategoryController extends Controller
 		$show_on_home_page = $request->homepage_yes.$request->homepage_no;
 		$show_category_image = $request->show_category_yes.$request->show_category_no;
 
-		if ($request->category_image != '') {
+		if ($request->file('category_image') != '') {
 			$image = $request->file('category_image');
-			$name = time().'.'.$image->getClientOriginalExtension();
+			$name = $image->getClientOriginalName() ;
 			$destinationPath = public_path('/images/category/');
 			$image->move($destinationPath, $name);
 		}
@@ -161,7 +168,7 @@ class CategoryController extends Controller
 		$category->visibility =   1;
 		$category->show_on_homepage =   1;
 		//$category->show_image_nav =   $show_category_image;
-		//$category->image =   $name;
+		$category->image =   $name;
 		//$category->is_active =   1;
 		//$category->is_disabled =   0;
 		if($category->save()){
@@ -341,6 +348,7 @@ class CategoryController extends Controller
 			$image = $request->file('file');
 			$name = $image->getClientoriginalName();
 			$destinationPath = public_path('/images/slider/');
+			$src1="/".$destinationPath.$name;
 			$image->move($destinationPath, $name);
 			}else{
 				$data = DB::table('images')
@@ -354,6 +362,7 @@ class CategoryController extends Controller
 			  $image2 = $request->file('file_mobile');
 			  $file_mobile = $image2->getClientoriginalName();
 			  $destinationPath = public_path('/images/slider/');
+			  $src2="/".$destinationPath.$file_mobile;
 			  $image2->move($destinationPath, $file_mobile);
 			}else{
 				$data = DB::table('images')
@@ -376,7 +385,9 @@ class CategoryController extends Controller
 			'animation_description'=>$request->animation_description, 
 			'animation_button'=>$request->animation_button, 
 			'desktop_image'=>$name, 
-			'mobile_image'=> $file_mobile, 
+			'mobile_image'=> $file_mobile,
+			'desktop_source'=>$src1, 
+			'mobile_source'=> $src2, 
 			'visibility'=>1, 
 		 ]);
 		//  dd("Successful");
@@ -467,6 +478,7 @@ class CategoryController extends Controller
 				$image = $request->file('file');
 				$name = $image->getClientoriginalName();
 				$destinationPath = public_path('/images/slider/');
+				$src1="/".$destinationPath.$name;
 				$image->move($destinationPath, $name);
 				}
 				if($request->file_mobile != ''){
@@ -474,6 +486,7 @@ class CategoryController extends Controller
 				  $image2 = $request->file('file_mobile');
 				  $file_mobile = $image2->getClientoriginalName();
 				  $destinationPath = public_path('/images/slider/');
+				  $src2="/".$destinationPath.$file_mobile;
 				  $image2->move($destinationPath, $file_mobile);
 				}
 					// dd($name .'+++++++++++'. $file_mobile);
@@ -492,7 +505,9 @@ class CategoryController extends Controller
 						'animation_description'=>$request->animation_description, 
 						'animation_button'=>$request->animation_button, 
 						'desktop_image'=>$name, 
-						'mobile_image'=> $file_mobile, 
+						'desktop_source'=>$src1, 
+						'mobile_image'=> $file_mobile,
+						'mobile_source'=> $src2, 
 						'visibility'=>1, 
 
 					]);
@@ -599,5 +614,99 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
-    }
+	}
+	
+	//Roles & Permission
+	public function roles(){
+		$data = DB::table('roles')->select('*')->where('visibility',1)->get();
+		return view('roles',compact('data'));
+	}
+
+	public function create_role(Request $request){
+		// dd($request->all());
+		$data = new Role;
+
+		$data->name = $request->title;
+		$data->visibility = 1;
+
+		$data->save();
+		if($data->save()){
+			return redirect()->back()->with('success','Roles Created Successfully');
+		}else{
+			return redirect()->back()->with('error','Somthing Wrong, please try again later....');
+		}
+	}
+	public function edit_role(Request $request){
+		 $data = DB::table('roles')->select('*')->where('id',$request->id)->get();
+	     $dt= json_encode($data);
+	     echo $dt;
+	}
+
+	public function update_role(Request $request){
+		Role::where('id', $request->role_id)
+		->update([
+			'name'=>$request->edit, 
+		 ]);
+		//  dd("Successful");
+		return redirect()->back()->with('message', 'Updated successfully..');
+	}
+
+	public function del_role($id){
+		$insert = Role::where('id', $id)
+        ->update([
+            'visibility' => 0, 
+            ]);
+
+            if($insert == true){
+                //    dd('Custom Field Updated Successfully');
+                     return redirect()->back()->with('success','Role Deleted successfully.'); 
+                }else{
+                    // print_r($id);
+                    return redirect()->back()->with('error','Something wrong, please try agian later');
+                }
+	}
+
+
+	//Menu 
+	public function menus(){
+		$data = DB::table('menus')->select('*')->where('visibility',1)->get();
+		return view('menu',compact('data'));
+	}
+
+	public function create_menu(Request $request){
+		// dd($request->all());
+		$data = new Menu;
+
+		$data->name = $request->title;
+		$data->visibility = 1;
+
+		$data->save();
+		if($data->save()){
+			return redirect()->back()->with('success','Menu Created Successfully');
+		}else{
+			return redirect()->back()->with('error','Somthing Wrong, please try again later....');
+		}
+	}
+	public function update_menu(Request $request){
+		Menu::where('id', $request->role_id)
+		->update([
+			'name'=>$request->edit, 
+		 ]);
+		//  dd("Successful");
+		return redirect()->back()->with('message', 'Updated successfully..');
+	}
+	public function del_menu($id){
+		$insert = Menu::where('id', $id)
+        ->update([
+            'visibility' => 0, 
+            ]);
+
+            if($insert == true){
+                //    dd('Custom Field Updated Successfully');
+                     return redirect()->back()->with('success','Menu Deleted successfully.'); 
+                }else{
+                    // print_r($id);
+                    return redirect()->back()->with('error','Something wrong, please try agian later');
+                }
+	}
 }
