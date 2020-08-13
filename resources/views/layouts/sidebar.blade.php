@@ -47,6 +47,12 @@
                        			<span class="menu-item" data-i18n="Custom Fields">Custom Fields</span>
 							</a>
                         </li>
+                        <li>
+                        	<a href="/menus">
+								<i class="feather icon-circle"></i>
+                       			<span class="menu-item" data-i18n="Custom Fields">Menus</span>
+							</a>
+                        </li>
                     </ul>
                 </li>
                 <li class=" nav-item">
@@ -57,10 +63,48 @@
 					</a>
                     <ul class="menu-content">
                         
+                        
                         <li>
                         	<a href="/admin/create-slider">
 								<i class="feather icon-circle"></i>
                        			<span class="menu-item" data-i18n="Add New">Add New</span>
+							</a>
+                        </li>
+                       
+                       
+                       
+                    </ul>
+                </li>
+                <li class=" nav-item">
+                   	<a href="javascript:void(0)">
+                   		<i class="feather icon-list"></i>
+                   		<span class="menu-title" data-i18n="Products">Menu Settings</span>
+						<!--<span class="badge badge badge-warning badge-pill float-right mr-2">2</span>-->
+					</a>
+                    <ul class="menu-content">
+                        
+                        <li>
+                        	<a href="/menus">
+								<i class="feather icon-circle"></i>
+                       			<span class="menu-item" data-i18n="Add New">Menu List</span>
+							</a>
+                        </li>
+                       
+                       
+                    </ul>
+                </li>
+                <li class=" nav-item">
+                   	<a href="javascript:void(0)">
+                   		<i class="feather icon-list"></i>
+                   		<span class="menu-title" data-i18n="Products">Permissions</span>
+						<!--<span class="badge badge badge-warning badge-pill float-right mr-2">2</span>-->
+					</a>
+                    <ul class="menu-content">
+                        
+                        <li>
+                        	<a href="/roles">
+								<i class="feather icon-circle"></i>
+                       			<span class="menu-item" data-i18n="Add New">Roles List</span>
 							</a>
                         </li>
                        

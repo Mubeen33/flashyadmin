@@ -210,7 +210,7 @@
                                             <div class="col-sm-12 col-md-4 col-form">
                                                 <div class="form-group">
                                                     <label>Button</label>
-                                                    <select name="animation_button" class="form-control">
+                                                    <select name="animation_button" class="form-control animation_button">
                                                                                             <option value="none">none</option>
                                                                                             <option value="bounce">bounce</option>
                                                                                             <option value="flash">flash</option>

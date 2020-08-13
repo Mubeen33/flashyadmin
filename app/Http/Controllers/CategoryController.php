@@ -478,7 +478,7 @@ class CategoryController extends Controller
 				$image = $request->file('file');
 				$name = $image->getClientoriginalName();
 				$destinationPath = public_path('/images/slider/');
-				$src1="/".$destinationPath.$name;
+				$src1="http://127.0.0.1:8000/images/slider/".$name;
 				$image->move($destinationPath, $name);
 				}
 				if($request->file_mobile != ''){
@@ -486,7 +486,7 @@ class CategoryController extends Controller
 				  $image2 = $request->file('file_mobile');
 				  $file_mobile = $image2->getClientoriginalName();
 				  $destinationPath = public_path('/images/slider/');
-				  $src2="/".$destinationPath.$file_mobile;
+				  $src2= "http://127.0.0.1:8000/images/slider/".$file_mobile;
 				  $image2->move($destinationPath, $file_mobile);
 				}
 					// dd($name .'+++++++++++'. $file_mobile);
@@ -687,14 +687,7 @@ class CategoryController extends Controller
 			return redirect()->back()->with('error','Somthing Wrong, please try again later....');
 		}
 	}
-	public function update_menu(Request $request){
-		Menu::where('id', $request->role_id)
-		->update([
-			'name'=>$request->edit, 
-		 ]);
-		//  dd("Successful");
-		return redirect()->back()->with('message', 'Updated successfully..');
-	}
+	
 	public function del_menu($id){
 		$insert = Menu::where('id', $id)
         ->update([

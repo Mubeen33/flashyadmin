@@ -104,8 +104,9 @@ Route::get('/{id}/delete/role','CategoryController@del_role');
 
 //Menu
 Route::get('/menus','CategoryController@menus');
-Route::post('/add-menu','CategoryController@create_menu')->name('menu');
-Route::post('/update-menu','CategoryController@update_menu')->name('updates');
+Route::get('/add-menus','MenuController@index');
+Route::post('/add-menu','MenuController@create_menu')->name('menu');
+Route::post('/update-menu','MenuController@update_menu')->name('updates');
 Route::get('/{id}/delete/menu','CategoryController@del_menu');
 
 
