@@ -90,4 +90,19 @@ Route::get('/{id}/edit/custom-fields','CustomFieldController@edit_custom_field')
 Route::post('/push/custom-fields-data/','CustomFieldController@push_editable_data')->name('edit');
 Route::post('/add-products','ProductController@create_product')->name('add-products');
 
+//Create Roles Creation
+Route::get('/roles','CategoryController@roles');
+Route::post('/add-roles','CategoryController@create_role')->name('roles');
+Route::post('/edit-roles','CategoryController@edit_role');
+Route::post('/update-roles','CategoryController@update_role')->name('update');
+Route::get('/{id}/delete/role','CategoryController@del_role');
+
+//Menu
+Route::get('/menus','CategoryController@menus');
+Route::get('/add-menus','MenuController@index');
+Route::post('/add-menu','MenuController@create_menu')->name('menu');
+Route::post('/update-menu','MenuController@update_menu')->name('updates');
+Route::get('/{id}/delete/menu','CategoryController@del_menu');
+
+
 
