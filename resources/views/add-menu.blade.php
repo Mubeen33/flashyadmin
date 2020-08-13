@@ -13,6 +13,7 @@
         {{ session()->get('success') }}
     </div>
 @endif
+<div class="col-md-8 card" style="padding:20px;">
 <form method="post" action="{{route('menu')}}" enctype="multipart/form-data">
 @csrf
 <div class="form-group">

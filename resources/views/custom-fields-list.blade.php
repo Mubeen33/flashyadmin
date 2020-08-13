@@ -100,6 +100,7 @@
                         </div>
                     </div>
                 </div>
+				{{ $categories->links() }}
             </div><!-- /.box-body -->
         </div>
                     </div>

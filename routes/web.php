@@ -103,11 +103,19 @@ Route::post('/update-roles','CategoryController@update_role')->name('update');
 Route::get('/{id}/delete/role','CategoryController@del_role');
 
 //Menu
-Route::get('/menus','CategoryController@menus');
+Route::get('/menus','MenuController@menus');
 Route::get('/add-menus','MenuController@index');
 Route::post('/add-menu','MenuController@create_menu')->name('menu');
 Route::post('/update-menu','MenuController@update_menu')->name('updates');
-Route::get('/{id}/delete/menu','CategoryController@del_menu');
+Route::get('/{id}/delete/menu','MenuController@del_menu');
+
+
+//User
+Route::get('/users-list','UserController@users_list');
+Route::get('/add-users','UserController@index');
+Route::post('/add-user','UserController@create_user')->name('user');
+Route::post('/update-user','UserController@update_user')->name('users');
+Route::get('/{id}/delete/user','UserController@del_user');
 
 
 

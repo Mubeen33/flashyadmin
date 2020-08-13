@@ -317,7 +317,7 @@
                                                         <div class="dataTables_length" id="cs_datatable_lang_length">
                                                            
                                                                 <div style="float:right;" id="cs_datatable_lang_filter" class="dataTables_filter"><label>Search
-                                                                    <input type="search" class="form-control input-sm" placeholder="" aria-controls="cs_datatable_lang"></label>
+                                                                    <input type="search" onchange="filter_rows(this)" class="form-control input-sm" placeholder="" aria-controls="cs_datatable_lang"></label>
                                                                 </div>
                                                                     <table class="table table-bordered table-striped dataTable no-footer" id="cs_datatable_lang" role="grid" aria-describedby="cs_datatable_lang_info" style="position:relative; top:15px;">
                                                         <thead>
@@ -336,7 +336,7 @@
                                                        @if(count($slider) >0)
                                                        @php $index=1; @endphp
                                                        @foreach($slider as $s)
-                                                            <tr role="row" class="even">
+                                                            <tr role="row" class="even " id="hide_{{$s->id}}" >
                                                                 <td class="sorting_1">{{$index++}}</td>
                                                                 <td>
                                                                     <a href="{{url('/images/slider/'.$s->desktop_image)}}" target="_blank"><img src="/images/slider/{{$s->desktop_image}}" alt="" style="width: 100px;border-radius: 5px; padding: 5px; box-shadow: 0px 0px 5px #7d73ff7a;"></a>
@@ -369,6 +369,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {{ $slider->links() }}
                                     </div><!-- /.box-body -->
                                 </div>
                             </div>

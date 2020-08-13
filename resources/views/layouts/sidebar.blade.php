@@ -111,6 +111,24 @@
                        
                     </ul>
                 </li>
+                <li class=" nav-item">
+                   	<a href="javascript:void(0)">
+                   		<i class="feather icon-users"></i>
+                   		<span class="menu-title" data-i18n="Products">Users</span>
+						<!--<span class="badge badge badge-warning badge-pill float-right mr-2">2</span>-->
+					</a>
+                    <ul class="menu-content">
+                        
+                        <li>
+                        	<a href="/users-list">
+								<i class="feather icon-circle"></i>
+                       			<span class="menu-item" data-i18n="Add New">Users List</span>
+							</a>
+                        </li>
+                       
+                       
+                    </ul>
+                </li>
                 <li class="navigation-header">
                 	<span>Apps</span>
                 </li>
