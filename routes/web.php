@@ -112,5 +112,6 @@ Route::post('/add-user','UserController@create_user')->name('user');
 Route::post('/update-user','UserController@update_user')->name('users');
 Route::get('/{id}/delete/user','UserController@del_user');
 
-
+Route::get('/srh','SearchController@index');
+Route::get('/search','SearchController@search');
 
