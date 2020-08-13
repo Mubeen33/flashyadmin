@@ -68,7 +68,35 @@
                     </ul>
                 </li>
                 <li class="navigation-header">
-                	<span>Apps</span>
+                	<span>Vendors</span>
+                </li>
+                <li class=" nav-item">
+                    <a href="javascript:void(0)">
+                        <i class="feather icon-list"></i>
+                        <span class="menu-title" data-i18n="Products">Vendors</span>
+                        <!--<span class="badge badge badge-warning badge-pill float-right mr-2">2</span>-->
+                    </a>
+                    <ul class="menu-content">
+                        
+                        <li>
+                            <a href="{{url('vendor-requests')}}">
+                                <i class="feather icon-circle"></i>
+                                <span class="menu-item" data-i18n="Add New">Vendor Request</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('vendor-list')}}">
+                                <i class="feather icon-circle"></i>
+                                <span class="menu-item" data-i18n="Add New">Vendors List</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('add-new-vendor')}}">
+                                <i class="feather icon-circle"></i>
+                                <span class="menu-item" data-i18n="Add New">Vendors List</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
