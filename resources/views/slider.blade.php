@@ -8,7 +8,8 @@
 @endsection    
                             
 @section('content')
-
+<meta name="_token" content="{{ csrf_token() }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
             <div class="content-body"> 
             @if(session()->has('message'))
   
@@ -317,7 +318,7 @@
                                                         <div class="dataTables_length" id="cs_datatable_lang_length">
                                                            
                                                                 <div style="float:right;" id="cs_datatable_lang_filter" class="dataTables_filter"><label>Search
-                                                                    <input type="search" onchange="filter_rows(this)" class="form-control input-sm" placeholder="" aria-controls="cs_datatable_lang"></label>
+                                                                    <input type="search" id="search" name="search" class="form-control input-sm" placeholder="search" aria-controls="cs_datatable_lang"></label>
                                                                 </div>
                                                                     <table class="table table-bordered table-striped dataTable no-footer" id="cs_datatable_lang" role="grid" aria-describedby="cs_datatable_lang_info" style="position:relative; top:15px;">
                                                         <thead>
@@ -332,8 +333,8 @@
                                                         
                                                         <th class="th-options sorting" tabindex="0" aria-controls="cs_datatable_lang" rowspan="1" colspan="1" aria-label="Options: activate to sort column ascending" style="width: 86px;">Options</th></tr>
                                                         </thead>
-                                                        <tbody>
-                                                       @if(count($slider) >0)
+                                                        <tbody id="tbody_data">
+                                                        @if(count($slider) >0)
                                                        @php $index=1; @endphp
                                                        @foreach($slider as $s)
                                                             <tr role="row" class="even " id="hide_{{$s->id}}" >
@@ -379,7 +380,8 @@
                     </div>
                     
                 </section>
-                <!-- account setting page end -->
+         
+                
 <script>
 
     function validate(el) {
@@ -567,5 +569,21 @@ function reset_form(id){
 }
 
 
-</script>   
+</script>
+<script type="text/javascript">
+$('#search').on('keyup',function(){
+$value=$(this).val();
+$.ajax({
+type : 'get',
+url : '{{URL::to('search')}}',
+data:{'search':$value},
+success:function(data){
+$('tbody').html(data);
+}
+});
+})
+</script>
+<script type="text/javascript">
+$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+</script>  
 @endsection      
