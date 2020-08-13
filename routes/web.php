@@ -28,6 +28,10 @@ Route::get('/add-product', 'ProductController@index');
 // Vendor Routes
 Route::get('vendor-requests','vendor\VendorController@vendorRequest');
 Route::get('vendor-approve/{id}','vendor\VendorController@vendorData');
+Route::post('update-vendor','vendor\VendorController@updateVendor');
+Route::get('vendor-list','vendor\VendorController@vendorList');
+Route::get('add-new-vendor','vendor\VendorController@addVendor');
+Route::post('add-vendor','vendor\VendorController@createVendor');
 
 Route::post('/edit','CategoryController@edit_cal');
 
@@ -47,16 +51,7 @@ Route::get('/categories', function () {
 Route::post('/subcat', 'CategoryController@get_category')->name('subcat');
 
 
-Route::prefix('admin')->group(function (){    
-    Route::get('/profile','VendorController@profile_setup');
-    Route::post('/profile_setup','VendorController@post_profile');
-    Route::post('/profile_setup_address','VendorController@post_addresses');
-    Route::post('/profile_setup_business','VendorController@post_business');
-    Route::post('/bank_details','VendorController@post_bank');
-    Route::post('/login','VendorController@vendor_login');
-    Route::post('/logout','VendorController@logout');
-    Route::get('/registration','VendorController@register');
-    Route::post('/registration','VendorController@vendor_register');
+Route::prefix('admin')->group(function (){   
     // Category Routes
     Route::get('/create-category','CategoryController@create');
     Route::post('/create-category','CategoryController@create_category');
