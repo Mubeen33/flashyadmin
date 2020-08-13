@@ -23,7 +23,7 @@ class CustomFieldController extends Controller
 					->select('cf.*', 'c.name')
 					->orderBy('cf.id', 'DESC')
 					->leftjoin('categories as c', 'c.id', 'cf.category_id')
-					->get();
+					->paginate(3);
         return view('custom-fields-list', compact('categories'));
     }
 

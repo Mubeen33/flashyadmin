@@ -188,7 +188,7 @@ class CategoryController extends Controller
          $slider = DB::table('images')
                     ->select('*')
 			 		->where('visibility', array(1,0))
-                    ->get();
+                    ->paginate(3);
             return view('slider',compact('slider'));
       
     }
@@ -619,7 +619,9 @@ class CategoryController extends Controller
 	//Roles & Permission
 	public function roles(){
 		$data = DB::table('roles')->select('*')->where('visibility',1)->get();
-		return view('roles',compact('data'));
+
+		$menu = DB::table('menus')->select('*')->where('visibility',1)->paginate(3);
+		return view('roles',compact('data','menu'));
 	}
 
 	public function create_role(Request $request){
@@ -668,10 +670,7 @@ class CategoryController extends Controller
 
 
 	//Menu 
-	public function menus(){
-		$data = DB::table('menus')->select('*')->where('visibility',1)->get();
-		return view('menu',compact('data'));
-	}
+	
 
 	public function create_menu(Request $request){
 		// dd($request->all());
@@ -688,18 +687,5 @@ class CategoryController extends Controller
 		}
 	}
 	
-	public function del_menu($id){
-		$insert = Menu::where('id', $id)
-        ->update([
-            'visibility' => 0, 
-            ]);
-
-            if($insert == true){
-                //    dd('Custom Field Updated Successfully');
-                     return redirect()->back()->with('success','Menu Deleted successfully.'); 
-                }else{
-                    // print_r($id);
-                    return redirect()->back()->with('error','Something wrong, please try agian later');
-                }
-	}
+	
 }

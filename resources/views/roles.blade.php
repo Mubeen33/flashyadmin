@@ -410,48 +410,18 @@
 							<h6 class="card-title m-b-20">Module Access</h6>
 							<div class="m-b-30">
 								<ul class="list-group notification-list">
+								@if(!empty($menu))
+								  @foreach($menu as $m)
 									<li class="list-group-item">
-										Employee
+										{{$m->name}}
 										<div class="status-toggle">
-											<input type="checkbox" id="staff_module" class="check">
-											<label for="staff_module" class="checktoggle">checkbox</label>
+											<input type="checkbox" id="module_{{$m->id}}" class="check" value="{{$m->id}}">
+											<label for="staff_module" class="checktoggle">{{$m->name}}</label>
 										</div>
 									</li>
-									<li class="list-group-item">
-										Holidays
-										<div class="status-toggle">
-											<input type="checkbox" id="holidays_module" class="check" checked>
-											<label for="holidays_module" class="checktoggle">checkbox</label>
-										</div>
-									</li>
-									<li class="list-group-item">
-										Leaves
-										<div class="status-toggle">
-											<input type="checkbox" id="leave_module" class="check" checked>
-											<label for="leave_module" class="checktoggle">checkbox</label>
-										</div>
-									</li>
-									<li class="list-group-item">
-										Events
-										<div class="status-toggle">
-											<input type="checkbox" id="events_module" class="check" checked>
-											<label for="events_module" class="checktoggle">checkbox</label>
-										</div>
-									</li>
-									<li class="list-group-item">
-										Chat
-										<div class="status-toggle">
-											<input type="checkbox" id="chat_module" class="check" checked>
-											<label for="chat_module" class="checktoggle">checkbox</label>
-										</div>
-									</li>
-									<li class="list-group-item">
-										Jobs
-										<div class="status-toggle">
-											<input type="checkbox" id="job_module" class="check">
-											<label for="job_module" class="checktoggle">checkbox</label>
-										</div>
-									</li>
+									@endforeach
+								@else <p>No Data Added Yet</p>
+								@endif
 								</ul>
 							</div>      	
 							<div class="table-responsive">
@@ -468,8 +438,10 @@
 										</tr>
 									</thead>
 									<tbody>
+									@if(!empty($menu))
+								      @foreach($menu as $m)
 										<tr>
-											<td>Employee</td>
+											<td>{{$m->name}}</td>
 											<td class="text-center">
 												<input type="checkbox" checked="">
 											</td>
@@ -489,69 +461,9 @@
 												<input type="checkbox" checked="">
 											</td>
 										</tr>
-										<tr>
-											<td>Holidays</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-										</tr>
-										<tr>
-											<td>Leaves</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-										</tr>
-										<tr>
-											<td>Events</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-											<td class="text-center">
-												<input type="checkbox" checked="">
-											</td>
-										</tr>
+										@endforeach
+									@else <p>No Data Added Yet</p>
+									@endif
 									</tbody>
 								</table>
 							</div>

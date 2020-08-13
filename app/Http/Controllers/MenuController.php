@@ -49,4 +49,22 @@ public function update_menu(Request $request){
      ]);
     return redirect()->back()->with('message', 'Updated successfully...');
 }
+public function menus(){
+    $data = DB::table('menus')->select('*')->where('visibility',1)->paginate(3);
+    return view('menu',compact('data'));
+}
+public function del_menu($id){
+    $insert = Menu::where('id', $id)
+    ->update([
+        'visibility' => 0, 
+        ]);
+
+        if($insert == true){
+            //    dd('Custom Field Updated Successfully');
+                 return redirect()->back()->with('success','Menu Deleted successfully.'); 
+            }else{
+                // print_r($id);
+                return redirect()->back()->with('error','Something wrong, please try agian later');
+            }
+}
 }

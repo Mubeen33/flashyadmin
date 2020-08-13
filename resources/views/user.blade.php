@@ -1,10 +1,10 @@
 @extends('layouts.master')
-@section('page-title','Menus')
+@section('page-title','Users')
         
 
 @section('breadcrumbs')                            
     <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item active">Menu</li>
+    <li class="breadcrumb-item active">User</li>
 @endsection    
          
                   
@@ -12,13 +12,13 @@
 <body>
 		<!-- Main Wrapper -->
         <div class="main-wrapper">
-        @if(session()->has('message'))
+        @if(session()->has('success'))
                             <div class="alert alert-success">
-                                {{ session()->get('message') }}
+                                {{ session()->get('success') }}
                             </div>
                         @endif
         <div class="col-auto float-right ml-auto">
-								<a href="/add-menus" class="btn add-btn" ><i class="fa fa-plus"></i> Add Leave Type</a>
+								<a href="/add-users" class="btn add-btn" ><i class="fa fa-plus"></i> Add User</a>
 							</div>
 					<div class="row">
 						<div class="col-md-12 card" style="padding:20px;">
@@ -27,7 +27,11 @@
 									<thead>
 										<tr>
 											<th>#</th>
-											<th>Menu</th>
+											<th>Name</th>
+                                            <th>Email</th>
+                                            <th>Address</th>
+                                            <th>Mobile</th>
+                                            <th>Role</th>
 											<th>Status</th>
 											<th class="text-right">Action</th>
 										</tr>
@@ -41,6 +45,10 @@
 										<tr>
 											<td>{{ $index }}</td>
 											<td>{{$d->name}}</td>
+                                            <td>{{$d->email}}</td>
+                                            <td>{{$d->address}}</td>
+                                            <td>{{$d->mobile}}</td>
+                                            <td>{{$d->role_id}}</td>
 											<td>
 												<div class="dropdown action-label">
 													<a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
@@ -61,16 +69,18 @@
 													<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
 													<div class="dropdown-menu dropdown-menu-right">
 														<a class="dropdown-item" href="#" id="edit" onclick="update_item('{{$d->id}}');" data-toggle="modal" data-target="#edit_leavetype"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-														<a class="dropdown-item" href="/{{ $d->id }}/delete/menu"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+														<a class="dropdown-item" href="/{{ $d->id }}/delete/user"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
 													</div>
 												</div>
 											</td>
+                                        <input type="hidden" value="{{$d->name}}" class="name_value_{{$d->id}}"> 
+										<input type="hidden" value="{{$d->email}}" class="email_{{$d->id}}" > 
+										<input type="hidden" value="{{$d->address}}" class="address_{{$d->id}}" > 
+										<input type="hidden" value="{{$d->visibility}}" class="status_{{$d->id}}" > 
+										<input type="hidden" value="{{$d->mobile}}" class="mobile_{{$d->id}}" > 
+                                        <input type="hidden" value="{{$d->role_id}}" class="role_id_{{$d->id}}"> 
 										</tr>
-										<input type="hidden" value="{{$d->name}}" class="menu_title_{{$d->id}}" > 
-										<input type="hidden" value="{{$d->parent}}" class="parent_id_{{$d->id}}" > 
-										<input type="hidden" value="{{$d->link}}" class="url_{{$d->id}}"> 
-										<input type="hidden" value="{{$d->visibility}}" class="status_{{$d->id}}"> 
-										<input type="hidden" value="{{$d->sort_order}}" class="sort_order_{{$d->id}}"> 
+										
                                         @endforeach
                                         @php
                                             $index++;
@@ -82,16 +92,16 @@
 							</div>
 						</div>
 					</div>
-					{{ $data->links() }}
+                    {{ $data->links() }}
                 </div>
 				<!-- /Page Content -->
 				
 				<!-- Add Leavetype Modal -->
-				<div id="add_leavetype" class="modal custom-modal fade" role="dialog">
+				<!-- <div id="add_leavetype" class="modal custom-modal fade" role="dialog">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title">Add Menu</h5>
+								<h5 class="modal-title">Add User</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
@@ -110,7 +120,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<!-- /Add Leavetype Modal -->
 				
 				<!-- Edit Leavetype Modal -->
@@ -118,44 +128,48 @@
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title">Edit Menu</h5>
+								<h5 class="modal-title">Edit User</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
 							<div class="modal-body">
-								<form method="post" action="{{route('updates')}}" enctype="multipart/form-data">
+								<form method="post" action="{{route('users')}}" enctype="multipart/form-data">
                                 @csrf
-                                <input name="role_id" type="hidden" id="role_id"></input> 
-									<div class="form-group">
-										<label>Parent Menu <span class="text-danger">*</span></label>
-										<select name="parent" class="form-control " id="parent_value">
-										<option  value=''>Menu parent</option>
-														<option value="1">One</option>
-														<option value="2">Two</option>
-														<option value="3">Three</option>
+                                <input name="user_id" type="hidden" id="user_id"></input> 
+                                    <div class="form-group">
+										<label>Name <span class="text-danger">*</span></label>
+										<input name="name" class="form-control name" id="name_value" type="text" placeholder="Name" value="">
+									</div>
+                                    <div class="form-group">
+										<label>Role <span class="text-danger">*</span></label>
+										<select name="role_id" id="role_id" class="browser-default custom-select role_id">
+											<option value="">Select role</option>
+											<option value="1">Admin</option>
+											<option value="0">CEO</option>
 										</select>
 									</div>
 									<div class="form-group">
-										<label>Title <span class="text-danger">*</span></label>
-										<input name="title" class="form-control " id="title_value" type="text" placeholder="Name" value="">
+										<label>Email <span class="text-danger">*</span></label>
+										<input name="email" id="email" disabled style="cursor:not-allowed;" class="form-control email" type="email" placeholder="Email" value="">
+									</div>
+                                    <div class="form-group">
+										<label>Address <span class="text-danger">*</span></label>
+										<textarea name="address" class="form-control address" ></textarea>
+									</div>
+                                    <div class="form-group">
+										<label>Mobile <span class="text-danger">*</span></label>
+										<input name="mobile" class="form-control mobile" id="mobile" type="number" placeholder="Mobile Number" value="">
 									</div>
 									<div class="form-group">
 										<label>Status <span class="text-danger">*</span></label>
-										<select name="visibility" class="browser-default custom-select">
+										<select name="visibility" id="visibility" class="browser-default custom-select visibility">
 											<option value="">Select status</option>
 											<option value="1">Active</option>
 											<option value="0">In-Active</option>
 										</select>
 									</div>
-									<div class="form-group">
-										<label>Link<span class="text-danger">*</span></label>
-										<input name="url" class="form-control " id="url_value" type="text" placeholder="Name" value="">
-									</div>
-									<div class="form-group">
-										<label>Sort Order <span class="text-danger">*</span></label>
-										<input name="order" class="form-control " id="sort_order_value" type="text" placeholder="Name" value="">
-									</div>
+									
 									<div class="submit-section">
 										<button class="btn btn-primary submit-btn">Save</button>
 									</div>
@@ -217,43 +231,22 @@
 @endsection
 <script>
 function update_item(id){
- 
-	
-    var parent = $(".parent_id_"+id).val();
-	var title = $(".menu_title_"+id).val();
-	var url = $(".url_"+id).val();
-	var status = $(".status_"+id).val();
-	var order = $(".sort_order_"+id).val();
-	$('#role_id').val(id);
-	$('#parent_value').val(parent);
-	$('#title_value').val(title);
+    
+    var name = $(".name_value_"+id).val();
+    // var name = $(".name").val();
+	var email = $(".email_"+id).val();
+	var address = $(".address_"+id).val();
+	var mobile = $(".mobile_"+id).val();
+	var role_id = $(".role_id_"+id).val();
+    var visibility_value = $(".visibility_value_"+id).val();
+	$('#user_id').val(id);
+	$('#name_value').val(name);
+	$('#email').val(email);
+	$('#address').val(address);
+	$('#mobile').val(mobile);
+	$('#role_id').val(role_id);
+    $('#visibility').val(visibility_value);
 
-	$('#url_value').val(url);
-
-	$('#visibility_value').val(status);
-
-	$('#sort_order_value').val(order);
-
-
-
-    $.ajax({
-     type: "POST",
-     url: '/edit-roles',
-     data: {
-        "id":id,
-        "_token": "{{ csrf_token() }}",
-       
-        },
-     success: function(response){
-        // console.log((response));
-        $.each(JSON.parse(response), function () {
-           console.log(JSON.parse(response));
-            // $('.id').val(this.id);
-            $('.edit').val(this.name);
-        });
-       
-     }
-});
 }
 </script>
 		
