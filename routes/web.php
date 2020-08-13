@@ -33,6 +33,18 @@ Route::get('vendor-list','vendor\VendorController@vendorList');
 Route::get('add-new-vendor','vendor\VendorController@addVendor');
 Route::post('add-vendor','vendor\VendorController@createVendor');
 
+// brands
+
+Route::get('add-brand','brand\BrandController@index');
+Route::get('brands-list','brand\BrandController@brandsList');
+Route::get('disable-brands-list','brand\BrandController@disableBrandsList');
+Route::post('add-brand','brand\BrandController@createBrand');
+Route::get('brand-edit/{id}','brand\BrandController@editBrand');
+Route::post('update-brand','brand\BrandController@updateBrand');
+Route::get('brand-active/{id}','brand\BrandController@activeBrand');
+
+// 
+
 Route::post('/edit','CategoryController@edit_cal');
 
 Route::get('/addcat', function () {

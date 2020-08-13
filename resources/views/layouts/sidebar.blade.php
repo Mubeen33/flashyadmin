@@ -112,6 +112,36 @@
                     </ul>
                 </li>
                 <li class="navigation-header">
+                    <span>Brands</span>
+                </li>
+                <li class=" nav-item">
+                    <a href="javascript:void(0)">
+                        <i class="feather icon-list"></i>
+                        <span class="menu-title" data-i18n="Products">Brands</span>
+                    </a>
+                    <ul class="menu-content">
+                        
+                        <li>
+                            <a href="{{url('add-brand')}}">
+                                <i class="feather icon-circle"></i>
+                                <span class="menu-item" data-i18n="Add New">add Brands</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('brands-list')}}">
+                                <i class="feather icon-circle"></i>
+                                <span class="menu-item" data-i18n="Add New">Brands</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('disable-brands-list')}}">
+                                <i class="feather icon-circle"></i>
+                                <span class="menu-item" data-i18n="Add New">Disable Brands</span>
+                            </a>
+                        </li>
+                    </ul>    
+                </li>    
+                <li class="navigation-header">
                 	<span>Vendors</span>
                 </li>
                 <li class=" nav-item">
@@ -137,7 +167,7 @@
                         <li>
                             <a href="{{url('add-new-vendor')}}">
                                 <i class="feather icon-circle"></i>
-                                <span class="menu-item" data-i18n="Add New">Vendors List</span>
+                                <span class="menu-item" data-i18n="Add New">Add new Vendor</span>
                             </a>
                         </li>
                     </ul>
