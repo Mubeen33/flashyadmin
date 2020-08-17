@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Brand;
+use Freshbitsweb\Laratables\Laratables;
 
 class BrandController extends Controller
 {
@@ -19,10 +20,14 @@ class BrandController extends Controller
     //active brands list
     public function brandsList(){
 
-    	$brands = Brand::where('active','Y')->orderBy('id', 'desc')->get();
-    	return view('brand.brand-list',compact('brands'));
+    	return view('brand.brand-list');
+        // return Laratables::recordsOf(Brand::class,Laratables::class);
     }
+    // brands
+    public function brands(){
 
+        return Laratables::recordsOf(Brand::class);
+    }
     //createbrand
 
     public function createBrand(Request $request){
