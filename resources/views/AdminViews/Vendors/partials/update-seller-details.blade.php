@@ -35,7 +35,7 @@
                         </div>
 	                    
                         <button class="btn btn-primary" type="submit" name="update">UPDATE</button>
-                        <button id="cancel-seller-edit--btn" class="btn btn-danger" type="button">CANCELL</button>
+                        <button id="cancel-seller-edit--btn" class="btn btn-danger" type="button">CANCEL</button>
 	            </div>
 	            
 	            </div>
