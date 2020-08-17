@@ -42,6 +42,8 @@ Route::get('brand-active/{id}','brand\BrandController@activeBrand');
 Route::group(['as'=>'admin.', 'namespace'=>'Admin', 'middleware' => ['auth']], function(){
 	//vendors controller
 	Route::resource('vendors', 'VendorController');
+	Route::get('new-vendors/requests','VendorController@get_vendors_requests')->name("vendors.requests.get");
+    Route::post('new-vendor/approve-account','VendorController@vendor_account_approve')->name("vendor.approve_account.post");
 
 	//icon pages
 	Route::get('pages/{PageName}', 'PagesController@get_page')->name('page.get');

@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Vendor;
+use App\Vendor;
+use Carbon\Carbon;
 
 class VendorController extends Controller
 {
@@ -16,7 +17,7 @@ class VendorController extends Controller
     public function index()
     {
         //return all vendors list
-        $data = Vendor::orderBy('id', 'DESC')->get();
+        $data = Vendor::orderBy('id', 'DESC')->paginate(30);
         return view('AdminViews.Vendors.index', compact('data'));
     }
 
@@ -50,6 +51,8 @@ class VendorController extends Controller
     public function show($id)
     {
         //
+        $data = Vendor::findOrFail($id);
+        return view('AdminViews.Vendors.show', compact('data'));
     }
 
     /**
@@ -84,5 +87,20 @@ class VendorController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+
+    public function vendor_account_approve(Request $request){
+        $updated = Vendor::where('id', $request->vendorID)->update([
+                'active'=>1,
+                'updated_at'=>Carbon::now()
+            ]);
+            
+        if($updated == true){
+            return redirect()->back()->with('success', 'Seller Account Approved');
+        }else{
+            return redirect()->back()->with('error', 'SORRY - Something went wrong!');
+        }
     }
 }
