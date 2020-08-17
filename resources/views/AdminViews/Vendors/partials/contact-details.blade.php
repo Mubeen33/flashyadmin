@@ -27,7 +27,7 @@
 
     <div class="col-md-12">
         <!--Show seller Details-->
-        <div id="show--seller-details">
+        <div id="show--contact-details">
             <div class="card">
                 <div class="card-body pr-0 pl-0">
                     <div class="row">
@@ -111,18 +111,10 @@
 
 
     <div class="col-md-12">
-        <div id="edit--seller-details" class="d-none">
+        <div id="edit--contact-details" class="d-none">
             @include('AdminViews.Vendors.partials.update-contact-details')
         </div>
     </div> <!-- row end here-->
-
-
-    <div class="col-md-12">
-        {{-- vendor account approval form --}}
-        <form id='approveVendorAccountForm' action="{{ route('admin.vendor.approve_account.post') }}" method="POST" class="d-none">
-            @csrf
-            <input type="hidden" name="vendorID" value="{{ $data->id }}">
-        </form>
-    </div><!-- row end here-->
+    
 </div>
 

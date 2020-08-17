@@ -84,6 +84,36 @@ class VendorController extends Controller
                 'mobile' => ['required', 'string', 'max:16']
             ]);
             return $this->updateSellerDetails($request, $id);
+        
+        }elseif ($request->type === "UpdateContactDetails") {
+            $this->validate($request, [
+                'company_name' => ['required', 'string', 'max:250'],
+                'business_information' => ['required', 'string', 'max:300']
+            ]);
+            return $this->updateContactDetails($request, $id);
+        
+        }elseif ($request->type === "UpdateBankDetails") {
+            $this->validate($request, [
+                'account_holder' => ['string', 'max:250'],
+                'bank_name' => ['string', 'max:250'],
+                'bank_account' => ['string', 'max:250'],
+                'branch_name' => ['string', 'max:250'],
+                'branch_code' => ['string', 'max:250'],
+            ]);
+            return $this->updateBankDetails($request, $id);
+
+        }elseif ($request->type === "UpdateDirectorDetails") {
+            $this->validate($request, [
+                'director_first_name' => ['string', 'max:250'],
+                'director_last_name' => ['string', 'max:250'],
+                'director_email' => ['string', 'email', 'max:250'],
+                'director_details' => ['string', 'max:300'],
+                'website_url' => ['string', 'url', 'max:250'],
+                'vat_register' => ['required', 'string', 'in:Yes,No'],
+                'additional_info' => ['required', 'string', 'max:300'],
+                'product_type' => ['required', 'string', 'in:Physical Products,Digital Products,Grouped Products,Services'],
+            ]);
+            return $this->updateDirectorkDetails($request, $id);
         }
         
         
@@ -108,6 +138,61 @@ class VendorController extends Controller
         }
         return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
     }
+
+    private function updateContactDetails($request, $id){
+        Vendor::findOrFail($id);
+        //if validation pass
+        $updated = Vendor::where('id', $id)->update([
+           'company_name'=> $request->company_name,
+           'business_information'=> $request->business_information,
+           'updated_at'=> Carbon::now()
+        ]);
+        
+        if($updated == true){
+            return redirect()->back()->with('success', 'Contact Details Updated');
+        }
+        return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
+    }
+
+    private function updateBankDetails($request, $id){
+        Vendor::findOrFail($id);
+        //if validation pass
+        $updated = Vendor::where('id', $id)->update([
+           'account_holder'=> $request->account_holder,
+           'bank_name'=> $request->bank_name,
+           'bank_account'=> $request->bank_account,
+           'branch_name'=> $request->branch_name,
+           'branch_code'=> $request->branch_code,
+           'updated_at'=> Carbon::now()
+        ]);
+        
+        if($updated == true){
+            return redirect()->back()->with('success', 'Bank Details Updated');
+        }
+        return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
+    }
+
+    private function updateDirectorkDetails($request, $id){
+        Vendor::findOrFail($id);
+        //if validation pass
+        $updated = Vendor::where('id', $id)->update([
+           'website_url'=> $request->website_url,
+           'director_first_name'=> $request->director_first_name,
+           'director_last_name'=> $request->director_last_name,
+           'director_email'=> $request->director_email,
+           'director_details'=> $request->director_details,
+           'vat_register'=> $request->vat_register,
+           'additional_info'=> $request->additional_info,
+           'product_type'=> $request->product_type,
+           'updated_at'=> Carbon::now()
+        ]);
+        
+        if($updated == true){
+            return redirect()->back()->with('success', 'Bank Details Updated');
+        }
+        return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
+    }
+
 
     /**
      * Remove the specified resource from storage.

@@ -9,33 +9,20 @@
 	        <div class="row">
 	            <div class="col-12">
 	                        
+
+
                         <div class="form-group">
-                        	<label>Fist Name</label>
-                        	<input type="text" name="first_name" value="{{ $data->first_name }}" required="1" class="form-control">
+                        	<label>Company Name</label>
+                        	<input type="text" name="company_name" value="{{ $data->company_name }}" required="1" class="form-control">
                         </div>
 
                         <div class="form-group">
-                        	<label>Last Name</label>
-                        	<input type="text" name="last_name" value="{{ $data->last_name }}" required="1" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                        	<label>Phone</label>
-                        	<input type="text" name="phone" value="{{ $data->phone }}" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                        	<label>Mobile</label>
-                        	<input type="text" name="mobile" value="{{ $data->mobile }}" required="1" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                        	<label>Email</label>
-                        	<input type="email" name="email" value="{{ $data->email }}" class="form-control" required="1">
+                        	<label>Business Information</label>
+                        	<textarea name="business_information" class="form-control" rows="6" cols="10">{{ $data->business_information }}</textarea>
                         </div>
 	                    
                         <button class="btn btn-primary" type="submit" name="update">UPDATE</button>
-                        <button id="cancel-seller-edit--btn" class="btn btn-danger" type="button">CANCELL</button>
+                        <button id="cancel-contact-edit--btn" class="btn btn-danger" type="button">CANCELL</button>
 	            </div>
 	            
 	            </div>
