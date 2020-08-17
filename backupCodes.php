@@ -1,89 +1,128 @@
-<form action="{{ route('admin.vendors.update',$data->id) }}" method="post">
-   @csrf
-    @method('PUT')
-    <div class="card">
-        <div class="card-body pr-0 pl-0">
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-md-12">
-                            
-                            <div class="form-group">
-                                <label>Fist Name</label>
-                                <input type="text" name="first_name" value="{{ $data->first_name }}" required="1" class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Last Name</label>
-                                <input type="text" name="last_name" value="{{ $data->last_name }}" required="1" class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" name="phone" value="{{ $data->phone }}" class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Mobile</label>
-                                <input type="text" name="mobile" value="{{ $data->mobile }}" required="1" class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Role</label>
-                                <select name="role" class="form-control">
-                                    <option value="">Owner</option>
-                                    <option value="">Manager</option>
-                                    <option value="">Marketer</option>
-                                    <option value="">Seller</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" name="email" value="{{ $data->email }}" class="form-control" required="1">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Company Name</label>
-                                <input type="text" name="company_name" value="{{ $data->company_name }}" class="form-control" required="1">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="row pt-1">
-                                <div class="col-md-6 col-6">
-                                    <strong>Phone Number</strong>
-                                </div>
-                                <div class="col-md-6 col-6 p-0">
-                                    {{$data->phone}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 pt-1">
-                            <div class="row">
-                                <div class="col-md-3 col-3">
-                                    <strong>Email</strong>
-                                </div>
-                                <div class="col-md-9 col-9 pl-0">
-                                    {{$data->email}}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 pt-1">
-                            <div class="row">
-                                <div class="col-md-3 col-3">
-                                    <strong>Company Name</strong>
-                                </div>
-                                <div class="col-md-9 col-9 pl-0">
-                                    {{$data->company_name}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
+<div class="row">
+    
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-9 pl-0">
+                <h3 class="pl-1">
+                       <i class="feather icon-user"></i> Contact Details
+                </h3>
+            </div>
+            <div class="col-md-3 text-right">
+                <div class="d-flex justify-content-end">
+                    @if($data->active == 0)
+                    <h3 title="Approve Account" onclick="if(confirm('Are you sure to approve this account?')) document.getElementById('approveVendorAccountForm').submit();" style="cursor:pointer;margin-right: 15px">
+                        <i class="feather text-primary icon-check"></i>
+                    </h3>
+                    @endif
+                    
+                    <h3 style="cursor: pointer;" title="Edit Profile" id="btn-edit-contact-details">
+                        <i class="feather text-primar icon-edit"></i>
+                    </h3>
                 </div>
             </div>
         </div>
-</form>
+    </div> <!-- row end here-->
+    <div class="col-md-12 border border-primary"></div>
+
+
+    <div class="col-md-12">
+        <!--Show seller Details-->
+        <div id="show--seller-details">
+            <div class="card">
+                <div class="card-body pr-0 pl-0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row pt-0">
+                                        <div class="col-md-3 col-3 ">
+                                            <strong>Store/Company Name</strong>
+                                        </div>
+                                        <div class="col-md-9 col-9 p-0">
+                                            {{$data->company_name}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row pt-1">
+                                        <div class="col-md-3 col-3 ">
+                                            <strong>First Name</strong>
+                                        </div>
+                                        <div class="col-md-9 col-9 p-0">
+                                            {{$data->first_name}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row pt-1">
+                                        <div class="col-md-3 col-3 ">
+                                            <strong>Last Name</strong>
+                                        </div>
+                                        <div class="col-md-9 col-9 p-0">
+                                            {{$data->last_name}}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row pt-1">
+                                        <div class="col-md-3 col-3 ">
+                                            <strong>Mobile Number</strong>
+                                        </div>
+                                        <div class="col-md-9 col-9 p-0">
+                                            {{$data->mobile}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row pt-1">
+                                        <div class="col-md-3 col-3">
+                                            <strong>Phone Number</strong>
+                                        </div>
+                                        <div class="col-md-9 col-9 p-0">
+                                            {{$data->phone}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 pt-1">
+                                    <div class="row">
+                                        <div class="col-md-3 col-3">
+                                            <strong>Email</strong>
+                                        </div>
+                                        <div class="col-md-9 col-9 pl-0">
+                                            {{$data->email}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 pt-1">
+                                    <div class="row">
+                                        <div class="col-md-3 col-3">
+                                            <strong>Business Informations</strong>
+                                        </div>
+                                        <div class="col-md-9 col-9 pl-0">
+                                            {{$data->business_information}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div><!-- row end here-->
+
+
+    <div class="col-md-12">
+        <div id="edit--seller-details" class="d-none">
+            @include('AdminViews.Vendors.partials.update-seller-details')
+        </div>
+    </div> <!-- row end here-->
+
+
+    <div class="col-md-12">
+        {{-- vendor account approval form --}}
+        <form id='approveVendorAccountForm' action="{{ route('admin.vendor.approve_account.post') }}" method="POST" class="d-none">
+            @csrf
+            <input type="hidden" name="vendorID" value="{{ $data->id }}">
+        </form>
+    </div><!-- row end here-->
+</div>
+

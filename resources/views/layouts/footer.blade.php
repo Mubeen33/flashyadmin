@@ -27,7 +27,7 @@
 
     <!-- BEGIN: Page JS-->
     <!-- END: Page JS-->
-
+    @stack('scripts')
 </body>
 <!-- END: Body-->
 

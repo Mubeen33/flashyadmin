@@ -4,7 +4,7 @@
     <div class="card">
     	<br>
     	<h4>Edit</h4>
-    	<input type="hidden" name="type" value="UpdateSellerDetails">
+        <input type="hidden" name="type" value="UpdateContactDetails">
 	    <div class="card-body pr-0 pl-0">
 	        <div class="row">
 	            <div class="col-12">

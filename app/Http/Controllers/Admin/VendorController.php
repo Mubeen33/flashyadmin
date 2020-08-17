@@ -75,7 +75,38 @@ class VendorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //store vendor requests
+        if ($request->type === "UpdateSellerDetails") {
+            $this->validate($request, [
+                'first_name' => ['required', 'string', 'max:50'],
+                'last_name' => ['required', 'string', 'max:50'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:vendors,email,'.$id],
+                'mobile' => ['required', 'string', 'max:16']
+            ]);
+            return $this->updateSellerDetails($request, $id);
+        }
+        
+        
+        
+    }
+
+
+    private function updateSellerDetails($request, $id){
+        Vendor::findOrFail($id);
+        //if validation pass
+        $updated = Vendor::where('id', $id)->update([
+           'first_name'=> $request->first_name,
+           'last_name'=> $request->last_name,
+           'email'=> $request->email,
+           'phone'=> $request->phone,
+           'mobile'=> $request->mobile,
+           'updated_at'=> Carbon::now()
+        ]);
+        
+        if($updated == true){
+            return redirect()->back()->with('success', 'Seller Details Updated');
+        }
+        return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
     }
 
     /**
