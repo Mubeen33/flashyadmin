@@ -13,17 +13,17 @@
 
                         <div class="form-group">
                         	<label>Director First Name</label>
-                        	<input type="text" name="director_first_name" value="{{ $data->director_first_name }}" required="1" class="form-control">
+                        	<input type="text" name="director_first_name" value="{{ $data->director_first_name }}"  class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label>Director Last Name</label>
-                            <input type="text" name="director_last_name" value="{{ $data->director_last_name }}" required="1" class="form-control">
+                            <input type="text" name="director_last_name" value="{{ $data->director_last_name }}"  class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label>Director Email</label>
-                            <input type="email" name="director_email" value="{{ $data->director_email }}" required="1" class="form-control">
+                            <input type="email" name="director_email" value="{{ $data->director_email }}" class="form-control">
                         </div>
 
 

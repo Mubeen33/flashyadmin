@@ -38,4 +38,24 @@ $(document).ready(function(){
 		$('#show--director-details').removeClass('d-none')
     	$('#edit--director-details').addClass('d-none')
 	})
+
+	//businessAddress edit
+	$("#btn-edit-businessAddress-details").on("click", function(){
+		$('#show--businessAddress-details').addClass('d-none')
+    	$('#edit--businessAddress-details').removeClass('d-none')
+	})
+	$("#cancel-businessAddress-edit--btn").on("click", function(){
+		$('#show--businessAddress-details').removeClass('d-none')
+    	$('#edit--businessAddress-details').addClass('d-none')
+	})
+
+	//wireHouseAddress edit
+	$("#btn-edit-wireHouseAddress-details").on("click", function(){
+		$('#show--wireHouseAddress-details').addClass('d-none')
+    	$('#edit--wireHouseAddress-details').removeClass('d-none')
+	})
+	$("#cancel-wireHouseAddress-edit--btn").on("click", function(){
+		$('#show--wireHouseAddress-details').removeClass('d-none')
+    	$('#edit--wireHouseAddress-details').addClass('d-none')
+	})
 })

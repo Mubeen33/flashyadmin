@@ -88,32 +88,58 @@ class VendorController extends Controller
         }elseif ($request->type === "UpdateContactDetails") {
             $this->validate($request, [
                 'company_name' => ['required', 'string', 'max:250'],
-                'business_information' => ['required', 'string', 'max:300']
+                'business_information' => ['nullable', 'string', 'max:300']
             ]);
             return $this->updateContactDetails($request, $id);
         
         }elseif ($request->type === "UpdateBankDetails") {
             $this->validate($request, [
-                'account_holder' => ['string', 'max:250'],
-                'bank_name' => ['string', 'max:250'],
-                'bank_account' => ['string', 'max:250'],
-                'branch_name' => ['string', 'max:250'],
-                'branch_code' => ['string', 'max:250'],
+                'account_holder' => ['nullable', 'string', 'max:250'],
+                'bank_name' => ['nullable', 'string', 'max:250'],
+                'bank_account' => ['nullable', 'string', 'max:250'],
+                'branch_name' => ['nullable', 'string', 'max:250'],
+                'branch_code' => ['nullable', 'string', 'max:250'],
             ]);
             return $this->updateBankDetails($request, $id);
 
         }elseif ($request->type === "UpdateDirectorDetails") {
             $this->validate($request, [
-                'director_first_name' => ['string', 'max:250'],
-                'director_last_name' => ['string', 'max:250'],
-                'director_email' => ['string', 'email', 'max:250'],
-                'director_details' => ['string', 'max:300'],
-                'website_url' => ['string', 'url', 'max:250'],
-                'vat_register' => ['required', 'string', 'in:Yes,No'],
-                'additional_info' => ['required', 'string', 'max:300'],
-                'product_type' => ['required', 'string', 'in:Physical Products,Digital Products,Grouped Products,Services'],
+                'director_first_name' => ['nullable', 'string', 'max:250'],
+                'director_last_name' => ['nullable', 'string', 'max:250'],
+                'director_email' => ['nullable', 'string', 'email', 'max:250'],
+                'director_details' => ['nullable', 'string', 'max:300'],
+                'website_url' => ['nullable', 'string', 'url', 'max:250'],
+                'vat_register' => ['nullable', 'string', 'in:Yes,No'],
+                'additional_info' => ['nullable', 'string', 'max:300'],
+                'product_type' => ['nullable', 'string', 'in:Physical Products,Digital Products,Grouped Products,Services'],
             ]);
-            return $this->updateDirectorkDetails($request, $id);
+            return $this->updateDirectorDetails($request, $id);
+        
+        }elseif ($request->type === "UpdateBusinessAddressDetails") {
+            $this->validate($request, [
+                'address' => ['nullable', 'string', 'max:250'],
+                'street' => ['nullable', 'string', 'max:250'],
+                'city' => ['nullable', 'string', 'max:250'],
+                'state' => ['nullable', 'string', 'max:250'],
+                'subrub' => ['nullable', 'string', 'max:250'],
+                'zip_code' => ['nullable', 'string', 'max:250'],
+                'country' => ['nullable', 'string', 'max:250'],
+            ]);
+            return $this->updateBusinessAddressDetails($request, $id);
+        
+        }elseif ($request->type === "UpdateWireHouseAddressDetails") {
+            $this->validate($request, [
+                'waddress' => ['nullable', 'string', 'max:250'],
+                'wstreet' => ['nullable', 'string', 'max:250'],
+                'wcity' => ['nullable', 'string', 'max:250'],
+                'wstate' => ['nullable', 'string', 'max:250'],
+                'wsubrub' => ['nullable', 'string', 'max:250'],
+                'wzip_code' => ['nullable', 'string', 'max:250'],
+                'wcountry' => ['nullable', 'string', 'max:250'],
+            ]);
+            return $this->updateWireHouseAddressDetails($request, $id);
+        }else{
+            return redirect()->back()->with('error', 'SORRY - Invalid Request');
         }
         
         
@@ -172,7 +198,7 @@ class VendorController extends Controller
         return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
     }
 
-    private function updateDirectorkDetails($request, $id){
+    private function updateDirectorDetails($request, $id){
         Vendor::findOrFail($id);
         //if validation pass
         $updated = Vendor::where('id', $id)->update([
@@ -188,10 +214,51 @@ class VendorController extends Controller
         ]);
         
         if($updated == true){
-            return redirect()->back()->with('success', 'Bank Details Updated');
+            return redirect()->back()->with('success', 'Director Details Updated');
         }
         return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
     }
+
+    private function updateBusinessAddressDetails($request, $id){
+        Vendor::findOrFail($id);
+        //if validation pass
+        $updated = Vendor::where('id', $id)->update([
+           'address'=> $request->address,
+           'street'=> $request->street,
+           'city'=> $request->city,
+           'state'=> $request->state,
+           'subrub'=> $request->subrub,
+           'zip_code'=> $request->zip_code,
+           'country'=> $request->country,
+           'updated_at'=> Carbon::now()
+        ]);
+        
+        if($updated == true){
+            return redirect()->back()->with('success', 'Business Address Details Updated');
+        }
+        return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
+    }
+
+    private function updateWireHouseAddressDetails($request, $id){
+        Vendor::findOrFail($id);
+        //if validation pass
+        $updated = Vendor::where('id', $id)->update([
+           'waddress'=> $request->waddress,
+           'wstreet'=> $request->wstreet,
+           'wcity'=> $request->wcity,
+           'wstate'=> $request->wstate,
+           'wsubrub'=> $request->wsubrub,
+           'wzip_code'=> $request->wzip_code,
+           'wcountry'=> $request->wcountry,
+           'updated_at'=> Carbon::now()
+        ]);
+        
+        if($updated == true){
+            return redirect()->back()->with('success', 'WireHouse Address Details Updated');
+        }
+        return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
+    }
+
 
 
     /**

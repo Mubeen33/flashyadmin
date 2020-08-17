@@ -101,6 +101,19 @@ class VendorController extends Controller
                 'branch_code' => ['string', 'max:250'],
             ]);
             return $this->updateBankDetails($request, $id);
+
+        }elseif ($request->type === "UpdateDirectorDetails") {
+            $this->validate($request, [
+                'director_first_name' => ['string', 'max:250'],
+                'director_last_name' => ['string', 'max:250'],
+                'director_email' => ['string', 'email', 'max:250'],
+                'director_details' => ['string', 'max:300'],
+                'website_url' => ['string', 'url', 'max:250'],
+                'vat_register' => ['required', 'string', 'in:Yes,No'],
+                'additional_info' => ['required', 'string', 'max:300'],
+                'product_type' => ['required', 'string', 'in:Physical Products,Digital Products,Grouped Products,Services'],
+            ]);
+            return $this->updateDirectorkDetails($request, $id);
         }
         
         
@@ -159,6 +172,26 @@ class VendorController extends Controller
         return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
     }
 
+    private function updateDirectorkDetails($request, $id){
+        Vendor::findOrFail($id);
+        //if validation pass
+        $updated = Vendor::where('id', $id)->update([
+           'website_url'=> $request->website_url,
+           'director_first_name'=> $request->director_first_name,
+           'director_last_name'=> $request->director_last_name,
+           'director_email'=> $request->director_email,
+           'director_details'=> $request->director_details,
+           'vat_register'=> $request->vat_register,
+           'additional_info'=> $request->additional_info,
+           'product_type'=> $request->product_type,
+           'updated_at'=> Carbon::now()
+        ]);
+        
+        if($updated == true){
+            return redirect()->back()->with('success', 'Bank Details Updated');
+        }
+        return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
+    }
 
 
     /**
