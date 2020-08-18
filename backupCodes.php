@@ -17,7 +17,8 @@ class SliderController extends Controller
      */
     public function index()
     {
-        //
+        $data = Slider::orderBy('order_no', 'ASC')->paginate(20);
+        return view('Sliders.index', compact('data'));
     }
 
     /**
@@ -39,7 +40,7 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         //store sliders
-        $this->validate([
+        $this->validate($request, [
             'title'=>'nullable|string|max:100',
             'description'=>'nullable|string|max:150',
             'link'=>'nullable|string|url',
@@ -77,7 +78,7 @@ class SliderController extends Controller
         }
 
 
-        Slider::insert([
+        $inserted = Slider::insert([
             'title'=>$request->title,
             'description'=>$request->description,
             'link'=>$request->link,
@@ -93,6 +94,12 @@ class SliderController extends Controller
             'image_sm'=>$smImage,
             'created_at'=>Carbon::now()
         ]);
+
+        if ($inserted == true) {
+            return redirect()->back()->with('success', 'Slider Added');
+        }else{
+            return redirect()->back()->with('error', 'SORRY - Something wrong!');
+        }
     }
 
     /**
@@ -114,7 +121,9 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        //
+        $id = \Crypt::decrypt($id);
+        $data = Slider::findOrFail($id);
+        return view('Sliders.edit', compact('data'));
     }
 
     /**
@@ -126,7 +135,81 @@ class SliderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //update slider
+        $this->validate($request, [
+            'title'=>'nullable|string|max:100',
+            'description'=>'nullable|string|max:150',
+            'link'=>'nullable|string|url',
+            'order_no'=>'nullable|numeric',
+            'button_text'=>'nullable|string|max:30',
+            'text_color'=>'nullable|string|max:100',
+            'button_color'=>'nullable|string|max:100',
+            'button_text_color'=>'nullable|string|max:100',
+            'title_animation'=>'nullable|string|max:100',
+            'description_animation'=>'nullable|string|max:100',
+            'button_animation'=>'nullable|string|max:100',
+            'image_lg'=>'nullable|image:png,jpeg,jpg,gif|max:1000',
+            'image_sm'=>'nullable|image:png,jpeg,jpg,gif|max:1000',
+        ]);
+
+        $oldData = Slider::where('id', $id)->first();
+        if (!$oldData) {
+            return redirect()->back()->with('error', 'SORRY - Invalid Request');
+        }
+
+        //insert image
+        $obj_fu = new FileUploader();
+        $lgImage = NULL;
+        $smImage = NULL;
+        if($request->hasFile('image_lg')){
+            $location = "upload-images/sliders/";
+            //delete
+            if ($oldData->image_lg != NULL) {
+                $file_name = $oldData->image_lg;
+                $obj_fu->deleteFile($file_name, $location);
+            }
+            //upload
+            $fileName ='slider-'.uniqid();
+            $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
+            $lgImage = $fileName__;
+        }
+
+        if($request->hasFile('image_sm')){
+            $location = "upload-images/sliders/";
+            //delete
+            if ($oldData->image_sm != NULL) {
+                $file_name = $oldData->image_sm;
+                $obj_fu->deleteFile($file_name, $location);
+            }
+            //upload
+            $fileName ='slider-'.uniqid();
+            $fileName__ = $obj_fu->fileUploader($request->file('image_sm'), $fileName, $location);
+            $smImage = $fileName__;
+        }
+
+
+        $updated = Slider::where('id', $id)->update([
+            'title'=>$request->title,
+            'description'=>$request->description,
+            'link'=>$request->link,
+            'order_no'=>$request->order_no,
+            'button_text'=>$request->button_text,
+            'text_color'=>$request->text_color,
+            'button_color'=>$request->button_color,
+            'button_text_color'=>$request->button_text_color,
+            'title_animation'=>$request->title_animation,
+            'description_animation'=>$request->description_animation,
+            'button_animation'=>$request->button_animation,
+            'image_lg'=>($lgImage === NULL ? $oldData->image_lg : $lgImage),
+            'image_sm'=>($smImage === NULL ? $oldData->image_sm : $smImage),
+            'updated_at'=>Carbon::now()
+        ]);
+
+        if ($updated == true) {
+            return redirect()->back()->with('success', 'Slider Updated');
+        }else{
+            return redirect()->back()->with('error', 'SORRY - Something wrong!');
+        }
     }
 
     /**
