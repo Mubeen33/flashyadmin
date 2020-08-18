@@ -32,7 +32,8 @@
                                                     <th>Description</th>
                                                     <th>Keyword</th>
                                                     <th>order</th>
-                                                    <th>Home order</th>
+                                                    <th>Visibilty</th>
+                                                    <th>Show on Homepage</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -47,17 +48,35 @@
                                             <td>{{$item->desc}}</td>
                                             <td>{{$item->keyword}}</td>
                                             <td>{{$item->order}}</td>
-                                            <td>{{$item->home_order}}</td>
-                                            <td> <div class="btn-group dropdown mr-1 mb-1">
-                                                <button type="button" class="btn btn-primary">Action</button>
-                                                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="sr-only">Toggle Dropdown</span>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{url('category-edit')}}/{{$item->id}}">Edit</a>
-                                                <a class="dropdown-item" href="{{url('category-disable')}}/{{$item->id}}">Disable</a>
+                                            <td>
+                                            @if ($item->visiblity == 1)
+                                            <div class="fonticon-wrap"> <div class="badge badge-success"><i class="fa fa-eye fa-x"></i></div> </div>  
+                                            @else
+                                            <div class="fonticon-wrap"> <div class="badge badge-danger"><i class="fa fa-eye-slash"></i></div> </div>    
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($item->home_visiblity == 0)
+                                            <div class="badge badge-danger">NO</div>  
+                                            @else
+                                            <div class="badge badge-success">Yes</div> 
+                                            @endif
+                                        </td>
+                                            <td> 
+                                                <div class="btn-group dropdown mr-1 mb-1">
+                                                    <button type="button" class="btn btn-primary btn-sm">
+                                                        <strong>Select an option</strong>
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="{{url('category-edit')}}/{{$item->id}}">Edit</a>
+                                                        <a class="dropdown-item" href="{{url('category-disable')}}/{{$item->id}}">Disable</a>
+                                                    </div>
                                                 </div>
-                                            </div></td>
+ 
+                                            </td>
                                         </tr>
                                         @endforeach
                                          @else  

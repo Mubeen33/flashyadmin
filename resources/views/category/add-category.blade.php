@@ -11,8 +11,8 @@
                     <form action="{{url('add-category')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row match-height">
-                            <div class="col-md-2 col-12"></div>
-                            <div class="col-md-8 col-12">
+                            
+                            <div class="col-md-12 col-12">
                                 <div class="card">
                                     <div class="card-header">
                                         <h4 class="card-title"><b>Add Category</b></h4>
@@ -135,9 +135,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                       
+                                                       
+
                                                         <div class="col-12">
-                                                            <div class="form-group row">
-                                                                <div class="col-md-4">
+                                                            <div class="form-group row basic-radio">
+                                                                <div class="col-md-4 ">
                                                                     <span>Visibilty</span>
                                                                 </div>
                                                                 <div class="col-md-4">
@@ -159,7 +162,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
@@ -222,7 +224,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2 col-12"></div>
+                            
                         </div>
                     </form>    
                 </section>

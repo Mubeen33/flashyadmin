@@ -1,14 +1,18 @@
 @extends('layouts.master')
-@section('page-title','Disable Brands')
+@section('page-title','Brands')
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
-    <li class="breadcrumb-item active">Disable Categories</li>
+    <li class="breadcrumb-item active">Table</li>
 @endsection    
-@section('content')                                
+
+    
+@section('content') 
+<link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/tables/datatable/datatables.min.css')}}">                               
             <div class="content-body">
                 @if(session('msg'))
                   {!! session('msg') !!}
                 @endif
+
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
@@ -28,7 +32,8 @@
                                                     <th>Description</th>
                                                     <th>Keyword</th>
                                                     <th>order</th>
-                                                    <th>Home order</th>
+                                                    <th>Visibilty</th>
+                                                    <th>Show on Homepage</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -43,26 +48,44 @@
                                             <td>{{$item->desc}}</td>
                                             <td>{{$item->keyword}}</td>
                                             <td>{{$item->order}}</td>
-                                            <td>{{$item->home_order}}</td>
-                                            <td> <div class="btn-group dropdown mr-1 mb-1">
-                                                <button type="button" class="btn btn-primary">Action</button>
-                                                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="sr-only">Toggle Dropdown</span>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{url('category-edit')}}/{{$item->id}}">Edit</a>
-                                                <a class="dropdown-item" href="{{url('category-active')}}/{{$item->id}}">Active</a>
+                                            <td>
+                                            @if ($item->visiblity == 1)
+                                            <div class="fonticon-wrap"> <div class="badge badge-success"><i class="fa fa-eye fa-x"></i></div> </div>  
+                                            @else
+                                            <div class="fonticon-wrap"> <div class="badge badge-danger"><i class="fa fa-eye-slash"></i></div> </div>    
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($item->home_visiblity == 0)
+                                            <div class="badge badge-danger">NO</div>  
+                                            @else
+                                            <div class="badge badge-success">Yes</div> 
+                                            @endif
+                                        </td>
+                                            <td> 
+                                                <div class="btn-group dropdown mr-1 mb-1">
+                                                    <button type="button" class="btn btn-primary btn-sm">
+                                                        <strong>Select an option</strong>
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="{{url('category-edit')}}/{{$item->id}}">Edit</a>
+                                                        <a class="dropdown-item" href="{{url('category-active')}}/{{$item->id}}">Active</a>
+                                                    </div>
                                                 </div>
-                                            </div></td>
+ 
+                                            </td>
                                         </tr>
                                         @endforeach
-                                        @else  
-                                        <tr colspan="7">
-                                              
-                                           <td>No Record found </td>
-                                        </tr>
-                                        @endif
-                                        
+                                         @else  
+                                         <tr colspan="7">
+                                               
+                                            <td>No Record found </td>
+                                         </tr>
+                                         @endif
+
                                            </tbody>
                                         </table>
                                     </div>
@@ -71,5 +94,27 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>   
+<script src="https://code.jquery.com/jquery-3.3.1.js" ></script>                      
+<script src="{{ asset('app-assets/vendors/js/tables/datatable/datatables.min.js')}}" defer></script>
+<script src="{{ asset('app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js')}}"></script> 
+   <script>
+    $(document).ready(function(){
+        $("#laratable").DataTable({
+            serverSide: true,
+            ajax: "{{ route('category.categories') }}",
+            columns: [
+                { name: 'name' },
+                { name: 'slug' },
+                { name: 'title' },
+                { name: 'desc' },
+                { name: 'keyword' },
+                { name: 'order' },
+                // { name: 'start_date' },
+                // { name: 'salary' },
+            ],
+        });
+    });
+</script>             
 @endsection
+ 

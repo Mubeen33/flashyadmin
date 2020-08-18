@@ -40,7 +40,6 @@ Route::post('update-brand','brand\BrandController@updateBrand');
 Route::get('brand-active/{id}','brand\BrandController@activeBrand');
 // 
 
-//Categories
 Route::get('add-category','category\CategoryController@index');
 Route::get('category-list','category\CategoryController@categoryList')->name('category.categorylist');
 Route::get('categories','category\CategoryController@categoryList')->name('category.categories');
@@ -64,7 +63,7 @@ Route::group(['as'=>'admin.', 'namespace'=>'Admin', 'middleware' => ['auth']], f
 	Route::get('new-vendors/requests','VendorController@get_vendors_requests')->name("vendors.requests.get");
     Route::post('new-vendor/approve-account','VendorController@vendor_account_approve')->name("vendor.approve_account.post");
 // variations
-
+});
 Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
 Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
 
