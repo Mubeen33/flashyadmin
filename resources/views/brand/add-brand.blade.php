@@ -10,8 +10,12 @@
                 <section id="basic-horizontal-layouts">
                     <form action="{{url('add-brand')}}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <div class="row match-height">
-                            <div class="col-md-6 col-12">
+                            <div class="row match-height">
+                                
+                                <div class="col-10"></div>
+                                <button class="btn btn-primary"><a href="{{Route('brands.brandslist')}}" style="text-decoration: none;color: #fff">Brands</a></button>    
+                            </div>
+                            <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
                                         <h4 class="card-title"><b>Add Brands</b></h4>
@@ -54,10 +58,10 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-9"></div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-11"></div>
+                                                        
                                                             <button class="btn btn-primary" type="submit">Submit</button>
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                         </div>

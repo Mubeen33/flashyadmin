@@ -1,0 +1,102 @@
+[33m3daf4aa[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m Category add, update, active ,disable Done without Parent_id concept
+[33mdbe8fcf[m Category add, update, active ,disable Done without Parent_id concept
+[33me335aa7[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin
+[33m4aeb34d[m Mubeen
+[33mcc57f0d[m Developer Rijan
+[33m88ad8e0[m Developer Rijan
+[33m01e5918[m Rijan
+[33m7901b7e[m Rijan
+[33me300830[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin
+[33m0951a4e[m Rijan
+[33m8a23193[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin
+[33m0ec6307[m Mubee
+[33m8976e96[m Rijan
+[33ma706ea1[m Mubeen
+[33m8de4fff[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin
+[33m961ee48[m Mubeen
+[33m35efcc3[m Search controller
+[33m4aa71e2[m updates
+[33m193985e[m search in progress for slider
+[33md101035[m slider pagination
+[33m6ef9ad3[m Users controller
+[33m66295c6[m users modal is completed
+[33m6d034b9[m add user screen is functional
+[33mc66cca4[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin into master
+[33m963a4b4[m add user completed
+[33m2c8fd61[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin
+[33m1872713[m Mubeen
+[33m909d142[m Menu Controller
+[33m9708903[m roles and permission screen is functional
+[33m040742a[m add menu screen is functional
+[33medcfedb[m menu screen is ready
+[33m5a47607[m Category image
+[33m302d633[m UI and minor functionality related issue has been fixed
+[33m68ea30f[m working on product page
+[33m42efaa4[m -> Custom fields completed -> Slider completed -> category completed -> profile setup completed
+[33m5f19ba5[m Updated
+[33mb243587[m for hassan
+[33me4266af[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin into master
+[33mdba3545[m For kashif
+[33m285dac3[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin
+[33m2af78ab[m category and custom fields list and create things are completed
+[33m403b823[m Editable custom fields
+[33mea5c5f3[m categories add and list view completed
+[33m57a4c45[m add new custom field and list view of custom fields routes file and model + controller
+[33mc29e761[m custom fields list view and add new custom field are completed
+[33mf614092[m Custome fileds updated model
+[33m02c297a[m Custome fileds updated controller
+[33md11d777[m updated custome fields for adding new field
+[33m9b927f9[m updated custom field view
+[33mb4c8893[m category page list view are completed
+[33m345d5e3[m category and profile
+[33m9a15862[m categories things
+[33m3a750c9[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin into master
+[33m7986067[m get child category functionality completed with one ajax function
+[33mf316aab[m Left Navigation menu updated. Get child categories via ajax call.
+[33ma93359d[m Extra files removed
+[33m83b1dd2[m web updates
+[33m273500e[m web
+[33m519b79d[m null
+[33m2877adc[m null
+[33m423b55d[m null
+[33maf0900a[m null
+[33m6174c5c[m category updates
+[33m44acf20[m categories
+[33mc874083[m Category updates with all input fields
+[33m75e2621[m CUstom fields things
+[33m878c419[m updates
+[33m2ef9c24[m category view
+[33mf9dc909[m header updated with edit profile
+[33m3c2e7c7[m Category Model
+[33m0710665[m Category done. code shifted to admin as well
+[33m2b53fd0[m Category UI
+[33ma069e71[m Updated Routes For Category
+[33m1d54491[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin
+[33m4b9d1ed[m Add files via upload
+[33mfc0a449[m category UI
+[33m1cc469d[m category.blade.php (UI To create New Category)
+[33m2e1d2ea[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin
+[33meb3ffff[m[33m ([m[1;31morigin/categoriestask[m[33m)[m test edit
+[33m91c557e[m add category done
+[33m4024e9e[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin
+[33mffa19f1[m add category done
+[33mcd2140d[m Add product page libraries
+[33m5ee0446[m Add product is ready.
+[33mf54a7df[m Add product is ready.
+[33mb5170c4[m Guiding Kashif how to deploy code- Please ignore this commit
+[33mf7c15e0[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin
+[33ma96d6f5[m Add Product page design - In Progress
+[33mbf9f96c[m categories list page
+[33m811077d[m added link to side bar
+[33mbdb86a9[m added link to side bar
+[33mc039c9a[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin
+[33maf2b155[m added link to side bar
+[33mb3364c8[m Merge branch 'master' of https://github.com/Mubeen33/flashyadmin
+[33m6035a45[m Mubeen
+[33m60538b8[m testing & learning
+[33mc0dc002[m test
+[33m036f5e8[m Mubeen
+[33m493ff3e[m Login
+[33maba97da[m vendor zip for live server
+[33m05be9dd[m Initilize Repo
+[33mff4eaca[m Initial commit
