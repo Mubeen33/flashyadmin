@@ -11,7 +11,7 @@
                     <form action="{{url('update-brand')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row match-height">
-                            <div class="col-md-6 col-12">
+                            <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
                                         <h4 class="card-title"><b>Edit Brands</b></h4>
@@ -51,12 +51,11 @@
                                                                         <input type="file" onchange="previewFile(this);" name="image" class="custom-file-input" id="inputGroupFile01">
                                                                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                                                     </div>
-                                                                    <span><img id="previewImg" width="100" src="upload-images/brands/{{$brand->image}}"></span>
+                                                                    <span><img id="previewImg" width="100" src="{{asset('upload-images/brands')}}/{{$brand->image}}"></span>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-9"></div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-11"></div>
                                                             <button class="btn btn-primary" type="submit">Submit</button>
                                                         </div>
                                                     </div>

@@ -11,23 +11,15 @@ use Freshbitsweb\Laratables\Laratables;
 class BrandController extends Controller
 {
     
-	//add brand view
-
-	public function index(){
-
-		return view('brand.add-brand');
-	}
+	
     //active brands list
     public function brandsList(){
 
-    	return view('brand.brand-list');
+        $brands = Brand::where('active','Y')->orderBy('id', 'desc')->paginate('5');
+    	return view('brand.brand-list',compact('brands'));
         // return Laratables::recordsOf(Brand::class,Laratables::class);
     }
-    // brands
-    public function brands(){
-
-        return Laratables::recordsOf(Brand::class);
-    }
+    
     //createbrand
 
     public function createBrand(Request $request){
