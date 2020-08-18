@@ -222,4 +222,31 @@ class SliderController extends Controller
     {
         //
     }
+
+    //delete the slider
+    public function delete_slider($id){
+        $id = \Crypt::decrypt($id);
+        $data = Slider::where('id', $id)->first();
+        if (!$data) {
+            return redirect()->back()->with('error', 'SORRY - Slider not Found!');
+        }
+
+        //delete slider images
+        $location = "upload-images/sliders/";
+        $obj_fu = new FileUploader();
+        if ($data->image_lg != NULL) {
+            $obj_fu->deleteFile($data->image_lg, $location);
+        }
+        if ($data->image_sm != NULL) {
+            $obj_fu->deleteFile($data->image_sm, $location);
+        }
+
+        $deleted = $data->delete();
+        if ($deleted == true) {
+            return redirect()->back()->with('success', 'Slider Deleted');
+        }else{
+            return redirect()->back()->with('error', 'SORRY - Something Wrong!');
+        }
+
+    }
 }

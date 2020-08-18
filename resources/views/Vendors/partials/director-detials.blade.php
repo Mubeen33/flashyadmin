@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-9 pl-0">
                 <h3 class="pl-1">
-                       <i class="feather icon-user"></i> WireHouse Address
+                       <i class="feather icon-user"></i> Director Details
                 </h3>
             </div>
             <div class="col-md-3 text-right">
@@ -15,7 +15,7 @@
                     </h3>
                     @endif
                     
-                    <h3 style="cursor: pointer;" title="Edit Business Address" id="btn-edit-wireHouseAddress-details">
+                    <h3 style="cursor: pointer;" title="Edit Profile" id="btn-edit-director-details">
                         <i class="feather text-primar icon-edit"></i>
                     </h3>
                 </div>
@@ -27,7 +27,7 @@
 
     <div class="col-md-12">
         <!--Show seller Details-->
-        <div id="show--wireHouseAddress-details">
+        <div id="show--director-details">
             <div class="card">
                 <div class="card-body pr-0 pl-0">
                     <div class="row">
@@ -36,56 +36,48 @@
                                 <div class="col-md-12">
                                     <div class="row pt-0">
                                         <div class="col-md-3 col-3 ">
-                                            <strong>Address</strong>
+                                            <strong>Director First Name</strong>
                                         </div>
                                         <div class="col-md-9 col-9 p-0">
-                                            {{$data->waddress}}
+                                            {{$data->director_first_name}}
                                         </div>
                                     </div>
 
                                     <div class="row pt-1">
                                         <div class="col-md-3 col-3 ">
-                                            <strong>Street</strong>
+                                            <strong>Director Last Name</strong>
                                         </div>
                                         <div class="col-md-9 col-9 p-0">
-                                            {{$data->wstreet}}
+                                            {{$data->director_last_name}}
                                         </div>
                                     </div>
 
                                     <div class="row pt-1">
                                         <div class="col-md-3 col-3 ">
-                                            <strong>City</strong>
+                                            <strong>Director Email</strong>
                                         </div>
                                         <div class="col-md-9 col-9 p-0">
-                                            {{$data->wcity}}
+                                            {{$data->director_email}}
                                         </div>
                                     </div>
                                     
                                     <div class="row pt-1">
                                         <div class="col-md-3 col-3 ">
-                                            <strong>State</strong>
+                                            <strong>Director Details</strong>
                                         </div>
                                         <div class="col-md-9 col-9 p-0">
-                                            {{$data->wstate}}
+                                            {{$data->director_details}}
                                         </div>
                                     </div>
 
-                                    <div class="row pt-1">
-                                        <div class="col-md-3 col-3">
-                                            <strong>Sub Rub</strong>
-                                        </div>
-                                        <div class="col-md-9 col-9 p-0">
-                                            {{$data->wsubrub}}
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="col-md-12 pt-1">
                                     <div class="row">
                                         <div class="col-md-3 col-3">
-                                            <strong>Postal Code</strong>
+                                            <strong>Website URL</strong>
                                         </div>
                                         <div class="col-md-9 col-9 pl-0">
-                                            {{$data->wzip_code}}
+                                            {{$data->website_url}}
                                         </div>
                                     </div>
                                 </div>
@@ -93,10 +85,32 @@
                                 <div class="col-md-12 pt-1">
                                     <div class="row">
                                         <div class="col-md-3 col-3">
-                                            <strong>Country</strong>
+                                            <strong>Vat Register?</strong>
                                         </div>
                                         <div class="col-md-9 col-9 pl-0">
-                                            {{$data->wcountry}}
+                                            {{$data->vat_register}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 pt-1">
+                                    <div class="row">
+                                        <div class="col-md-3 col-3">
+                                            <strong>Additonal Info.</strong>
+                                        </div>
+                                        <div class="col-md-9 col-9 pl-0">
+                                            {{$data->additional_info}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 pt-1">
+                                    <div class="row">
+                                        <div class="col-md-3 col-3">
+                                            <strong>Product Type</strong>
+                                        </div>
+                                        <div class="col-md-9 col-9 pl-0">
+                                            {{$data->product_type}}
                                         </div>
                                     </div>
                                 </div>
@@ -111,8 +125,8 @@
 
 
     <div class="col-md-12">
-        <div id="edit--wireHouseAddress-details" class="d-none">
-            @include('AdminViews.Vendors.partials.update-wirehouse-address')
+        <div id="edit--director-details" class="d-none">
+            @include('Vendors.partials.update-director-details')
         </div>
     </div> <!-- row end here-->
     

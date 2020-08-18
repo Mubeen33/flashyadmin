@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Vendors;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Vendor;
 use Carbon\Carbon;
+use Hash;
 
 class VendorController extends Controller
 {
@@ -18,7 +19,7 @@ class VendorController extends Controller
     {
         //return all vendors list
         $data = Vendor::orderBy('id', 'DESC')->paginate(30);
-        return view('AdminViews.Vendors.index', compact('data'));
+        return view('Vendors.index', compact('data'));
     }
 
     /**
@@ -51,8 +52,9 @@ class VendorController extends Controller
     public function show($id)
     {
         //
+        $id = \Crypt::decrypt($id);
         $data = Vendor::findOrFail($id);
-        return view('AdminViews.Vendors.show', compact('data'));
+        return view('Vendors.show', compact('data'));
     }
 
     /**
@@ -284,6 +286,25 @@ class VendorController extends Controller
             return redirect()->back()->with('success', 'Seller Account Approved');
         }else{
             return redirect()->back()->with('error', 'SORRY - Something went wrong!');
+        }
+    }
+
+
+    //update pass
+    public function update_vendor_pass(Request $request){
+        $this->validate($request, [
+            'new_pass'=>'required|string|min:8|max:33'
+        ]);
+
+        $updated = Vendor::where('id', $request->id)->update([
+            'password'=>Hash::make($request->new_pass),
+            'updated_at'=>Carbon::now()
+        ]);
+
+        if ($updated == true) {
+            return redirect()->back()->with('success', 'Password Updated');
+        }else{
+            return redirect()->back()->with('error', 'SORRY - Something wrong.');
         }
     }
 }

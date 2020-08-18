@@ -55,6 +55,17 @@
                         </ul>
                     </li>
 
+                    <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-package"></i><span data-i18n="Apps">Sliders</span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
+                                <a class="dropdown-item" href="{{Route('admin.sliders.create')}}"><i class="feather icon-circle"></i>Add Slider</a>
+                            </li>
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
+                                <a class="dropdown-item" href="{{Route('admin.sliders.index')}}"><i class="feather icon-circle"></i>All Sliders</a>
+                            </li>
+                        </ul>
+                    </li>
+
                     <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">UI Elements</span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Data List</a>

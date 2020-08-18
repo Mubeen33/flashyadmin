@@ -46,14 +46,19 @@ Route::get('add-variation','variation\VariationController@addVariation')->name('
 Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
 
 
-Route::group(['as'=>'admin.', 'namespace'=>'Admin', 'middleware' => ['auth']], function(){
-	//vendors controller
-	Route::resource('vendors', 'VendorController');
-	Route::get('new-vendors/requests','VendorController@get_vendors_requests')->name("vendors.requests.get");
-    Route::post('new-vendor/approve-account','VendorController@vendor_account_approve')->name("vendor.approve_account.post");
+Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
+	//vendors routes
+	Route::resource('vendors', 'Vendors\VendorController');
+	Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
+    Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
+    Route::post('vendor-password','Vendors\VendorController@update_vendor_pass')->name("vendor.passUpdate.post");
 
 	//icon pages
-	Route::get('pages/{PageName}', 'PagesController@get_page')->name('page.get');
+	Route::get('pages/{PageName}', 'Pages\PagesController@get_page')->name('page.get');
+
+	//slider routes
+	Route::resource('sliders', 'Slider\SliderController');
+	Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
 });
 
 

@@ -112,7 +112,7 @@
 
     <div class="col-md-12">
         <div id="edit--contact-details" class="d-none">
-            @include('AdminViews.Vendors.partials.update-contact-details')
+            @include('Vendors.partials.update-contact-details')
         </div>
     </div> <!-- row end here-->
     

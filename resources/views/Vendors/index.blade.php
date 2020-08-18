@@ -48,7 +48,7 @@
                                                             @endif    
                                                         </td>
                                                         <td>
-                                                            <a href="{{ route('admin.vendors.show', $content->id) }}"><i class="feather icon-eye"></i></a>
+                                                            <a href="{{ route('admin.vendors.show', Crypt::encrypt($content->id)) }}"><i class="feather icon-eye"></i></a>
                                                         </td>
                                                     </tr>
                                                 @endforeach
