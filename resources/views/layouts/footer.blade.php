@@ -27,7 +27,11 @@
 
     <!-- BEGIN: Page JS-->
     <!-- END: Page JS-->
-    @stack('scripts')
+   <script type="text/javascript">
+       setTimeout(function() {
+            $('#msg').fadeOut('fast');
+        }, 2000);
+   </script>
 </body>
 <!-- END: Body-->
 

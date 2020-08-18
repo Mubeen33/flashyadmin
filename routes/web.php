@@ -15,12 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+// Route::get('/', function () {
+//     return view('auth.login');
+// });
 
 Auth::routes();
-
+Route::get('/', 'HomeController@checkLogin');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/add-product', 'ProductController@index');
@@ -29,15 +29,16 @@ Route::get('/add-product', 'ProductController@index');
 
 
 // brands
-Route::get('add-brand','brand\BrandController@index');
+Route::get('add-brand','HomeController@addBrands')->name('brands.addbrand');
 Route::get('brands-list','brand\BrandController@brandsList')->name('brands.brandslist');
 Route::get('brands','brand\BrandController@brandsList')->name('brands.brands');
 Route::get('disable-brands-list','brand\BrandController@disableBrandsList')->name('brands.disablebrandslist');
 Route::post('add-brand','brand\BrandController@createBrand');
 Route::get('brand-edit/{id}','brand\BrandController@editBrand');
+Route::get('brand-disable/{id}','brand\BrandController@disableABrand');
 Route::post('update-brand','brand\BrandController@updateBrand');
 Route::get('brand-active/{id}','brand\BrandController@activeBrand');
-//
+// 
 
 //Categories
 Route::get('add-category','category\CategoryController@index');
@@ -62,9 +63,25 @@ Route::group(['as'=>'admin.', 'namespace'=>'Admin', 'middleware' => ['auth']], f
 	Route::resource('vendors', 'VendorController');
 	Route::get('new-vendors/requests','VendorController@get_vendors_requests')->name("vendors.requests.get");
     Route::post('new-vendor/approve-account','VendorController@vendor_account_approve')->name("vendor.approve_account.post");
+// variations
+
+Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
+Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
+
+
+Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
+	//vendors routes
+	Route::resource('vendors', 'Vendors\VendorController');
+	Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
+    Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
+    Route::post('vendor-password','Vendors\VendorController@update_vendor_pass')->name("vendor.passUpdate.post");
 
 	//icon pages
-	Route::get('pages/{PageName}', 'PagesController@get_page')->name('page.get');
+	Route::get('pages/{PageName}', 'Pages\PagesController@get_page')->name('page.get');
+
+	//slider routes
+	Route::resource('sliders', 'Slider\SliderController');
+	Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
 });
 
 

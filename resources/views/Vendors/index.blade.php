@@ -19,7 +19,7 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
+                                                    <th>SR</th>
                                                     <th>First Name</th>
                                                     <th>Last Name</th>
                                                     <th>Email</th>
@@ -48,7 +48,7 @@
                                                             @endif    
                                                         </td>
                                                         <td>
-                                                            <a href="{{ route('admin.vendors.show', $content->id) }}"><i class="feather icon-eye"></i></a>
+                                                            <a href="{{ route('admin.vendors.show', Crypt::encrypt($content->id)) }}"><i class="feather icon-eye"></i></a>
                                                         </td>
                                                     </tr>
                                                 @endforeach

@@ -93,6 +93,21 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                {{--Off Password Updating 
+                                <div class="col-md-12 pt-1">
+                                    <div class="row">
+                                        <div class="col-md-3 col-3">
+                                            <strong>Password</strong>
+                                        </div>
+                                        <div class="col-md-9 col-9 pl-0">
+
+                                            @include('Vendors.partials.password')
+
+                                        </div>
+                                    </div>
+                                </div>
+                                --}}
                             </div>
                         </div>
                         
@@ -105,7 +120,7 @@
 
     <div class="col-md-12">
         <div id="edit--seller-details" class="d-none">
-            @include('AdminViews.Vendors.partials.update-seller-details')
+            @include('Vendors.partials.update-seller-details')
         </div>
     </div> <!-- row end here-->
 
