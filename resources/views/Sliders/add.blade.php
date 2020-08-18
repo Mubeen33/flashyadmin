@@ -103,7 +103,7 @@
 
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-12">
-                                                    <label>Image (Size: 1920 * 600)</label>
+                                                    <label>Image (Size: 1230 * 445)</label>
                                                     <input type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*" required="1">
                                                     <br>
                                                     <button class="btn btn-success" type="button" 
@@ -112,7 +112,7 @@
                                                 </div>
 
                                                 <div class="col-lg-6 col-md-12">
-                                                    <label>Image for mobile (Size: 1920 * 600)</label>
+                                                    <label>Image for mobile (Size: 600 * 300)</label>
                                                     <input type="file" id="image_sm_input" name="image_sm" class="d-none" accept="image/*" required="1">
                                                     <br>
                                                     <button class="btn btn-success" type="button" 

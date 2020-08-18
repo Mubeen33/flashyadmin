@@ -55,6 +55,10 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
 	//slider routes
 	Route::resource('sliders', 'Slider\SliderController');
 	Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
+
+	//slider routes
+	Route::resource('category', 'Category\CategoryController');
+	//Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
 });
 
 

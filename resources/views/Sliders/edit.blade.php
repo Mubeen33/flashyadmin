@@ -116,7 +116,7 @@
                                                     <div class="col-lg-6 col-md-12">
                                                         <label>Current Image</label>
                                                         <br>
-                                                        <img src="{{ asset('upload-images/sliders/'.$data->image_lg) }}" width="100px" height="100px">
+                                                        <img src="{{ $data->image_lg }}" width="100px" height="100px">
                                                     </div>
                                                 </div>
                                             </div>
@@ -135,7 +135,7 @@
                                                     <div class="col-lg-6 col-md-12">
                                                         <label>Current Image</label>
                                                         <br>
-                                                        <img src="{{ asset('upload-images/sliders/'.$data->image_sm) }}" width="100px" height="100px">
+                                                        <img src="{{ $data->image_sm }}" width="100px" height="100px">
                                                     </div>
                                                 </div>
                                             </div>

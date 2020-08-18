@@ -51,8 +51,8 @@
                                                         <td>{{ $content->title_animation }}</td>
                                                         <td>{{ $content->description_animation }}</td>
                                                         <td>{{ $content->button_animation }}</td>
-                                                        <td><img width="50px" height="50px" src="{{ asset('upload-images/sliders/'.$content->image_lg) }}"></td>
-                                                        <td><img width="50px" height="50px" src="{{ asset('upload-images/sliders/'.$content->image_sm) }}"></td>
+                                                        <td><img width="50px" height="50px" src="{{ $content->image_lg }}"></td>
+                                                        <td><img width="50px" height="50px" src="{{ $content->image_sm }}"></td>
                                                         <td>
                                                             <a href="{{ route('admin.sliders.edit', Crypt::encrypt($content->id)) }}"><i class="feather icon-edit"></i></a>
                                                             <a onclick="return confirm('Are you sure?')" href="{{ route('admin.slider.delete', Crypt::encrypt($content->id)) }}"><i class="feather icon-delete"></i></a>
