@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-9 pl-0">
                 <h3 class="pl-1">
-                       <i class="feather icon-user"></i> Bank Details
+                       <i class="feather icon-user"></i> Business Address
                 </h3>
             </div>
             <div class="col-md-3 text-right">
@@ -15,7 +15,7 @@
                     </h3>
                     @endif
                     
-                    <h3 style="cursor: pointer;" title="Edit Profile" id="btn-edit-bank-details">
+                    <h3 style="cursor: pointer;" title="Edit Business Address" id="btn-edit-businessAddress-details">
                         <i class="feather text-primar icon-edit"></i>
                     </h3>
                 </div>
@@ -27,7 +27,7 @@
 
     <div class="col-md-12">
         <!--Show seller Details-->
-        <div id="show--bank-details">
+        <div id="show--businessAddress-details">
             <div class="card">
                 <div class="card-body pr-0 pl-0">
                     <div class="row">
@@ -36,50 +36,70 @@
                                 <div class="col-md-12">
                                     <div class="row pt-0">
                                         <div class="col-md-3 col-3 ">
-                                            <strong>Account Holder</strong>
+                                            <strong>Address</strong>
                                         </div>
                                         <div class="col-md-9 col-9 p-0">
-                                            {{$data->account_holder}}
+                                            {{$data->address}}
                                         </div>
                                     </div>
 
                                     <div class="row pt-1">
                                         <div class="col-md-3 col-3 ">
-                                            <strong>Bank</strong>
+                                            <strong>Street</strong>
                                         </div>
                                         <div class="col-md-9 col-9 p-0">
-                                            {{$data->bank_name}}
+                                            {{$data->street}}
                                         </div>
                                     </div>
 
                                     <div class="row pt-1">
                                         <div class="col-md-3 col-3 ">
-                                            <strong>Bank Account</strong>
+                                            <strong>City</strong>
                                         </div>
                                         <div class="col-md-9 col-9 p-0">
-                                            {{$data->bank_account}}
+                                            {{$data->city}}
                                         </div>
                                     </div>
                                     
                                     <div class="row pt-1">
                                         <div class="col-md-3 col-3 ">
-                                            <strong>Branch Name</strong>
+                                            <strong>State</strong>
                                         </div>
                                         <div class="col-md-9 col-9 p-0">
-                                            {{$data->branch_name}}
+                                            {{$data->state}}
                                         </div>
                                     </div>
 
                                     <div class="row pt-1">
                                         <div class="col-md-3 col-3">
-                                            <strong>Branch Code</strong>
+                                            <strong>Sub Rub</strong>
                                         </div>
                                         <div class="col-md-9 col-9 p-0">
-                                            {{$data->branch_code}}
+                                            {{$data->subrub}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 pt-1">
+                                    <div class="row">
+                                        <div class="col-md-3 col-3">
+                                            <strong>Postal Code</strong>
+                                        </div>
+                                        <div class="col-md-9 col-9 pl-0">
+                                            {{$data->zip_code}}
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="col-md-12 pt-1">
+                                    <div class="row">
+                                        <div class="col-md-3 col-3">
+                                            <strong>Country</strong>
+                                        </div>
+                                        <div class="col-md-9 col-9 pl-0">
+                                            {{$data->country}}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
@@ -91,8 +111,8 @@
 
 
     <div class="col-md-12">
-        <div id="edit--bank-details" class="d-none">
-            @include('AdminViews.Vendors.partials.update-bank-details')
+        <div id="edit--businessAddress-details" class="d-none">
+            @include('Vendors.partials.update-business-address')
         </div>
     </div> <!-- row end here-->
     

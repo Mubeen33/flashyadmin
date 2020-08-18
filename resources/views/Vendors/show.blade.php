@@ -32,22 +32,22 @@
                                       <div class="col-8">
                                         <div class="tab-content">
                                           <div class="tab-pane active" id="home" role="tabpanel">
-                                              @include('AdminViews.Vendors.partials.seller-details')
+                                              @include('Vendors.partials.seller-details')
                                           </div>
                                           <div class="tab-pane" id="profile" role="tabpanel">
-                                              @include('AdminViews.Vendors.partials.contact-details')
+                                              @include('Vendors.partials.contact-details')
                                           </div>
                                           <div class="tab-pane" id="messages" role="tabpanel">
-                                              @include('AdminViews.Vendors.partials.bank-details')
+                                              @include('Vendors.partials.bank-details')
                                           </div>
                                           <div class="tab-pane" id="settings" role="tabpanel">
-                                              @include('AdminViews.Vendors.partials.director-detials')
+                                              @include('Vendors.partials.director-detials')
                                           </div>
                                           <div class="tab-pane" id="business-address" role="tabpanel">
-                                              @include('AdminViews.Vendors.partials.business-address')
+                                              @include('Vendors.partials.business-address')
                                           </div>
                                           <div class="tab-pane" id="warehouse-address" role="tabpanel">
-                                              @include('AdminViews.Vendors.partials.warehouse-address')
+                                              @include('Vendors.partials.warehouse-address')
                                           </div>
                                         </div>
 

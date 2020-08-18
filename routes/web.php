@@ -42,14 +42,15 @@ Route::get('brand-active/{id}','brand\BrandController@activeBrand');
 //
 
 
-Route::group(['as'=>'admin.', 'namespace'=>'Admin', 'middleware' => ['auth']], function(){
+Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
 	//vendors controller
-	Route::resource('vendors', 'VendorController');
-	Route::get('new-vendors/requests','VendorController@get_vendors_requests')->name("vendors.requests.get");
-    Route::post('new-vendor/approve-account','VendorController@vendor_account_approve')->name("vendor.approve_account.post");
+	Route::resource('vendors', 'Vendors\VendorController');
+	Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
+    Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
+    Route::post('vendor-password','Vendors\VendorController@update_vendor_pass')->name("vendor.passUpdate.post");
 
 	//icon pages
-	Route::get('pages/{PageName}', 'PagesController@get_page')->name('page.get');
+	Route::get('pages/{PageName}', 'Pages\PagesController@get_page')->name('page.get');
 });
 
 
