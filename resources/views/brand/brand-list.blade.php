@@ -21,12 +21,17 @@
                             <div class="card-content">
                                 <div class="card-body">
                                     <div class="table-responsive ">
-                                        <table id="basic-laratable" class="table table-bordered table-striped">
+                                        <table id="basic-laratable" class="table zero-configuration">
                                             <thead>
                                                 <tr>
+                                                    <!-- <th>id</th> -->
                                                     <th>Name</th>
+                                                    <th>Description</th>
+                                                  <!--   <th>Status</th>
+                                                    <th>Actions</th> -->
                                                 </tr>
                                             </thead>
+                                           
                                         </table>
                                     </div>
                                 </div>
@@ -35,9 +40,9 @@
                     </div>
                 </div>
             </div>   
-<script src='js/jquery-3.4.1.min.js'></script>
-<script src="app-assets/vendors/js/tables/datatable/datatables.min.js"></script>
-<script src="app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js" ></script>                      
+<script src="{{ asset('app-assets/vendors/js/tables/datatable/datatables.min.js')}}" defer></script>
+<script src="{{ asset('app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js')}}"></script> 
    <script>
     $(document).ready(function(){
         $("#basic-laratable").DataTable({
