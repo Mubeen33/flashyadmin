@@ -43,7 +43,7 @@ Route::get('brand-active/{id}','brand\BrandController@activeBrand');
 
 
 Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
-	//vendors controller
+	//vendors routes
 	Route::resource('vendors', 'Vendors\VendorController');
 	Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
     Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
@@ -51,6 +51,10 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
 
 	//icon pages
 	Route::get('pages/{PageName}', 'Pages\PagesController@get_page')->name('page.get');
+
+	//slider routes
+	Route::resource('sliders', 'Slider\SliderController');
+	Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
 });
 
 

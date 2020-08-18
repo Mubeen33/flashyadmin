@@ -17,7 +17,8 @@ class SliderController extends Controller
      */
     public function index()
     {
-        //
+        $data = Slider::orderBy('order_no', 'ASC')->paginate(20);
+        return view('Sliders.index', compact('data'));
     }
 
     /**
@@ -39,7 +40,7 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         //store sliders
-        $this->validate([
+        $this->validate($request, [
             'title'=>'nullable|string|max:100',
             'description'=>'nullable|string|max:150',
             'link'=>'nullable|string|url',
@@ -77,7 +78,7 @@ class SliderController extends Controller
         }
 
 
-        Slider::insert([
+        $inserted = Slider::insert([
             'title'=>$request->title,
             'description'=>$request->description,
             'link'=>$request->link,
@@ -93,6 +94,12 @@ class SliderController extends Controller
             'image_sm'=>$smImage,
             'created_at'=>Carbon::now()
         ]);
+
+        if ($inserted == true) {
+            return redirect()->back()->with('success', 'Slider Added');
+        }else{
+            return redirect()->back()->with('error', 'SORRY - Something wrong!');
+        }
     }
 
     /**
@@ -114,7 +121,9 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        //
+        $id = \Crypt::decrypt($id);
+        $data = Slider::findOrFail($id);
+        return view('Sliders.edit', compact('data'));
     }
 
     /**
