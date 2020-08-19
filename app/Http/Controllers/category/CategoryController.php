@@ -13,7 +13,11 @@ class CategoryController extends Controller
 	//add Category view
 
 	public function index(){
-        $Categories=Categories::select ('id', 'name')->orderBy('id','desc')->where('deleted', '=',0)->get();
+        $Categories=Categories::select ('id', 'name')
+        ->orderBy('id','desc')
+        ->where('deleted', '=',0)
+        ->where('parent_id', '=',0)
+        ->get();
         return view('category.add-category')
         ->with('categories',$Categories);
 	}
@@ -26,6 +30,15 @@ class CategoryController extends Controller
         ->with('categories',$Categories);
       
     }
+
+    public function getChild(Request $request){
+
+           $id=$request->parent_id;
+        $Categories=Categories::where('parent_id','=',$id)->get();
+        return response()->JSON($Categories);
+       // return Response::json($Categories);
+     
+   }
     // Categorys
     public function categories(){
 
@@ -42,11 +55,42 @@ class CategoryController extends Controller
         'order'=>'required'
         ]);
 
+        if($request->cat_id == 'null')
+        {
+            $parent_id=0;
+        }
+        else
+        {
+            if(!empty($request->cat_id))
+             {
+                if(!empty($request->subcat))
+                {
+
+                    if(!empty($request->childcat))
+                    {
+                        $parent_id=$request->childcat;
+                    }   
+                    else
+                    {
+                        $parent_id=$request->subcat;
+                    }
+                   
+                }
+                else
+                {
+                    $parent_id=$request->cat_id;
+                }
+               
+
+             }
+            
+           
+        }
 
     	$Categories = new Categories();
         $Categories->name        = $request->name;
         $Categories->slug        = $request->slug;
-        $Categories->parent_id       = $request->parent_id;
+        $Categories->parent_id       = $parent_id;
         $Categories->title        = $request->title;
         $Categories->desc        = $request->desc;
         $Categories->keyword        = $request->keyword;
@@ -55,9 +99,17 @@ class CategoryController extends Controller
         $Categories->visiblity        = $request->visiblity;
         $Categories->home_visiblity = $request->home_visiblity;
         $Categories->image_visiblity = $request->image_visiblity;
-    	$imageName = time().'.'.request()->image->getClientOriginalExtension();
-    	request()->image->move(public_path('upload-images/category'), $imageName);
-    	$Categories->photo = $imageName;
+        if ($request->hasFile('image')) {
+	    
+            $imageName = time().'.'.request()->image->getClientOriginalExtension();
+            request()->image->move(public_path('upload-images/category'), $imageName);
+
+	    	$Categories->image        = $imageName;
+        }
+        else
+        {
+            $imageName='NO.png';
+        }
 
         if ($Categories->save()) {
 

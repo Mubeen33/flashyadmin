@@ -49,13 +49,7 @@ Route::get('category-edit/{id}','category\CategoryController@editcategory');
 Route::post('update-category','category\CategoryController@updatecategory');
 Route::get('category-active/{id}','category\CategoryController@activecategory');
 Route::get('category-disable/{id}','category\CategoryController@disableAcategory');
-
-Route::get('/childs', function () {
-	return('all is well');
-	$main_id=input::get('par_id');
-	$childs=Categories:: where('parent_id','=',$main_id);
-  return Response::json($childs);
-});
+Route::Post('get_child','category\CategoryController@getChild');
 // End Categories
 Route::group(['as'=>'admin.', 'namespace'=>'Admin', 'middleware' => ['auth']], function(){
 	//vendors controller
