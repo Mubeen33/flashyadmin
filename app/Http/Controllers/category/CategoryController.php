@@ -33,12 +33,22 @@ class CategoryController extends Controller
 
     public function getChild(Request $request){
 
-           $id=$request->parent_id;
-        $Categories=Categories::where('parent_id','=',$id)->get();
+        $id=$request->parent_id;
+        $Categories=Categories::where('parent_id','=',$id)
+        ->where('deleted','=',0)->get();
         return response()->JSON($Categories);
        // return Response::json($Categories);
      
    }
+   public function getparent(Request $request){
+
+    $id=$request->child_id;
+    $Categories=Categories::where('id','=',$id)
+    ->where('deleted','=',0)->get();
+    return response()->JSON($Categories);
+   // return Response::json($Categories);
+ 
+}
     // Categorys
     public function categories(){
 
@@ -55,37 +65,43 @@ class CategoryController extends Controller
         'order'=>'required'
         ]);
 
-        if($request->cat_id == 'null')
-        {
-            $parent_id=0;
-        }
-        else
-        {
-            if(!empty($request->cat_id))
-             {
-                if(!empty($request->subcat))
-                {
+if(empty($request->cat_id) || $request->cat_id == 'null')
+{
+ 
+    $parent_id=0;
 
-                    if(!empty($request->childcat))
-                    {
-                        $parent_id=$request->childcat;
-                    }   
-                    else
-                    {
-                        $parent_id=$request->subcat;
-                    }
-                   
-                }
-                else
-                {
-                    $parent_id=$request->cat_id;
-                }
-               
+}
+else
+{
 
-             }
-            
-           
-        }
+    $parent_id=$request->cat_id;
+
+}
+
+if(empty($request->subcat) || $request->subcat == 'null')
+{
+ 
+    $parent_id=$request->cat_id;
+}
+else
+{
+
+    $parent_id=$request->subcat;
+
+}
+      
+
+if(empty($request->childcat) || $request->childcat == 'null')
+{
+ 
+    $parent_id=$request->subcat;
+}
+else
+{
+
+    $parent_id=$request->childcat;
+
+}
 
     	$Categories = new Categories();
         $Categories->name        = $request->name;
@@ -118,11 +134,13 @@ class CategoryController extends Controller
     }
     // edit Category
     public function editcategory($id){
+        $allcategories=Categories::where('deleted','=',0)->where('parent_id','!=',0)->get();
 
     	$id     = $id;
     	$Categories  = Categories::where('id',$id)->first();
         return view('category.edit-catgeory')
-        ->with('categories',$Categories);
+        ->with('categories',$Categories)
+        ->with('allcategories',$allcategories);
     }
 
     // update Category

@@ -121,7 +121,7 @@
                                                         <div class="col-12" id="subdiv" style="display: none">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
-                                                                    <span>Sub Category</span>
+
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     
@@ -135,7 +135,7 @@
                                                         <div class="col-12" id="childdiv" style="display: none">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
-                                                                    <span>Child Category</span>
+
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     
@@ -297,8 +297,8 @@
      {
         $("#subdiv").show();
         $element = $("#subcat");
-       
         $element.empty();
+        $element.append("<option value='null'>None</option>");
         $(data).each(function(){
           $element.append("<option value='"+ this.id +"'>"+ this.name +"</option>");
         });
@@ -333,6 +333,7 @@ function myChild(val)
         $element = $("#childcat");
       
         $element.empty();
+        $element.append("<option value='null'>None</option>");
         $(data).each(function(){
           $element.append("<option value='"+ this.id +"'>"+ this.name +"</option>");
         });
