@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Category;
+
 class HomeController extends Controller
 {
     /**
@@ -33,11 +34,17 @@ class HomeController extends Controller
             return redirect('home');
         }
     }
+
     public function index()
     {
         return view('index');
     }
 
+    public function addProduct(){
+
+        return view('product.add-product');
+    }
+    // 
     public function categories()
     {
         return view('categories');
@@ -55,18 +62,23 @@ class HomeController extends Controller
     public function getSubcategories($id){
 
         $categories = Category::where('parent_id',$id)->get();
-        $array = array();
-        if (!empty($categories)) {
-            foreach ($categories as $category) {
-                $item = array(
-                    'id' => $category->id,
-                    'parent_id' => $category->parent_id,
-                    'name' => $category->name,
-                );
-                array_push($array, $item);
+        // print_r($categories);
+
+        if (count($categories) > 0) {
+            
+            $new_data_select_id = idate("U");
+        
+            $select = '<select class="form-control subcategory-select" name="parent_id[]" onchange="get_subcategories(this.value,'.$new_data_select_id.')" data-select-id="'.$new_data_select_id.'"><option value="">none</option>';
+
+            foreach ($categories as $key => $value) {
+                
+                $select.= '<option value="'.$value->id.'">'.$value->name.'</option>';
             }
+            $select .= '</select>';
+
+            echo $select;
         }
-       return json_encode($array);
+        
     }
 
 }

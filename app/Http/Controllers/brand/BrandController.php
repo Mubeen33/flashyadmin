@@ -15,7 +15,7 @@ class BrandController extends Controller
     //active brands list
     public function brandsList(){
 
-        $brands = Brand::where('active','Y')->orderBy('id', 'desc')->paginate('5');
+        $brands = Brand::where('active','Y')->orderBy('id', 'desc')->paginate('10');
     	return view('brand.brand-list',compact('brands'));
         // return Laratables::recordsOf(Brand::class,Laratables::class);
     }
@@ -71,7 +71,7 @@ class BrandController extends Controller
 
     public function disableBrandsList(){
 
-    	$brands = Brand::where('active','N')->orderBy('id', 'desc')->get();
+    	$brands = Brand::where('active','N')->orderBy('id', 'desc')->paginate('10');
     	return view('brand.disable-brand-list',compact('brands'));
     }
 
