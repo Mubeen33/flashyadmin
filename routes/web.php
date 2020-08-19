@@ -23,12 +23,15 @@ Auth::routes();
 Route::get('/', 'HomeController@checkLogin');
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/add-product', 'ProductController@index');
+// Route::get('/add-product', 'HomeController@addProduct');
 
-// Vendor Routes
+// General Route
 
+Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
 
-// brands
+// 
+
+// brands Route
 Route::get('add-brand','HomeController@addBrands')->name('brands.addbrand');
 Route::get('brands-list','brand\BrandController@brandsList')->name('brands.brandslist');
 Route::get('brands','brand\BrandController@brandsList')->name('brands.brands');
@@ -38,6 +41,18 @@ Route::get('brand-edit/{id}','brand\BrandController@editBrand');
 Route::get('brand-disable/{id}','brand\BrandController@disableABrand');
 Route::post('update-brand','brand\BrandController@updateBrand');
 Route::get('brand-active/{id}','brand\BrandController@activeBrand');
+// 
+
+// Variation routes
+Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
+Route::post('submit-variation','variation\VariationController@createVariation');
+Route::get('variations-list','variation\VariationController@variationsList')->name('variations.variationslist');
+Route::get('disable-variations-list','variation\VariationController@disableVariationsList')->name('variations.disablevariationslist');
+Route::get('variation-edit/{id}','variation\VariationController@editVariation');
+Route::post('update-variation','variation\VariationController@updateVariation');
+Route::get('variation-disable/{id}','variation\VariationController@disableAVariation');
+Route::get('variation-active/{id}','variation\VariationController@activeVariation');
+
 // 
 
 Route::get('add-category','category\CategoryController@index');
@@ -52,16 +67,17 @@ Route::get('category-disable/{id}','category\CategoryController@disableAcategory
 Route::Post('get_child','category\CategoryController@getChild')->name('get_child');
 Route::Post('getparent','category\CategoryController@getparent')->name('getparent');
 
+
+
 // End Categories
 Route::group(['as'=>'admin.', 'namespace'=>'Admin', 'middleware' => ['auth']], function(){
 	//vendors controller
 	Route::resource('vendors', 'VendorController');
 	Route::get('new-vendors/requests','VendorController@get_vendors_requests')->name("vendors.requests.get");
     Route::post('new-vendor/approve-account','VendorController@vendor_account_approve')->name("vendor.approve_account.post");
-// variations
+
 });
-Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
-Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
+
 
 
 Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
@@ -77,6 +93,10 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
 	//slider routes
 	Route::resource('sliders', 'Slider\SliderController');
 	Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
+
+	//slider routes
+	Route::resource('category', 'Category\CategoryController');
+	//Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
 });
 
 

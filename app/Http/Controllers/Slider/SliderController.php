@@ -60,8 +60,8 @@ class SliderController extends Controller
         $obj_fu = new FileUploader();
         $lgImage = "";
         $smImage = "";
+        $location = "upload-images/sliders/";
         if($request->hasFile('image_lg')){
-            $location = "upload-images/sliders/";
             $fileName ='slider-'.uniqid();
             $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
             $lgImage = $fileName__;
@@ -69,7 +69,6 @@ class SliderController extends Controller
             return redirect()->back()->with('error','Please Upload Image');
         }
         if($request->hasFile('image_sm')){
-            $location = "upload-images/sliders/";
             $fileName ='slider-'.uniqid();
             $fileName__ = $obj_fu->fileUploader($request->file('image_sm'), $fileName, $location);
             $smImage = $fileName__;
@@ -77,7 +76,7 @@ class SliderController extends Controller
             return redirect()->back()->with('error','Please Upload Image');
         }
 
-
+        $url = $this->getURL();
         $inserted = Slider::insert([
             'title'=>$request->title,
             'description'=>$request->description,
@@ -90,8 +89,8 @@ class SliderController extends Controller
             'title_animation'=>$request->title_animation,
             'description_animation'=>$request->description_animation,
             'button_animation'=>$request->button_animation,
-            'image_lg'=>$lgImage,
-            'image_sm'=>$smImage,
+            'image_lg'=>$url."/".$location.$lgImage,
+            'image_sm'=>$url."/".$location.$smImage,
             'created_at'=>Carbon::now()
         ]);
 
@@ -100,6 +99,17 @@ class SliderController extends Controller
         }else{
             return redirect()->back()->with('error', 'SORRY - Something wrong!');
         }
+    }
+
+    private function getURL(){
+        if(isset($_SERVER['HTTPS'])){
+            $protocol = ($_SERVER['HTTPS'] && $_SERVER['HTTPS'] != "off") ? "https" : "http";
+        }
+        else{
+            $protocol = 'http';
+        }
+        $http_port = $protocol . "://" . parse_url($_SERVER['REQUEST_URI'], PHP_URL_HOST);
+        return $http_port.$_SERVER['HTTP_HOST'];
     }
 
     /**
@@ -232,13 +242,16 @@ class SliderController extends Controller
         }
 
         //delete slider images
+        $url = $this->getURL();
         $location = "upload-images/sliders/";
         $obj_fu = new FileUploader();
         if ($data->image_lg != NULL) {
-            $obj_fu->deleteFile($data->image_lg, $location);
+            $fileName = str_replace($url."/".$location, "", $data->image_lg);
+            $obj_fu->deleteFile($fileName, $location);
         }
         if ($data->image_sm != NULL) {
-            $obj_fu->deleteFile($data->image_sm, $location);
+            $fileName = str_replace($url."/".$location, "", $data->image_sm);
+            $obj_fu->deleteFile($fileName, $location);
         }
 
         $deleted = $data->delete();

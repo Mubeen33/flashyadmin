@@ -102,14 +102,19 @@
                                             </div>
                                         </div>
 
-                                        <div>
-                                            
+                                        <div class="form-group">
+                                            <label>Image</label>
+                                            <br>
+                                            <input type="file" id="img_input" name="image" accept="image/*" class="d-none">
+                                            <button class="btn btn-success" type="button" 
+                                                onclick="document.getElementById('img_input').click()";
+                                            >Select Image</button>
                                         </div>
 
 
                                         
-                                        <div class="form-group">
-                                            <button class="btn btn-primary" type="submit">Add</button>
+                                        <div class="form-group text-right">
+                                            <button class="btn btn-primary" type="submit">Add Category</button>
                                         </div>
                                     </form>
 
