@@ -67,49 +67,27 @@ Route::get('category-disable/{id}','category\CategoryController@disableAcategory
 Route::Post('get_child','category\CategoryController@getChild')->name('get_child');
 Route::Post('getparent','category\CategoryController@getparent')->name('getparent');
 
-
-
 // End Categories
 
 
-Route::group(['as'=>'admin.', 'namespace'=>'Vendors', 'middleware' => ['auth']], function(){
+Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
 	//vendors controller
-	Route::resource('vendors', 'VendorController');
-	Route::get('new-vendors/requests','VendorController@get_vendors_requests')->name("vendors.requests.get");
-    Route::post('new-vendor/approve-account','VendorController@vendor_account_approve')->name("vendor.approve_account.post");
-<<<<<<< HEAD
+	Route::resource('vendors', 'Vendors\VendorController');
+	Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
+    Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
     
     //vendor activity
     Route::get('vendors-activity','VendorController@vendors_activity')->name("vendor.activity.get");
+
+
+    //slider routes
+	Route::resource('sliders', 'Slider\SliderController');
+	Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
 });
 
 Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
 Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
-=======
 
-});
-
->>>>>>> bee7db3bcdf9d21d4764ecec9e4de8fb151b32a4
-
-
-Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
-	//vendors routes
-	Route::resource('vendors', 'Vendors\VendorController');
-	Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
-    Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
-    Route::post('vendor-password','Vendors\VendorController@update_vendor_pass')->name("vendor.passUpdate.post");
-
-	//icon pages
-	Route::get('pages/{PageName}', 'Pages\PagesController@get_page')->name('page.get');
-
-	//slider routes
-	Route::resource('sliders', 'Slider\SliderController');
-	Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
-
-	//slider routes
-	Route::resource('category', 'Category\CategoryController');
-	//Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
-});
 
 
 
