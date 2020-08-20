@@ -54,6 +54,8 @@ class SliderController extends Controller
             'button_animation'=>'nullable|string|max:100',
             'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000',
             'image_sm'=>'required|image:png,jpeg,jpg,gif|max:1000',
+            'start_time'=>'required|date',
+            'end_time'=>'required|date'
         ]);
 
         //insert image
@@ -91,6 +93,8 @@ class SliderController extends Controller
             'button_animation'=>$request->button_animation,
             'image_lg'=>$url."/".$location.$lgImage,
             'image_sm'=>$url."/".$location.$smImage,
+            'start_time'=>$request->start_time,
+            'end_time'=>$request->end_time,
             'created_at'=>Carbon::now()
         ]);
 
@@ -160,6 +164,8 @@ class SliderController extends Controller
             'button_animation'=>'nullable|string|max:100',
             'image_lg'=>'nullable|image:png,jpeg,jpg,gif|max:1000',
             'image_sm'=>'nullable|image:png,jpeg,jpg,gif|max:1000',
+            'start_time'=>'required|date',
+            'end_time'=>'required|date'
         ]);
 
         $oldData = Slider::where('id', $id)->first();
@@ -212,6 +218,8 @@ class SliderController extends Controller
             'button_animation'=>$request->button_animation,
             'image_lg'=>($lgImage === NULL ? $oldData->image_lg : $lgImage),
             'image_sm'=>($smImage === NULL ? $oldData->image_sm : $smImage),
+            'start_time'=>$request->start_time,
+            'end_time'=>$request->end_time,
             'updated_at'=>Carbon::now()
         ]);
 
