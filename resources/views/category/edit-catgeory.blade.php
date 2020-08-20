@@ -108,7 +108,7 @@
                                                                     <span>Parent Category</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <select name="parentcat" id="parentcat" class="form-control" onchange="myChild(this.value)">
+                                                                    <select name="parentcat" id="parentcat" class="form-control">
                                                                     
                                                                     </select>
                                                                 </div>
@@ -134,10 +134,9 @@
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
-                                                                 Child Category
+                                                                
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    
                                                                     <select name="childcat" id="childcat" class="form-control" onchange="myFunction(this.value)">
                                                                         <option value="null">None</option>
                                                                         @foreach ($allcategories as $item)
@@ -152,7 +151,13 @@
                                                                         @endif
                                                                     <option {{$text}} value="{{$item->parent_id}}">{{$item->name}}</option> 
                                                                         @endforeach
-                                                                    </select>
+                                                                    </select>  
+
+                                                                    
+                                                             {{-- <select name="childcat" id="childcat" class="form-control" onclick="myFunction(this.value)">
+                                                               <option value="{{$categories->parent_id}}" >{{$categories->name}}</option>
+                                                               
+                                                               </select> --}}
                                                               
                                                                 </div>
                                                             </div>
@@ -289,11 +294,10 @@
     function myFunction(val) {
  var child_id=val;
 
- $.ajaxSetup({
+$.ajaxSetup({
   headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   }
-  
 });
 
   $.ajax({
@@ -305,13 +309,14 @@
   },
      success: function(data)
      {
+        
         console.log(data);
         $("#subdiv").show();
         $element = $("#subcat");
         $element.empty();
         $element.append("<option value='null'>None</option>");
         $(data).each(function(){
-          $element.append("<option value='"+ this.id +"'>"+ this.name +"</option>");
+          $element.append("<option value='"+ this.parent_id +"'>"+ this.name +"</option>");
         });
 
           
@@ -323,19 +328,18 @@
 
 function myChild(val)
 {
- var parent_id=val;
+ var child_id=val;
  $.ajaxSetup({
   headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   }
-  
 });
 
   $.ajax({
     type : "POST",
     url  :'{{ URL::route("getparent") }}',
     data: {
- parent_id: parent_id,
+ child_id: child_id,
  _token: '{{ csrf_token() }}'
   },
      success: function(data)
@@ -347,7 +351,7 @@ function myChild(val)
         $element.empty();
         $element.append("<option value='null'>None</option>");
         $(data).each(function(){
-          $element.append("<option value='"+ this.id +"'>"+ this.name +"</option>");
+          $element.append("<option value='"+ this.parent_id +"'>"+ this.name +"</option>");
         });
 
           
