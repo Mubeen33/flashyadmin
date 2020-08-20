@@ -71,8 +71,8 @@
                                                         <span class="sr-only">Toggle Dropdown</span>
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="{{url('category-edit')}}/{{$item->id}}">Edit</a>
-                                                        <a class="dropdown-item" href="{{url('category-active')}}/{{$item->id}}">Active</a>
+                                                        <a class="dropdown-item" href="{{url('category-edit')}}/{{$item->id}}"><i class="fa fa-edit"></i>Edit</a>
+                                                        <a class="dropdown-item" href="{{url('category-active')}}/{{$item->id}}"><i class="fa fa-check"></i>Active</a>
                                                     </div>
                                                 </div>
  
