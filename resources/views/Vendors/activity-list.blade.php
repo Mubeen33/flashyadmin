@@ -52,14 +52,15 @@
                                                                     $activities_array = (json_decode($content->activities, true));
                                                                     echo "<div class='vendors-activity-details'>";
                                                                         foreach($activities_array as $key=>$value){
-                                                                            echo "<p>".$key." : ".$value."</p>";
+                                                                            $key = str_replace('_', ' ', $key);
+                                                                            echo "<p>".ucwords($key)." : ".$value."</p>";
                                                                         }
                                                                     echo "</div>";
                                                                 @endphp
                                                             </td>
                                                             <td>{{ $content->created_at->format('d/m/Y H:i') }}</td>
                                                             <td>
-                                                                <a class="btn btn-primary btn-sm" title="View All Activity of {{ $content->get_vendor->first_name }}" href="{{ route('admin.vendors.show', Crypt::encrypt($content->id)) }}"><i class="feather icon-eye"></i></a>
+                                                                <a class="btn btn-primary btn-sm" title="View All Activity of {{ $content->get_vendor->first_name }}" href="{{ route('admin.vendor.activity.get', Crypt::encrypt($content->vendor_id)) }}"><i class="feather icon-eye"></i></a>
                                                             </td>
                                                         </tr>
                                                         @endif

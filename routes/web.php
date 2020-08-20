@@ -70,34 +70,27 @@ Route::Post('getparent','category\CategoryController@getparent')->name('getparen
 
 
 // End Categories
-Route::group(['as'=>'admin.', 'namespace'=>'Admin', 'middleware' => ['auth']], function(){
-	//vendors controller
-	Route::resource('vendors', 'VendorController');
-	Route::get('new-vendors/requests','VendorController@get_vendors_requests')->name("vendors.requests.get");
-    Route::post('new-vendor/approve-account','VendorController@vendor_account_approve')->name("vendor.approve_account.post");
-
-});
-
 
 
 Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
-	//vendors routes
+	//vendors controller
 	Route::resource('vendors', 'Vendors\VendorController');
 	Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
     Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
-    Route::post('vendor-password','Vendors\VendorController@update_vendor_pass')->name("vendor.passUpdate.post");
+    
+    //vendor activity
+    Route::get('vendors-activity','Vendors\VendorController@vendors_activitities')->name("vendor.activities.get");
+    Route::get('vendor/activity/{vendorID}','Vendors\VendorController@vendor_actitvity')->name('vendor.activity.get');
+    Route::post('vendor/activity','Vendors\VendorController@delete_vendor_activity')->name('vendor.activityDelete.post');
 
-	//icon pages
-	Route::get('pages/{PageName}', 'Pages\PagesController@get_page')->name('page.get');
-
-	//slider routes
+    //slider routes
 	Route::resource('sliders', 'Slider\SliderController');
 	Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
-
-	//slider routes
-	Route::resource('category', 'Category\CategoryController');
-	//Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
 });
+
+Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
+Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
+
 
 
 

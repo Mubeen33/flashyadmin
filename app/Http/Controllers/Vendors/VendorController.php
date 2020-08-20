@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Vendors;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Vendor;
+use App\VendorActivity;
 use Carbon\Carbon;
 use Hash;
+use Illuminate\Support\Collection;
 
 class VendorController extends Controller
 {
@@ -305,6 +307,41 @@ class VendorController extends Controller
             return redirect()->back()->with('success', 'Password Updated');
         }else{
             return redirect()->back()->with('error', 'SORRY - Something wrong.');
+        }
+    }
+
+
+    //vendor activity
+    public function vendors_activitities(){
+        $data = VendorActivity::orderBy('id', 'DESC')->with('get_vendor')->get();
+        $data2 = $data->groupBy('vendor_id');
+        $data = (new Collection($data2))->paginate_build_by_developer_rijan(10);
+        //$data = collect($data);
+        return view('Vendors.activity-list', compact('data'));
+    }
+
+    public function vendor_actitvity($vendorID){
+        $vendorID = \Crypt::decrypt($vendorID);
+        $vendor = Vendor::where('id', $vendorID)->first();
+        if (!$vendor) {
+            return abort(404);
+        }
+        $data = VendorActivity::where('vendor_id', $vendorID)
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(20);
+        return view('Vendors.activity', compact('vendor', 'data'));
+    }
+
+    public function delete_vendor_activity(Request $request){
+        $deleted = VendorActivity::where([
+            'id'=>\Crypt::decrypt($request->activityID),
+            'vendor_id'=>\Crypt::decrypt($request->vendorID)
+        ])->delete();
+
+        if ($deleted == true) {
+            return redirect()->back()->with('success', 'Activity Record Deleted');
+        }else{
+           return redirect()->back()->with('error', 'SORRY - Something wrong!'); 
         }
     }
 }
