@@ -67,6 +67,8 @@ Route::get('category-disable/{id}','category\CategoryController@disableAcategory
 Route::Post('get_child','category\CategoryController@getChild')->name('get_child');
 Route::Post('getparent','category\CategoryController@getparent')->name('getparent');
 
+
+
 // End Categories
 
 
@@ -77,8 +79,7 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
     Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
     
     //vendor activity
-    Route::get('vendors-activity','VendorController@vendors_activity')->name("vendor.activity.get");
-
+    Route::get('vendor-activity','Vendors\VendorController@vendors_activity')->name("vendor.activity.get");
 
     //slider routes
 	Route::resource('sliders', 'Slider\SliderController');
