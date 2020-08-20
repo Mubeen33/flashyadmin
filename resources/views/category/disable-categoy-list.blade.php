@@ -57,9 +57,9 @@
                                         </td>
                                         <td>
                                             @if ($item->home_visiblity == 0)
-                                            <div class="badge badge-danger">NO</div>  
+                                            <div class="badge badge-danger"><strong>No</strong></div>  
                                             @else
-                                            <div class="badge badge-success">Yes</div> 
+                                            <div class="badge badge-success"><strong>Yes</strong></div> 
                                             @endif
                                         </td>
                                             <td> 

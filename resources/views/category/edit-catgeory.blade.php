@@ -102,22 +102,69 @@
                                                             </div>
                                                         </div>
                                                       
-                                                        <div class="col-12">
+                                                        <div class="col-12" id="parentdiv" style="display: none">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Parent Category</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="parent_id"  class="form-control" name="parent_id" value="{{$categories->parent_id}}" required="">
+                                                                    <select name="parentcat" id="parentcat" class="form-control" onchange="myChild(this.value)">
+                                                                    
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                         </div>
 
+
+                                                        <div class="col-12" id="subdiv" style="display: none">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    
+                                                                    <select name="subcat" id="subcat" class="form-control" onchange="myChild(this.value)">
+                                                                    
+                                                                    </select>
+                                                              
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                 Child Category
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    
+                                                                    <select name="childcat" id="childcat" class="form-control" onchange="myFunction(this.value)">
+                                                                        <option value="null">None</option>
+                                                                        @foreach ($allcategories as $item)
+                                                                        @if($item->id == $categories->id)
+         
+                                                                        {{$text='selected=selected'}}
+                                                                        
+                                                                        @else
+                                                                        
+                                                                         {{$text=""}}
+                                                                        
+                                                                        @endif
+                                                                    <option {{$text}} value="{{$item->parent_id}}">{{$item->name}}</option> 
+                                                                        @endforeach
+                                                                    </select>
+                                                              
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                      
+                                                
                                                         
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
-                                                                    <span>Brand Image</span>
+                                                                    <span>Category Image</span>
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     <div class="custom-file">
@@ -223,19 +270,92 @@
                 </section>
 
             </div>
+
+            <script>
+                function previewFile(input){
+                    var file = $("input[type=file]").get(0).files[0];
+             
+                    if(file){
+                        var reader = new FileReader();
+             
+                        reader.onload = function(){
+                            $("#previewImg").attr("src", reader.result);
+                        }
+             
+                        reader.readAsDataURL(file);
+                    }
+                }
+            
+    function myFunction(val) {
+ var child_id=val;
+
+ $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+  
+});
+
+  $.ajax({
+ type : "POST",
+ url  : '{{ URL::route("getparent") }}',
+ data: {
+    child_id: child_id,
+ _token: '{{ csrf_token() }}'
+  },
+     success: function(data)
+     {
+        console.log(data);
+        $("#subdiv").show();
+        $element = $("#subcat");
+        $element.empty();
+        $element.append("<option value='null'>None</option>");
+        $(data).each(function(){
+          $element.append("<option value='"+ this.id +"'>"+ this.name +"</option>");
+        });
+
+          
+     }
+            });
+}
+    
+
+
+function myChild(val)
+{
+ var parent_id=val;
+ $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+  
+});
+
+  $.ajax({
+    type : "POST",
+    url  :'{{ URL::route("getparent") }}',
+    data: {
+ parent_id: parent_id,
+ _token: '{{ csrf_token() }}'
+  },
+     success: function(data)
+     {
+         console.log(data);
+        $("#parentdiv").show();
+        $element = $("#parentcat");
+      
+        $element.empty();
+        $element.append("<option value='null'>None</option>");
+        $(data).each(function(){
+          $element.append("<option value='"+ this.id +"'>"+ this.name +"</option>");
+        });
+
+          
+     }
+            });
+}            
+     
+
+            </script>
+
 @endsection       
-<script>
-    function previewFile(input){
-        var file = $("input[type=file]").get(0).files[0];
- 
-        if(file){
-            var reader = new FileReader();
- 
-            reader.onload = function(){
-                $("#previewImg").attr("src", reader.result);
-            }
- 
-            reader.readAsDataURL(file);
-        }
-    }
-</script>
