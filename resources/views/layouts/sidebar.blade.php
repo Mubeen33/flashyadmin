@@ -60,9 +60,17 @@
                             </li>
                             --}}
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
-                                <a class="dropdown-item" href="{{Route('admin.vendors.index')}}"><i class="feather icon-circle"></i>All Vendors</a>
-                                <a class="dropdown-item" href="{{Route('admin.vendor.activities.get')}}"><i class="feather icon-circle"></i>Vendors Activity</a>
-                                <a class="dropdown-item" href="{{Route('admin.vendors.index')}}"><i class="feather icon-circle"></i>Vendors Updates <span class="badge badge-danger ml-2">1</span></a>
+                                <a class="dropdown-item" href="{{route('admin.vendors.index')}}"><i class="feather icon-circle"></i>All Vendors</a>
+                                <a class="dropdown-item" href="{{route('admin.vendor.activities.get')}}"><i class="feather icon-circle"></i>Vendors Activity</a>
+                                <a class="dropdown-item" href="{{route('admin.vendor.bankUpdates.get')}}"><i class="feather icon-circle"></i>Bank Updates 
+                                    @php
+                                        $vendorBankDetailsUpdates = (\App\VendorBankDetailsTempData::where('status', 0)->count());
+                                        if($vendorBankDetailsUpdates > 0){
+                                            echo "<span class='badge badge-danger ml-2'>".$vendorBankDetailsUpdates."</span>";
+                                        }
+                                    @endphp
+                                    
+                                </a>
                             </li>
                         </ul>
                     </li>

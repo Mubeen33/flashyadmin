@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Vendor;
 use App\VendorActivity;
+use App\VendorBankDetailsTempData;
 use Carbon\Carbon;
 use Hash;
 use Illuminate\Support\Collection;
@@ -342,6 +343,54 @@ class VendorController extends Controller
             return redirect()->back()->with('success', 'Activity Record Deleted');
         }else{
            return redirect()->back()->with('error', 'SORRY - Something wrong!'); 
+        }
+    }
+
+
+    //get bank details updates
+    public function get_bank_updates(){
+        $data = VendorBankDetailsTempData::where('status', 0)
+                    ->orderBy('id', 'DESC')
+                    ->with('get_vendor')
+                    ->paginate(20);
+        return view('Vendors.bank-updates', compact('data'));
+    }
+
+
+    //approve bank details update request
+    public function approve_bank_updates(Request $request){
+        $id = \Crypt::decrypt($request->id);
+        $vendorID = \Crypt::decrypt($request->vendorID);
+        
+        $data = VendorBankDetailsTempData::where([
+            'id'=>$id,
+            'vendor_id'=>$vendorID,
+            'status'=>0
+        ])->first();
+
+        if (!$data) {
+            return redirect()->back()->with('error', 'SORRY - Data not Fournd');
+        }
+
+        //update bank details
+        $updated = Vendor::where('id', $vendorID)->update([
+            'account_holder'=>$data->account_holder,
+            'bank_name'=>$data->bank_name,
+            'bank_account'=>$data->bank_account,
+            'branch_name'=>$data->branch_name,
+            'branch_code'=>$data->branch_code,
+            'updated_at'=>Carbon::now()
+        ]);
+
+        if ($updated == true) {
+            //update status
+            $data->update([
+                'status'=>1,//approved
+                'updated_at'=>Carbon::now()
+            ]);
+            return redirect()->back()->with('success', 'Request Approved');
+        }else{
+            return redirect()->back()->with('error', 'SORRY - Something wrong!');
         }
     }
 }
