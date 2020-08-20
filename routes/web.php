@@ -57,13 +57,18 @@ Route::get('/childs', function () {
   return Response::json($childs);
 });
 // End Categories
-Route::group(['as'=>'admin.', 'namespace'=>'Admin', 'middleware' => ['auth']], function(){
+
+
+Route::group(['as'=>'admin.', 'namespace'=>'Vendors', 'middleware' => ['auth']], function(){
 	//vendors controller
 	Route::resource('vendors', 'VendorController');
 	Route::get('new-vendors/requests','VendorController@get_vendors_requests')->name("vendors.requests.get");
     Route::post('new-vendor/approve-account','VendorController@vendor_account_approve')->name("vendor.approve_account.post");
-// variations
+    
+    //vendor activity
+    Route::get('vendors-activity','VendorController@vendors_activity')->name("vendor.activity.get");
 });
+
 Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
 Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
 

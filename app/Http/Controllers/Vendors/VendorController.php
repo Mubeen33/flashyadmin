@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Vendors;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Vendor;
+use App\VendorActivity;
 use Carbon\Carbon;
 use Hash;
+use Illuminate\Support\Collection;
 
 class VendorController extends Controller
 {
@@ -306,5 +308,15 @@ class VendorController extends Controller
         }else{
             return redirect()->back()->with('error', 'SORRY - Something wrong.');
         }
+    }
+
+
+    //vendor activity
+    public function vendors_activity(){
+        $data = VendorActivity::orderBy('id', 'DESC')->with('get_vendor')->get();
+        $data2 = $data->groupBy('vendor_id');
+        $data = (new Collection($data2))->paginate_build_by_developer_rijan(10);
+        //$data = collect($data);
+        return view('Vendors.activity', compact('data'));
     }
 }
