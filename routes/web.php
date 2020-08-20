@@ -79,7 +79,9 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
     Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
     
     //vendor activity
-    Route::get('vendor-activity','Vendors\VendorController@vendors_activity')->name("vendor.activity.get");
+    Route::get('vendors-activity','Vendors\VendorController@vendors_activitities')->name("vendor.activities.get");
+    Route::get('vendor/activity/{vendorID}','Vendors\VendorController@vendor_actitvity')->name('vendor.activity.get');
+    Route::post('vendor/activity','Vendors\VendorController@delete_vendor_activity')->name('vendor.activityDelete.post');
 
     //slider routes
 	Route::resource('sliders', 'Slider\SliderController');
