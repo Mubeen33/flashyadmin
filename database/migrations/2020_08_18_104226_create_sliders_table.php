@@ -28,6 +28,8 @@ class CreateSlidersTable extends Migration
             $table->string('button_animation')->nullable();
             $table->string('image_lg');
             $table->string('image_sm');
+            $table->date('start_time');
+            $table->date('end_time');
             $table->timestamps();
         });
     }

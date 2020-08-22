@@ -50,16 +50,16 @@
                                             <td>{{$item->order}}</td>
                                             <td>
                                             @if ($item->visiblity == 1)
-                                            <div class="fonticon-wrap"> <div class="badge badge-success"><i class="fa fa-eye fa-x"></i></div> </div>  
+                                            <div class="fonticon-wrap"> <div class="badge badge-success">&nbsp;&nbsp;<i class="fa fa-eye fa-x"></i>&nbsp;&nbsp;</div> </div>  
                                             @else
-                                            <div class="fonticon-wrap"> <div class="badge badge-danger"><i class="fa fa-eye-slash"></i></div> </div>    
+                                            <div class="fonticon-wrap"> <div class="badge badge-danger">&nbsp;&nbsp;<i class="fa fa-eye-slash"></i>&nbsp;&nbsp;</div> </div>    
                                             @endif
                                         </td>
                                         <td>
                                             @if ($item->home_visiblity == 0)
-                                            <div class="badge badge-danger">NO</div>  
+                                            <div class="badge badge-danger"><strong>NO</strong></div>  
                                             @else
-                                            <div class="badge badge-success">Yes</div> 
+                                            <div class="badge badge-success"><strong>YES</strong></div> 
                                             @endif
                                         </td>
                                             <td> 
@@ -71,8 +71,8 @@
                                                         <span class="sr-only">Toggle Dropdown</span>
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="{{url('category-edit')}}/{{$item->id}}">Edit</a>
-                                                        <a class="dropdown-item" href="{{url('category-disable')}}/{{$item->id}}">Disable</a>
+                                                        <a class="dropdown-item" href="{{url('category-edit')}}/{{$item->id}}"><i class="fa fa-edit"></i>Edit</a>
+                                                        <a class="dropdown-item" href="{{url('category-disable')}}/{{$item->id}}"><i class="fa fa-trash"></i>Delete</a>
                                                     </div>
                                                 </div>
  
@@ -115,6 +115,8 @@
             ],
         });
     });
+
+    
 </script>             
 @endsection
  

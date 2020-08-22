@@ -57,9 +57,9 @@
                                         </td>
                                         <td>
                                             @if ($item->home_visiblity == 0)
-                                            <div class="badge badge-danger">NO</div>  
+                                            <div class="badge badge-danger"><strong>No</strong></div>  
                                             @else
-                                            <div class="badge badge-success">Yes</div> 
+                                            <div class="badge badge-success"><strong>Yes</strong></div> 
                                             @endif
                                         </td>
                                             <td> 
@@ -71,8 +71,8 @@
                                                         <span class="sr-only">Toggle Dropdown</span>
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="{{url('category-edit')}}/{{$item->id}}">Edit</a>
-                                                        <a class="dropdown-item" href="{{url('category-active')}}/{{$item->id}}">Active</a>
+                                                        <a class="dropdown-item" href="{{url('category-edit')}}/{{$item->id}}"><i class="fa fa-edit"></i>Edit</a>
+                                                        <a class="dropdown-item" href="{{url('category-active')}}/{{$item->id}}"><i class="fa fa-check"></i>Active</a>
                                                     </div>
                                                 </div>
  
