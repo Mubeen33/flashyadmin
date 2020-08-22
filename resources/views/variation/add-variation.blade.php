@@ -95,6 +95,7 @@
             }
         });
         
+    // ajax function for subcategories
 
         $.ajax({
 
@@ -117,9 +118,6 @@
                 
             }
         });
-        
-        
-        
     }
     
 </script>

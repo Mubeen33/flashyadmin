@@ -367,7 +367,7 @@ class VendorController extends Controller
     }
 
 
-    //approve bank details update request
+    // //approve bank details update request
     public function approve_bank_updates(Request $request){
         $id = \Crypt::decrypt($request->id);
         $vendorID = \Crypt::decrypt($request->vendorID);
@@ -382,7 +382,7 @@ class VendorController extends Controller
             return redirect()->back()->with('error', 'SORRY - Data not Fournd');
         }
 
-        //update bank details
+    //update bank details
         $updated = Vendor::where('id', $vendorID)->update([
             'account_holder'=>$data->account_holder,
             'bank_name'=>$data->bank_name,

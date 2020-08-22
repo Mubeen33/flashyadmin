@@ -13,7 +13,7 @@ class VariationController extends Controller
 
     public function addVariation(){
 
-    	$parentCategory = Category::where('parent_id',0)->get();
+    	$parentCategory = Category::where([['parent_id',0],['deleted','=',0]])->get();
         
         return view('variation.add-variation',compact('parentCategory'));
     }

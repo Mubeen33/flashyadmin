@@ -13,42 +13,19 @@ class CategoryController extends Controller
 	//add Category view
 
 	public function index(){
-        $Categories=Category::select ('id', 'name')->orderBy('id','desc')->where('deleted', '=',0)->get();
+        $Categories=Category::select ('id', 'name')->orderBy('id','desc')->where([['deleted', '=',0],['parent_id','=',0]])->get();
         return view('category.add-category')
         ->with('categories',$Categories);
 	}
     //active Categorys list
     public function categoryList(){
 
-
          $Categories=Category::orderBy('id','desc')->where('deleted', '=',0)->get();
         return view('category.category-list')
         ->with('categories',$Categories);
       
     }
-//getting childs
-    public function getchild(Request $request){
 
-      $parent_id=$request->parent_id;
-        $Categories=Category::select('name','id','parent_id')->where('deleted', '=',0)->where('parent_id', '=',$parent_id)->get();
-        return response()->JSON($Categories);
-     
-   }
-
-   //getting parents
-   public function getparent(Request $request){
-
-      $child_id=$request->child_id;
-      $Categories=Category::select('name','id','parent_id')->where('deleted', '=',0)->where('id', '=',$child_id)->get();
-      return response()->JSON($Categories);
-   
- }
-    // Categorys
-    public function categories(){
-
-        return Laratables::recordsOf(Category::class);
-    }
-    //createCategory
 
     public function createcategory(Request $request){
        
@@ -56,56 +33,46 @@ class CategoryController extends Controller
         ['name'=>'required',
         'slug'=>'required',
         'title'=>'required',
-        'order'=>'required'
+        'order'=>'required',
+        'commission'=>'required'
         ]);
-        if(empty($request->cat_id) || $request->cat_id == "null")
-        {
-            $parent_id= 0;
+        
+    	$Category = new Category();
+        // parent id
+        $data["parent_id"] = 0;
+        $category_ids_array = $request->input('parent_id');
+        if (!empty($category_ids_array)) {
+            foreach ($category_ids_array as $key => $value) {
+                if (!empty($value)) {
+                    $data["parent_id"] = $value;
+                }
+            }
         }
-        else
-        {
-        if(empty($request->subcat) || $request->subcat == "null" )
-        {
-            $parent_id=$request->cat_id;
-        }
-        else
-        {
-        if(empty($request->childcat) || $request->childcat == "null")
-        {
-            $parent_id=$request->subcat;
-        }
-        else
-        {
-            $parent_id=$request->childcat;
-        }
-        }
-        }
+        $Category->parent_id            = $data['parent_id'];
 
-    	$Categories = new Category();
-        $Categories->name        = $request->name;
-        $Categories->slug        = $request->slug;
-        $Categories->parent_id    = $parent_id;
-        $Categories->title        = $request->title;
-        $Categories->desc        = $request->desc;
-        $Categories->keyword        = $request->keyword;
-        $Categories->order        = $request->order;
-        $Categories->home_order        = $request->home_order;
-        $Categories->visiblity        = $request->visiblity;
-        $Categories->home_visiblity = $request->home_visiblity;
-        $Categories->image_visiblity = $request->image_visiblity;
+        // 
+        $Category->name                 = $request->name;
+        $Category->slug                 = $request->slug;
+        $Category->title_meta_tag       = $request->title;
+        $Category->description          = $request->desc;
+        $Category->keywords             = $request->keyword;
+        $Category->category_order       = $request->order;
+        $Category->homepage_order       = $request->home_order;
+        $Category->visibility           = $request->visiblity;
+        $Category->show_on_homepage     = $request->home_visiblity;
+        $Category->show_image_nav       = $request->image_visiblity;
+        $Category->commission           = $request->commission;
+
+
         if ($request->hasFile('image')) {
 	    
             $imageName = time().'.'.request()->image->getClientOriginalExtension();
             request()->image->move(public_path('upload-images/category'), $imageName);
 
-	    	$Categories->image        = $imageName;
+	    	$Category->image        = $imageName;
         }
-        else
-        {
-            $imageName='none.png';
-        }
-
-        if ($Categories->save()) {
+        
+        if ($Category->save()) {
 
         	return redirect("category-list")->with('msg','<div class="alert alert-success" id="msg">Category added Successfully!</div>');
         }
@@ -152,18 +119,18 @@ class CategoryController extends Controller
         }
         
         
-        $id                 = $request->id;
-        $Categories              = Category::find($id);
-    	$Categories->name        = $request->name;
-        $Categories->slug        = $request->slug;
-        $Categories->parent_id    = $parent_id;
-        $Categories->title        = $request->title;
-        $Categories->desc        = $request->desc;
-        $Categories->keyword        = $request->keyword;
-        $Categories->order        = $request->order;
-        $Categories->home_order        = $request->home_order;
-        $Categories->visiblity        = $request->visiblity;
-        $Categories->home_visiblity = $request->home_visiblity;
+        $id                          = $request->id;
+        $Categories                  = Category::find($id);
+    	$Categories->name            = $request->name;
+        $Categories->slug            = $request->slug;
+        $Categories->parent_id       = $parent_id;
+        $Categories->title           = $request->title;
+        $Categories->desc            = $request->desc;
+        $Categories->keyword         = $request->keyword;
+        $Categories->order           = $request->order;
+        $Categories->home_order      = $request->home_order;
+        $Categories->visiblity       = $request->visiblity;
+        $Categories->home_visiblity  = $request->home_visiblity;
         $Categories->image_visiblity = $request->image_visiblity;
     	
 

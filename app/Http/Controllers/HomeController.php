@@ -61,7 +61,7 @@ class HomeController extends Controller
 
     public function getSubcategories($id){
 
-        $categories = Category::where('parent_id',$id)->get();
+        $categories = Category::where([['parent_id','=',$id],['deleted','=',0]])->get();
         // print_r($categories);
 
         if (count($categories) > 0) {
@@ -76,9 +76,17 @@ class HomeController extends Controller
             }
             $select .= '</select>';
 
-            echo $select;
+            return $select;
         }
         
+    }
+
+    // get Commission of Categories
+
+    public function getCategoriesCommission($id){
+
+        $commission = Category::where([['id','=',$id],['deleted','=',0]])->value('Commission');
+        return $commission;
     }
 
 }
