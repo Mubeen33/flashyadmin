@@ -246,7 +246,7 @@
 
     function get_subcategories(category_id,data_select_id){
 
-        // commission on categoru base.
+        // commission on category base.
 
             getCommission(category_id);
 

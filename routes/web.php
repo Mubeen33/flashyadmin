@@ -51,8 +51,8 @@ Route::get('variations-list','variation\VariationController@variationsList')->na
 Route::get('disable-variations-list','variation\VariationController@disableVariationsList')->name('variations.disablevariationslist');
 Route::get('variation-edit/{id}','variation\VariationController@editVariation');
 Route::post('update-variation','variation\VariationController@updateVariation');
-Route::get('variation-disable/{id}','variation\VariationController@disableAVariation');
-Route::get('variation-active/{id}','variation\VariationController@activeVariation');
+// Route::get('variation-disable/{id}','variation\VariationController@disableAVariation');
+// Route::get('variation-active/{id}','variation\VariationController@activeVariation');
 
 // End Variation Routes
 
@@ -62,12 +62,15 @@ Route::get('add-customfields','customfields\customfieldController@addCustomField
 
 Route::get('add-category','category\CategoryController@index');
 Route::get('category-list','category\CategoryController@categoryList')->name('category.categorylist');
+Route::get('categories','category\CategoryController@categoryList')->name('category.categories');
 Route::get('disable-categories-list','category\CategoryController@disablecategoryList')->name('category.disablecategoryList');
 Route::post('add-category','category\CategoryController@createcategory');
 Route::get('category-edit/{id}','category\CategoryController@editcategory');
 Route::post('update-category','category\CategoryController@updatecategory');
 Route::get('category-active/{id}','category\CategoryController@activecategory');
 Route::get('category-disable/{id}','category\CategoryController@disableAcategory');
+Route::Post('get_child','category\CategoryController@getChild')->name('get_child');
+Route::Post('getparent','category\CategoryController@getparent')->name('getparent');
 
 
 
