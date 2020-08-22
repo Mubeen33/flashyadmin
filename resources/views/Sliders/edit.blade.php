@@ -143,17 +143,27 @@
 
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-12">
+                                                <div class="col-lg-4 col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Slider Type</label>
+                                                        <select class="form-control" name="slider_type">
+                                                            <option value="Product" @if($data->slider_type) === "Product" ) selected @endif>Product Slider</option>
+                                                            <option value="Deal" @if($data->slider_type === "Deal" ) selected @endif>Deal Slider</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-12">
                                                     <div class="form-group">
                                                         <label>Start Time</label>
                                                         <input type="date" name="start_time" required="1" class="form-control" value="{{ $data->start_time }}">
                                                     </div>
-                                                    <div class="form-group">
+                                                </div>
+                                                <div class="col-lg-4 col-md-12">
+                                                     <div class="form-group">
                                                         <label>End Time</label>
                                                         <input type="date" name="end_time" required="1" class="form-control" value="{{ $data->end_time }}">    
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-12"></div>
                                             </div>
                                         </div>
                                         

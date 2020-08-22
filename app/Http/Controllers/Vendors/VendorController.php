@@ -327,10 +327,20 @@ class VendorController extends Controller
         if (!$vendor) {
             return abort(404);
         }
-        $data = VendorActivity::where('vendor_id', $vendorID)
+        $loginActivities = VendorActivity::where([
+                        ['vendor_id', '=', $vendorID],
+                        ['activityName', '=', 'Login']
+                    ])
                     ->orderBy('created_at', 'DESC')
                     ->paginate(20);
-        return view('Vendors.activity', compact('vendor', 'data'));
+        $othersActivities = VendorActivity::where([
+                        ['vendor_id', '=', $vendorID],
+                        ['activityName', '!=', 'Login']
+                    ])
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(20);
+
+        return view('Vendors.activity', compact('vendor', 'loginActivities', 'othersActivities'));
     }
 
     public function delete_vendor_activity(Request $request){
@@ -383,11 +393,8 @@ class VendorController extends Controller
         ]);
 
         if ($updated == true) {
-            //update status
-            $data->update([
-                'status'=>1,//approved
-                'updated_at'=>Carbon::now()
-            ]);
+            //delete record
+            $data->delete();
             return redirect()->back()->with('success', 'Request Approved');
         }else{
             return redirect()->back()->with('error', 'SORRY - Something wrong!');
