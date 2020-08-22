@@ -74,8 +74,28 @@ class BannerController extends Controller
             $fileName = 'banner-'.uniqid();
         }else{
             $this->validate($request, [
-                'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
+                'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
             ]);
+            if ($request->ads_banner_position === "Banner-Groups") {
+                $this->validate($request, [
+                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
+                ]);
+            }
+            if ($request->ads_banner_position === "Banner-Long") {
+                $this->validate($request, [
+                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
+                ]);
+            }
+            if ($request->ads_banner_position === "Banner-Short") {
+                $this->validate($request, [
+                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
+                ]);
+            }
+            if ($request->ads_banner_position === "Banner-Box") {
+                $this->validate($request, [
+                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
+                ]);
+            }
             $fileName = 'ads-banner-'.uniqid();
         }
 
@@ -99,6 +119,7 @@ class BannerController extends Controller
             'image_lg'=>$url."/".$location.$lgImage,
             'start_time'=>$request->start_time,
             'end_time'=>$request->end_time,
+            'ads_banner_position'=>$request->ads_banner_position,
             'created_at'=>Carbon::now()
         ]);
 
@@ -183,10 +204,31 @@ class BannerController extends Controller
                     'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193'
                 ]);
                 $fileName = 'banner-'.uniqid();
+            
             }else{
                 $this->validate($request, [
-                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
+                    'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
                 ]);
+                if ($request->ads_banner_position === "Banner-Groups") {
+                    $this->validate($request, [
+                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
+                    ]);
+                }
+                if ($request->ads_banner_position === "Banner-Long") {
+                    $this->validate($request, [
+                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
+                    ]);
+                }
+                if ($request->ads_banner_position === "Banner-Short") {
+                    $this->validate($request, [
+                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
+                    ]);
+                }
+                if ($request->ads_banner_position === "Banner-Box") {
+                    $this->validate($request, [
+                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
+                    ]);
+                }
                 $fileName = 'ads-banner-'.uniqid();
             }
 
@@ -213,6 +255,7 @@ class BannerController extends Controller
             'image_lg'=>($lgImage === NULL ? $oldData->image_lg : $url."/".$location.$lgImage),
             'start_time'=>$request->start_time,
             'end_time'=>$request->end_time,
+            'ads_banner_position'=>$request->ads_banner_position,
             'updated_at'=>Carbon::now()
         ]);
 
