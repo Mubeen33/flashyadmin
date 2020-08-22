@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('auth.login');
+// Route::get('add-customfields', function () {
+//     return view('customfields.add-customfields');
 // });
 
 Auth::routes();
@@ -53,7 +53,11 @@ Route::post('update-variation','variation\VariationController@updateVariation');
 Route::get('variation-disable/{id}','variation\VariationController@disableAVariation');
 Route::get('variation-active/{id}','variation\VariationController@activeVariation');
 
-// 
+// End Variation Routes
+
+// Add Custom Fields
+
+Route::get('add-customfields','customfields\customfieldController@addCustomFieldsView');
 
 Route::get('add-category','category\CategoryController@index');
 Route::get('category-list','category\CategoryController@categoryList')->name('category.categorylist');
