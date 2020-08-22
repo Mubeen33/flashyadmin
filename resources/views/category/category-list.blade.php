@@ -65,7 +65,7 @@
                                                         <span class="sr-only">Toggle Dropdown</span>
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="{{url('category-edit')}}/{{$item->id}}"><i class="fa fa-edit"></i>Edit</a>
+                                                        <a class="dropdown-item" href="{{url('category-edit')}}/{{encrypt($item->id)}}"><i class="fa fa-edit"></i>Edit</a>
                                                         <a class="dropdown-item" href="{{url('category-disable')}}/{{$item->id}}"><i class="fa fa-trash"></i>Delete</a>
                                                     </div>
                                                 </div>

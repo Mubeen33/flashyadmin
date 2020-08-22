@@ -80,9 +80,9 @@ class CategoryController extends Controller
     // edit Category
     public function editcategory($id){
 
-        $id     = $id;
-        $allCategories=Category::select ('id', 'name','parent_id')->orderBy('id','desc')->where('deleted', '=',0)->where('parent_id', '!=',0)->get();
-    	$Categories  = Category::where('id',$id)->first();
+        $id            = decrypt($id);
+        $allCategories = Category::select ('id', 'name','parent_id')->orderBy('id','desc')->where('deleted', '=',0)->where('parent_id', '!=',0)->get();
+    	$Categories    = Category::where('id',$id)->first();
         return view('category.edit-catgeory')
         ->with('categories',$Categories)
         ->with('allcategories',$allCategories);
