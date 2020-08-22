@@ -52,8 +52,8 @@ class SliderController extends Controller
             'title_animation'=>'nullable|string|max:100',
             'description_animation'=>'nullable|string|max:100',
             'button_animation'=>'nullable|string|max:100',
-            'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000',
-            'image_sm'=>'required|image:png,jpeg,jpg,gif|max:1000',
+            'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1230,height=445',
+            'image_sm'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=600,height=300',
             'slider_type'=>'required|string|in:Product,Deal',
             'start_time'=>'required|date',
             'end_time'=>'required|date'
@@ -164,8 +164,8 @@ class SliderController extends Controller
             'title_animation'=>'nullable|string|max:100',
             'description_animation'=>'nullable|string|max:100',
             'button_animation'=>'nullable|string|max:100',
-            'image_lg'=>'nullable|image:png,jpeg,jpg,gif|max:1000',
-            'image_sm'=>'nullable|image:png,jpeg,jpg,gif|max:1000',
+            'image_lg'=>'nullable|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1230,height=445',
+            'image_sm'=>'nullable|image:png,jpeg,jpg,gif|max:1000|dimensions:width=600,height=300',
             'slider_type'=>'required|string|in:Product,Deal',
             'start_time'=>'required|date',
             'end_time'=>'required|date'
@@ -180,11 +180,12 @@ class SliderController extends Controller
         $obj_fu = new FileUploader();
         $lgImage = NULL;
         $smImage = NULL;
+        $url = $this->getURL();
+        $location = "upload-images/sliders/";
         if($request->hasFile('image_lg')){
-            $location = "upload-images/sliders/";
             //delete
             if ($oldData->image_lg != NULL) {
-                $file_name = $oldData->image_lg;
+                $file_name = str_replace($url."/".$location, "", $oldData->image_lg);
                 $obj_fu->deleteFile($file_name, $location);
             }
             //upload
@@ -194,10 +195,9 @@ class SliderController extends Controller
         }
 
         if($request->hasFile('image_sm')){
-            $location = "upload-images/sliders/";
             //delete
             if ($oldData->image_sm != NULL) {
-                $file_name = $oldData->image_sm;
+                $file_name = str_replace($url."/".$location, "", $oldData->image_sm);
                 $obj_fu->deleteFile($file_name, $location);
             }
             //upload
@@ -219,8 +219,8 @@ class SliderController extends Controller
             'title_animation'=>$request->title_animation,
             'description_animation'=>$request->description_animation,
             'button_animation'=>$request->button_animation,
-            'image_lg'=>($lgImage === NULL ? $oldData->image_lg : $lgImage),
-            'image_sm'=>($smImage === NULL ? $oldData->image_sm : $smImage),
+            'image_lg'=>($lgImage === NULL ? $oldData->image_lg : $url."/".$location.$lgImage),
+            'image_sm'=>($smImage === NULL ? $oldData->image_sm : $url."/".$location.$smImage),
             'slider_type'=>$request->slider_type,
             'start_time'=>$request->start_time,
             'end_time'=>$request->end_time,
