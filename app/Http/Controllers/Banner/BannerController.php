@@ -163,13 +163,20 @@ class BannerController extends Controller
             'start_time'=>'required|date',
             'end_time'=>'required|date'
         ]);
-        $oldData = Banner::findOrFail($id)->first();
+        $oldData = Banner::where([
+            'id'=>$id,
+            'type'=>$request->type,
+        ])->first();
+        if (!$oldData) {
+            return redirect()->back()->with('error', 'Sorry - Requested Data not Found!');
+        }
 
         $fileName = "";
         $obj_fu = new FileUploader();
         $lgImage = NULL;
         $url = $this->getURL();
-        $location = "upload-images/sliders/";
+        $location = "upload-images/banners/";
+
         if($request->hasFile('image_lg')){
             if ($request->type === "Banner") {
                 $this->validate($request, [
@@ -196,19 +203,21 @@ class BannerController extends Controller
         }
 
         $url = $this->getURL();
-        $inserted = Banner::insert([
-            'type'=>$request->type,
+        $updated = Banner::where([
+            'id'=>$id,
+            'type'=>$request->type
+        ])->update([
             'title'=>$request->title,
             'link'=>$request->link,
             'order_no'=>$request->order_no,
             'image_lg'=>($lgImage === NULL ? $oldData->image_lg : $url."/".$location.$lgImage),
             'start_time'=>$request->start_time,
             'end_time'=>$request->end_time,
-            'created_at'=>Carbon::now()
+            'updated_at'=>Carbon::now()
         ]);
 
-        if ($inserted == true) {
-            return redirect()->back()->with('success', 'Banner Added');
+        if ($updated == true) {
+            return redirect()->back()->with('success', 'Banner Updated');
         }else{
             return redirect()->back()->with('error', 'SORRY - Something wrong!');
         }
@@ -223,5 +232,33 @@ class BannerController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+
+    //delete the slider
+    public function delete_banner($id){
+        $id = \Crypt::decrypt($id);
+        $data = Banner::where('id', $id)->first();
+        if (!$data) {
+            return redirect()->back()->with('error', 'SORRY - Banner not Found!');
+        }
+
+        //delete slider images
+        $url = $this->getURL();
+        $location = "upload-images/banners/";
+        $obj_fu = new FileUploader();
+        if ($data->image_lg != NULL) {
+            $fileName = str_replace($url."/".$location, "", $data->image_lg);
+            $obj_fu->deleteFile($fileName, $location);
+        }
+
+        $deleted = $data->delete();
+        if ($deleted == true) {
+            return redirect()->back()->with('success', 'Banner Deleted');
+        }else{
+            return redirect()->back()->with('error', 'SORRY - Something Wrong!');
+        }
+
     }
 }

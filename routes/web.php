@@ -94,6 +94,12 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
     //slider routes
 	Route::resource('sliders', 'Slider\SliderController');
 	Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
+
+    //Banner routes
+    Route::resource('banners', 'Banner\BannerController');
+    Route::get('ads-banners/create', 'Banner\BannerController@create_ads_banner')->name('ads-banner.create');
+    Route::get('ads-banners', 'Banner\BannerController@ads_banner_index')->name('ads-banner.index');
+    Route::get('banner/delete/{id}', 'Banner\BannerController@delete_banner')->name('banner.delete');
 });
 
 Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
