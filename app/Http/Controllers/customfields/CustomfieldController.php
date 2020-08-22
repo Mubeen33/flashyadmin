@@ -9,5 +9,11 @@ use App\Category;
 
 class CustomfieldController extends Controller
 {
-    //
+    //addCustomFieldsView
+
+    public function addCustomFieldsView(){
+
+    	$parentCategory = Category::where('parent_id',0)->get();
+    	return view('customfields.add-customfields',compact('parentCategory'));
+    }
 }
