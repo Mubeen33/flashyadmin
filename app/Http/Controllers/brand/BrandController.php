@@ -24,6 +24,9 @@ class BrandController extends Controller
 
     public function createBrand(Request $request){
 
+        $this->validate($request,
+        ['name'=>'required']);
+        
     	$brand = new Brand();
     	$brand->name        = $request->name;
     	$brand->description = $request->description;

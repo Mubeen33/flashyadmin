@@ -28,6 +28,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 // General Route
 
 Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
+Route::post('/get_categories_commission/{id}','HomeController@getCategoriesCommission');
 
 // 
 
@@ -61,15 +62,12 @@ Route::get('add-customfields','customfields\customfieldController@addCustomField
 
 Route::get('add-category','category\CategoryController@index');
 Route::get('category-list','category\CategoryController@categoryList')->name('category.categorylist');
-Route::get('categories','category\CategoryController@categoryList')->name('category.categories');
 Route::get('disable-categories-list','category\CategoryController@disablecategoryList')->name('category.disablecategoryList');
 Route::post('add-category','category\CategoryController@createcategory');
 Route::get('category-edit/{id}','category\CategoryController@editcategory');
 Route::post('update-category','category\CategoryController@updatecategory');
 Route::get('category-active/{id}','category\CategoryController@activecategory');
 Route::get('category-disable/{id}','category\CategoryController@disableAcategory');
-Route::Post('get_child','category\CategoryController@getChild')->name('get_child');
-Route::Post('getparent','category\CategoryController@getparent')->name('getparent');
 
 
 

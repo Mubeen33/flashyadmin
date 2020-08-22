@@ -23,14 +23,11 @@
                             <div class="card-content">
                                 <div class="card-body">
                                     <div class="table-responsive ">
-                                        <table  class="table zero-configuration">
+                                        <table  class="table table-bordered zero-configuration">
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
-                                                    <th>Slug</th>
-                                                    <th>Title</th>
-                                                    <th>Description</th>
-                                                    <th>Keyword</th>
+                                                    <th>Commission</th>
                                                     <th>order</th>
                                                     <th>Visibilty</th>
                                                     <th>Show on Homepage</th>
@@ -42,21 +39,18 @@
                                         @foreach ($categories as $item)
                                            <tr>
                                                
-                                           <td>{{$item->name}}</td>
-                                            <td>{{$item->slug}}</td>
-                                            <td>{{$item->title}}</td>
-                                            <td>{{$item->desc}}</td>
-                                            <td>{{$item->keyword}}</td>
-                                            <td>{{$item->order}}</td>
+                                           <td><b>{{ $item->getParentsNames() }}</b></td>
+                                            <td>{{$item->commission}}%</td>
+                                            <td>{{$item->category_order}}</td>
                                             <td>
-                                            @if ($item->visiblity == 1)
+                                            @if ($item->visibility == 1)
                                             <div class="fonticon-wrap"> <div class="badge badge-success">&nbsp;&nbsp;<i class="fa fa-eye fa-x"></i>&nbsp;&nbsp;</div> </div>  
                                             @else
                                             <div class="fonticon-wrap"> <div class="badge badge-danger">&nbsp;&nbsp;<i class="fa fa-eye-slash"></i>&nbsp;&nbsp;</div> </div>    
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($item->home_visiblity == 0)
+                                            @if ($item->show_on_homepage == 0)
                                             <div class="badge badge-danger"><strong>NO</strong></div>  
                                             @else
                                             <div class="badge badge-success"><strong>YES</strong></div> 
@@ -98,7 +92,9 @@
 <script src="https://code.jquery.com/jquery-3.3.1.js" ></script>                      
 <script src="{{ asset('app-assets/vendors/js/tables/datatable/datatables.min.js')}}" defer></script>
 <script src="{{ asset('app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js')}}"></script> 
-   <script>
+           
+@endsection
+  {{--  <script>
     $(document).ready(function(){
         $("#laratable").DataTable({
             serverSide: true,
@@ -117,6 +113,4 @@
     });
 
     
-</script>             
-@endsection
- 
+</script>  --}}
