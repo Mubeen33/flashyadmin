@@ -90,6 +90,9 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
     Route::get('ads-banners/create', 'Banner\BannerController@create_ads_banner')->name('ads-banner.create');
     Route::get('ads-banners', 'Banner\BannerController@ads_banner_index')->name('ads-banner.index');
     Route::get('banner/delete/{id}', 'Banner\BannerController@delete_banner')->name('banner.delete');
+
+   //customers
+   Route::resource('customers', 'Customers\CustomerController') ;
 });
 
 Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
