@@ -34,18 +34,20 @@
                                                         <td>{{ $content->created_at->format('d/m/Y') }}</td>
                                                         <td>
                                                             @if($content->status == 0)
-                                                                <span class="badge badge-danger"
-                                                                    onclick="if(return confirm('Are you sure to Active?')){document.getElementById('actionFrom-{{$content->id}}').submit()}" 
+                                                                <span class="badge badge-danger" style="cursor:pointer"
+                                                                    onclick="if(confirm('Are you sure to Active?')){document.getElementById('actionFrom-{{$content->id}}').submit()}" 
                                                                 >Inactive</span>
-                                                                <form id="{{actionFrom-{{$content->id}}" class="d-none">
+                                                                <form action="{{ route('admin.coupon.activeInactive.post') }}" id="actionFrom-{{$content->id}}" class="d-none" method="POST">
+                                                                    @csrf
                                                                     <input type="hidden" name="id" value="{{ $content->id }}">
                                                                     <input type="hidden" name="status" value="1">
                                                                 </form>
                                                                 @else
-                                                                <span class="badge badge-success"
-                                                                    onclick="if(return confirm('Are you sure to Inactive?')){document.getElementById('actionFrom-{{$content->id}}').submit()}" 
+                                                                <span class="badge badge-success" style="cursor:pointer" 
+                                                                    onclick="if(confirm('Are you sure to Inactive?')){document.getElementById('actionFrom-{{$content->id}}').submit()}" 
                                                                 >Active</span>
-                                                                <form id="{{actionFrom-{{$content->id}}" class="d-none">
+                                                                <form action="{{ route('admin.coupon.activeInactive.post') }}" id="actionFrom-{{$content->id}}" class="d-none" method="POST">
+                                                                    @csrf
                                                                     <input type="hidden" name="id" value="{{ $content->id }}">
                                                                     <input type="hidden" name="status" value="0">
                                                                 </form>
@@ -66,7 +68,7 @@
                                                                     </button>
                                                                   </div>
                                                                   <div class="modal-body">
-                                                                    <form action="{{ route('admin.coupons.update', $content->id) }}" method="POST">
+                                                                    <form action="{{ route('admin.coupons.update', $content->id) }}" method="POST" enctype="multipart/form-data">
                                                                         @csrf
                                                                         @method('PUT')
                                                                         <div class="row">
@@ -101,7 +103,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-
+                                    {!! $data->render() !!}
                                 </div>
                             </div>
                         </div>

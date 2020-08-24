@@ -92,7 +92,15 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
     Route::get('banner/delete/{id}', 'Banner\BannerController@delete_banner')->name('banner.delete');
 
    //customers
-   Route::resource('customers', 'Customers\CustomerController') ;
+   Route::resource('customers', 'Customers\CustomerController');
+
+   //signup contents
+   Route::resource('signup-contents', 'Auth\SignupContentsController');
+
+   //coupons routes
+   Route::resource('coupons', 'Coupons\CouponController');
+   Route::get('coupon-delete/{id}', 'Coupons\CouponController@delete')->name('coupon.delete');
+   Route::post('coupon-action', 'Coupons\CouponController@active_inactive')->name('coupon.activeInactive.post');
 });
 
 Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
