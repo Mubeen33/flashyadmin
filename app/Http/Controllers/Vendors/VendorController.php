@@ -21,7 +21,7 @@ class VendorController extends Controller
     public function index()
     {
         //return all vendors list
-        $data = Vendor::orderBy('id', 'DESC')->paginate(5);
+        $data = Vendor::orderBy('id', 'DESC')->paginate(10);
         return view('Vendors.index', compact('data'));
     }
 
@@ -415,11 +415,11 @@ class VendorController extends Controller
                             ->orWhere("email", "LIKE", "%$searchKey%")
                             ->orWhere("phone", "LIKE", "%$searchKey%")
                             ->orderBy('id', 'DESC')
-                            ->paginate(5);
+                            ->paginate(10);
                 return view('Vendors.partials.vendors-list', compact('data'))->render();
             }
 
-            $data = Vendor::orderBy('id', 'DESC')->paginate(5);
+            $data = Vendor::orderBy('id', 'DESC')->paginate(10);
             return view('Vendors.partials.vendors-list', compact('data'))->render();
         }
         return abort(404);
