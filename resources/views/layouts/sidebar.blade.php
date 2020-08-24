@@ -63,11 +63,6 @@
                     
                     <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-package"></i><span data-i18n="Apps">Vendors</span></a>
                         <ul class="dropdown-menu">
-                            {{--
-                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
-                                <a class="dropdown-item" href="{{Route('admin.vendors.index')}}"><i class="feather icon-circle"></i>New Vendors</a>
-                            </li>
-                            --}}
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
                                 <a class="dropdown-item" href="{{route('admin.vendors.index')}}"><i class="feather icon-circle"></i>All Vendors</a>
                                 <a class="dropdown-item" href="{{route('admin.vendor.activities.get')}}"><i class="feather icon-circle"></i>Vendors Activity</a>
@@ -80,6 +75,26 @@
                                     @endphp
                                     
                                 </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-package"></i><span data-i18n="Apps">Customers</span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
+                                <a class="dropdown-item" href="{{route('admin.customers.index')}}"><i class="feather icon-circle"></i>All Customers</a>
+                                {{--
+                                <a class="dropdown-item" href="{{route('admin.vendor.activities.get')}}"><i class="feather icon-circle"></i>Vendors Activity</a>
+                                <a class="dropdown-item" href="{{route('admin.vendor.bankUpdates.get')}}"><i class="feather icon-circle"></i>Bank Updates 
+                                    @php
+                                        $vendorBankDetailsUpdates = (\App\VendorBankDetailsTempData::where('status', 0)->count());
+                                        if($vendorBankDetailsUpdates > 0){
+                                            echo "<span class='badge badge-danger ml-2'>".$vendorBankDetailsUpdates."</span>";
+                                        }
+                                    @endphp
+                                    
+                                </a>
+                                --}}
                             </li>
                         </ul>
                     </li>
@@ -108,6 +123,23 @@
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('admin.ads-banner.create')}}" data-toggle="dropdown" data-i18n="Basic"><i class="feather icon-circle"></i>Add New</a>
                                     </li>
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('admin.ads-banner.index')}}" data-toggle="dropdown" data-i18n="Advance"><i class="feather icon-circle"></i>All Ads Banners</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">Apps Features</span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Signup Content</a>
+                                <ul class="dropdown-menu">
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.signup-contents.index')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>View</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Coupons</a>
+                                <ul class="dropdown-menu">
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.coupons.index')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Coupons List</a>
                                     </li>
                                 </ul>
                             </li>

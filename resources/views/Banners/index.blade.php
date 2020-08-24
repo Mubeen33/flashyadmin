@@ -26,6 +26,9 @@
                                                     <th>Start Date</th>
                                                     <th>End Date</th>
                                                     <th>Image</th>
+                                                    @if($pageTitle === "Ads-Banners")
+                                                    <th>Position</th>
+                                                    @endif
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -39,6 +42,10 @@
                                                         <td>{{ $content->start_time }}</td>
                                                         <td>{{ $content->end_time }}</td>
                                                         <td><img width="50px" height="50px" src="{{ $content->image_lg }}"></td>
+                                                        
+                                                        @if($pageTitle === "Ads-Banners")
+                                                            <td>{{ $content->ads_banner_position }}</td>
+                                                        @endif
                                                         <td>
                                                             <a href="{{ route('admin.banners.edit', Crypt::encrypt($content->id)) }}"><i class="feather icon-edit"></i></a>
                                                             <a onclick="return confirm('Are you sure?')" href="{{ route('admin.banner.delete', Crypt::encrypt($content->id)) }}"><i class="feather icon-delete"></i></a>

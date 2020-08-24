@@ -1,227 +1,232 @@
-<?php
+@extends('layouts.master')
+@section('page-title','Vendors')
 
-namespace App\Http\Controllers\Banner;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Http\Controllers\FileUploader;
-use App\Banner;
-use Carbon\Carbon;
-
-class BannerController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $pageTitle = "Banners";
-        $data = Banner::where('type', 'Banner')
-                        ->orderBy('order_no', 'ASC')
-                        ->paginate(20);
-        return view('Banners.index', compact('data', 'pageTitle'));
+@push('styles')
+<style type="text/css">
+    #searchVendors{
+        border: 1px solid #ddd;
+        padding: 2px 10px;
+        outline: none;
     }
-    public function ads_banner_index(){
-        $pageTitle = "Ads-Banners";
-        $data = Banner::where('type', 'Ads-Banner')
-                        ->orderBy('order_no', 'ASC')
-                        ->paginate(20);
-        return view('Banners.index', compact('data', 'pageTitle'));
-    }
+</style>
+@endpush
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $pageTitle = "Banner";
-        return view('Banners.add', compact('pageTitle'));
-    }
+@section('breadcrumbs')
+    <li class="breadcrumb-item"><a href="">Home</a></li>
+    <li class="breadcrumb-item active">Vendors</li>
+@endsection 
+@section('content')                                
+            <div class="content-body">
+                @include('msg.msg')
+                <div class="row" id="basic-table">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header justify-content-between">
+                                <div><h4 class="card-title">Vendors List</h4></div>
+                                <div>
+                                    <input type="text" name="searchVendors" id="searchVendors">
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th id="sortByID"><span id="sortByID_span" sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg></span> Id</th>
+                                                    <th id="sortByFirstName"><span id="sortByFirstName_span" sorting-order=''></span> First Name</th>
+                                                    <th id="sortByLastName"><span id="sortByLastName_span" sorting-order=''></span> Last Name</th>
+                                                    <th id="sortByEmail"><span id="sortByEmail_span" sorting-order=''></span> Email</th>
+                                                    <th>Mobile</th>
+                                                    <th>Company Name</th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
 
-    public function create_ads_banner()
-    {
-        $pageTitle = "Ads-Banner";
-        return view('Banners.add', compact('pageTitle'));
-    }
+                                            <tbody id="render__data">
+                                                @include('Vendors.partials.vendors-list')
+                                            </tbody>
+                                            
+                                        </table>
+                                        <input type="hidden" id="hidden__page_number" value="1">
+                                        <input type="hidden" id="hidden__sort_by" value="id">
+                                        <input type="hidden" id="hidden__sorting_order" value="DESC">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+@endsection
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //store banners
-        $this->validate($request, [
-            'type'=>'required|string|in:Banner,Ads-Banner',
-            'title'=>'nullable|string|max:100',
-            'link'=>'nullable|string|url',
-            'order_no'=>'required|numeric',
-            'start_time'=>'required|date',
-            'end_time'=>'required|date'
-        ]);
-
-        $fileName = "";
-        if ($request->type === "Banner") {
-            $this->validate($request, [
-                'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193'
-            ]);
-            $fileName = 'banner-'.uniqid();
-        }else{
-            $this->validate($request, [
-                'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
-            ]);
-            $fileName = 'ads-banner-'.uniqid();
-        }
-
-        //insert image
-        $obj_fu = new FileUploader();
-        $lgImage = "";
-        $location = "upload-images/banners/";
-        if($request->hasFile('image_lg')){
-            $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
-            $lgImage = $fileName__;
-        }else{
-            return redirect()->back()->with('error','Please Upload Image');
-        }
-
-        $url = $this->getURL();
-        $inserted = Banner::insert([
-            'type'=>$request->type,
-            'title'=>$request->title,
-            'link'=>$request->link,
-            'order_no'=>$request->order_no,
-            'image_lg'=>$url."/".$location.$lgImage,
-            'start_time'=>$request->start_time,
-            'end_time'=>$request->end_time,
-            'created_at'=>Carbon::now()
-        ]);
-
-        if ($inserted == true) {
-            return redirect()->back()->with('success', 'Banner Added');
-        }else{
-            return redirect()->back()->with('error', 'SORRY - Something wrong!');
-        }
-    }
+@push('scritps')
+<script type="text/javascript">
+    $(document).ready(function(){
+        //pagination only
+        $(document).on('click', '.pagination li a', function(e){
+            e.preventDefault()
+            let pageNumber = ($(this).attr('href')).split('page=')[1]
+            let searchKey = $("#searchVendors").val()
+            $("#hidden__page_number").val(pageNumber)
+            let sort_by = $("#hidden__sort_by").val()
+            let sorting_order = $("#hidden__sorting_order").val()
+            fetch_data(pageNumber, searchKey, sort_by, sorting_order);
+        })
+        //live search with pagination
+        $(document).on("keyup", "#searchVendors", function(){
+            let searchKey = ($(this).val())
+            let pageNumber = 1;
+            let sort_by = $("#hidden__sort_by").val()
+            let sorting_order = $("#hidden__sorting_order").val()
+            fetch_data(pageNumber, searchKey, sort_by, sorting_order);
+        })
+    })
 
 
-    private function getURL(){
-        if(isset($_SERVER['HTTPS'])){
-            $protocol = ($_SERVER['HTTPS'] && $_SERVER['HTTPS'] != "off") ? "https" : "http";
-        }
-        else{
-            $protocol = 'http';
-        }
-        $http_port = $protocol . "://" . parse_url($_SERVER['REQUEST_URI'], PHP_URL_HOST);
-        return $http_port.$_SERVER['HTTP_HOST'];
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $id = \Crypt::decrypt($id);
-        $data = Banner::findOrFail($id);
-        return view('Banners.edit', compact('data'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //store banners
-        $this->validate($request, [
-            'type'=>'required|string|in:Banner,Ads-Banner',
-            'title'=>'nullable|string|max:100',
-            'link'=>'nullable|string|url',
-            'order_no'=>'required|numeric',
-            'start_time'=>'required|date',
-            'end_time'=>'required|date'
-        ]);
-        $oldData = Banner::findOrFail($id)->first();
-
-        $fileName = "";
-        $obj_fu = new FileUploader();
-        $lgImage = NULL;
-        $url = $this->getURL();
-        $location = "upload-images/sliders/";
-        if($request->hasFile('image_lg')){
-            if ($request->type === "Banner") {
-                $this->validate($request, [
-                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193'
-                ]);
-                $fileName = 'banner-'.uniqid();
-            }else{
-                $this->validate($request, [
-                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
-                ]);
-                $fileName = 'ads-banner-'.uniqid();
+    //fetch data
+    function fetch_data(pageNumber, searchKey, sortBy, sortingOrder){
+        $.ajax({
+            url:"/ajax-pagination/fetch?page="+pageNumber+"&search_key="+searchKey+"&sort_by="+sortBy+"&sorting_order="+sortingOrder,
+            method:'GET',
+            cache:false,
+            success:function(response){
+                $("#render__data").html(response)
             }
-
-            //upload new image
-                //delete
-            if ($oldData->image_lg != NULL) {
-                $file_name = str_replace($url."/".$location, "", $oldData->image_lg);
-                $obj_fu->deleteFile($file_name, $location);
-            }
-            //upload
-            $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
-            $lgImage = $fileName__;
-            
-        }
-
-        $url = $this->getURL();
-        $inserted = Banner::insert([
-            'type'=>$request->type,
-            'title'=>$request->title,
-            'link'=>$request->link,
-            'order_no'=>$request->order_no,
-            'image_lg'=>($lgImage === NULL ? $oldData->image_lg : $url."/".$location.$lgImage),
-            'start_time'=>$request->start_time,
-            'end_time'=>$request->end_time,
-            'created_at'=>Carbon::now()
-        ]);
-
-        if ($inserted == true) {
-            return redirect()->back()->with('success', 'Banner Added');
-        }else{
-            return redirect()->back()->with('error', 'SORRY - Something wrong!');
-        }
+        })
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-}
+
+
+    //sorting management
+    $(document).on('click','#sortByID', function(){
+        $("#sortByFirstName_span").html('')
+        $("#sortByLastName_span").html('')
+        $("#sortByEmail_span").html('')
+
+        $("#sortByFirstName_span").attr('sorting-order', '')
+        $("#sortByLastName_span").attr('sorting-order', '')
+        $("#sortByEmail_span").attr('sorting-order', '')
+
+        let setSortingOrder = "";
+        let sort_order = $("#sortByID_span").attr('sorting-order')
+        if (sort_order == '') {
+            setSortingOrder = 'DESC';
+            $("#sortByID_span").attr('sorting-order', 'DESC')
+            $("#sortByID_span").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg>')
+        }else if (sort_order == "DESC") {
+            setSortingOrder = 'ASC';
+            $("#sortByID_span").attr('sorting-order', 'ASC')
+            $("#sortByID_span").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/> <path fill-rule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/> </svg>')
+        }else {
+            setSortingOrder = 'DESC';
+            $("#sortByID_span").attr('sorting-order', 'DESC')
+            $("#sortByID_span").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg>') 
+        }
+        //call data
+        $("#hidden__sort_by").val('id')
+        $("#hidden__sorting_order").val(setSortingOrder)
+        let searchKey = $("#searchVendors").val()
+        let pageNumber = $("#hidden__page_number").val()
+        fetch_data(pageNumber, searchKey, 'id', setSortingOrder)
+    })
+
+    $(document).on('click','#sortByFirstName', function(){
+        $("#sortByID_span").html('')
+        $("#sortByLastName_span").html('')
+        $("#sortByEmail_span").html('')
+
+        $("#sortByID_span").attr('sorting-order', '')
+        $("#sortByLastName_span").attr('sorting-order', '')
+        $("#sortByEmail_span").attr('sorting-order', '')
+
+        let setSortingOrder = "";
+        let sort_order = $("#sortByFirstName_span").attr('sorting-order')
+        if (sort_order == '') {
+            setSortingOrder = 'DESC';
+            $("#sortByFirstName_span").attr('sorting-order', 'DESC')
+            $("#sortByFirstName_span").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg>')
+        }else if (sort_order == "DESC") {
+            setSortingOrder = 'ASC';
+            $("#sortByFirstName_span").attr('sorting-order', 'ASC')
+            $("#sortByFirstName_span").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/> <path fill-rule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/> </svg>')
+        }else {
+            setSortingOrder = 'DESC';
+            $("#sortByFirstName_span").attr('sorting-order', 'DESC')
+            $("#sortByFirstName_span").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg>') 
+        }
+        //call data
+        $("#hidden__sort_by").val('first_name')
+        $("#hidden__sorting_order").val(setSortingOrder)
+        let searchKey = $("#searchVendors").val()
+        let pageNumber = $("#hidden__page_number").val()
+        fetch_data(pageNumber, searchKey, 'first_name', setSortingOrder)
+    })
+
+    $(document).on('click','#sortByLastName', function(){
+        $("#sortByID_span").html('')
+        $("#sortByFirstName_span").html('')
+        $("#sortByEmail_span").html('')
+
+        $("#sortByID_span").attr('sorting-order', '')
+        $("#sortByFirstName_span").attr('sorting-order', '')
+        $("#sortByEmail_span").attr('sorting-order', '')
+
+        let setSortingOrder = "";
+        let sort_order = $("#sortByLastName_span").attr('sorting-order')
+        if (sort_order == '') {
+            setSortingOrder = 'DESC';
+            $("#sortByLastName_span").attr('sorting-order', 'DESC')
+            $("#sortByLastName_span").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg>')
+        }else if (sort_order == "DESC") {
+            setSortingOrder = 'ASC';
+            $("#sortByLastName_span").attr('sorting-order', 'ASC')
+            $("#sortByLastName_span").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/> <path fill-rule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/> </svg>')
+        }else {
+            setSortingOrder = 'DESC';
+            $("#sortByLastName_span").attr('sorting-order', 'DESC')
+            $("#sortByLastName_span").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg>') 
+        }
+        //call data
+        $("#hidden__sort_by").val('last_name')
+        $("#hidden__sorting_order").val(setSortingOrder)
+        let searchKey = $("#searchVendors").val()
+        let pageNumber = $("#hidden__page_number").val()
+        fetch_data(pageNumber, searchKey, 'last_name', setSortingOrder)
+    })
+
+    $(document).on('click','#sortByEmail', function(){
+        $("#sortByID_span").html('')
+        $("#sortByFirstName_span").html('')
+        $("#sortByLastName_span").html('')
+
+        $("#sortByID_span").attr('sorting-order', '')
+        $("#sortByFirstName_span").attr('sorting-order', '')
+        $("#sortByLastName_span").attr('sorting-order', '')
+
+        let setSortingOrder = "";
+        let sort_order = $("#sortByEmail_span").attr('sorting-order')
+        if (sort_order == '') {
+            setSortingOrder = 'DESC';
+            $("#sortByEmail_span").attr('sorting-order', 'DESC')
+            $("#sortByEmail_span").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg>')
+        }else if (sort_order == "DESC") {
+            setSortingOrder = 'ASC';
+            $("#sortByEmail_span").attr('sorting-order', 'ASC')
+            $("#sortByEmail_span").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/> <path fill-rule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/> </svg>')
+        }else {
+            setSortingOrder = 'DESC';
+            $("#sortByEmail_span").attr('sorting-order', 'DESC')
+            $("#sortByEmail_span").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg>') 
+        }
+        //call data
+        $("#hidden__sort_by").val('email')
+        $("#hidden__sorting_order").val(setSortingOrder)
+        let searchKey = $("#searchVendors").val()
+        let pageNumber = $("#hidden__page_number").val()
+        fetch_data(pageNumber, searchKey, 'email', setSortingOrder)
+    })
+</script>
+@endpush

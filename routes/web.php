@@ -4,17 +4,6 @@ use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 // Route::get('add-customfields', function () {
 //     return view('customfields.add-customfields');
 // });
@@ -80,26 +69,40 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
 	//vendors controller
 	Route::resource('vendors', 'Vendors\VendorController');
 	Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
-    Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
-    
-    //vendor activity
-    Route::get('vendors-activity','Vendors\VendorController@vendors_activitities')->name("vendor.activities.get");
-    Route::get('vendor/activity/{vendorID}','Vendors\VendorController@vendor_actitvity')->name('vendor.activity.get');
-    Route::post('vendor/activity','Vendors\VendorController@delete_vendor_activity')->name('vendor.activityDelete.post');
-    
-    //vendor bank details updates
-    Route::get('vendor/bank-updates','Vendors\VendorController@get_bank_updates')->name('vendor.bankUpdates.get');
-    Route::post('vendor/bank-updates','Vendors\VendorController@approve_bank_updates')->name('vendor.bankUpdatesApprove.post');
+  Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
+  //ajax requests
+  Route::get('ajax-pagination/fetch', 'Vendors\VendorController@fetch_paginate_data');
 
-    //slider routes
+
+  //vendor activity
+  Route::get('vendors-activity','Vendors\VendorController@vendors_activitities')->name("vendor.activities.get");
+  Route::get('vendor/activity/{vendorID}','Vendors\VendorController@vendor_actitvity')->name('vendor.activity.get');
+  Route::post('vendor/activity','Vendors\VendorController@delete_vendor_activity')->name('vendor.activityDelete.post');
+    
+  //vendor bank details updates
+  Route::get('vendor/bank-updates','Vendors\VendorController@get_bank_updates')->name('vendor.bankUpdates.get');
+  Route::post('vendor/bank-updates','Vendors\VendorController@approve_bank_updates')->name('vendor.bankUpdatesApprove.post');
+
+  //slider routes
 	Route::resource('sliders', 'Slider\SliderController');
 	Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
 
-    //Banner routes
-    Route::resource('banners', 'Banner\BannerController');
-    Route::get('ads-banners/create', 'Banner\BannerController@create_ads_banner')->name('ads-banner.create');
-    Route::get('ads-banners', 'Banner\BannerController@ads_banner_index')->name('ads-banner.index');
-    Route::get('banner/delete/{id}', 'Banner\BannerController@delete_banner')->name('banner.delete');
+  //Banner routes
+  Route::resource('banners', 'Banner\BannerController');
+  Route::get('ads-banners/create', 'Banner\BannerController@create_ads_banner')->name('ads-banner.create');
+  Route::get('ads-banners', 'Banner\BannerController@ads_banner_index')->name('ads-banner.index');
+  Route::get('banner/delete/{id}', 'Banner\BannerController@delete_banner')->name('banner.delete');
+
+   //customers
+   Route::resource('customers', 'Customers\CustomerController');
+
+   //signup contents
+   Route::resource('signup-contents', 'Auth\SignupContentsController');
+
+   //coupons routes
+   Route::resource('coupons', 'Coupons\CouponController');
+   Route::get('coupon-delete/{id}', 'Coupons\CouponController@delete')->name('coupon.delete');
+   Route::post('coupon-action', 'Coupons\CouponController@active_inactive')->name('coupon.activeInactive.post');
 });
 
 Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');

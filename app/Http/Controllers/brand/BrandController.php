@@ -15,7 +15,7 @@ class BrandController extends Controller
     //active brands list
     public function brandsList(){
 
-        $brands = Brand::where('active','Y')->orderBy('id', 'desc')->paginate('10');
+        $brands = Brand::where('active','Y')->orderBy('id', 'desc')->paginate(10);
     	return view('brand.brand-list',compact('brands'));
         // return Laratables::recordsOf(Brand::class,Laratables::class);
     }

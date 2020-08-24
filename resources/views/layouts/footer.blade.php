@@ -32,6 +32,8 @@
             $('#msg').fadeOut('fast');
         }, 2000);
    </script>
+
+   @stack('scritps')
 </body>
 <!-- END: Body-->
 

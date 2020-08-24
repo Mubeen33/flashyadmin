@@ -21,7 +21,7 @@ class VendorController extends Controller
     public function index()
     {
         //return all vendors list
-        $data = Vendor::orderBy('id', 'DESC')->paginate(30);
+        $data = Vendor::orderBy('id', 'DESC')->paginate(3);
         return view('Vendors.index', compact('data'));
     }
 
@@ -399,5 +399,39 @@ class VendorController extends Controller
         }else{
             return redirect()->back()->with('error', 'SORRY - Something wrong!');
         }
+    }
+
+
+
+
+    //ajax pagination
+    public function fetch_paginate_data(Request $request){
+        if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+
+            if ($sort_by == "") {
+                $sort_by = "id";
+            }
+            if ($sorting_order == "") {
+                $sorting_order = "DESC";
+            }
+
+            if ($request->search_key != "") {
+                $data = Vendor::where("first_name", "LIKE", "%$searchKey%")
+                            ->orWhere("last_name", "LIKE", "%$searchKey%")
+                            ->orWhere("email", "LIKE", "%$searchKey%")
+                            ->orWhere("phone", "LIKE", "%$searchKey%")
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate(3);
+                return view('Vendors.partials.vendors-list', compact('data'))->render();
+            }
+
+            $data = Vendor::orderBy($sort_by, $sorting_order)->paginate(3);
+            return view('Vendors.partials.vendors-list', compact('data'))->render();
+        }
+        return abort(404);
+        
     }
 }

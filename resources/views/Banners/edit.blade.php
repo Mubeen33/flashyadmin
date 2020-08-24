@@ -50,11 +50,25 @@
                                             </div>
                                         </div>
 
+                                        @if($data->type === 'Ads-Banner')
+                                        <div class="form-group">
+                                            <label>Choose Position</label>
+                                            <select name="ads_banner_position" class="form-control">
+                                                <option value="">Choose One</option>
+                                                <option value="Banner-Groups" @if($data->ads_banner_position === "Banner-Groups") selected @endif>Banner Groups (Size: 530 * 285)</option>
+                                                <option value="Banner-Long" @if($data->ads_banner_position === "Banner-Long") selected @endif>Banner Long (Size: 1090 * 245)</option>
+                                                <option value="Banner-Short" @if($data->ads_banner_position === "Banner-Short") selected @endif>Banner Short (Size: 530 * 245)</option>
+                                                <option value="Banner-Box" @if($data->ads_banner_position === "Banner-Box") selected @endif>Banner Box (Size: 487 * 379)</option>
+                                            </select>
+                                        </div>
+                                        @else
+                                        <input type="hidden" name="ads_banner_position" value="">
+                                        @endif
                                         
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-12">
-                                                    <label>Image (Size: @if($data->type == "Banner") {{ '390*193' }} @elseif($data->type == "Ads-Banner") {{ '530*285' }} @else {{'Invalid Access'}} @endif)</label>
+                                                    <label>Image</label>
                                                     <input type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
                                                     <br>
                                                     <button class="btn btn-success" type="button" 
