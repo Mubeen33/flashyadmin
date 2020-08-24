@@ -1,17 +1,31 @@
 @extends('layouts.master')
 @section('page-title','Vendors')
+
+@push('styles')
+<style type="text/css">
+    #searchVendors{
+        border: 1px solid #ddd;
+        padding: 2px 10px;
+        outline: none;
+    }
+</style>
+@endpush
+
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Vendors</li>
-@endsection    
+@endsection 
 @section('content')                                
             <div class="content-body">
                 @include('msg.msg')
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Vendors List</h4>
+                            <div class="card-header justify-content-between">
+                                <div><h4 class="card-title">Vendors List</h4></div>
+                                <div>
+                                    <input type="text" name="searchVendors" id="searchVendors">
+                                </div>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
@@ -19,7 +33,7 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>SR</th>
+                                                    <th>SN.</th>
                                                     <th>First Name</th>
                                                     <th>Last Name</th>
                                                     <th>Email</th>
@@ -30,30 +44,13 @@
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                @foreach($data as $key=>$content)
-                                                    <tr>
-                                                        <th scope="row">{{ $key+1 }}</th>
-                                                        <td>{{ $content->first_name }}</td>                                          
-                                                        <td>{{ $content->last_name }}</td>
-                                                        <td>{{ $content->email }}</td>
-                                                        <td>{{ $content->mobile }}</td>
-                                                        <td>{{ $content->company_name }}</td>
-                                                        <td>{{ $content->created_at->format('d/m/Y') }}</td>
-                                                        <td>
-                                                            @if($content->active == 0)
-                                                                <div class="badge badge-danger">Pending</div>
-                                                                @else
-                                                                <div class="badge badge-success">Approved</div>
-                                                            @endif    
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ route('admin.vendors.show', Crypt::encrypt($content->id)) }}"><i class="feather icon-eye"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
+
+                                            <tbody id="render__data">
+                                                @include('Vendors.partials.vendors-list')
                                             </tbody>
+                                            
                                         </table>
+
                                     </div>
                                 </div>
                             </div>
@@ -62,3 +59,35 @@
                 </div>
             </div>
 @endsection
+
+@push('scritps')
+<script type="text/javascript">
+    $(document).ready(function(){
+        //pagination only
+        $(document).on('click', '.pagination li a', function(e){
+            e.preventDefault()
+            let pageNumber = ($(this).attr('href')).split('page=')[1]
+            let searchKey = $("#searchVendors").val()
+            fetch_data(pageNumber, searchKey);
+        })
+        //live search with pagination
+        $(document).on("keyup", "#searchVendors", function(){
+            let searchKey = ($(this).val())
+            let pageNumber = 1;
+            fetch_data(pageNumber, searchKey);
+        })
+    })
+
+    //fetch data
+    function fetch_data(pageNumber, searchKey){
+        $.ajax({
+            url:"/ajax-pagination/fetch?page="+pageNumber+"&search_key="+searchKey,
+            method:'GET',
+            cache:false,
+            success:function(response){
+                $("#render__data").html(response)
+            }
+        })
+    }
+</script>
+@endpush
