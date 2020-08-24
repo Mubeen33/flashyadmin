@@ -60,9 +60,12 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
+                                                    <tr>
+                                                        <td>{{ $brands->links() }}</td>
+                                                    </tr>
                                             </tbody>
                                         </table>
-                                        {{ $brands->links() }}
+                                        
                                     </div>
                                 </div>
                             </div>
