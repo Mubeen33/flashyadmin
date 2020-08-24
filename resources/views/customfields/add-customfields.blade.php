@@ -43,7 +43,7 @@
                                                         <div class="col-8" id="form">
                                                             
                                                         </div>
-                                                        <div class="col-8>
+                                                        <div class="col-8">
                                                             
                                                         </div>
                                                         <div class="col-11"></div>

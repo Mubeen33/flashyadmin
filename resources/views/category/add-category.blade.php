@@ -27,7 +27,7 @@
                                                                     <span>Category Name</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="name"  class="form-control" name="name" placeholder="Catgory Name" required="">
+                                                                    <input type="text" id="name"  class="form-control" name="name" placeholder="Category Name" required="">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -39,7 +39,7 @@
                                                                     <span>Slug</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="slug"  class="form-control" name="slug" placeholder="Slug" required="">
+                                                                    <input type="text" id="slug"  class="form-control" name="slug" placeholder="Slug" >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -50,7 +50,7 @@
                                                                     <span>Title(meta tag)</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="title"  class="form-control" name="title" placeholder="Meta title" required="">
+                                                                    <input type="text" id="title"  class="form-control" name="title" placeholder="Meta title" >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -61,7 +61,7 @@
                                                                     <span>Descripation(meta tag)</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="desc"  class="form-control" name="desc" placeholder="Meta descripation" required="">
+                                                                    <input type="text" id="desc"  class="form-control" name="desc" placeholder="Meta descripation" >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -73,7 +73,7 @@
                                                                     <span>Keywords(meta tag)</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="keyword"  class="form-control" name="keyword" placeholder="Meta Keywords" required="">
+                                                                    <input type="text" id="keyword"  class="form-control" name="keyword" placeholder="Meta Keywords" >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -130,51 +130,44 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-12">
-                                                            <div class="form-group row basic-radio">
-                                                                <div class="col-md-4 ">
+                                                       <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
                                                                     <span>Visibilty</span>
                                                                 </div>
                                                                 <div class="col-md-4">
-                                                                    <fieldset>
-                                                                        <label>
-                                                                            <input type="radio" name="visiblity" value="1" checked>
-                                                                            Yes
-                                                                        </label>
-                                                                    </fieldset>
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" value="1"  name="visiblity" id="customRadio6">
+                                                                        <label class="custom-control-label" for="customRadio6">Yes</label>
+                                                                    </div>
                                                                 </div>
 
                                                                 <div class="col-md-4">
-                                                                    <fieldset>
-                                                                        <label>
-                                                                            <input type="radio" name="visiblity" value="0" checked>
-                                                                            No
-                                                                        </label>
-                                                                    </fieldset>
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" value="0"  name="visiblity" id="customRadio5">
+                                                                        <label class="custom-control-label" for="customRadio5">No</label>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>show on Homepage</span>
                                                                 </div>
                                                                 <div class="col-md-4">
-                                                                    <fieldset>
-                                                                        <label>
-                                                                            <input type="radio" name="home_visiblity" value="1" checked>
-                                                                            Yes
-                                                                        </label>
-                                                                    </fieldset>
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" value="1"  name="home_visiblity" id="customRadio4">
+                                                                        <label class="custom-control-label" for="customRadio4">Yes</label>
+                                                                    </div>
                                                                 </div>
 
                                                                 <div class="col-md-4">
-                                                                    <fieldset>
-                                                                        <label>
-                                                                            <input type="radio" name="home_visiblity" value="0" checked>
-                                                                            No
-                                                                        </label>
-                                                                    </fieldset>
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" value="0"  name="home_visiblity" id="customRadio3">
+                                                                        <label class="custom-control-label" for="customRadio3">No</label>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -187,21 +180,17 @@
                                                                     <span>Show Category on navigation</span>
                                                                 </div>
                                                                 <div class="col-md-4">
-                                                                    <fieldset>
-                                                                        <label>
-                                                                            <input type="radio" name="image_visiblity"  value="1" checked>
-                                                                            Yes
-                                                                        </label>
-                                                                    </fieldset>
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" value="1"  name="image_visiblity" id="customRadio1">
+                                                                        <label class="custom-control-label" for="customRadio1">Yes</label>
+                                                                    </div>
                                                                 </div>
 
                                                                 <div class="col-md-4">
-                                                                    <fieldset>
-                                                                        <label>
-                                                                            <input type="radio" name="image_visiblity" value="0" checked>
-                                                                            No
-                                                                        </label>
-                                                                    </fieldset>
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" value="0"  name="image_visiblity" id="customRadio2">
+                                                                        <label class="custom-control-label" for="customRadio2">No</label>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -228,17 +217,40 @@
 //Image Preview Function
 
     function previewFile(input){
+        var _URL = window.URL || window.webkitURL;
         var file = $("input[type=file]").get(0).files[0];
- 
-        if(file){
-            var reader = new FileReader();
- 
-            reader.onload = function(){
-                $("#previewImg").attr("src", reader.result);
+
+           img = new Image();
+           var imgwidth = 0;
+           var imgheight = 0;
+           var maxwidth = 170;
+           var maxheight = 170;
+           img.src = _URL.createObjectURL(file);
+              img.onload = function() {
+               imgwidth = this.width;
+               imgheight = this.height;
+           
+        if(imgwidth == maxwidth && imgheight == maxheight){
+
+            $('#error').html(null);
+            $('.submit-btn').prop('disabled', false);
+            if(file){
+                var reader = new FileReader();
+     
+                reader.onload = function(){
+                    $("#previewImg").attr("src", reader.result);
+                }
+     
+                reader.readAsDataURL(file);
             }
- 
-            reader.readAsDataURL(file);
         }
+        else{
+
+            $('#error').html('Required image is 170X170');
+            $('.submit-btn').prop('disabled', true);
+
+        }
+      }  
     }
 // End Image Preview
 

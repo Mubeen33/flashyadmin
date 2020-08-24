@@ -23,7 +23,7 @@
                             <div class="card-content">
                                 <div class="card-body">
                                     <div class="table-responsive ">
-                                        <table  class="table zero-configuration">
+                                        <table  class="table table-bordered zero-configuration">
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
@@ -44,10 +44,10 @@
                                                
                                            <td>{{$item->name}}</td>
                                             <td>{{$item->slug}}</td>
-                                            <td>{{$item->title}}</td>
-                                            <td>{{$item->desc}}</td>
-                                            <td>{{$item->keyword}}</td>
-                                            <td>{{$item->order}}</td>
+                                            <td>{{$item->title_meta_tag}}</td>
+                                            <td>{{$item->description}}</td>
+                                            <td>{{$item->keywords}}</td>
+                                            <td>{{$item->category_order}}</td>
                                             <td>
                                             @if ($item->visiblity == 1)
                                             <div class="fonticon-wrap"> <div class="badge badge-success"><i class="fa fa-eye fa-x"></i></div> </div>  
@@ -63,19 +63,7 @@
                                             @endif
                                         </td>
                                             <td> 
-                                                <div class="btn-group dropdown mr-1 mb-1">
-                                                    <button type="button" class="btn btn-primary btn-sm">
-                                                        <strong>Select an option</strong>
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <span class="sr-only">Toggle Dropdown</span>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="{{url('category-edit')}}/{{$item->id}}"><i class="fa fa-edit"></i>Edit</a>
-                                                        <a class="dropdown-item" href="{{url('category-active')}}/{{$item->id}}"><i class="fa fa-check"></i>Active</a>
-                                                    </div>
-                                                </div>
- 
+                                                <a href="{{url('category-active')}}/{{$item->id}}"><i class="feather icon-check"></i></a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -94,27 +82,6 @@
                         </div>
                     </div>
                 </div>
-            </div>   
-<script src="https://code.jquery.com/jquery-3.3.1.js" ></script>                      
-<script src="{{ asset('app-assets/vendors/js/tables/datatable/datatables.min.js')}}" defer></script>
-<script src="{{ asset('app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js')}}"></script> 
-   <script>
-    $(document).ready(function(){
-        $("#laratable").DataTable({
-            serverSide: true,
-            ajax: "{{ route('category.categories') }}",
-            columns: [
-                { name: 'name' },
-                { name: 'slug' },
-                { name: 'title' },
-                { name: 'desc' },
-                { name: 'keyword' },
-                { name: 'order' },
-                // { name: 'start_date' },
-                // { name: 'salary' },
-            ],
-        });
-    });
-</script>             
+            </div>              
 @endsection
  
