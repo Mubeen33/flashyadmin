@@ -107,7 +107,7 @@
                                                                     <span>Parent Category</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <select class="form-control" name="parent_id[]" onchange="get_subcategories(this.value, 0);" required>
+                                                                    <select class="form-control" name="parent_id[]" onchange="get_subcategories(this.value, 0);">
 >
                                                                       <option value="">None</option>
                                                                       @foreach ($categories as $category)
