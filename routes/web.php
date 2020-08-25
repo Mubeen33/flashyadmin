@@ -48,7 +48,9 @@ Route::post('update-variation','variation\VariationController@updateVariation');
 // Add Custom Fields
 
 Route::get('add-customfields','customfields\CustomfieldController@addCustomFieldsView');
-
+Route::post('submit-customfield','customfields\CustomfieldController@createCustomFields');
+Route::get('customfield-list','customfields\CustomfieldController@customFieldList');
+// categories
 Route::get('add-category','category\CategoryController@index');
 Route::get('category-list','category\CategoryController@categoryList')->name('category.categorylist');
 Route::get('disable-categories-list','category\CategoryController@disablecategoryList')->name('category.disablecategoryList');

@@ -50,7 +50,7 @@
 
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Ecommerce"><i class="feather icon-circle"></i>Custom Fields</a>
                                 <ul class="dropdown-menu">
-                                    <li data-menu=""><a class="dropdown-item" href="{{ url('add-customfields')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Add Custom Fields</a>
+                                    <li data-menu=""><a class="dropdown-item" href="{{ url('customfield-list')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Custom Fields</a>
                                     </li>
                                     {{-- <li data-menu=""><a class="dropdown-item" href="{{Route('variations.disablevariationslist')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Disable Variations</a>
                                     </li> --}}
