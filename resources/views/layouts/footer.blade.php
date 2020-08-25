@@ -33,7 +33,7 @@
         }, 2000);
    </script>
 
-   @stack('scritps')
+   @stack('scripts')
 </body>
 <!-- END: Body-->
 
