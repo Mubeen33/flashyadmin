@@ -57,19 +57,17 @@
                                             @endif
                                         </td>
                                             <td> 
-                                                <div class="btn-group dropdown mr-1 mb-1">
-                                                    <button type="button" class="btn btn-primary btn-sm">
-                                                        <strong>Select an option</strong>
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <span class="sr-only">Toggle Dropdown</span>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="{{url('category-edit')}}/{{encrypt($item->id)}}"><i class="fa fa-edit"></i>Edit</a>
-                                                        <a class="dropdown-item" href="{{url('category-disable')}}/{{$item->id}}"><i class="fa fa-trash"></i>Delete</a>
+                                                <div class="btn-group mb-1">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-primary btn-sm dropdown-toggle mr-1" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            Actions
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
+                                                            <a class="dropdown-item" href="{{url('category-edit')}}/{{encrypt($item->id)}}">Edit</a>
+                                                            <a class="dropdown-item" href="{{url('category-disable')}}/{{$item->id}}">Disable</a>
+                                                        </div>
                                                     </div>
                                                 </div>
- 
                                             </td>
                                         </tr>
                                         @endforeach

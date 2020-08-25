@@ -58,9 +58,35 @@ class VariationController extends Controller
 
     	$id = decrypt($id);
 
-    	$variant        = Variation::where('id',$id)->first();
-    	$image_approval = Variation::where('id',$id)->value('image_approval');
-    	return view('variation.edit-variation',compact('variant','image_approval'));
+    	$variant          = Variation::where('id',$id)->first();
+    	$image_approval   = Variation::where('id',$id)->value('image_approval');
+        $category_id      = Variation::where('id',$id)->value('category_id');
+        $parentCategories = Category::where([['parent_id', '=',0],['deleted', '=',0]])->get();
+        // $categories       = Category::where('id',$id)->first();
+
+        // parent categories array with selected parent
+
+        $array_categories = array();
+        $category = Category::where('id',$category_id)->first();
+        if (!empty($category)) {
+            array_push($array_categories, $category);
+            for ($i = 0; $i < 50; $i++) {
+                    $parent = Category::where('id',$category->parent_id)->first();
+                
+                    if (!empty($parent)) {
+                        array_push($array_categories, $parent);
+                        $category = $parent;
+                        if ($category->parent_id == 0) {
+                            break;
+                        }
+                    }   
+            }
+        }
+        $parent_categories_array = array_reverse($array_categories);
+
+        //
+
+    	return view('variation.edit-variation',compact('variant','image_approval','parentCategories','parent_categories_array'));
     }
 
     // update variations

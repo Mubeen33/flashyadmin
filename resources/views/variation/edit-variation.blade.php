@@ -24,7 +24,7 @@
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
-                                                                    <span>Category Name</span>
+                                                                    <span>Selected Category Name</span>
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     <select class="form-control" name="parent_id[]" onchange="get_subcategories(this.value, 0);" required>
@@ -32,10 +32,50 @@
                                                                              $categoryName = \App\Category::where('id',$variant->category_id)->get();
                                                                         @endphp
                                                                         @foreach($categoryName as $category)
-                                                                            <option value="{{$category->id}}" selected="">{{$category->name}}</option>
+                                                                            <option value="{{$category->id}}" selected disabled>{{$category->name}}</option>
                                                                         @endforeach    
                                                                     </select>
-                                                                    <div id="subcategories_container"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Parent Category</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control" name="parent_id[]" onchange="get_subcategories(this.value, 0);" >
+>
+                                                                      <option value="">None</option>
+                                                                      @foreach ($parentCategories as $category)
+                                                                        @if($category->id != $variant->category_id)
+                                                                            @if (!empty($parent_categories_array[0]) && $category->id == $parent_categories_array[0]->id)
+                                                                             <option value="{{$category->id}}" selected>{{$category->name}}</option>
+                                                                            @else
+                                                                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                                                            @endif  
+                                                                        @endif 
+                                                                      @endforeach
+                                                                  </select>
+                                                                  <div id="subcategories_container">
+                                                                      @if (!empty($parent_categories_array))
+                                                                        @for($i = 1; $i < count($parent_categories_array); $i++)
+                                                                            @if (!empty($parent_categories_array[$i]))
+                                                                                @php
+                                                                                    $subcategories = \App\Category::where([['id','!=',$variant->category_id],['parent_id','=',$parent_categories_array[$i]->parent_id]])->get();
+                                                                                @endphp
+                                                                                @if(!empty($subcategories))
+                                                                                    <select name="parent_id[]" class="form-control subcategory-select" data-select-id="{{$i}}" onchange="get_subcategories(this.value,'{{$i}}');">
+                                                                                        <option value="">None</option>
+                                                                                        @foreach ($subcategories as $subcategory)
+                                                                                            <option value="{{ $subcategory->id }}" <?php echo ($subcategory->id == $parent_categories_array[$i]->id) ? 'selected' : ''; ?>><?php echo $subcategory->name; ?></option>
+                                                                                        @endforeach
+                                                                                    </select>    
+                                                                                @endif
+                                                                            @endif
+                                                                        @endfor
+                                                                      @endif
+                                                                  </div>
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -47,16 +47,16 @@
                                                         <td>
                                                             
                                                             <div class="btn-group mb-1">
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-dark btn-sm dropdown-toggle mr-1" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Actions
-                                                                </button>
-                                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                                                                    <a class="dropdown-item" href="{{url('brand-edit', encrypt($brand->id))}}">Edit</a>
-                                                                    <a class="dropdown-item" href="{{url('brand-disable', encrypt($brand->id))}}">Disable</a>
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-dark btn-sm dropdown-toggle mr-1" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        Actions
+                                                                    </button>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
+                                                                        <a class="dropdown-item" href="{{url('brand-edit', encrypt($brand->id))}}">Edit</a>
+                                                                        <a class="dropdown-item" href="{{url('brand-disable', encrypt($brand->id))}}">Disable</a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
                                                         </td>
                                                     </tr>
                                                 @endforeach
