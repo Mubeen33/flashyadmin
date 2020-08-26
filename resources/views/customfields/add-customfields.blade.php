@@ -8,12 +8,12 @@
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form action="{{url('submit-variation')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{url('submit-customfield')}}" method="post" enctype="multipart/form-data">
                         @csrf
                             <div class="row match-height">
                                 
                                 <div class="col-10"></div>
-                                <button class="btn btn-primary"><a href="{{Route('variations.variationslist')}}" style="text-decoration: none;color: #fff">Variations</a></button>    
+                                <button class="btn btn-primary"><a href="" style="text-decoration: none;color: #fff">Variations</a></button>    
                             </div>
                             <div class="col-12">
                                 <div class="card">

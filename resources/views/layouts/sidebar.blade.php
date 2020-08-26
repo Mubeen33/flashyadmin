@@ -50,7 +50,7 @@
 
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Ecommerce"><i class="feather icon-circle"></i>Custom Fields</a>
                                 <ul class="dropdown-menu">
-                                    <li data-menu=""><a class="dropdown-item" href="{{ url('add-customfields')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Add Custom Fields</a>
+                                    <li data-menu=""><a class="dropdown-item" href="{{ url('customfield-list')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Custom Fields</a>
                                     </li>
                                     {{-- <li data-menu=""><a class="dropdown-item" href="{{Route('variations.disablevariationslist')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Disable Variations</a>
                                     </li> --}}
@@ -64,9 +64,9 @@
                     <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-package"></i><span data-i18n="Apps">Vendors</span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
-                                <a class="dropdown-item" href="{{route('admin.vendors.index')}}"><i class="feather icon-circle"></i>All Vendors</a>
-                                <a class="dropdown-item" href="{{route('admin.vendor.activities.get')}}"><i class="feather icon-circle"></i>Vendors Activity</a>
-                                <a class="dropdown-item" href="{{route('admin.vendor.bankUpdates.get')}}"><i class="feather icon-circle"></i>Bank Updates 
+                                <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendors.index')}}"><i class="feather icon-circle"></i>All Vendors</a></li>
+                                <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendor.activities.get')}}"><i class="feather icon-circle"></i>Vendors Activity</a></li>
+                                <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendor.bankUpdates.get')}}"><i class="feather icon-circle"></i>Bank Updates 
                                     @php
                                         $vendorBankDetailsUpdates = (\App\VendorBankDetailsTempData::where('status', 0)->count());
                                         if($vendorBankDetailsUpdates > 0){
@@ -74,7 +74,7 @@
                                         }
                                     @endphp
                                     
-                                </a>
+                                </a></li>
                             </li>
                         </ul>
                     </li>
@@ -148,7 +148,7 @@
 
 
 
-                    <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">UI Elements</span></a>
+                   {{--  <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">UI Elements</span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Data List</a>
                                 <ul class="dropdown-menu">
@@ -404,7 +404,7 @@
                             <li data-menu=""><a class="dropdown-item" href="https://pixinvent.ticksy.com/" data-toggle="dropdown" data-i18n="Raise Support"><i class="feather icon-life-buoy"></i>Raise Support</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>
