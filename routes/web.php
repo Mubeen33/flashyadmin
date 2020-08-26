@@ -41,6 +41,7 @@ Route::get('variations-list','variation\VariationController@variationsList')->na
 Route::get('disable-variations-list','variation\VariationController@disableVariationsList')->name('variations.disablevariationslist');
 Route::get('variation-edit/{id}','variation\VariationController@editVariation');
 Route::post('update-variation','variation\VariationController@updateVariation');
+Route::get('variations-ajax-pagination/fetch','variation\VariationController@fetch_paginate_data');
 // Route::get('variation-disable/{id}','variation\VariationController@disableAVariation');
 // Route::get('variation-active/{id}','variation\VariationController@activeVariation');
 

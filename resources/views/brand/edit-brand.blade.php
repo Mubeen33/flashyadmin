@@ -51,7 +51,7 @@
                                                                         <input type="file" onchange="previewFile(this);" name="image" class="custom-file-input" id="inputGroupFile01">
                                                                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                                                     </div>
-                                                                    <span><img id="previewImg" width="100" src="{{asset('upload-images/brands')}}/{{$brand->image}}"></span>
+                                                                    <span><img id="previewImg" width="100" src="{{$brand->image}}"></span>
                                                                 </div>
                                                             </div>
                                                         </div>

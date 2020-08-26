@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\brand;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\FileUploader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Brand;
@@ -23,18 +24,29 @@ class BrandController extends Controller
     public function createBrand(Request $request){
 
         $this->validate($request,
-        ['name'=>'required']);
+        [
+            'name'=>'required|string|max:60',
+            'image'=>'required|image|mimes:png,jpeg,jpg,gif'
+        ]);
         
+
+        $image = "";
+        $location = "upload-images/brands/";
+        if($request->hasFile('image')){
+            $obj_fu = new FileUploader();
+            $fileName ='brands-'.uniqid().mt_rand(10, 9999);
+            $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
+            $image = $fileName__;
+        }else{
+            return redirect()->back()->with('msg','<div class="alert alert-danger" id="msg">Image is required</div>');
+        }
+
     	$brand = new Brand();
     	$brand->name        = $request->name;
     	$brand->description = $request->description;
-    	$imageName = time().'.'.request()->image->getClientOriginalExtension();
-    	request()->image->move(public_path('upload-images/brands'), $imageName);
-
-    	$brand->image        = $imageName;
+    	$brand->image        = url('/')."/".$location.$image;
 
         if ($brand->save()) {
-
         	return redirect("brands-list")->with('msg','<div class="alert alert-success" id="msg">Brand added Successfully!</div>');
         }
     }
@@ -49,21 +61,35 @@ class BrandController extends Controller
     // update brand
 
     public function updateBrand(Request $request){
+        $this->validate($request,
+        [
+            'name'=>'required|string|max:60',
+            'image'=>'nullable|image|mimes:png,jpeg,jpg,gif'
+        ]);
 
-    	$id                 = $request->id;
-    	$brand              = Brand::find($id);
-    	$brand->name        = $request->name;
-    	$brand->description = $request->description;
+    	$brand = Brand::find($request->id);
 
+        $url = url('/');
+        $location = "upload-images/brands/";
+        $image = NULL;
     	if ($request->hasFile('image')) {
-	    
-		    $imageName = time().'.'.request()->image->getClientOriginalExtension();
-	    	request()->image->move(public_path('upload-images/brands'), $imageName);
-
-	    	$brand->image        = $imageName;
+            $obj_fu = new FileUploader();
+            //delete
+            if ($brand->image != NULL) {
+                $file_name = str_replace($url."/".$location, "", $brand->image);
+                $obj_fu->deleteFile($file_name, $location);
+            }
+	       //upload new one
+		    $fileName ='brands-'.uniqid().mt_rand(10, 9999);
+            $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
+            $image = $fileName__;
 		}
-        if ($brand->save()) {
 
+        $brand->name        = $request->name;
+        $brand->description = $request->description;
+        $brand->image = ($image === NULL ? $brand->image : $url."/".$location.$image);
+
+        if ($brand->save()) {
         	return redirect("brands-list")->with('msg','<div class="alert alert-success" id="msg">Brand updated Successfully!</div>');
         }
     }
@@ -71,7 +97,6 @@ class BrandController extends Controller
     // Disable brands list
 
     public function disableBrandsList(){
-
     	$brands = Brand::where('active','N')->orderBy('id', 'desc')->paginate(2);
     	return view('brand.disable-brand-list',compact('brands'));
     }
@@ -79,12 +104,10 @@ class BrandController extends Controller
     //active a brand
 
     public function activeBrand($id){
-
     	$id                 = decrypt($id);
     	$brand              = Brand::find($id);
     	$brand->active      = 'Y';
     	if ($brand->save()) {
-
         	return redirect("brands-list")->with('msg','<div class="alert alert-success" id="msg">Brand Active Successfully!</div>');
         }
     }
@@ -97,7 +120,6 @@ class BrandController extends Controller
     	$brand              = Brand::find($id);
     	$brand->active      = 'N';
     	if ($brand->save()) {
-
         	return redirect("disable-brands-list")->with('msg','<div class="alert alert-success" id="msg">Brand Disable Successfully!</div>');
         }
     }

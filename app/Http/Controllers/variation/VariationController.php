@@ -48,7 +48,10 @@ class VariationController extends Controller
 
     public function variationsList(){
 
-    	$variations = Variation::where('active',1)->orderBy('id', 'desc')->paginate('10');
+    	$variations = Variation::where('active', 1)
+                        ->with('get_category')
+                        ->orderBy('id', 'desc')
+                        ->paginate(2);
     	return view('variation.variations-list',compact('variations'));
     }
 
@@ -151,5 +154,35 @@ class VariationController extends Controller
         	return redirect("variations-list")->with('msg','<div class="alert alert-success" id="msg">Variation Active Successfully!</div>');
        
         }
+    }
+
+
+    public function fetch_paginate_data(Request $request){
+        if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+            $status = $request->status;
+
+            if ($sort_by == "") {
+                $sort_by = "id";
+            }
+            if ($sorting_order == "") {
+                $sorting_order = "DESC";
+            }
+
+            if ($request->search_key != "") {
+                $variations = Variation::where("variation_name", "LIKE", "%$searchKey%")
+                            ->where("active", "=", $status)
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate(3);
+                return view('variation.partials.variations-list', compact('variations'))->render();
+            }
+
+            $variations = Variation::where("active", "=", $status)
+                            ->orderBy($sort_by, $sorting_order)->paginate(3);
+            return view('variation.partials.variations-list', compact('variations'))->render();
+        }
+        return abort(404);
     }
 }
