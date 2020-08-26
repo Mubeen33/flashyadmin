@@ -20,7 +20,7 @@
                                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#updateData">
                                             Update
                                         </button>
-                                        <table class="table">
+                                        <table class="table" style="text-align: left !important;">
                                             <tr>
                                                 <th>Heading</th>
                                                 <td>{{ $data->heading }}</td>
@@ -109,7 +109,7 @@
                             <input type="text" name="text_line_one" class="form-control" value="{{ $data->text_line_one }}" placeholder="Text Line One">
                         </div>
                         <div class="form-group">
-                            <label>Text Line One Icon</label>
+                            <label>Text Line One Icon (Width 40px & height 40px)</label>
                             <input type="file" name="text_line_one_icon" class="form-control" accept="image/*">
                         </div>
 
@@ -118,7 +118,7 @@
                             <input type="text" name="text_line_two" class="form-control" value="{{ $data->text_line_two }}" placeholder="Text Line Two">
                         </div>
                         <div class="form-group">
-                            <label>Text Line Two Icon</label>
+                            <label>Text Line Two Icon  (Width 40px & height 40px)</label>
                             <input type="file" name="text_line_two_icon" class="form-control" accept="image/*">
                         </div>
 
@@ -127,7 +127,7 @@
                             <input type="text" name="text_line_three" class="form-control" value="{{ $data->text_line_three }}" placeholder="Text Line Three">
                         </div>
                         <div class="form-group">
-                            <label>Text Line Three Icon</label>
+                            <label>Text Line Three Icon  (Width 40px & height 40px)</label>
                             <input type="file" name="text_line_three_icon" class="form-control" accept="image/*">
                         </div>
                         <div class="form-group">

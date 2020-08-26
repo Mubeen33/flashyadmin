@@ -1,8 +1,19 @@
 @extends('layouts.master')
-@section('page-title','Brands')
+@section('page-title','Disabled Categories')
+
+@push('styles')
+<style type="text/css">
+    #searchKey__{
+        border: 1px solid #ddd;
+        padding: 2px 10px;
+        outline: none;
+    }
+</style>
+@endpush
+
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
-    <li class="breadcrumb-item active">Table</li>
+    <li class="breadcrumb-item active">Disabled Categories</li>
 @endsection    
 
     
@@ -17,8 +28,13 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Categories List</h4>
-                                <a href="{{url('add-category')}}"><button type="button" class="btn btn-primary" style="float:right;" ><i class="fa fa-plus">Add Category</i></button></a>
+                                <div class="d-flex">
+                                    <h4 class="card-title mr-1">Disabled Categories List</h4>
+                                    <a class="btn btn-primary btn-sm" href="{{url('add-category')}}"><i class="fa fa-plus">Add Category</i></a>
+                                </div>
+                                <div>
+                                    <input type="text" name="searchKey__" id="searchKey__" placeholder="Search">
+                                </div>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
@@ -26,56 +42,30 @@
                                         <table  class="table table-bordered zero-configuration">
                                             <thead>
                                                 <tr>
-                                                    <th>Name</th>
-                                                    <th>Slug</th>
-                                                    <th>Title</th>
+                                                    <th class="sortAble" sorting-column='id' sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg> ID</th>
+                                                    <th class="sortAble" sorting-column='name' sorting-order=''>Name</th>
+                                                    <th class="sortAble" sorting-column='slug' sorting-order=''>Slug</th>
+                                                    <th class="sortAble" sorting-column='title_meta_tag' sorting-order=''>Title</th>
                                                     <th>Description</th>
                                                     <th>Keyword</th>
-                                                    <th>order</th>
+                                                    <th class="sortAble" sorting-column='category_order' sorting-order=''>order</th>
                                                     <th>Visibilty</th>
                                                     <th>Show on Homepage</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
-                                           <tbody>
-                                            @if(count($categories) > 0)
-                                        @foreach ($categories as $item)
-                                           <tr>
-                                               
-                                           <td>{{$item->name}}</td>
-                                            <td>{{$item->slug}}</td>
-                                            <td>{{$item->title_meta_tag}}</td>
-                                            <td>{{$item->description}}</td>
-                                            <td>{{$item->keywords}}</td>
-                                            <td>{{$item->category_order}}</td>
-                                            <td>
-                                            @if ($item->visiblity == 1)
-                                            <div class="fonticon-wrap"> <div class="badge badge-success"><i class="fa fa-eye fa-x"></i></div> </div>  
-                                            @else
-                                            <div class="fonticon-wrap"> <div class="badge badge-danger"><i class="fa fa-eye-slash"></i></div> </div>    
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($item->home_visiblity == 0)
-                                            <div class="badge badge-danger"><strong>No</strong></div>  
-                                            @else
-                                            <div class="badge badge-success"><strong>Yes</strong></div> 
-                                            @endif
-                                        </td>
-                                            <td> 
-                                                <a href="{{url('category-active')}}/{{$item->id}}"><i class="feather icon-check"></i></a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                         @else  
-                                         <tr colspan="7">
-                                               
-                                            <td>No Record found </td>
-                                         </tr>
-                                         @endif
+                                            <tbody id="render__data">
+                                                @include('Category.partials.disabled-category-list')
+                                            </tbody>
 
-                                           </tbody>
                                         </table>
+
+                                        <input type="hidden" id="hidden__action_url" value="/categories-ajax-pagination/fetch">
+                                        <input type="hidden" id="hidden__page_number" value="1">
+                                        <input type="hidden" id="hidden__sort_by" value="id">
+                                        <input type="hidden" id="hidden__sorting_order" value="DESC">
+                                        <input type="hidden" id="hidden__status" value="1">
+
                                     </div>
                                 </div>
                             </div>
@@ -84,4 +74,9 @@
                 </div>
             </div>              
 @endsection
+
+
+@push('scripts')
+<script type="text/javascript" src="{{ asset('js/ajax-pagination.js') }}"></script>
+@endpush
  

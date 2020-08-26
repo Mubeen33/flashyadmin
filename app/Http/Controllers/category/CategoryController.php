@@ -20,7 +20,8 @@ class CategoryController extends Controller
     //active Categorys list
     public function categoryList(){
 
-         $Categories=Category::orderBy('id','desc')->where('deleted', '=',0)->get();
+         $Categories=Category::orderBy('id','desc')
+         ->where('deleted', '=', 0)->paginate(5);
         return view('category.category-list')
         ->with('categories',$Categories);
       
@@ -160,9 +161,10 @@ class CategoryController extends Controller
 
     public function disablecategoryList(){
 
-        $Categories=Category::orderBy('id','desc')->where('deleted', '=',1)->get();
-        return view('category.disable-categoy-list')
-        ->with('categories',$Categories);
+        $categories=Category::where('deleted', '=', 1)
+            ->orderBy('id','desc')
+            ->paginate(3);
+        return view('category.disable-categoy-list', compact('categories'));
     }
 
     //active a Category
@@ -173,7 +175,6 @@ class CategoryController extends Controller
     	$Categories              = Category::find($id);
     	$Categories->deleted      = '0';
     	if ($Categories->save()) {
-
         	return redirect("category-list")->with('msg','<div class="alert alert-success" id="msg">Category Active Successfully!</div>');
         }
     }
@@ -189,6 +190,38 @@ class CategoryController extends Controller
 
         	return redirect("disable-categories-list")->with('msg','<div class="alert alert-success" id="msg">Category Disable Successfully!</div>');
         }
+    }
+
+
+    //ajax
+    public function fetch_paginate_data(Request $request){
+        if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+            $status = $request->status;
+
+            if ($sort_by == "") {
+                $sort_by = "id";
+            }
+            if ($sorting_order == "") {
+                $sorting_order = "DESC";
+            }
+
+            if ($request->search_key != "") {
+                $categories = Category::where("name", "LIKE", "%$searchKey%")
+                            ->orWhere("description", "LIKE", "%$searchKey%")
+                            ->where("deleted", "=", $status)
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate(5);
+                return view('Category.partials.disabled-category-list', compact('categories'))->render();
+            }
+
+            $categories = Category::where("deleted", "=", $status)
+                            ->orderBy($sort_by, $sorting_order)->paginate(5);
+            return view('Category.partials.disabled-category-list', compact('categories'))->render();
+        }
+        return abort(404);
     }
 }
 

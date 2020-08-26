@@ -45,9 +45,9 @@ class SignupContentsController extends Controller
             'text_line_one'=>'nullable|string|max:250',
             'text_line_two'=>'nullable|string|max:250',
             'text_line_three'=>'nullable|string|max:250',
-            'text_line_one_icon'=>'nullable|image|mimes:jpeg,jpg,png,gif|max:1000',
-            'text_line_two_icon'=>'nullable|image|mimes:jpeg,jpg,png,gif|max:1000',
-            'text_line_three_icon'=>'nullable|image|mimes:jpeg,jpg,png,gif|max:1000',
+            'text_line_one_icon'=>'nullable|image|mimes:jpeg,jpg,png,gif|dimensions:width=40,height=40|max:1000',
+            'text_line_two_icon'=>'nullable|image|mimes:jpeg,jpg,png,gif|dimensions:width=40,height=40|max:1000',
+            'text_line_three_icon'=>'nullable|image|mimes:jpeg,jpg,png,gif|dimensions:width=40,height=40|max:1000',
         ]);
 
 

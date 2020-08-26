@@ -62,6 +62,7 @@ Route::get('category-active/{id}','category\CategoryController@activecategory');
 Route::get('category-disable/{id}','category\CategoryController@disableAcategory');
 Route::Post('get_child','category\CategoryController@getChild')->name('get_child');
 Route::Post('getparent','category\CategoryController@getparent')->name('getparent');
+Route::get('categories-ajax-pagination/fetch','category\CategoryController@fetch_paginate_data');
 
 
 
