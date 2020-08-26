@@ -45,6 +45,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css')}}">
     @stack('styles')
     <!-- END: Custom CSS-->
+     <!-- END: Custom CSS-->
+      <link rel="stylesheet" type="text/css" href="{{ asset('css/index.css')}}">
 
 </head>
 <!-- END: Head-->
