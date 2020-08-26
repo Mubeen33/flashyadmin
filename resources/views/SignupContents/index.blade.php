@@ -30,16 +30,41 @@
                                                 <td>{{ $data->description }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Text Lines</th>
+                                                <th>Text Line One</th>
                                                 <td>
-                                                    @if($data->text_lines != NULL)
-                                                     @php
-                                                        $lines = explode('##', $data->text_lines);
-                                                        foreach($lines as $line){
-                                                            echo "<p class='m-0'>".$line."</p>";
-                                                        }
-                                                     @endphp
-                                                    @endif
+                                                    {{ $data->text_line_one }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Text Line One Icon</th>
+                                                <td>
+                                                    <img src="{{$data->text_line_one_icon}}" width="70px" height="70px">
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Text Line Two</th>
+                                                <td>
+                                                    {{ $data->text_line_two }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Text Line Two Icon</th>
+                                                <td>
+                                                    <img src="{{$data->text_line_two_icon}}" width="70px" height="70px">
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Text Line Three</th>
+                                                <td>
+                                                    {{ $data->text_line_three }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Text Line Three Icon</th>
+                                                <td>
+                                                    <img src="{{$data->text_line_three_icon}}" width="70px" height="70px">
                                                 </td>
                                             </tr>
                                         </table>
@@ -69,7 +94,7 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <form action="{{ route('admin.signup-contents.store') }}" method="POST">
+                    <form action="{{ route('admin.signup-contents.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label>Heading</label>
@@ -80,9 +105,30 @@
                             <input type="text" name="description" value="@if($data){{$data->description}}@endif" placeholder="Description" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>Text Lines</label>
-                            <small class="text-danger">(Please Seperate multiple line using ## (double hash))</small>
-                            <textarea cols="5" rows="5" class="form-control" name="text_lines">@if($data){{ $data->text_lines }}@endif</textarea>
+                            <label>Text Line One</label>
+                            <input type="text" name="text_line_one" class="form-control" value="{{ $data->text_line_one }}" placeholder="Text Line One">
+                        </div>
+                        <div class="form-group">
+                            <label>Text Line One Icon</label>
+                            <input type="file" name="text_line_one_icon" class="form-control" accept="image/*">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Text Line Two</label>
+                            <input type="text" name="text_line_two" class="form-control" value="{{ $data->text_line_two }}" placeholder="Text Line Two">
+                        </div>
+                        <div class="form-group">
+                            <label>Text Line Two Icon</label>
+                            <input type="file" name="text_line_two_icon" class="form-control" accept="image/*">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Text Line Three</label>
+                            <input type="text" name="text_line_three" class="form-control" value="{{ $data->text_line_three }}" placeholder="Text Line Three">
+                        </div>
+                        <div class="form-group">
+                            <label>Text Line Three Icon</label>
+                            <input type="file" name="text_line_three_icon" class="form-control" accept="image/*">
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Update</button>

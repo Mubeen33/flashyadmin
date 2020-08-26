@@ -17,7 +17,12 @@ class CreateSignupContentsTable extends Migration
             $table->id();
             $table->string('heading')->nullable();
             $table->string('description')->nullable();
-            $table->text('text_lines')->nullable();
+            $table->text('text_line_one')->nullable();
+            $table->text('text_line_two')->nullable();
+            $table->text('text_line_three')->nullable();
+            $table->text('text_line_one_icon')->nullable();
+            $table->text('text_line_two_icon')->nullable();
+            $table->text('text_line_three_icon')->nullable();
             $table->timestamps();
         });
     }
