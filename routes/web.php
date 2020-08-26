@@ -109,8 +109,18 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
 
 Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
 Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
-
-
+// files added by asad ..
+Route::get("/test/page",function(){
+    return view("vendors");
+});
+// order page ..
+Route::get("/test/order",function(){
+  return view("order");
+});
+// order view page ..
+Route::get("/test/order/view",function(){
+  return view("orderview");
+});
 
 
 

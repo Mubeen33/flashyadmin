@@ -24,7 +24,9 @@
     <script src="{{ asset('app-assets/js/core/app.js')}}"></script>
     <script src="{{ asset('app-assets/js/scripts/components.js')}}"></script>
     <!-- END: Theme JS-->
-
+    <script type="text/javascript" src="{{ asset('js/index.js') }}"></script>
+    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <!-- BEGIN: Page JS-->
     <!-- END: Page JS-->
    <script type="text/javascript">
