@@ -31,6 +31,7 @@ Route::get('brand-edit/{id}','brand\BrandController@editBrand');
 Route::get('brand-disable/{id}','brand\BrandController@disableABrand');
 Route::post('update-brand','brand\BrandController@updateBrand');
 Route::get('brand-active/{id}','brand\BrandController@activeBrand');
+Route::get('brands-ajax-pagination/fetch', 'brand\BrandController@fetch_paginate_data');
 // 
 
 // Variation routes
@@ -71,7 +72,7 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
 	Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
   Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
   //ajax requests
-  Route::get('ajax-pagination/fetch', 'Vendors\VendorController@fetch_paginate_data');
+  Route::get('vendors-ajax-pagination/fetch', 'Vendors\VendorController@fetch_paginate_data');
 
 
   //vendor activity
@@ -95,6 +96,7 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
 
    //customers
    Route::resource('customers', 'Customers\CustomerController');
+   Route::get('customers-ajax-pagination/fetch', 'Customers\CustomerController@fetch_paginate_data');
 
    //signup contents
    Route::resource('signup-contents', 'Auth\SignupContentsController');

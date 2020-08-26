@@ -15,7 +15,19 @@
         @endif    
     </td>
     <td>
-        <a href="{{ route('admin.vendors.show', Crypt::encrypt($content->id)) }}"><i class="feather icon-eye"></i></a>
+        <div class="btn-group mb-1">
+            <div class="dropdown">
+                <button class="btn btn-dark btn-sm dropdown-toggle mr-1" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Actions
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
+                    <a class="dropdown-item" href="{{ route('admin.vendors.show', Crypt::encrypt($content->id)) }}">Show</a>
+                    <a class="dropdown-item" href="">Selles Report</a>
+                    <a class="dropdown-item" href="">Transaction Report</a>
+                </div>
+            </div>
+        </div>
+        
     </td>
 </tr>
 @endforeach

@@ -16,7 +16,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $data = Customer::orderBy('created_at', 'DESC')->paginate(25);
+        $data = Customer::orderBy('created_at', 'DESC')->paginate(2);
         return view('Customers.index', compact('data'));
     }
 
@@ -89,5 +89,36 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    //custom
+    public function fetch_paginate_data(Request $request){
+        if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+
+            if ($sort_by == "") {
+                $sort_by = "id";
+            }
+            if ($sorting_order == "") {
+                $sorting_order = "DESC";
+            }
+
+            if ($request->search_key != "") {
+                $data = Customer::where("first_name", "LIKE", "%$searchKey%")
+                            ->orWhere("last_name", "LIKE", "%$searchKey%")
+                            ->orWhere("email", "LIKE", "%$searchKey%")
+                            ->orWhere("phone", "LIKE", "%$searchKey%")
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate(2);
+                return view('Customers.partials.customers-list', compact('data'))->render();
+            }
+
+            $data = Customer::orderBy($sort_by, $sorting_order)->paginate(2);
+            return view('Customers.partials.customers-list', compact('data'))->render();
+        }
+        return abort(404);
     }
 }
