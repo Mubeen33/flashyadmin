@@ -274,4 +274,36 @@ class SliderController extends Controller
         }
 
     }
+
+
+
+    public function fetch_paginate_data(Request $request){
+        if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+
+            if ($sort_by == "") {
+                $sort_by = "id";
+            }
+            if ($sorting_order == "") {
+                $sorting_order = "DESC";
+            }
+
+            if ($request->search_key != "") {
+                $data = Slider::where("title", "LIKE", "%$searchKey%")
+                            ->orWhere("description", "LIKE", "%$searchKey%")
+                            ->orWhere("slider_type", "LIKE", "%$searchKey%")
+                            ->orWhere("start_time", "LIKE", "%$searchKey%")
+                            ->orWhere("end_time", "LIKE", "%$searchKey%")
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate(3);
+                return view('Sliders.partials.sliders-list', compact('data'))->render();
+            }
+
+            $data = Slider::orderBy($sort_by, $sorting_order)->paginate(3);
+            return view('Sliders.partials.sliders-list', compact('data'))->render();
+        }
+        return abort(404);
+    }
 }

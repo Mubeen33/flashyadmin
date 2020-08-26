@@ -67,7 +67,7 @@
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-12">
-                                                    <label>Image</label>
+                                                    <label>Image (Size: width 390 & height 193)</label>
                                                     <input type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
                                                     <br>
                                                     <button class="btn btn-success" type="button" 

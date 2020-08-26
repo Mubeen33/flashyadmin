@@ -91,6 +91,7 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
   //slider routes
 	Route::resource('sliders', 'Slider\SliderController');
 	Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
+  Route::get('sliders-ajax-pagination/fetch', 'Slider\SliderController@fetch_paginate_data');
 
   //Banner routes
   Route::resource('banners', 'Banner\BannerController');
