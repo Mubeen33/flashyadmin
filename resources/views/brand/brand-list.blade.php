@@ -1,5 +1,15 @@
 @extends('layouts.master')
 @section('page-title','Brands')
+@push('styles')
+<style type="text/css">
+    #searchKey__{
+        border: 1px solid #ddd;
+        padding: 2px 10px;
+        outline: none;
+    }
+</style>
+@endpush
+
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Brands</li>
@@ -11,14 +21,15 @@
                 @endif
                 <div class="row" id="basic-table">
                     <div class="col-12">
-                        <div class="row">
-                            <div class="col offset-10">
-                                <button class="btn btn-primary"><a href="{{Route('brands.addbrand')}}" style="text-decoration: none;color: #fff">Add new</a></button>
-                            </div>
-                        </div>
                         <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Brands List</h4>
+                            <div class="card-header justify-content-between">
+                                <div class="d-flex">
+                                    <h4 class="card-title mr-1">Brands List</h4> 
+                                    <a class="btn btn-success btn-sm" href="{{Route('brands.addbrand')}}">Add new</a>
+                                </div>
+                                <div>
+                                    <input type="text" name="searchKey__" id="searchKey__" placeholder="Search">
+                                </div>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
@@ -26,46 +37,24 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
-                                                    <th>Name</th>
+                                                    <th class="sortAble" sorting-column='id' sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg> ID</th>
+                                                    <th class="sortAble" sorting-column='name' sorting-order=''>Name</th>
                                                     <th>Description</th>
                                                     <th>Status</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                @foreach($brands as $brand)
-                                                    <tr>
-                                                        <th scope="row">{{$brand->id}}</th>
-                                                        <td>{{$brand->name}}</td>                                          
-                                                        <td>{{$brand->description}}</td>
-                                                        <td>
-                                                            @if($brand->active=='Y')
-                                                                <div class="badge badge-success">Active</div>
-                                                            @endif    
-                                                        </td>
-                                                        <td>
-                                                            
-                                                            <div class="btn-group mb-1">
-                                                                <div class="dropdown">
-                                                                    <button class="btn btn-dark btn-sm dropdown-toggle mr-1" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                        Actions
-                                                                    </button>
-                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                                                                        <a class="dropdown-item" href="{{url('brand-edit', encrypt($brand->id))}}">Edit</a>
-                                                                        <a class="dropdown-item" href="{{url('brand-disable', encrypt($brand->id))}}">Disable</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                                    <tr>
-                                                        <td>{{ $brands->links() }}</td>
-                                                    </tr>
+                                            <tbody id="render__data">
+
+                                                @include('brand.partials.brand-list')
+
                                             </tbody>
                                         </table>
-                                        
+                                        <input type="hidden" id="hidden__action_url" value="/brands-ajax-pagination/fetch">
+                                        <input type="hidden" id="hidden__page_number" value="1">
+                                        <input type="hidden" id="hidden__sort_by" value="id">
+                                        <input type="hidden" id="hidden__sorting_order" value="DESC">
+                                        <input type="hidden" id="hidden__status" value="Y">
                                     </div>
                                 </div>
                             </div>
@@ -74,3 +63,7 @@
                 </div>
             </div>
 @endsection
+
+@push('scripts')
+<script type="text/javascript" src="{{ asset('js/ajax-pagination.js') }}"></script>
+@endpush

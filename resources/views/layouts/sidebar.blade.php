@@ -64,9 +64,9 @@
                     <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-package"></i><span data-i18n="Apps">Vendors</span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
-                                <a class="dropdown-item" href="{{route('admin.vendors.index')}}"><i class="feather icon-circle"></i>All Vendors</a>
-                                <a class="dropdown-item" href="{{route('admin.vendor.activities.get')}}"><i class="feather icon-circle"></i>Vendors Activity</a>
-                                <a class="dropdown-item" href="{{route('admin.vendor.bankUpdates.get')}}"><i class="feather icon-circle"></i>Bank Updates 
+                                <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendors.index')}}"><i class="feather icon-circle"></i>All Vendors</a></li>
+                                <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendor.activities.get')}}"><i class="feather icon-circle"></i>Vendors Activity</a></li>
+                                <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendor.bankUpdates.get')}}"><i class="feather icon-circle"></i>Bank Updates 
                                     @php
                                         $vendorBankDetailsUpdates = (\App\VendorBankDetailsTempData::where('status', 0)->count());
                                         if($vendorBankDetailsUpdates > 0){
@@ -74,7 +74,7 @@
                                         }
                                     @endphp
                                     
-                                </a>
+                                </a></li>
                             </li>
                         </ul>
                     </li>

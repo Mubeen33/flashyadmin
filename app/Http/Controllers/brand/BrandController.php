@@ -14,10 +14,8 @@ class BrandController extends Controller
 	
     //active brands list
     public function brandsList(){
-
-        $brands = Brand::where('active','Y')->orderBy('id', 'desc')->paginate(10);
+        $brands = Brand::where('active','Y')->orderBy('id', 'desc')->paginate(3);
     	return view('brand.brand-list',compact('brands'));
-        // return Laratables::recordsOf(Brand::class,Laratables::class);
     }
     
     //createbrand
@@ -74,7 +72,7 @@ class BrandController extends Controller
 
     public function disableBrandsList(){
 
-    	$brands = Brand::where('active','N')->orderBy('id', 'desc')->paginate('10');
+    	$brands = Brand::where('active','N')->orderBy('id', 'desc')->paginate(2);
     	return view('brand.disable-brand-list',compact('brands'));
     }
 
@@ -102,6 +100,37 @@ class BrandController extends Controller
 
         	return redirect("disable-brands-list")->with('msg','<div class="alert alert-success" id="msg">Brand Disable Successfully!</div>');
         }
+    }
+
+
+
+    public function fetch_paginate_data(Request $request){
+        if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+            $status = $request->status;
+
+            if ($sort_by == "") {
+                $sort_by = "id";
+            }
+            if ($sorting_order == "") {
+                $sorting_order = "DESC";
+            }
+
+            if ($request->search_key != "") {
+                $brands = Brand::where('active', $status)
+                            ->where("name", "LIKE", "%$searchKey%")
+                            ->orWhere("description", "LIKE", "%$searchKey%")
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate(3);
+                return view('brand.partials.brand-list', compact('brands'))->render();
+            }
+
+            $brands = Brand::where('active', $status)->orderBy($sort_by, $sorting_order)->paginate(3);
+            return view('brand.partials.brand-list', compact('brands'))->render();
+        }
+        return abort(404);
     }
 }
 
