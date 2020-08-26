@@ -19,6 +19,7 @@
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
+                                            @include('msg.msg')
                                                 <div class="form-body">
                                                     <div class="row">
                                                         <div class="col-12">
@@ -195,6 +196,21 @@
                                                             </div>
                                                         </div>
 
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Category Image</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <div class="custom-file">
+                                                                        <input type="file" onchange="previewFile(this);" name="image" class="custom-file-input" id="inputGroupFile01">
+                                                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                                    </div>
+                                                                    <span><img id="previewImg" width="100" src=""></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                         <div class="col-md-9"></div>
                                                         <div class="col-md-3">
                                                             <button class="btn btn-primary" type="submit">Submit</button>
@@ -213,46 +229,6 @@
             </div>
 
 <script>
-
-//Image Preview Function
-
-    function previewFile(input){
-        var _URL = window.URL || window.webkitURL;
-        var file = $("input[type=file]").get(0).files[0];
-
-           img = new Image();
-           var imgwidth = 0;
-           var imgheight = 0;
-           var maxwidth = 170;
-           var maxheight = 170;
-           img.src = _URL.createObjectURL(file);
-              img.onload = function() {
-               imgwidth = this.width;
-               imgheight = this.height;
-           
-        if(imgwidth == maxwidth && imgheight == maxheight){
-
-            $('#error').html(null);
-            $('.submit-btn').prop('disabled', false);
-            if(file){
-                var reader = new FileReader();
-     
-                reader.onload = function(){
-                    $("#previewImg").attr("src", reader.result);
-                }
-     
-                reader.readAsDataURL(file);
-            }
-        }
-        else{
-
-            $('#error').html('Required image is 170X170');
-            $('.submit-btn').prop('disabled', true);
-
-        }
-      }  
-    }
-// End Image Preview
 
 // function for subcategories 
 
@@ -331,3 +307,22 @@
     } 
 </script>
 @endsection       
+
+
+@push('scripts')
+<script>
+    function previewFile(input){
+        var file = $("input[type=file]").get(0).files[0];
+ 
+        if(file){
+            var reader = new FileReader();
+ 
+            reader.onload = function(){
+                $("#previewImg").attr("src", reader.result);
+            }
+ 
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+@endpush

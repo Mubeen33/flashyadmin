@@ -1,7 +1,7 @@
 @if(count($categories) > 0)
     @foreach ($categories as $key=>$item)
        <tr>
-        <td>{{ $key+1 }}</td>   
+        <td>{{ ($key+1) }}</td>   
         <td><b>{{ $item->getParentsNames() }}</b></td>
         <td>{{$item->commission}}%</td>
         <td>{{$item->category_order}}</td>

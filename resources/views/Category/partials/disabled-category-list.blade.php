@@ -1,6 +1,7 @@
 @if(count($categories) > 0)
-    @foreach ($categories as $item)
+    @foreach ($categories as $key=>$item)
        <tr>
+       <td>{{($key+1)}}</td>
        <td>{{$item->name}}</td>
         <td>{{$item->slug}}</td>
         <td>{{$item->title_meta_tag}}</td>

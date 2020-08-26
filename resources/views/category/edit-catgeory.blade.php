@@ -156,7 +156,7 @@
                                                                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                                                     </div>
                                                                     <span class="text text-danger" id="error"></span>
-                                                                    <span><img id="previewImg" width="100" src="{{asset('upload-images/category')}}/{{$categories->image}}"></span>
+                                                                    <span><img id="previewImg" width="100" src="{{ $categories->image }}"></span>
                                                                     <input type="hidden" id="image"  class="form-control" name="image" value="" required="">
                                                                 </div>
                                                             </div>

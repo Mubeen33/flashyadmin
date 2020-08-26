@@ -38,6 +38,7 @@
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
+                                    @include('msg.msg')
                                     <div class="table-responsive ">
                                         <table  class="table table-bordered zero-configuration">
                                             <thead>
@@ -62,7 +63,7 @@
                                         <input type="hidden" id="hidden__page_number" value="1">
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">
-                                        <input type="hidden" id="hidden__status" value="0">
+                                        <input type="hidden" id="hidden__status" value="1">
 
                                     </div>
                                 </div>
