@@ -177,212 +177,32 @@
                                     <table class="table table-striped w-100 d-block d-md-table">
                                                 <thead>
                                                     <tr class="table-head">
-                                                        <td width="40%"  align="left"> Item </td>
-                                                        <td width="10%" > Cost </td>
-                                                        <td width="5%" ></td>
-                                                        <td width="15%" > Quantity </td>
-                                                        <td width="15%" >Total</td>
-                                                        <td width="15%" > Action </td>
+                                                        <td width="300px"  align="left"> Item </td>
+                                                        <td width="100px" > Cost </td>
+                                                        <td width="100px" ></td>
+                                                        <td width="100px" > Quantity </td>
+                                                        <td width="100px" >Total</td>
+                                                        <td width="100px" > Action </td>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td align="left" width="40%" >
+                                                        <tr>
+                                                        <td align="left" width="300px" >
                                                             <img src="app-assets/images/elements/apple-watch.png" width="40"  height="40" /> <font size="2">  Apple Watch series 4 Bold 5 Amazing  </font>
                                                         </td>
-                                                        <td width="10%">
+                                                        <td width="100px">
                                                             R 1500 
                                                         </td>
-                                                        <td width="5%">
+                                                        <td width="100px">
                                                             x
                                                         </td>
-                                                        <td width="15%">
+                                                        <td width="100px">
                                                             1
                                                         </td>
-                                                        <td width="15%">
+                                                        <td width="100px">
                                                             $1500
                                                         </td>
-                                                        <td width="15%">
-                                                            <div class="dropdown">
-                                                                <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Action
-                                                                </button>
-                                                                <div class="dropdown-menu">
-                                                                    <a class="dropdown-item" n="1" id="cancle-order" href="#">
-                                                                        Cancle
-                                                                    </a>
-                                                                    <a class="dropdown-item" href="#">Proccess</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" width="40%" >
-                                                            <img src="app-assets/images/elements/apple-watch.png" width="40"  height="40" /> <font size="2">  Apple Watch series 4 Bold 5 Amazing  </font>
-                                                        </td>
-                                                        <td width="10%">
-                                                            R 1500 
-                                                        </td>
-                                                        <td width="5%">
-                                                            x
-                                                        </td>
-                                                        <td width="15%">
-                                                            1
-                                                        </td>
-                                                        <td width="15%">
-                                                            $1500
-                                                        </td>
-                                                        <td width="15%">
-                                                            <div class="dropdown">
-                                                                <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Action
-                                                                </button>
-                                                                <div class="dropdown-menu">
-                                                                    <a class="dropdown-item" n="1" id="cancle-order" href="#">
-                                                                        Cancle
-                                                                    </a>
-                                                                    <a class="dropdown-item" href="#">Proccess</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" width="40%" >
-                                                            <img src="app-assets/images/elements/apple-watch.png" width="40"  height="40" /> <font size="2">  Apple Watch series 4 Bold 5 Amazing  </font>
-                                                        </td>
-                                                        <td width="10%">
-                                                            R 1500 
-                                                        </td>
-                                                        <td width="5%">
-                                                            x
-                                                        </td>
-                                                        <td width="15%">
-                                                            1
-                                                        </td>
-                                                        <td width="15%">
-                                                            $1500
-                                                        </td>
-                                                        <td width="15%">
-                                                            <div class="dropdown">
-                                                                <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Action
-                                                                </button>
-                                                                <div class="dropdown-menu">
-                                                                    <a class="dropdown-item" n="1" id="cancle-order" href="#">
-                                                                        Cancle
-                                                                    </a>
-                                                                    <a class="dropdown-item" href="#">Proccess</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" width="40%" >
-                                                            <img src="app-assets/images/elements/apple-watch.png" width="40"  height="40" /> <font size="2">  Apple Watch series 4 Bold 5 Amazing  </font>
-                                                        </td>
-                                                        <td width="10%">
-                                                            R 1500 
-                                                        </td>
-                                                        <td width="5%">
-                                                            x
-                                                        </td>
-                                                        <td width="15%">
-                                                            1
-                                                        </td>
-                                                        <td width="15%">
-                                                            $1500
-                                                        </td>
-                                                        <td width="15%">
-                                                            <div class="dropdown">
-                                                                <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Action
-                                                                </button>
-                                                                <div class="dropdown-menu">
-                                                                    <a class="dropdown-item" n="1" id="cancle-order" href="#">
-                                                                        Cancle
-                                                                    </a>
-                                                                    <a class="dropdown-item" href="#">Proccess</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" width="40%" >
-                                                            <img src="app-assets/images/elements/apple-watch.png" width="40"  height="40" /> <font size="2">  Apple Watch series 4 Bold 5 Amazing  </font>
-                                                        </td>
-                                                        <td width="10%">
-                                                            R 1500 
-                                                        </td>
-                                                        <td width="5%">
-                                                            x
-                                                        </td>
-                                                        <td width="15%">
-                                                            1
-                                                        </td>
-                                                        <td width="15%">
-                                                            $1500
-                                                        </td>
-                                                        <td width="15%">
-                                                            <div class="dropdown">
-                                                                <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Action
-                                                                </button>
-                                                                <div class="dropdown-menu">
-                                                                    <a class="dropdown-item" n="1" id="cancle-order" href="#">
-                                                                        Cancle
-                                                                    </a>
-                                                                    <a class="dropdown-item" href="#">Proccess</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" width="40%" >
-                                                            <img src="app-assets/images/elements/apple-watch.png" width="40"  height="40" /> <font size="2">  Apple Watch series 4 Bold 5 Amazing  </font>
-                                                        </td>
-                                                        <td width="10%">
-                                                            R 1500 
-                                                        </td>
-                                                        <td width="5%">
-                                                            x
-                                                        </td>
-                                                        <td width="15%">
-                                                            1
-                                                        </td>
-                                                        <td width="15%">
-                                                            $1500
-                                                        </td>
-                                                        <td width="15%">
-                                                            <div class="dropdown">
-                                                                <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Action
-                                                                </button>
-                                                                <div class="dropdown-menu">
-                                                                    <a class="dropdown-item" n="1" id="cancle-order" href="#">
-                                                                        Cancle
-                                                                    </a>
-                                                                    <a class="dropdown-item" href="#">Proccess</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" width="40%" >
-                                                            <img src="app-assets/images/elements/apple-watch.png" width="40"  height="40" /> <font size="2">  Apple Watch series 4 Bold 5 Amazing  </font>
-                                                        </td>
-                                                        <td width="10%">
-                                                            R 1500 
-                                                        </td>
-                                                        <td width="5%">
-                                                            x
-                                                        </td>
-                                                        <td width="15%">
-                                                            1
-                                                        </td>
-                                                        <td width="15%">
-                                                            $1500
-                                                        </td>
-                                                        <td width="15%">
+                                                        <td width="100px">
                                                             <div class="dropdown">
                                                                 <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                     Action
