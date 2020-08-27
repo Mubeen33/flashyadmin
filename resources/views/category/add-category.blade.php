@@ -205,6 +205,7 @@
                                                                     <div class="custom-file">
                                                                         <input type="file" onchange="previewFile(this);" name="image" class="custom-file-input" id="inputGroupFile01">
                                                                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                                        <small>Image Size 170px * 170px</small>
                                                                     </div>
                                                                     <span><img id="previewImg" width="100" src=""></span>
                                                                 </div>

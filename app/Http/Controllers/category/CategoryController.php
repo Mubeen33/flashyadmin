@@ -14,11 +14,12 @@ class CategoryController extends Controller
 	//add Category view
 
 	public function index(){
-        $Categories=Category::select ('id', 'name')
-        ->orderBy('id','desc')->where([
+        $Categories=Category::where([
             ['deleted', '=', 0],
-            ['parent_id','=',0]
-        ])->paginate(5);
+            ['parent_id','=', 0]
+        ])->orderBy('id','desc')
+        ->paginate(3);
+
         return view('category.add-category')
         ->with('categories',$Categories);
 	}
@@ -26,7 +27,7 @@ class CategoryController extends Controller
     public function categoryList(){
 
          $Categories=Category::orderBy('id','desc')
-         ->where('deleted', '=', 0)->paginate(5);
+         ->where('deleted', '=', 0)->paginate(3);
         return view('category.category-list')
         ->with('categories',$Categories);
       
@@ -239,23 +240,25 @@ class CategoryController extends Controller
 
             $viewName = NULL;
             if ($status == 0) {
-                $viewName =  "Category.partials.disabled-category-list";
-            }else{
                 $viewName =  "Category.partials.category-list";
+            }else{
+                $viewName =  "Category.partials.disabled-category-list";
             }
 
             if ($request->search_key != "") {
-                $categories = Category::where("name", "LIKE", "%$searchKey%")
-                            ->orWhere("description", "LIKE", "%$searchKey%")
-                            ->where("deleted", "=", $status)
+                $categories = Category::where([
+                                ["name", "LIKE", "%".$searchKey."%"],
+                                ["deleted", "=", $status]
+                            ])
                             ->orderBy($sort_by, $sorting_order)
-                            ->paginate(5);
+                            ->paginate(3);
 
                 return view($viewName, compact('categories'))->render();
             }
 
             $categories = Category::where("deleted", "=", $status)
-                            ->orderBy($sort_by, $sorting_order)->paginate(5);
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate(3);
             return view($viewName, compact('categories'))->render();
         }
         return abort(404);

@@ -6,8 +6,6 @@
         <td>
             @if($brand->active=='Y')
                 <div class="badge badge-success">Active</div>
-                @else
-                <div class="badge badge-danger">Disabled</div>
             @endif    
         </td>
         <td>

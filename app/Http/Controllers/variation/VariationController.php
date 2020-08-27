@@ -170,18 +170,24 @@ class VariationController extends Controller
             if ($sorting_order == "") {
                 $sorting_order = "DESC";
             }
-
+            $viewName = "";
+            if ($status == 1) {
+                $viewName = "variation.partials.variations-list";
+            }else{
+                $viewName = "variation.partials.disabled-variations-list";
+            }
             if ($request->search_key != "") {
-                $variations = Variation::where("variation_name", "LIKE", "%$searchKey%")
+                $variations = Variation::where("variation_name", "LIKE", "%".$searchKey."%")
                             ->where("active", "=", $status)
                             ->orderBy($sort_by, $sorting_order)
                             ->paginate(3);
-                return view('variation.partials.variations-list', compact('variations'))->render();
+                return view($viewName, compact('variations'))->render();
             }
 
             $variations = Variation::where("active", "=", $status)
-                            ->orderBy($sort_by, $sorting_order)->paginate(3);
-            return view('variation.partials.variations-list', compact('variations'))->render();
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate(3);
+            return view($viewName, compact('variations'))->render();
         }
         return abort(404);
     }

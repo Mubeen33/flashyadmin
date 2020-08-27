@@ -23,7 +23,7 @@
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header justify-content-between">
                                 <div class="d-flex">
                                     <h4 class="card-title mr-1">Variatons List</h4>
                                     <a class="btn btn-primary btn-sm" href="{{Route('variations.addvariation')}}">Add new</a>

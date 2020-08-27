@@ -15,7 +15,9 @@ class BrandController extends Controller
 	
     //active brands list
     public function brandsList(){
-        $brands = Brand::where('active','Y')->orderBy('id', 'desc')->paginate(3);
+        $brands = Brand::where('active','Y')
+                        ->orderBy('id', 'desc')
+                        ->paginate(3);
     	return view('brand.brand-list',compact('brands'));
     }
     
@@ -97,7 +99,9 @@ class BrandController extends Controller
     // Disable brands list
 
     public function disableBrandsList(){
-    	$brands = Brand::where('active','N')->orderBy('id', 'desc')->paginate(2);
+    	$brands = Brand::where('active','N')
+                ->orderBy('id', 'desc')
+                ->paginate(2);
     	return view('brand.disable-brand-list',compact('brands'));
     }
 
@@ -140,17 +144,27 @@ class BrandController extends Controller
                 $sorting_order = "DESC";
             }
 
-            if ($request->search_key != "") {
-                $brands = Brand::where('active', $status)
-                            ->where("name", "LIKE", "%$searchKey%")
-                            ->orWhere("description", "LIKE", "%$searchKey%")
-                            ->orderBy($sort_by, $sorting_order)
-                            ->paginate(3);
-                return view('brand.partials.brand-list', compact('brands'))->render();
+            $viewName = "";
+            if ($status == 'Y') {
+                $viewName = "brand.partials.brand-list";
+            }else{
+                $viewName = "brand.partials.disable-brand-list";
             }
 
-            $brands = Brand::where('active', $status)->orderBy($sort_by, $sorting_order)->paginate(3);
-            return view('brand.partials.brand-list', compact('brands'))->render();
+            if ($request->search_key != "") {
+                $brands = Brand::where([
+                                ["name", "LIKE", "%".$searchKey."%"],
+                                ["active", "=", $status]
+                            ])
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate(3);
+                return view($viewName, compact('brands'))->render();
+            }
+
+            $brands = Brand::where('active', '=', $status)
+                                ->orderBy($sort_by, $sorting_order)
+                                ->paginate(3);
+            return view($viewName, compact('brands'))->render();
         }
         return abort(404);
     }
