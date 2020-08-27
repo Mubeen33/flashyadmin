@@ -66,7 +66,6 @@
                     </form>    
                 </section>
             </div>
-@endsection       
 <script>
 
     function get_subcategories(category_id, data_select_id) {
@@ -217,4 +216,5 @@
                 $('#form').append(str);
             }
         }
-    </script>
+</script>            
+@endsection       
