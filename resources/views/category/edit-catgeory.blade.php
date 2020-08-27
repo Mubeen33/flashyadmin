@@ -32,8 +32,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
@@ -44,7 +42,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
@@ -55,7 +52,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
@@ -66,8 +62,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
@@ -78,8 +72,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
@@ -90,7 +82,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
@@ -142,8 +133,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                
-                                                        
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
@@ -212,9 +201,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
-
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
@@ -361,11 +347,7 @@
                         $('#label_commission').html('Default Category Commission<span class="text text-danger">(You can edit it.)</span>');
                         $('#commission').val(commission);
 
-                    }
-                    
-                  
-                
-                
+                    } 
             }
         });
     } 
