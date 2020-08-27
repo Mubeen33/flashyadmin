@@ -68,7 +68,13 @@ class CategoryController extends Controller
         if (intval($data['parent_id']) === 0) {
             //check image has been upload or not
             if ($image === NULL) {
-                return redirect()->back()->with('error', 'Image is required');
+                return redirect()->back()->with('error', 'Image is required for parent category.');
+            }
+        }
+        if ($request->home_visiblity == 1) {
+            //check image has been upload or not
+            if ($image === NULL) {
+                return redirect()->back()->with('error', 'Image is required for category show on home page');
             }
         }
 
@@ -142,6 +148,8 @@ class CategoryController extends Controller
 
         $id              = $request->id;
         $Category        = Category::find($id);
+        $oldData        = Category::where('id', $id)->first();
+
         // parent id
         $data["parent_id"] = 0;
         $category_ids_array = $request->input('parent_id');
@@ -168,6 +176,25 @@ class CategoryController extends Controller
             $fileName ='category-'.uniqid().mt_rand(10, 9999);
             $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
             $image = $fileName__;
+        }
+
+        if (intval($data['parent_id']) === 0) {
+            //check image has been upload or not
+            if ($image === NULL) {
+                //check has image already or not
+                if ($oldData->image == NULL) {
+                    return redirect()->back()->with('error', 'Image is required for parent category.');
+                }
+            }
+        }
+        if ($request->home_visiblity == 1) {
+            //check image has been upload or not
+            if ($image === NULL) {
+                //check has image already or not
+                if ($oldData->image == NULL) {
+                    return redirect()->back()->with('error', 'Image is required for category show on home page');
+                }
+            }
         }
 
 
