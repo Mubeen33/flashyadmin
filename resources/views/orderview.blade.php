@@ -4,7 +4,7 @@
                 <div class="container-fluid">
                     <!-- Order details -->
                     <div class="row">
-                        <div class="col-lg-9 col-sm-9 col-md-9">
+                        <div class="col-lg-9 ">
                             <div class="card">
                                 <div class="card-body">
                                     <label class="mb-xs-1 strong title-order">
@@ -163,7 +163,7 @@
                     </div>
                     <!-- End order details -->
                     <div class="row">
-                        <div class="col-lg-9 col-sm-9 col-md-9">
+                        <div class="col-lg-9 ">
                             <div class="card"> 
                                 <div class="card-header">
                                     <label class="mb-xs-1 strong title-order">
