@@ -35,25 +35,22 @@ class CategoryController extends Controller
 
 
     public function createcategory(Request $request){
-       
         $this->validate($request,[
             'name'=>'required|string|max:100',
             'slug'=>'required|string',
             'title'=>'required|string',
             'order'=>'required|numeric',
             'commission'=>'required',
-            'image'=>'required|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000'
+            'image'=>'nullable|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000'
         ]);
         
-        $image = "";
+        $image = NULL;
         $location = "upload-images/category/";
         if($request->hasFile('image')){
             $obj_fu = new FileUploader();
             $fileName ='category-'.uniqid().mt_rand(10, 9999);
             $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
             $image = $fileName__;
-        }else{
-            return redirect()->back()->with('error', 'Image Required');
         }
 
     	$Category = new Category();
@@ -67,6 +64,14 @@ class CategoryController extends Controller
                 }
             }
         }
+
+        if (intval($data['parent_id']) === 0) {
+            //check image has been upload or not
+            if ($image === NULL) {
+                return redirect()->back()->with('error', 'Image is required');
+            }
+        }
+
         $Category->parent_id            = $data['parent_id'];
 
         // 
@@ -81,7 +86,7 @@ class CategoryController extends Controller
         $Category->show_on_homepage     = $request->home_visiblity;
         $Category->show_image_nav       = $request->image_visiblity;
         $Category->commission           = $request->commission;
-        $Category->image                = url('/')."/".$location.$image;
+        $Category->image                = ($image === NULL ? NULL : url('/')."/".$location.$image);
 
         
         
@@ -131,7 +136,7 @@ class CategoryController extends Controller
             'title'=>'required|string',
             'order'=>'required|numeric',
             'commission'=>'required',
-            'image'=>'required|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000'
+            'image'=>'nullable|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000'
         ]);
 
 
