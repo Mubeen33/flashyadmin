@@ -252,8 +252,6 @@
                 </section>
 
             </div>
-
-@endsection       
 <script>
 
 //image upload validation
@@ -372,3 +370,5 @@
         });
     } 
 </script>
+@endsection       
+

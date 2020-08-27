@@ -70,9 +70,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-11"></div>
-                                                        
                                                             <button class="btn btn-primary" type="submit">Submit</button>
-                                                        
                                                     </div>
                                                 </div>
                                         </div>
@@ -83,7 +81,6 @@
                     </form>    
                 </section>
             </div>
-@endsection       
 <script>
 
     function get_subcategories(category_id, data_select_id) {
@@ -120,4 +117,5 @@
         });
     }
     
-</script>
+</script>            
+@endsection       
