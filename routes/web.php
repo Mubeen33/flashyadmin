@@ -110,7 +110,14 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
    Route::resource('coupons', 'Coupons\CouponController');
    Route::get('coupon-delete/{id}', 'Coupons\CouponController@delete')->name('coupon.delete');
    Route::post('coupon-action', 'Coupons\CouponController@active_inactive')->name('coupon.activeInactive.post');
+
+   //email templates
+   Route::resource('email-templates', 'emailTemplates\EmailTemplateController');
+   Route::get('get-email-template', 'emailTemplates\EmailTemplateController@get_template');
 });
+
+
+
 
 Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
 Route::post('/get_subcategories/{id}','HomeController@getSubcategories');

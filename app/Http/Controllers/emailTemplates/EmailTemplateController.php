@@ -18,7 +18,8 @@ class EmailTemplateController extends Controller
      */
     public function index()
     {
-        
+        $data = EmailTemplate::orderBy('id', 'DESC')->get();
+        return view('email-templates.control.index', compact('data'));
     }
 
     /**
@@ -178,7 +179,9 @@ class EmailTemplateController extends Controller
      */
     public function show($id)
     {
-        //
+        $id = \Crypt::decrypt($id);
+        $data = EmailTemplate::findOrFail($id);
+        return view('email-templates.control.show', compact('data'));
     }
 
     /**

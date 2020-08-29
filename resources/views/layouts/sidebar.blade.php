@@ -143,6 +143,14 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Email Templates</a>
+                                <ul class="dropdown-menu">
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.email-templates.create')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Setup</a>
+                                    </li>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.email-templates.index')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Template List</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
 
