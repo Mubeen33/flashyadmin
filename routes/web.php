@@ -81,12 +81,15 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
 
   //vendor activity
   Route::get('vendors-activity','Vendors\VendorController@vendors_activitities')->name("vendor.activities.get");
+  Route::get('ajax/vendors-activity-list/fetch','Vendors\VendorController@vendors_activitities_ajax');
   Route::get('vendor/activity/{vendorID}','Vendors\VendorController@vendor_actitvity')->name('vendor.activity.get');
   Route::post('vendor/activity','Vendors\VendorController@delete_vendor_activity')->name('vendor.activityDelete.post');
+  Route::get('signle-vendor-activity-ajax/fetch','Vendors\VendorController@ajax_single_vendor_actitvity');
     
   //vendor bank details updates
   Route::get('vendor/bank-updates','Vendors\VendorController@get_bank_updates')->name('vendor.bankUpdates.get');
   Route::post('vendor/bank-updates','Vendors\VendorController@approve_bank_updates')->name('vendor.bankUpdatesApprove.post');
+  Route::get('vendors-bankupdates-request-ajax/fetch','Vendors\VendorController@ajax__vendors_bank_updates_requet');
 
   //slider routes
 	Route::resource('sliders', 'Slider\SliderController');

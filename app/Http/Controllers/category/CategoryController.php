@@ -18,7 +18,7 @@ class CategoryController extends Controller
             ['deleted', '=', 0],
             ['parent_id','=', 0]
         ])->orderBy('id','desc')
-        ->paginate(3);
+        ->paginate(5);
 
         return view('category.add-category')
         ->with('categories',$Categories);
@@ -27,7 +27,7 @@ class CategoryController extends Controller
     public function categoryList(){
 
          $Categories=Category::orderBy('id','desc')
-         ->where('deleted', '=', 0)->paginate(3);
+         ->where('deleted', '=', 0)->paginate(5);
         return view('category.category-list')
         ->with('categories',$Categories);
       
@@ -225,7 +225,7 @@ class CategoryController extends Controller
 
         $categories=Category::where('deleted', '=', 1)
             ->orderBy('id','desc')
-            ->paginate(3);
+            ->paginate(5);
         return view('category.disable-categoy-list', compact('categories'));
     }
 
@@ -262,6 +262,7 @@ class CategoryController extends Controller
             $sort_by = $request->sort_by;
             $sorting_order = $request->sorting_order;
             $status = $request->status;
+            $row_per_page = $request->row_per_page;
 
             if ($sort_by == "") {
                 $sort_by = "id";
@@ -283,14 +284,14 @@ class CategoryController extends Controller
                                 ["deleted", "=", $status]
                             ])
                             ->orderBy($sort_by, $sorting_order)
-                            ->paginate(3);
+                            ->paginate($row_per_page);
 
                 return view($viewName, compact('categories'))->render();
             }
 
             $categories = Category::where("deleted", "=", $status)
                             ->orderBy($sort_by, $sorting_order)
-                            ->paginate(3);
+                            ->paginate($row_per_page);
             return view($viewName, compact('categories'))->render();
         }
         return abort(404);

@@ -21,7 +21,7 @@ class VendorController extends Controller
     public function index()
     {
         //return all vendors list
-        $data = Vendor::orderBy('id', 'DESC')->paginate(3);
+        $data = Vendor::orderBy('id', 'DESC')->paginate(5);
         return view('Vendors.index', compact('data'));
     }
 
@@ -316,9 +316,56 @@ class VendorController extends Controller
     public function vendors_activitities(){
         $data = VendorActivity::orderBy('id', 'DESC')->with('get_vendor')->get();
         $data2 = $data->groupBy('vendor_id');
-        $data = (new Collection($data2))->paginate_build_by_developer_rijan(10);
+        $data = (new Collection($data2))->paginate_build_by_developer_rijan(5);
         //$data = collect($data);
         return view('Vendors.activity-list', compact('data'));
+    }
+    public function vendors_activitities_ajax(Request $request){
+        if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+            $status = $request->status;
+            $row_per_page = $request->row_per_page;
+
+            if ($sort_by == "") {
+                $sort_by = "id";
+            }
+            if ($sorting_order == "") {
+                $sorting_order = "DESC";
+            }
+
+            $viewName = "Vendors.partials.vendors-activity-list";
+
+            if ($request->search_key != "") {
+                $vendors = Vendor::where([
+                                ["first_name", "LIKE", "%".$searchKey."%"],
+                            ])
+                            ->orWhere([
+                                ["last_name", "LIKE", "%".$searchKey."%"],
+                            ])->get('id');
+                $idList = [];
+                foreach ($vendors as $key => $value) {
+                    $idList[] = $value->id;
+                }
+                $data = VendorActivity::whereIn('vendor_id', $idList)
+                                    ->with('get_vendor')
+                                    ->orderBy($sort_by, $sorting_order)
+                                    ->get();
+                $data2 = $data->groupBy('vendor_id');
+                $data = (new Collection($data2))->paginate_build_by_developer_rijan($row_per_page);
+
+                return view($viewName, compact('data'))->render();
+            }
+
+            $data = VendorActivity::orderBy($sort_by, $sorting_order)
+                            ->with('get_vendor')
+                            ->get();
+            $data2 = $data->groupBy('vendor_id');
+            $data = (new Collection($data2))->paginate_build_by_developer_rijan($row_per_page);
+            return view($viewName, compact('data'))->render();
+        }
+        return abort(404);
     }
 
     public function vendor_actitvity($vendorID){
@@ -332,16 +379,79 @@ class VendorController extends Controller
                         ['activityName', '=', 'Login']
                     ])
                     ->orderBy('created_at', 'DESC')
-                    ->paginate(20);
+                    ->paginate(5);
         $othersActivities = VendorActivity::where([
                         ['vendor_id', '=', $vendorID],
                         ['activityName', '!=', 'Login']
                     ])
                     ->orderBy('created_at', 'DESC')
-                    ->paginate(20);
+                    ->paginate(5);
 
         return view('Vendors.activity', compact('vendor', 'loginActivities', 'othersActivities'));
     }
+
+
+    public function ajax_single_vendor_actitvity(Request $request){
+
+        if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+            $row_per_page = $request->row_per_page;
+            
+            $vendorID = $request->id;
+            $status = $request->status;
+
+            if ($sort_by == "") {
+                $sort_by = "id";
+            }
+            if ($sorting_order == "") {
+                $sorting_order = "DESC";
+            }
+
+            if ($request->search_key != "") {
+                if ($status === "Login") {
+                    $loginActivities = VendorActivity::where("vendor_id", "=", $vendorID)
+                            ->where("activityName", "=", "Login")
+                            ->where("activities", "LIKE", "%$searchKey%")
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate($row_per_page);
+                    return view('Vendors.partials.vendor-login-activity-list', compact('loginActivities'))->render();
+                }elseif($status === "Others"){
+                    $othersActivities = VendorActivity::where("vendor_id", "=", $vendorID)
+                            ->where("activityName", "!=", "Login")
+                            ->where("activities", "LIKE", "%$searchKey%")
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate($row_per_page);
+                    return view('Vendors.partials.vendor-other-activity-list', compact('othersActivities'))->render();
+                }else{
+                    return response()->json('Unknown request type, Please refresh page & try again.', 422);
+                }
+                
+            }
+
+            //if not search key then
+            if ($status === "Login") {
+                    $loginActivities = VendorActivity::where("vendor_id", "=", $vendorID)
+                            ->where("activityName", "=", "Login")
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate($row_per_page);
+                    return view('Vendors.partials.vendor-login-activity-list', compact('loginActivities'))->render();
+                }elseif($status === "Others"){
+                    $othersActivities = VendorActivity::where("vendor_id", "=", $vendorID)
+                            ->where("activityName", "!=", "Login")
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate($row_per_page);
+                    return view('Vendors.partials.vendor-other-activity-list', compact('othersActivities'))->render();
+                }else{
+                    return response()->json('Unknown request type, Please refresh page & try again.', 422);
+                }
+        }
+        return abort(404);
+    }
+
+
+
 
     public function delete_vendor_activity(Request $request){
         $deleted = VendorActivity::where([
@@ -364,6 +474,47 @@ class VendorController extends Controller
                     ->with('get_vendor')
                     ->paginate(20);
         return view('Vendors.bank-updates', compact('data'));
+    }
+
+    public function ajax__vendors_bank_updates_requet(Request $request){
+        if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+            $row_per_page = $request->row_per_page;
+
+            if ($sort_by == "") {
+                $sort_by = "id";
+            }
+            if ($sorting_order == "") {
+                $sorting_order = "DESC";
+            }
+
+            if ($request->search_key != "") {
+                $data = VendorBankDetailsTempData::where('status', 0)
+                ->with('get_vendor')
+                ->whereHas('get_vendor', function($q) use ($searchKey, $sort_by, $sorting_order)
+                {
+                    $q->where('first_name', 'like', '%'.$searchKey.'%');
+                    $q->orWhere('last_name', 'like', '%'.$searchKey.'%');
+                    $q->orWhere('email', 'like', '%'.$searchKey.'%');
+                    $q->orWhere('branch_name', 'like', '%'.$searchKey.'%');
+                    $q->orderBy($sort_by, $sorting_order);
+
+                })->paginate($row_per_page);
+                return view('Vendors.partials.bank-updates-request-list', compact('data'))->render();
+            }
+
+            $data = VendorBankDetailsTempData::where('status', 0)
+                ->with('get_vendor')
+                ->whereHas('get_vendor', function($q) use ($sort_by, $sorting_order)
+                {
+                    $q->orderBy($sort_by, $sorting_order);
+
+                })->paginate($row_per_page);
+                return view('Vendors.partials.bank-updates-request-list', compact('data'))->render();
+        }
+        return abort(404);
     }
 
 
@@ -410,6 +561,7 @@ class VendorController extends Controller
             $searchKey = $request->search_key;
             $sort_by = $request->sort_by;
             $sorting_order = $request->sorting_order;
+            $row_per_page = $request->row_per_page;
 
             if ($sort_by == "") {
                 $sort_by = "id";
@@ -424,11 +576,11 @@ class VendorController extends Controller
                             ->orWhere("email", "LIKE", "%$searchKey%")
                             ->orWhere("phone", "LIKE", "%$searchKey%")
                             ->orderBy($sort_by, $sorting_order)
-                            ->paginate(3);
+                            ->paginate($row_per_page);
                 return view('Vendors.partials.vendors-list', compact('data'))->render();
             }
 
-            $data = Vendor::orderBy($sort_by, $sorting_order)->paginate(3);
+            $data = Vendor::orderBy($sort_by, $sorting_order)->paginate($row_per_page);
             return view('Vendors.partials.vendors-list', compact('data'))->render();
         }
         return abort(404);

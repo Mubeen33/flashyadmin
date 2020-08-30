@@ -51,7 +51,7 @@ class VariationController extends Controller
     	$variations = Variation::where('active', 1)
                         ->with('get_category')
                         ->orderBy('id', 'desc')
-                        ->paginate(2);
+                        ->paginate(5);
     	return view('variation.variations-list',compact('variations'));
     }
 
@@ -137,7 +137,7 @@ class VariationController extends Controller
 
     public function disableVariationsList(){
 
-    	$variations = Variation::where('active',0)->orderBy('id', 'desc')->paginate('10');
+    	$variations = Variation::where('active',0)->orderBy('id', 'desc')->paginate(5);
     	return view('variation.disable-variations-list',compact('variations'));
     }
 
@@ -163,6 +163,7 @@ class VariationController extends Controller
             $sort_by = $request->sort_by;
             $sorting_order = $request->sorting_order;
             $status = $request->status;
+            $row_per_page = $request->row_per_page;
 
             if ($sort_by == "") {
                 $sort_by = "id";
@@ -180,13 +181,13 @@ class VariationController extends Controller
                 $variations = Variation::where("variation_name", "LIKE", "%".$searchKey."%")
                             ->where("active", "=", $status)
                             ->orderBy($sort_by, $sorting_order)
-                            ->paginate(3);
+                            ->paginate($row_per_page);
                 return view($viewName, compact('variations'))->render();
             }
 
             $variations = Variation::where("active", "=", $status)
                             ->orderBy($sort_by, $sorting_order)
-                            ->paginate(3);
+                            ->paginate($row_per_page);
             return view($viewName, compact('variations'))->render();
         }
         return abort(404);

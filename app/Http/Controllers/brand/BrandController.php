@@ -17,7 +17,7 @@ class BrandController extends Controller
     public function brandsList(){
         $brands = Brand::where('active','Y')
                         ->orderBy('id', 'desc')
-                        ->paginate(3);
+                        ->paginate(5);
     	return view('brand.brand-list',compact('brands'));
     }
     
@@ -101,7 +101,7 @@ class BrandController extends Controller
     public function disableBrandsList(){
     	$brands = Brand::where('active','N')
                 ->orderBy('id', 'desc')
-                ->paginate(2);
+                ->paginate(5);
     	return view('brand.disable-brand-list',compact('brands'));
     }
 
@@ -136,6 +136,7 @@ class BrandController extends Controller
             $sort_by = $request->sort_by;
             $sorting_order = $request->sorting_order;
             $status = $request->status;
+            $row_per_page = $request->row_per_page;
 
             if ($sort_by == "") {
                 $sort_by = "id";
@@ -157,13 +158,13 @@ class BrandController extends Controller
                                 ["active", "=", $status]
                             ])
                             ->orderBy($sort_by, $sorting_order)
-                            ->paginate(3);
+                            ->paginate($row_per_page);
                 return view($viewName, compact('brands'))->render();
             }
 
             $brands = Brand::where('active', '=', $status)
                                 ->orderBy($sort_by, $sorting_order)
-                                ->paginate(3);
+                                ->paginate($row_per_page);
             return view($viewName, compact('brands'))->render();
         }
         return abort(404);
