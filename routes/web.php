@@ -117,6 +117,11 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
    //email templates
    Route::resource('email-templates', 'emailTemplates\EmailTemplateController');
    Route::get('get-email-template', 'emailTemplates\EmailTemplateController@get_template');
+
+   //deals routes
+   Route::resource('vendor-deals', "Deals\DealController");
+   Route::get('pending-deals', "Deals\DealController@get_pending_deals")->name('vendorDeals.pending.get');
+   Route::get('pending-deals-approve/{id}', "Deals\DealController@approve_deal")->name('vendor.deal.approve');
 });
 
 
