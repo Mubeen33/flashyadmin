@@ -3,12 +3,7 @@
         <tr>
             <th scope="row">{{$key+1}}</th>
             <td>{{$variation->variation_name}}</td>
-            <td>
-                @php
-                     $categoryName = \App\Category::where('id',$variation->category_id)->value('name');
-                @endphp
-                {{ $categoryName }}
-            </td>
+            
             <td>
                 @if($variation->image_approval==1)
                     <div class="badge badge-primary">Yes</div>

@@ -8,13 +8,8 @@
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form action="{{url('submit-variation')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{url('submit-variation-option')}}" method="post" enctype="multipart/form-data">
                         @csrf
-                            <div class="row match-height">
-                                
-                                <div class="col-10"></div>
-                                <button class="btn btn-primary"><a href="{{Route('variations.variationslist')}}" style="text-decoration: none;color: #fff">Variations</a></button>    
-                            </div>
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
@@ -27,29 +22,25 @@
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
-                                                                    <span>Name</span>
+                                                                    <span>Select Variation</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" name="variation_name" class="form-control" required="">
+                                                                    <select class="form-control" name="variation_id" required>
+                                                                        <option selected="">Select Variation</option>
+                                                                        @foreach($variations as $variation)
+                                                                            <option value="{{$variation->id}}">{{$variation->variation_name}}</option>
+                                                                        @endforeach    
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
-                                                                    <span>Image Approval</span>
+                                                                    <span>Option Name</span>
                                                                 </div>
-                                                                <div class="col-md-2">
-                                                                    <div class="custom-control custom-radio">
-                                                                        <input type="radio" class="custom-control-input" value="1" name="image_approval" id="customRadio1">
-                                                                        <label class="custom-control-label" for="customRadio1">Yes</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="custom-control custom-radio">
-                                                                        <input type="radio" class="custom-control-input" value="0" name="image_approval" id="customRadio2">
-                                                                        <label class="custom-control-label" for="customRadio2">No</label>
-                                                                    </div>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" name="option_name" class="form-control" required="">
                                                                 </div>
                                                             </div>
                                                         </div>

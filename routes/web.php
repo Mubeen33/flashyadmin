@@ -45,6 +45,14 @@ Route::get('variations-ajax-pagination/fetch','variation\VariationController@fet
 Route::get('variation-disable/{id}','variation\VariationController@disableAVariation');
 Route::get('variation-active/{id}','variation\VariationController@activeVariation');
 
+// variant options
+Route::get('add-variations-options','variation\VariationController@addvariationsoption')->name('variations.addvariationsoption');
+Route::get('variations-options-list','variation\VariationController@variationsOptionsList')->name('variations.variationsoptionslist');
+Route::post('submit-variation-option','variation\VariationController@createOption');
+Route::get('variation-option-edit/{id}','variation\VariationController@editOption');
+Route::post('update-variation-option','variation\VariationController@updateOption');
+Route::get('variation-option-delete/{id}','variation\VariationController@deleteOption');
+
 // End Variation Routes
 
 // Add Custom Fields

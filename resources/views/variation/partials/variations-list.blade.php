@@ -4,9 +4,6 @@
         <th scope="row">{{$key+1}}</th>
         <td>{{$variation->variation_name}}</td>
         <td>
-            {{ $variation->get_category->name }}
-        </td>
-        <td>
             @if($variation->image_approval==1)
                 <div class="badge badge-primary">Yes</div>
             @else
