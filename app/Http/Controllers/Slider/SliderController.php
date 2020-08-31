@@ -59,6 +59,16 @@ class SliderController extends Controller
             'end_time'=>'required|date'
         ]);
 
+        $current = Carbon::now();
+        $today = $current->format('Y-m-d');
+        if ($today > (date('Y-m-d', strtotime($request->start_time)))) {
+            return redirect()->back()->withInput()->with('error', 'SORRY - Start Time can not be backdate');
+        }
+
+        if (date('Y-m-d', strtotime($request->start_time)) >= date('Y-m-d', strtotime($request->end_time))) {
+            return redirect()->back()->withInput()->with('error', 'SORRY - End Time can not be equal or less of Start Time');
+        }
+
         //insert image
         $obj_fu = new FileUploader();
         $lgImage = "";
@@ -171,6 +181,17 @@ class SliderController extends Controller
             'end_time'=>'required|date'
         ]);
 
+
+        $current = Carbon::now();
+        $today = $current->format('Y-m-d');
+        if ($today > (date('Y-m-d', strtotime($request->start_time)))) {
+            return redirect()->back()->withInput()->with('error', 'SORRY - Start Time can not be backdate');
+        }
+
+        if (date('Y-m-d', strtotime($request->start_time)) >= date('Y-m-d', strtotime($request->end_time))) {
+            return redirect()->back()->withInput()->with('error', 'SORRY - End Time can not be equal or less of Start Time');
+        }
+        
         $oldData = Slider::where('id', $id)->first();
         if (!$oldData) {
             return redirect()->back()->with('error', 'SORRY - Invalid Request');

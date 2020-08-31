@@ -18,6 +18,7 @@ class EmailTemplate extends Model
     	'linkedin_url',
     	'pinterest_url',
     	'youtube_url',
+        'instagram_url',
     	'footer_banner',
     	'footer_text'
     ];

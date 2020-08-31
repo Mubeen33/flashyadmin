@@ -215,19 +215,7 @@ i.fa {
 
 }
   </style>
-  <!--[if mso]>
-  <style type="text/css">
-    .pc-fb-font{font-family:Helvetica,Arial,sans-serif !important;}
-  </style>
-  <![endif]-->
-  <!--[if gte mso 9]>
-  <xml>
-    <o:OfficeDocumentSettings>
-      <o:AllowPNG/>
-      <o:PixelsPerInch>96</o:PixelsPerInch>
-    </o:OfficeDocumentSettings>
-  </xml>
-  <![endif]-->
+
 </head>
 <body class="pc-fb-font" bgcolor="#f4f4f4" style="background-color: #f4f4f4; font-family: 'Fira Sans', Helvetica, Arial, sans-serif; font-size: 16px; width: 100% !important; Margin: 0 !important; padding: 0; line-height: 1.5; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%">
   <table style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -245,11 +233,13 @@ i.fa {
                       </tr>
                     </tbody>
                   </table>
+
+                  @if($data->top_banner != NULL)
                   <!-- START MODULE: Menu 9 -->
                   <table border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
                     <tbody>
                       <tr>
-                        <td style="vertical-align: top; background-image:url('banner.jpg');
+                        <td style="vertical-align: top; background-image:url({{$data->top_banner}});
                                   background-size:cover; background-repeat:no-repeat;
                                   background-repeat:no-repeat;
                                   background-size:contain;
@@ -261,6 +251,8 @@ i.fa {
                     </tbody>
                   </table>
                   <!-- END MODULE: Menu 9 -->
+                  @endif
+
                   <!-- START MODULE: Call to action 5 -->
                   <table border="0" cellspacing="0" cellpadding="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
                     <tbody>
@@ -285,31 +277,23 @@ i.fa {
                                       <tr>
                                         <td class="pc-cta-title pc-fb-font" style="vertical-align: top; font-family: 'Fira Sans', Helvetica, Arial, sans-serif; font-size:20px;  line-height: 1.28; letter-spacing: -0.6px; color: #151515; text-align:left;" valign="top" align="center">
                                           <b> Hi Candy ? </b> <br />
-                                          In order to start using your account, you need to confirm your email.
+                                          {{$data->text_line_one}}
                                         </td>
                                       </tr>
                                       <tr>
                                         <td style="vertical-align: top; height:20px; line-height:20px; font-size: 70px;" valign="top">&nbsp;</td>
                                       </tr>
+
+                                      @if($data->button_text != NULL)
                                       <tr>
                                         <td style=" padding: 5px 0; align-content:left;" valign="top" align="center">
                                           <table border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
                                             <tbody>
                                               <tr>
-                                                <td style="border-radius: 8px; background-color: #073D68;" valign="top" bgcolor="#073D68"> <a href="http://example.com" style="line-height: 1.5; text-decoration: none; margin: 0; padding: 13px 17px; white-space: nowrap; border-radius: 8px; font-weight: 500; display: inline-block; font-family: 'Fira Sans', Helvetica, Arial, sans-serif; font-size: 16px; cursor: pointer; background-color: #073D68; color: #ffffff; border: 1px solid #073D68;">Confirm Your Email Address!</a> </td>
-                                              </tr>
-                                             
-                                            </tbody>
-                                          </table>
-                                        </td>
-                                      </tr>
-                                      <tr>
-                                        <td style=" padding: 5px 0; align-content:left;" valign="top" align="center">
-                                          <table border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
-                                            <tbody>
-                                              <tr>
-                                                <td > 
-                                                  If you did not sign up for this account you can ignore this email and the account will be deleted automatically after 5 days.
+                                                <td style="border-radius: 8px; background-color: #073D68;" valign="top" bgcolor="#073D68"> 
+                                                  <a href="@if($data->button_link != NULL){{$data->button_link}}@else # @endif" style="line-height: 1.5; text-decoration: none; margin: 0; padding: 13px 17px; white-space: nowrap; border-radius: 8px; font-weight: 500; display: inline-block; font-family: 'Fira Sans', Helvetica, Arial, sans-serif; font-size: 16px; cursor: pointer; background-color: #073D68; color: #ffffff; border: 1px solid #073D68;">
+                                                    {{$data->button_text}}
+                                                  </a> 
                                                 </td>
                                               </tr>
                                              
@@ -317,13 +301,62 @@ i.fa {
                                           </table>
                                         </td>
                                       </tr>
+                                      @endif
+
+                                      @if($data->text_line_two != NULL)
+                                      <tr>
+                                        <td style=" padding: 5px 0; align-content:left;" valign="top" align="center">
+                                          <table border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
+                                            <tbody>
+                                              <tr>
+                                                <td> 
+                                                  {{$data->text_line_two}}
+                                                </td>
+                                              </tr>
+                                             
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                      @endif
+
                                       <tr>
                                         <td style=" padding: 5px 0; align-content:left;" valign="top" align="right">
-                                            <i class="fa fa-facebook"></i>
-                                            <i class="fa fa-twitter"></i>
-                                            <i class="fa fa-linkedin"></i>
-                                            <i class="fa fa-pinterest"></i>
-                                            <i class="fa fa-google-plus"></i>
+                                            @if($data->facebook_url != NULL)
+                                            <a href="{{$data->facebook_url}}" style="text-decoration: none;">
+                                              <img src="{{asset('app-assets/images/social-icons/fb-300-blude.png')}}" width="30px" height="30px">
+                                            </a>
+                                            @endif
+
+                                            @if($data->twitter_url != NULL)
+                                            <a href="{{$data->twitter_url}}" style="text-decoration: none;">
+                                              <img src="{{asset('app-assets/images/social-icons/twitter-300.png')}}" width="30px" height="30px">
+                                            </a>
+                                            @endif
+
+                                            @if($data->linkedin_url != NULL)
+                                            <a href="{{$data->linkedin_url}}" style="text-decoration: none;">
+                                              <img src="{{asset('app-assets/images/social-icons/linkedin-300.png')}}" width="30px" height="30px">
+                                            </a>
+                                            @endif
+
+                                            @if($data->youtube_url != NULL)
+                                            <a href="{{$data->youtube_url}}" style="text-decoration: none;">
+                                              <img src="{{asset('app-assets/images/social-icons/youtube-300.png')}}" width="30px" height="30px">
+                                            </a>
+                                            @endif
+
+                                            @if($data->instagram_url != NULL)
+                                            <a href="{{$data->instagram_url}}" style="text-decoration: none;">
+                                              <img src="{{asset('app-assets/images/social-icons/instagram-300.png')}}" width="30px" height="30px">
+                                            </a>
+                                            @endif
+
+                                            @if($data->pinterest_url != NULL)
+                                            <a href="{{$data->pinterest_url}}" style="text-decoration: none;">
+                                              <img src="{{asset('app-assets/images/social-icons/round-pinterest-300-300.png')}}" width="30px" height="30px">
+                                            </a>
+                                            @endif
                                         </td>
                                       </tr>
                                     </tbody>
@@ -346,11 +379,13 @@ i.fa {
                     </tbody>
                   </table>
                   <!-- END MODULE: E-Commerce 5 -->
-                                    <!-- START MODULE: Menu 9 -->
+                  
+                  @if($data->footer_banner != NULL)
+                  <!-- START MODULE: Menu 9 -->
                   <table border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
                     <tbody>
                       <tr>
-                        <td style="vertical-align: top; background-image:url('banner.jpg');
+                        <td style="vertical-align: top; background-image:url({{$data->footer_banner}});
                                   background-size:cover; background-repeat:no-repeat;
                                   background-repeat:no-repeat;
                                   background-size:contain;
@@ -362,6 +397,8 @@ i.fa {
                     </tbody>
                   </table>
                   <!-- END MODULE: Menu 9 -->
+                  @endif
+
                   <!-- START MODULE: Footer 8 -->
                   <table border="0" cellspacing="0" cellpadding="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
                     <tbody>
@@ -370,6 +407,8 @@ i.fa {
                       </tr>
                     </tbody>
                   </table>
+
+                  @if($data->footer_text != NULL)
                   <table border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
                     <tbody>
                       <tr>
@@ -387,7 +426,9 @@ i.fa {
                                             <table class="pc-footer-text-s1" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
                                               <tbody>
                                                 <tr>
-                                                  <td class="pc-fb-font" style="vertical-align: top; padding: 11px 0 0; font-family: 'Fira Sans', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.43; letter-spacing: -0.2px; color: #9B9B9B;" valign="top"> This email was sent to you as a registered member of Flashybuy  . To update your emails preferences click here . Use of the service and website is subject to our Terms of Use and Privacy Statement. </td>
+                                                  <td class="pc-fb-font" style="vertical-align: top; padding: 11px 0 0; font-family: 'Fira Sans', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.43; letter-spacing: -0.2px; color: #9B9B9B;" valign="top"> 
+                                                    {{$data->footer_text}}
+                                                  </td>
                                                 </tr>
                                               </tbody>
                                             </table>
@@ -412,6 +453,8 @@ i.fa {
                     </tbody>
                   </table>
                   <!-- END MODULE: Footer 8 -->
+                  @endif
+
                   <table border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
                     <tbody>
                       <tr>

@@ -104,20 +104,28 @@
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-12">
                                                     <label>Image (Size: 1230 * 445)</label>
-                                                    <input type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*" required="1">
+                                                    <input onchange="previewFile('image_lg_input', 'previewImg_lg');" type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
                                                     <br>
                                                     <button class="btn btn-success" type="button" 
                                                         onclick="document.getElementById('image_lg_input').click()" 
                                                     >Image</button>
+                                                    <div>
+                                                        <br>
+                                                        <span><img class="d-none" id="previewImg_lg" width="200px" height="100px" src=""></span>
+                                                    </div>
                                                 </div>
 
                                                 <div class="col-lg-6 col-md-12">
                                                     <label>Image for mobile (Size: 600 * 300)</label>
-                                                    <input type="file" id="image_sm_input" name="image_sm" class="d-none" accept="image/*" required="1">
+                                                    <input onchange="previewFile('image_sm_input', 'previewImg_sm');" type="file" id="image_sm_input" name="image_sm" class="d-none" accept="image/*">
                                                     <br>
                                                     <button class="btn btn-success" type="button" 
                                                         onclick="document.getElementById('image_sm_input').click()" 
                                                     >Image</button>
+                                                    <div>
+                                                        <br>
+                                                        <span><img class="d-none" id="previewImg_sm" width="150px" height="80px" src=""></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -160,3 +168,24 @@
                 </div>
             </div>
 @endsection
+
+
+@push('scripts')
+<script type="text/javascript">
+
+    function previewFile(inputID, previewID){
+        var file = $("#"+inputID).get(0).files[0];
+ 
+        if(file){
+            var reader = new FileReader();
+ 
+            reader.onload = function(){
+                $("#"+previewID).attr("src", reader.result);
+                $("#"+previewID).removeClass("d-none");
+            }
+ 
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+@endpush

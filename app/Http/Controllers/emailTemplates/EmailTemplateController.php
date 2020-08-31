@@ -42,7 +42,7 @@ class EmailTemplateController extends Controller
     public function store(Request $request)
     {  
         $validate = Validator::make($request->all(), [
-            'template'=>'required|string|in:Signup',
+            'template'=>'required|string|in:Customer-Signup,Vendor-Signup',
             'text_line_one'=>'required|string|max:300',
             'button_text'=>'required|string|max:40',
             'button_link'=>'nullable|url',
@@ -52,14 +52,18 @@ class EmailTemplateController extends Controller
             'linkedin_url'=>'nullable|url',
             'pinterest_url'=>'nullable|url',
             'youtube_url'=>'nullable|url',
+            'instagram_url'=>'nullable|url',
             'footer_text'=>'nullable|string|max:350',
-            'top_banner'=>'nullable|image|mimes:png,jpeg,jpg,gif',
-            'footer_banner'=>'nullable|image|mimes:png,jpeg,jpg,gif',
+            'top_banner'=>'nullable|image|mimes:png,jpeg,jpg,gif|dimensions:width=1200,height=200',
+            'footer_banner'=>'nullable|image|mimes:png,jpeg,jpg,gif|dimensions:width=1200,height=200',
         ]);
 
         if ($validate->fails()) {
             foreach ($validate->messages()->get('*') as $key => $value) {
-                return response()->json($value, 422);
+                $value = json_encode($value);
+                $text = str_replace('["', "", $value);
+                $text = str_replace('"]', "", $text);
+                return response()->json($text, 422);
             }
         }
 
@@ -84,6 +88,7 @@ class EmailTemplateController extends Controller
                 'linkedin_url'=>$request->linkedin_url,
                 'pinterest_url'=>$request->pinterest_url,
                 'youtube_url'=>$request->youtube_url,
+                'instagram_url'=>$request->instagram_url,
                 'footer_banner'=>($response[2] === NULL ? $oldData->footer_banner : url('/')."/".$location.$response[2]),
                 'footer_text'=>$request->footer_text,
                 'updated_at'=>Carbon::now()
@@ -107,6 +112,7 @@ class EmailTemplateController extends Controller
                 'linkedin_url'=>$request->linkedin_url,
                 'pinterest_url'=>$request->pinterest_url,
                 'youtube_url'=>$request->youtube_url,
+                'instagram_url'=>$request->instagram_url,
                 'footer_banner'=>($response[2] === NULL ? NULL : url('/')."/".$location.$response[2]),
                 'footer_text'=>$request->footer_text,
                 'created_at'=>Carbon::now()
@@ -225,7 +231,7 @@ class EmailTemplateController extends Controller
 
         if ($request->ajax()) {
             $validation = Validator::make($request->all(), [
-                'templateName'=>'required|string|in:Signup'
+                'templateName'=>'required|string|in:Customer-Signup,Vendor-Signup'
             ]);
 
             if ($validation->fails()) {

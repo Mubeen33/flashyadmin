@@ -106,7 +106,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-6 col-md-12">
                                                         <label>New Image (Size: 1920 * 600)</label>
-                                                        <input type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
+                                                        <input onchange="previewFile('image_lg_input', 'previewImg_lg', 'previewImg_lg_current');" type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
                                                         <br>
                                                         <button class="btn btn-success" type="button" 
                                                             onclick="document.getElementById('image_lg_input').click()" 
@@ -114,10 +114,17 @@
                                                     </div>
 
                                                     <div class="col-lg-6 col-md-12">
-                                                        <label>Current Image</label>
-                                                        <br>
-                                                        <img src="{{ $data->image_lg }}" width="100px" height="100px">
+                                                        <div id="previewImg_lg_current">
+                                                            <label>Current Image</label>
+                                                            <br>
+                                                            <img src="{{ $data->image_lg }}" width="100px" height="100px">
+                                                        </div>
+                                                        <div class="d-none" id="previewImg_lg">
+                                                            <img width="200px" height="100px" src="">
+                                                            <button type="button" title="Remove this image" onclick="removePreviewFile('previewImg_lg', 'previewImg_lg_current')" class="btn btn-sm btn-danger">X</button>
+                                                        </div>
                                                     </div>
+
                                                 </div>
                                             </div>
 
@@ -125,7 +132,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-6 col-md-12">
                                                         <label>New Image for mobile (Size: 1920 * 600)</label>
-                                                        <input type="file" id="image_sm_input" name="image_sm" class="d-none" accept="image/*">
+                                                        <input onchange="previewFile('image_sm_input', 'previewImg_sm', 'previewImg_sm_current');" type="file" id="image_sm_input" name="image_sm" class="d-none" accept="image/*">
                                                         <br>
                                                         <button class="btn btn-success" type="button" 
                                                             onclick="document.getElementById('image_sm_input').click()" 
@@ -133,9 +140,15 @@
                                                     </div>
 
                                                     <div class="col-lg-6 col-md-12">
-                                                        <label>Current Image</label>
-                                                        <br>
-                                                        <img src="{{ $data->image_sm }}" width="100px" height="100px">
+                                                        <div id="previewImg_sm_current" >
+                                                            <label>Current Image</label>
+                                                            <br>
+                                                            <img src="{{ $data->image_sm }}" width="100px" height="100px">
+                                                        </div>
+                                                        <div class="d-none" id="previewImg_sm">
+                                                            <img width="150px" height="80px" src="">
+                                                            <button type="button" title="Remove this image" onclick="removePreviewFile('previewImg_sm', 'previewImg_sm_current')" class="btn btn-sm btn-danger">X</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -179,3 +192,31 @@
                 </div>
             </div>
 @endsection
+
+
+
+@push('scripts')
+<script type="text/javascript">
+
+    function previewFile(inputID, previewID, currentID){
+        var file = $("#"+inputID).get(0).files[0];
+ 
+        if(file){
+            var reader = new FileReader();
+ 
+            reader.onload = function(){
+                $("#"+previewID+' img').attr("src", reader.result);
+                $("#"+previewID).removeClass("d-none");
+                $("#"+currentID).addClass("d-none");
+            }
+ 
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function removePreviewFile(imageID, show){
+        $("#"+imageID).addClass('d-none')
+        $("#"+show).removeClass('d-none')
+    }
+</script>
+@endpush

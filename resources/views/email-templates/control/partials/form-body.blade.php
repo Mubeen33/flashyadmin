@@ -48,38 +48,48 @@
         </div>
         <div class="col-lg-6 col-md-12">
             <div class="form-group">
+                <label>Youtube URL</label>
+                <input type="url" name="youtube_url" placeholder="Pinterest URL" class="form-control" value="@if(isset($data)){{$data->youtube_url}}@endif">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <div class="form-group">
+                <label>Instagram URL</label>
+                <input type="url" name="instagram_url" placeholder="Instagram URL" class="form-control" value="@if(isset($data)){{$data->instagram_url}}@endif">
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="form-group">
                 <label>Pinterest URL</label>
                 <input type="url" name="pinterest_url" placeholder="Pinterest URL" class="form-control" value="@if(isset($data)){{$data->pinterest_url}}@endif">
             </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <label>Youtube URL</label>
-        <input type="url" name="youtube_url" placeholder="Youtube URL" class="form-control" value="@if(isset($data)){{$data->youtube_url}}@endif">
-    </div>
-
     <div class="row">
         <div class="col-lg-6 col-md-12">
             <div class="form-group">
-                <label>Top Banner</label>
+                <label>Top Banner (Size width:1200px & Height:200px)</label>
                 <input type="file" name="top_banner" class="form-control">
                 <div>
                     @if(isset($data) && $data->top_banner != NULL)
                         <label>Current</label><br>
-                        <img src="{{$data->top_banner}}" width="100px" height="80px">
+                        <img src="{{$data->top_banner}}" width="200px" height="80px">
                     @endif
                 </div>
             </div>
         </div>
         <div class="col-lg-6 col-md-12">
             <div class="form-group">
-                <label>Footer Banner</label>
+                <label>Footer Banner (Size width:1200px & Height:200px)</label>
                 <input type="file" name="footer_banner" class="form-control">
                 <div>
                     @if(isset($data) && $data->footer_banner != NULL)
                         <label>Current</label><br>
-                        <img src="{{$data->footer_banner}}" width="100px" height="80px">
+                        <img src="{{$data->footer_banner}}" width="200px" height="80px">
                     @endif
                 </div>
             </div>

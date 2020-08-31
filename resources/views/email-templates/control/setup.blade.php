@@ -21,7 +21,8 @@
                                             <label>Template</label>
                                             <select onchange="getTemplate(this.value)" class="form-control" name="template">
                                                 <option value="">Choose One</option>
-                                                <option value="Signup" @if(isset($data) && $data->template === "Signup") selected @endif >Signup Template</option>
+                                                <option value="Customer-Signup" @if(isset($data) && $data->template === "Customer-Signup") selected @endif >Customer Signup Template</option>
+                                                <option value="Vendor-Signup" @if(isset($data) && $data->template === "Vendor-Signup") selected @endif >Vendor Signup Template</option>
                                             </select>
                                         </div>
                                         <div id="render--data">
