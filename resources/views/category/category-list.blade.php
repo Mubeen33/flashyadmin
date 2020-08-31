@@ -3,7 +3,8 @@
 
 @push('styles')
 <style type="text/css">
-    #searchKey__{
+    #searchKey__,
+    #selected_row_per_page{
         border: 1px solid #ddd;
         padding: 2px 10px;
         outline: none;
@@ -33,7 +34,15 @@
                                     <a class="btn btn-primary btn-sm" href="{{url('add-category')}}"><i class="fa fa-plus">Add Category</i></a>
                                 </div>
                                 <div>
-                                    <input type="text" name="searchKey__" id="searchKey__" placeholder="Search">
+                                    <input type="text" id="searchKey__" placeholder="Search">
+                                    <select id="selected_row_per_page" title="Display row per page">
+                                        <option value="5" selected="1">Show 5</option>
+                                        <option value="10">Show 10</option>
+                                        <option value="15">Show 15</option>
+                                        <option value="20">Show 20</option>
+                                        <option value="25">Show 25</option>
+                                        <option value="30">Show 30</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="card-content">
@@ -64,7 +73,7 @@
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">
                                         <input type="hidden" id="hidden__status" value="0">
-
+                                        <input type="hidden" id="hidden__id" value="">
                                     </div>
                                 </div>
                             </div>

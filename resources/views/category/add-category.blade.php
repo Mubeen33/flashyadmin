@@ -28,7 +28,7 @@
                                                                     <span>Category Name</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="name"  class="form-control" name="name" placeholder="Category Name" required="">
+                                                                    <input type="text" id="name"  class="form-control" name="name" placeholder="Category Name" required="" value="{{ old('name') }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -40,7 +40,7 @@
                                                                     <span>Slug</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="slug"  class="form-control" name="slug" placeholder="Slug" >
+                                                                    <input type="text" id="slug"  class="form-control" name="slug" placeholder="Slug"  value="{{ old('slug') }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -51,7 +51,7 @@
                                                                     <span>Title(meta tag)</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="title"  class="form-control" name="title" placeholder="Meta title" >
+                                                                    <input type="text" id="title"  class="form-control" name="title" placeholder="Meta title"  value="{{ old('title') }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -62,7 +62,7 @@
                                                                     <span>Descripation(meta tag)</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="desc"  class="form-control" name="desc" placeholder="Meta descripation" >
+                                                                    <input type="text" id="desc"  class="form-control" name="desc" placeholder="Meta descripation"  value="{{ old('desc') }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -74,7 +74,7 @@
                                                                     <span>Keywords(meta tag)</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="keyword"  class="form-control" name="keyword" placeholder="Meta Keywords" >
+                                                                    <input type="text" id="keyword"  class="form-control" name="keyword" placeholder="Meta Keywords"  value="{{ old('keyword') }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -86,7 +86,7 @@
                                                                     <span>Order</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="number" min="1" value="1" id="order"  class="form-control" name="order" placeholder="Order" required="">
+                                                                    <input type="number" min="1" value="1" id="order"  class="form-control" name="order" placeholder="Order" required=""  value="{{ old('order') }}">
                                                                 </div>
                                                             </div>
                                                         </div>

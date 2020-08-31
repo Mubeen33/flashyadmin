@@ -18,7 +18,7 @@ class CategoryController extends Controller
             ['deleted', '=', 0],
             ['parent_id','=', 0]
         ])->orderBy('id','desc')
-        ->paginate(3);
+        ->paginate(5);
 
         return view('category.add-category')
         ->with('categories',$Categories);
@@ -27,7 +27,7 @@ class CategoryController extends Controller
     public function categoryList(){
 
          $Categories=Category::orderBy('id','desc')
-         ->where('deleted', '=', 0)->paginate(3);
+         ->where('deleted', '=', 0)->paginate(5);
         return view('category.category-list')
         ->with('categories',$Categories);
       
@@ -35,25 +35,22 @@ class CategoryController extends Controller
 
 
     public function createcategory(Request $request){
-       
         $this->validate($request,[
             'name'=>'required|string|max:100',
             'slug'=>'required|string',
             'title'=>'required|string',
             'order'=>'required|numeric',
             'commission'=>'required',
-            'image'=>'required|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000'
+            'image'=>'nullable|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000'
         ]);
         
-        $image = "";
+        $image = NULL;
         $location = "upload-images/category/";
         if($request->hasFile('image')){
             $obj_fu = new FileUploader();
             $fileName ='category-'.uniqid().mt_rand(10, 9999);
             $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
             $image = $fileName__;
-        }else{
-            return redirect()->back()->with('error', 'Image Required');
         }
 
     	$Category = new Category();
@@ -67,6 +64,20 @@ class CategoryController extends Controller
                 }
             }
         }
+
+        if (intval($data['parent_id']) === 0) {
+            //check image has been upload or not
+            if ($image === NULL) {
+                return redirect()->back()->with('error', 'Image is required for parent category.');
+            }
+        }
+        if ($request->home_visiblity == 1) {
+            //check image has been upload or not
+            if ($image === NULL) {
+                return redirect()->back()->with('error', 'Image is required for category show on home page');
+            }
+        }
+
         $Category->parent_id            = $data['parent_id'];
 
         // 
@@ -81,7 +92,7 @@ class CategoryController extends Controller
         $Category->show_on_homepage     = $request->home_visiblity;
         $Category->show_image_nav       = $request->image_visiblity;
         $Category->commission           = $request->commission;
-        $Category->image                = url('/')."/".$location.$image;
+        $Category->image                = ($image === NULL ? NULL : url('/')."/".$location.$image);
 
         
         
@@ -131,12 +142,14 @@ class CategoryController extends Controller
             'title'=>'required|string',
             'order'=>'required|numeric',
             'commission'=>'required',
-            'image'=>'required|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000'
+            'image'=>'nullable|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000'
         ]);
 
 
         $id              = $request->id;
         $Category        = Category::find($id);
+        $oldData        = Category::where('id', $id)->first();
+
         // parent id
         $data["parent_id"] = 0;
         $category_ids_array = $request->input('parent_id');
@@ -163,6 +176,25 @@ class CategoryController extends Controller
             $fileName ='category-'.uniqid().mt_rand(10, 9999);
             $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
             $image = $fileName__;
+        }
+
+        if (intval($data['parent_id']) === 0) {
+            //check image has been upload or not
+            if ($image === NULL) {
+                //check has image already or not
+                if ($oldData->image == NULL) {
+                    return redirect()->back()->with('error', 'Image is required for parent category.');
+                }
+            }
+        }
+        if ($request->home_visiblity == 1) {
+            //check image has been upload or not
+            if ($image === NULL) {
+                //check has image already or not
+                if ($oldData->image == NULL) {
+                    return redirect()->back()->with('error', 'Image is required for category show on home page');
+                }
+            }
         }
 
 
@@ -193,7 +225,7 @@ class CategoryController extends Controller
 
         $categories=Category::where('deleted', '=', 1)
             ->orderBy('id','desc')
-            ->paginate(3);
+            ->paginate(5);
         return view('category.disable-categoy-list', compact('categories'));
     }
 
@@ -230,6 +262,7 @@ class CategoryController extends Controller
             $sort_by = $request->sort_by;
             $sorting_order = $request->sorting_order;
             $status = $request->status;
+            $row_per_page = $request->row_per_page;
 
             if ($sort_by == "") {
                 $sort_by = "id";
@@ -251,14 +284,14 @@ class CategoryController extends Controller
                                 ["deleted", "=", $status]
                             ])
                             ->orderBy($sort_by, $sorting_order)
-                            ->paginate(3);
+                            ->paginate($row_per_page);
 
                 return view($viewName, compact('categories'))->render();
             }
 
             $categories = Category::where("deleted", "=", $status)
                             ->orderBy($sort_by, $sorting_order)
-                            ->paginate(3);
+                            ->paginate($row_per_page);
             return view($viewName, compact('categories'))->render();
         }
         return abort(404);
