@@ -11,7 +11,6 @@
                     <form action="{{url('update-category')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row match-height">
-                            
                             <div class="col-md-12 col-12">
                                 <div class="card">
                                     <div class="card-header">
@@ -232,11 +231,9 @@
                                     </div>
                                 </div>
                             </div>
-                            
                         </div>
                     </form>    
                 </section>
-
             </div>
 <script>
 
