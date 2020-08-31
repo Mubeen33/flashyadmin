@@ -45,6 +45,10 @@
                                     </li>
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('variations.disablevariationslist')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Disable Variations</a>
                                     </li>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('variations.addvariationsoption')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Add Option to Variations</a>
+                                    </li>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('variations.variationsoptionslist')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Variations Options</a>
+                                    </li>
                                 </ul>
                             </li>
 
@@ -107,18 +111,7 @@
                         <ul class="dropdown-menu">
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
                                 <a class="dropdown-item" href="{{route('admin.customers.index')}}"><i class="feather icon-circle"></i>All Customers</a>
-                                {{--
-                                <a class="dropdown-item" href="{{route('admin.vendor.activities.get')}}"><i class="feather icon-circle"></i>Vendors Activity</a>
-                                <a class="dropdown-item" href="{{route('admin.vendor.bankUpdates.get')}}"><i class="feather icon-circle"></i>Bank Updates 
-                                    @php
-                                        $vendorBankDetailsUpdates = (\App\VendorBankDetailsTempData::where('status', 0)->count());
-                                        if($vendorBankDetailsUpdates > 0){
-                                            echo "<span class='badge badge-danger ml-2'>".$vendorBankDetailsUpdates."</span>";
-                                        }
-                                    @endphp
-                                    
-                                </a>
-                                --}}
+                                
                             </li>
                         </ul>
                     </li>

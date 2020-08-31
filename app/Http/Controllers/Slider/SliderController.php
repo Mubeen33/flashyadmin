@@ -40,24 +40,24 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         //store sliders
-        $this->validate($request, [
-            'title'=>'nullable|string|max:100',
-            'description'=>'nullable|string|max:150',
-            'link'=>'nullable|string|url',
-            'order_no'=>'nullable|numeric',
-            'button_text'=>'nullable|string|max:30',
-            'text_color'=>'nullable|string|max:100',
-            'button_color'=>'nullable|string|max:100',
-            'button_text_color'=>'nullable|string|max:100',
-            'title_animation'=>'nullable|string|max:100',
-            'description_animation'=>'nullable|string|max:100',
-            'button_animation'=>'nullable|string|max:100',
-            'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1230,height=445',
-            'image_sm'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=600,height=300',
-            'slider_type'=>'required|string|in:Product,Deal',
-            'start_time'=>'required|date',
-            'end_time'=>'required|date'
-        ]);
+        // $this->validate($request, [
+        //     'title'=>'nullable|string|max:100',
+        //     'description'=>'nullable|string|max:150',
+        //     'link'=>'nullable|string|url',
+        //     'order_no'=>'nullable|numeric',
+        //     'button_text'=>'nullable|string|max:30',
+        //     'text_color'=>'nullable|string|max:100',
+        //     'button_color'=>'nullable|string|max:100',
+        //     'button_text_color'=>'nullable|string|max:100',
+        //     'title_animation'=>'nullable|string|max:100',
+        //     'description_animation'=>'nullable|string|max:100',
+        //     'button_animation'=>'nullable|string|max:100',
+        //     'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1230,height=445',
+        //     'image_sm'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=600,height=300',
+        //     'slider_type'=>'required|string|in:Product,Deal',
+        //     'start_time'=>'required|date',
+        //     'end_time'=>'required|date'
+        // ]);
 
         $current = Carbon::now();
         $today = $current->format('Y-m-d');
@@ -162,24 +162,24 @@ class SliderController extends Controller
     public function update(Request $request, $id)
     {
         //update slider
-        $this->validate($request, [
-            'title'=>'nullable|string|max:100',
-            'description'=>'nullable|string|max:150',
-            'link'=>'nullable|string|url',
-            'order_no'=>'nullable|numeric',
-            'button_text'=>'nullable|string|max:30',
-            'text_color'=>'nullable|string|max:100',
-            'button_color'=>'nullable|string|max:100',
-            'button_text_color'=>'nullable|string|max:100',
-            'title_animation'=>'nullable|string|max:100',
-            'description_animation'=>'nullable|string|max:100',
-            'button_animation'=>'nullable|string|max:100',
-            'image_lg'=>'nullable|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1230,height=445',
-            'image_sm'=>'nullable|image:png,jpeg,jpg,gif|max:1000|dimensions:width=600,height=300',
-            'slider_type'=>'required|string|in:Product,Deal',
-            'start_time'=>'required|date',
-            'end_time'=>'required|date'
-        ]);
+        // $this->validate($request, [
+        //     'title'=>'nullable|string|max:100',
+        //     'description'=>'nullable|string|max:150',
+        //     'link'=>'nullable|string|url',
+        //     'order_no'=>'nullable|numeric',
+        //     'button_text'=>'nullable|string|max:30',
+        //     'text_color'=>'nullable|string|max:100',
+        //     'button_color'=>'nullable|string|max:100',
+        //     'button_text_color'=>'nullable|string|max:100',
+        //     'title_animation'=>'nullable|string|max:100',
+        //     'description_animation'=>'nullable|string|max:100',
+        //     'button_animation'=>'nullable|string|max:100',
+        //     'image_lg'=>'nullable|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1230,height=445',
+        //     'image_sm'=>'nullable|image:png,jpeg,jpg,gif|max:1000|dimensions:width=600,height=300',
+        //     'slider_type'=>'required|string|in:Product,Deal',
+        //     'start_time'=>'required|date',
+        //     'end_time'=>'required|date'
+        // ]);
 
 
         $current = Carbon::now();

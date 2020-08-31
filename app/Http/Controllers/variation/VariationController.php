@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Variation;
+use App\VariationOption;
 
 class VariationController extends Controller
 {
@@ -13,9 +14,9 @@ class VariationController extends Controller
 
     public function addVariation(){
 
-    	$parentCategory = Category::where([['parent_id',0],['deleted','=',0]])->get();
+    	// $parentCategory = Category::where([['parent_id',0],['deleted','=',0]])->get();
         
-        return view('variation.add-variation',compact('parentCategory'));
+        return view('variation.add-variation');
     }
 
     //save new variation
@@ -24,16 +25,21 @@ class VariationController extends Controller
 
     	$variation  =  new Variation();
 
-    	$data["parent_id"] = 0;
-        $category_ids_array = $request->input('parent_id');
-        if (!empty($category_ids_array)) {
-            foreach ($category_ids_array as $key => $value) {
-                if (!empty($value)) {
-                    $data["parent_id"] = $value;
-                }
-            }
-        }
-        $variation->category_id              = $data['parent_id'];
+    	// $data["parent_id"] = 0;
+     //    $category_ids_array = $request->input('parent_id');
+     //    if (!empty($category_ids_array)) {
+     //        foreach ($category_ids_array as $key => $value) {
+     //            if (!empty($value)) {
+     //                $data["parent_id"] = $value;
+     //            }
+     //        }
+     //    }
+        // $variation->category_id              = $data['parent_id'];
+        $this->validate($request,
+        [
+            'name'=>'required|string|max:60',
+            'image_approval'=>'required'
+        ]);
         $variation->variation_name           = $request->variation_name;
         $variation->image_approval           = $request->image_approval;
 
@@ -49,7 +55,6 @@ class VariationController extends Controller
     public function variationsList(){
 
     	$variations = Variation::where('active', 1)
-                        ->with('get_category')
                         ->orderBy('id', 'desc')
                         ->paginate(5);
     	return view('variation.variations-list',compact('variations'));
@@ -63,33 +68,8 @@ class VariationController extends Controller
 
     	$variant          = Variation::where('id',$id)->first();
     	$image_approval   = Variation::where('id',$id)->value('image_approval');
-        $category_id      = Variation::where('id',$id)->value('category_id');
-        $parentCategories = Category::where([['parent_id', '=',0],['deleted', '=',0]])->get();
-        // $categories       = Category::where('id',$id)->first();
 
-        // parent categories array with selected parent
-
-        $array_categories = array();
-        $category = Category::where('id',$category_id)->first();
-        if (!empty($category)) {
-            array_push($array_categories, $category);
-            for ($i = 0; $i < 50; $i++) {
-                    $parent = Category::where('id',$category->parent_id)->first();
-                
-                    if (!empty($parent)) {
-                        array_push($array_categories, $parent);
-                        $category = $parent;
-                        if ($category->parent_id == 0) {
-                            break;
-                        }
-                    }   
-            }
-        }
-        $parent_categories_array = array_reverse($array_categories);
-
-        //
-
-    	return view('variation.edit-variation',compact('variant','image_approval','parentCategories','parent_categories_array'));
+    	return view('variation.edit-variation',compact('variant','image_approval'));
     }
 
     // update variations
@@ -97,17 +77,7 @@ class VariationController extends Controller
     public function updateVariation(Request $request){
 
     	$id = $request->id;
-    	$variation = Variation::find($id);
-    	$data["parent_id"] = 0;
-        $category_ids_array = $request->input('parent_id');
-        if (!empty($category_ids_array)) {
-            foreach ($category_ids_array as $key => $value) {
-                if (!empty($value)) {
-                    $data["parent_id"] = $value;
-                }
-            }
-        }
-    	$variation->category_id              = $data['parent_id']; 
+    	$variation = Variation::find($id); 
     	$variation->variation_name           = $request->variation_name;
         $variation->image_approval           = $request->image_approval;
 
@@ -156,7 +126,78 @@ class VariationController extends Controller
         }
     }
 
+    // add options in variations
 
+    public function addvariationsoption(){
+
+        $variations = Variation::where('active', 1)->get();
+
+        return view('variation.add-variation-option',compact('variations'));
+
+    }
+    // 
+    public function createOption(Request $request){
+
+        $variantOption = new VariationOption();
+        $variantOption->variation_id = $request->variation_id;
+        $variantOption->option_name      = $request->option_name;
+
+        if ($variantOption->save()) {
+            
+            return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option added Successfully!</div>');
+       
+        }
+    }
+
+    // variationsOptionsList
+
+    public function variationsOptionsList(){
+
+        $variationsOptions = VariationOption::where('active', 1)->get();
+
+        return view('variation.variations-options-list',compact('variationsOptions'));
+
+    }
+
+    // Edit Option
+    public function editOption($id){
+
+        $id = decrypt($id);
+        $variantOption = VariationOption::where('id',$id)->first();
+        $variations    = Variation::where('active', 1)->get();
+        return view('variation.edit-variation-option',compact('variantOption','variations'));
+    }
+    //
+
+    // update Option 
+
+    public function updateOption(Request $request){
+
+        $id                           = $request->id;
+        $variantOption                = VariationOption::find($id);
+        $variantOption->variation_id  = $request->variation_id;
+        $variantOption->option_name   = $request->option_name;
+
+        if ($variantOption->save()) {
+            
+            return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option updated Successfully!</div>');
+       
+        }
+    } 
+    // 
+
+    // Delete Option 
+    public function deleteOption($id){
+
+        $id            = decrypt($id);
+        $variantOption = VariationOption::find($id);
+        if ($variantOption->delete()) {
+            
+            return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option removed Successfully!</div>');
+       
+        }
+
+    }
     public function fetch_paginate_data(Request $request){
         if ($request->ajax()) {
             $searchKey = $request->search_key;
@@ -192,4 +233,6 @@ class VariationController extends Controller
         }
         return abort(404);
     }
+
+    // 
 }
