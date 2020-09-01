@@ -6,7 +6,6 @@
   <meta name="format-detection" content="telephone=no">
   <meta name="x-apple-disable-message-reformatting">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title></title>
   <style type="text/css">
     @media screen {
@@ -271,9 +270,14 @@ i.fa {
                                 <td class="pc-cta-box-in" style=" padding: 42px 40px 35px;" valign="top">
                                   <table class="pc-cta-s1" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
                                     <tbody>
+                                      @if($data->about_template !== NULL)
                                       <tr>
-                                        <td class="pc-fb-font" style="vertical-align: top; font-family: 'Fira Sans', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 500; line-height: 1.43; color: #40BE65; text-align:left;" valign="top" align="center">Email Confirmation</td>
+                                        <td class="pc-fb-font" style="vertical-align: top; font-family: 'Fira Sans', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 500; line-height: 1.43; color: #40BE65; text-align:left;" valign="top" align="center">
+                                        {{ $data->about_template }}
+                                        </td>
                                       </tr>
+                                      @endif
+
                                       <tr>
                                         <td class="pc-cta-title pc-fb-font" style="vertical-align: top; font-family: 'Fira Sans', Helvetica, Arial, sans-serif; font-size:20px;  line-height: 1.28; letter-spacing: -0.6px; color: #151515; text-align:left;" valign="top" align="center">
                                           <b> Hi Candy ? </b> <br />

@@ -1,4 +1,13 @@
-    
+    <div class="form-group">
+        <label>Subject Line</label>
+        <input type="text" name="subject_line" class="form-control" value="@if(isset($data)){{$data->subject_line}}@endif">
+    </div>
+
+    <div class="form-group">
+        <label>About Template</label>
+        <input type="text" name="about_template" class="form-control" value="@if(isset($data)){{$data->about_template}}@endif">
+    </div>
+
     <div class="form-group">
         <label>Text Line One</label>
         <textarea class="form-control" rows="5" cols="5" name="text_line_one" placeholder="Text line one">@if(isset($data)){{$data->text_line_one}}@endif</textarea>
