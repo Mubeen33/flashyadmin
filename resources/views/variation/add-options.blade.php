@@ -8,7 +8,7 @@
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form action="{{url('submit-variation-option')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{url('submit-option')}}" method="post" enctype="multipart/form-data">
                         @csrf
                             <div class="col-12">
                                 <div class="card">
@@ -19,21 +19,7 @@
                                         <div class="card-body">
                                                 <div class="form-body">
                                                     <div class="row">
-                                                        <div class="col-12">
-                                                            <div class="form-group row">
-                                                                <div class="col-md-4">
-                                                                    <span>Select Variation</span>
-                                                                </div>
-                                                                <div class="col-md-8">
-                                                                    <select class="form-control" name="variation_id" required>
-                                                                        <option selected="">Select Variation</option>
-                                                                        @foreach($variationsOptions as $variation)
-                                                                            <option value="{{$variation->id}}">{{$variation->variation_name}}</option>
-                                                                        @endforeach    
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <input type="hidden" name="option_id" value="{{$id}}">
                                                         <div class="col-12" id="form">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">

@@ -8,8 +8,9 @@
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form action="{{url('submit-variation-option')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{url('update-option')}}" method="post" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="id" value="{{$variantOption->id}}">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
@@ -25,25 +26,26 @@
                                                                     <span>Select Variation</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <select class="form-control" name="variation_id" required>
+                                                                    <select class="form-control" name="option_id" required>
                                                                         <option selected="">Select Variation</option>
                                                                         @foreach($variationsOptions as $variation)
-                                                                            <option value="{{$variation->id}}">{{$variation->variation_name}}</option>
+                                                                            @if($variation->id == $variantOption->option_id)
+                                                                                <option value="{{$variation->id}}" selected>{{$variation->option_name}}</option>
+                                                                            @else
+                                                                                <option value="{{$variation->id}}">{{$variation->option_name}}</option>
+                                                                            @endif    
                                                                         @endforeach    
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-12" id="form">
+                                                        <div class="col-12">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Option Name</span>
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <input type="text" name="option_name[]" class="form-control" required="">
-                                                                </div>
-                                                                <div class="col-md-2">
-                                                                    <button class="btn btn-warning" type="button" onclick="appenddToForm('text')">Add new Option</button>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" name="option_name" class="form-control" required="" value="{{ $variantOption->option_name}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -59,29 +61,41 @@
                     </form>    
                 </section>
             </div>
-<script>
+{{-- <script>
 
-    function appenddToForm(type){
+    function get_subcategories(category_id, data_select_id) {
 
-        if(type == 'text'){
-                var str = '<div class="form-group row">'
-                                +'<div class="col-md-4">'
-                                    +'<span>Option Name</span>'
-                                +'</div>'
-                                +'<div class="col-md-6">'
-                                    +'<input type="text" name="option_name[]" class="form-control" required="">'
-                                +'</div>'    
-                                +'<div class="col-md-1">'
-                                    +'<span class="btn btn-icon btn-circle icon-lg fa fa-times" onclick="delete_choice_clearfix(this)"></span>'
-                                +'</div>'
-                            +'</div>';
-                $('#form').append(str);
+        //reset subcategories
+        $('.subcategory-select').each(function () {
+            if (parseInt($(this).attr('data-select-id')) > parseInt(data_select_id)) {
+                $(this).remove();
             }
-    }
+        });
+        
+    // ajax function for subcategories
 
-    function delete_choice_clearfix(em){
-        $(em).parent().parent().remove();
+        $.ajax({
+
+            headers: {
+                 'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
+                 },
+            method  : 'POST',
+            url     : "{{url('get_subcategories')}}/"+category_id,
+            data    : {"_token": "{{ csrf_token() }}","category_id":category_id},
+            success : function(subcategories){
+
+                // console.log(subcategories);
+                if (category_id == null) {
+
+                    return false;
+                }else{
+
+                    $('#subcategories_container').append(subcategories);
+                }
+                
+            }
+        });
     }
     
-</script>           
+</script>  --}}          
 @endsection       

@@ -52,7 +52,12 @@ Route::post('submit-variation-option','variation\VariationController@createOptio
 Route::get('variation-option-edit/{id}','variation\VariationController@editOption');
 Route::post('update-variation-option','variation\VariationController@updateOption');
 Route::get('variation-option-delete/{id}','variation\VariationController@deleteOption');
-
+Route::get('options-list/{id}','variation\VariationController@OptionsList');
+Route::get('option-edit/{id}','variation\VariationController@editOptionOptions');
+Route::post('update-option','variation\VariationController@updateOptionOptions');
+Route::get('option-delete/{id}','variation\VariationController@deleteOptionOptions');
+Route::get('add-options/{id}','variation\VariationController@addOption');
+Route::post('submit-option','variation\VariationController@createOptionOptions');
 // End Variation Routes
 
 // Add Custom Fields
