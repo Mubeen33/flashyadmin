@@ -498,7 +498,6 @@ class VendorController extends Controller
                     $q->where('first_name', 'like', '%'.$searchKey.'%');
                     $q->orWhere('last_name', 'like', '%'.$searchKey.'%');
                     $q->orWhere('email', 'like', '%'.$searchKey.'%');
-                    $q->orWhere('branch_name', 'like', '%'.$searchKey.'%');
                     $q->orderBy($sort_by, $sorting_order);
 
                 })->paginate($row_per_page);
@@ -506,13 +505,11 @@ class VendorController extends Controller
             }
 
             $data = VendorBankDetailsTempData::where('status', 0)
-                ->with('get_vendor')
-                ->whereHas('get_vendor', function($q) use ($sort_by, $sorting_order)
-                {
-                    $q->orderBy($sort_by, $sorting_order);
-
-                })->paginate($row_per_page);
-                return view('Vendors.partials.bank-updates-request-list', compact('data'))->render();
+            ->orderBy($sort_by, $sorting_order)
+            ->with('get_vendor')
+            ->paginate($row_per_page);
+            return view('Vendors.partials.bank-updates-request-list', compact('data'))->render();
+            
         }
         return abort(404);
     }

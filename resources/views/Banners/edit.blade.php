@@ -12,6 +12,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Edit {{ $data->type }}</h4>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#bannerIntroModal">Banner Intro.</button>
+                                </div>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
@@ -69,16 +72,22 @@
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-12">
                                                     <label>Image</label>
-                                                    <input type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
+                                                    <input type="file" onchange="previewFile('image_lg_input', 'previewImg_lg', 'previewImg_lg_current');" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
                                                     <br>
                                                     <button class="btn btn-success" type="button" 
                                                         onclick="document.getElementById('image_lg_input').click()" 
                                                     >Image</button>
                                                 </div>
                                                 <div class="col-lg-6 col-md-12">
-                                                    <label>Current Image</label>
-                                                    <br>
-                                                    <img src="{{ $data->image_lg }}" width="150px" height="120px">
+                                                    <div id="previewImg_lg_current" >
+                                                        <label>Current Image</label>
+                                                        <br>
+                                                        <img src="{{ $data->image_lg }}" width="150px" height="90px">
+                                                    </div>
+                                                    <div class="d-none" id="previewImg_lg">
+                                                        <img width="150px" height="90px" src="">
+                                                        <button type="button" title="Remove this image" onclick="removePreviewFile('previewImg_lg', 'previewImg_lg_current', 'image_lg_input')" class="btn btn-sm btn-danger">X</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -94,4 +103,51 @@
                     </div>
                 </div>
             </div>
+
+
+            <!-- Modal -->
+        <div class="modal fade" id="bannerIntroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <img src="{{ asset('app-assets/images/banners-position-intro.png') }}" width="100%">
+              </div>
+            </div>
+          </div>
+        </div>
 @endsection
+
+
+
+@push('scripts')
+<script type="text/javascript">
+
+    function previewFile(inputID, previewID, currentID){
+        var file = $("#"+inputID).get(0).files[0];
+ 
+        if(file){
+            var reader = new FileReader();
+ 
+            reader.onload = function(){
+                $("#"+previewID+' img').attr("src", reader.result);
+                $("#"+previewID).removeClass("d-none");
+                $("#"+currentID).addClass("d-none");
+            }
+ 
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function removePreviewFile(imageID, show, input){
+        $("#"+imageID).addClass('d-none')
+        $("#"+imageID+" img").attr('src', '')
+        $("#"+show).removeClass('d-none')
+        $("#"+input).val('')
+    }
+</script>
+@endpush
