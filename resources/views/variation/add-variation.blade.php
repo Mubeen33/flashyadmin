@@ -53,6 +53,63 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>SKU Approval</span>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" value="1" name="sku_approval" id="customRadio3">
+                                                                        <label class="custom-control-label" for="customRadio3">Yes</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" value="0" name="sku_approval" id="customRadio4">
+                                                                        <label class="custom-control-label" for="customRadio4">No</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Text Field</span>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" value="1" name="is_text" id="customRadio4">
+                                                                        <label class="custom-control-label" for="customRadio4">Yes</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" value="0" name="is_text" id="customRadio5">
+                                                                        <label class="custom-control-label" for="customRadio5">No</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Select</span>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" value="1" name="is_select" id="customRadio7">
+                                                                        <label class="custom-control-label" for="customRadio7">Yes</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" value="0" name="is_select" id="customRadio8">
+                                                                        <label class="custom-control-label" for="customRadio8">No</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="col-11"></div>
                                                             <button class="btn btn-primary" type="submit">Submit</button>
                                                     </div>

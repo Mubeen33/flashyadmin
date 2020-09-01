@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Category;
 use App\Variation;
 use App\VariationOption;
+use App\VariantOptionOptions;
 
 class VariationController extends Controller
 {
@@ -42,6 +43,9 @@ class VariationController extends Controller
         ]);
         $variation->variation_name           = $request->variation_name;
         $variation->image_approval           = $request->image_approval;
+        $variation->sku_approval             = $request->sku_approval;
+        $variation->is_text                  = $request->is_text;
+        $variation->is_select                = $request->is_select;
 
         if ($variation->save()) {
           	
@@ -80,6 +84,9 @@ class VariationController extends Controller
     	$variation = Variation::find($id); 
     	$variation->variation_name           = $request->variation_name;
         $variation->image_approval           = $request->image_approval;
+        $variation->sku_approval             = $request->sku_approval;
+        $variation->is_text                  = $request->is_text;
+        $variation->is_select                = $request->is_select;
 
         if ($variation->save()) {
           	
@@ -138,15 +145,18 @@ class VariationController extends Controller
     // 
     public function createOption(Request $request){
 
-        $variantOption = new VariationOption();
-        $variantOption->variation_id = $request->variation_id;
-        $variantOption->option_name      = $request->option_name;
-
-        if ($variantOption->save()) {
+        
+        
+        foreach ($request->option_name as $key => $value) {
             
-            return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option added Successfully!</div>');
-       
+            $variantOption = new VariationOption();
+            $variantOption->variation_id = $request->variation_id;
+            $variantOption->option_name  = $request->option_name[$key];
+            $variantOption->save();
+        
         }
+
+        return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option added Successfully!</div>');
     }
 
     // variationsOptionsList
@@ -198,6 +208,89 @@ class VariationController extends Controller
         }
 
     }
+    // addOption
+
+    public function addOption($id){
+
+        return view('variation.add-options',compact('id'));
+
+    }
+    //
+
+    // createOptionOptions
+
+    public function createOptionOptions(Request $request){
+
+        
+        
+        foreach ($request->option_name as $key => $value) {
+            
+            $variantOption = new VariantOptionOptions();
+            $variantOption->option_id = decrypt($request->option_id);
+            $variantOption->option_name  = $request->option_name[$key];
+            $variantOption->save();
+        
+        }
+
+        return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option added Successfully!</div>');
+    }
+
+    // OptionsList
+
+    public function OptionsList($id){
+
+        $id      = decrypt($id);
+        $Options = VariantOptionOptions::where('active', 1)->where('option_id',$id)->get();
+
+        return view('variation.options-list',compact('Options'));
+
+    }
+
+    // Optionsoptions edit
+
+    public function editOptionOptions($id){
+
+        $id = decrypt($id);
+        $variantOption        = VariantOptionOptions::where('id',$id)->first();
+        $variationsOptions    = VariationOption::where('active', 1)->get();
+        return view('variation.edit-option',compact('variantOption','variationsOptions'));
+    }
+    // 
+
+    // updateOptionOptions
+
+    public function updateOptionOptions(Request $request){
+
+        $id                           = $request->id;
+        $variantOption                = VariantOptionOptions::find($id);
+        $variantOption->option_id  = $request->option_id;
+        $variantOption->option_name   = $request->option_name;
+
+        if ($variantOption->save()) {
+            
+            return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option updated Successfully!</div>');
+       
+        }
+    }
+    //
+
+    //deleteOptionOptions
+
+    public function deleteOptionOptions($id){
+
+        $id            = decrypt($id);
+        $variantOption = VariantOptionOptions::find($id);
+        if ($variantOption->delete()) {
+            
+            return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option removed Successfully!</div>');
+       
+        }
+
+    }
+
+    // 
+    // Paginations on Variations.......
+
     public function fetch_paginate_data(Request $request){
         if ($request->ajax()) {
             $searchKey = $request->search_key;

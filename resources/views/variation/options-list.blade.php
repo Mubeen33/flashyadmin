@@ -27,7 +27,6 @@
                             <div class="card-header justify-content-between">
                                 <div class="d-flex">
                                     <h4 class="card-title mr-1">Variatons Options List</h4>
-                                    <a class="btn btn-primary btn-sm" href="{{Route('variations.addvariationsoption')}}">Add new</a>
                                 </div>
                             </div>
                             <div class="card-content">
@@ -40,33 +39,25 @@
                                                     <th>Option Name</th>
                                                     <th>Variant Name</th>
                                                     <th>Status</th>
-                                                    <th></th>
-                                                    <th></th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="render__data">
-                                                @if(count($variationsOptions) > 0)
-                                                @foreach($variationsOptions as $key => $option)
+                                                @if(count($Options) > 0)
+                                                @foreach($Options as $key => $option)
                                                     <tr>
                                                         <td>{{$key+1}}</td>
                                                         <td>{{$option->option_name}}</td>
                                                         <td>
                                                             @php
-                                                                $variationName = \App\Variation::where('id',$option->variation_id)->value('variation_name');
+                                                                $optionName = \App\VariationOption::where('id',$option->option_id)->value('option_name');
                                                             @endphp
-                                                            {{$variationName}}
+                                                            {{ $optionName }}
                                                         </td>
                                                         <td>
                                                              @if($option->active==1)
                                                                     <div class="badge badge-success">Active</div>
                                                                 @endif
-                                                        </td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-info"><a href="{{url('add-options')}}/{{encrypt($option->id)}}" style="color: black">Add Options</a></button>
-                                                        </td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-warning"><a href="{{url('options-list')}}/{{encrypt($option->id)}}" style="color: black">View Options</a></button>
                                                         </td>
                                                         <td>
                                                             <div class="btn-group mb-1">
@@ -75,8 +66,8 @@
                                                                         Actions
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                                                                        <a class="dropdown-item" href="{{url('variation-option-edit')}}/{{encrypt($option->id)}}">Edit</a>
-                                                                        <a class="dropdown-item" href="{{url('variation-option-delete')}}/{{encrypt($option->id)}}">Delete</a>
+                                                                        <a class="dropdown-item" href="{{url('option-edit')}}/{{encrypt($option->id)}}">Edit</a>
+                                                                        <a class="dropdown-item" href="{{url('option-delete')}}/{{encrypt($option->id)}}">Delete</a>
                                                                     </div>
                                                                 </div>
                                                             </div>
