@@ -10,8 +10,13 @@
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Add New @if(Request::is('banners/create')) {{ 'Banner' }} @else {{ 'Ads Banner' }} @endif</h4>
+                            <div class="card-header justify-content-between">
+                                <div>
+                                    <h4 class="card-title">Add New @if(Request::is('banners/create')) {{ 'Banner' }} @else {{ 'Ads Banner' }} @endif</h4>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#bannerIntroModal">Banner Intro.</button>
+                                </div>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
@@ -68,12 +73,16 @@
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-12">
                                                     <label>Image (Size: width 390 & height 193)</label>
-                                                    <input type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
+                                                    <input onchange="previewFile('image_lg_input', 'previewImg_lg');" type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
                                                     <br>
                                                     <button class="btn btn-success" type="button" 
                                                         onclick="document.getElementById('image_lg_input').click()" 
                                                     >Image</button>
                                                     <br>
+                                                    <div>
+                                                        <br>
+                                                        <span><img class="d-none" id="previewImg_lg" width="150px" height="80px" src=""></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -89,4 +98,41 @@
                     </div>
                 </div>
             </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="bannerIntroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <img src="{{ asset('app-assets/images/banners-position-intro.png') }}" width="100%">
+              </div>
+            </div>
+          </div>
+        </div>
 @endsection
+
+
+@push('scripts')
+<script type="text/javascript">
+
+    function previewFile(inputID, previewID){
+        var file = $("#"+inputID).get(0).files[0];
+ 
+        if(file){
+            var reader = new FileReader();
+ 
+            reader.onload = function(){
+                $("#"+previewID).attr("src", reader.result);
+                $("#"+previewID).removeClass("d-none");
+            }
+ 
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+@endpush

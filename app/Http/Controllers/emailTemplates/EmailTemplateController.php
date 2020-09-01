@@ -43,6 +43,8 @@ class EmailTemplateController extends Controller
     {  
         $validate = Validator::make($request->all(), [
             'template'=>'required|string|in:Customer-Signup,Vendor-Signup',
+            'subject_line'=>'required|string|max:70',
+            'about_template'=>'nullable|string|max:70',
             'text_line_one'=>'required|string|max:300',
             'button_text'=>'required|string|max:40',
             'button_link'=>'nullable|url',
@@ -78,6 +80,8 @@ class EmailTemplateController extends Controller
         if ($oldData) {
             //update
             $updated = $oldData->update([
+                'subject_line'=>$request->subject_line,
+                'about_template'=>$request->about_template,
                 'top_banner'=>($response[1] === NULL ? $oldData->top_banner : url('/')."/".$location.$response[1]),
                 'text_line_one'=>$request->text_line_one,
                 'button_text'=>$request->button_text,
@@ -102,6 +106,8 @@ class EmailTemplateController extends Controller
             //insert
             $inserted = EmailTemplate::insert([
                 'template'=>$request->template,
+                'subject_line'=>$request->subject_line,
+                'about_template'=>$request->about_template,
                 'top_banner'=>url('/')."/".$location.$response[1],
                 'text_line_one'=>$request->text_line_one,
                 'button_text'=>$request->button_text,

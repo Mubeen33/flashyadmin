@@ -105,7 +105,7 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-lg-6 col-md-12">
-                                                        <label>New Image (Size: 1920 * 600)</label>
+                                                        <label>New Image (Size: 1230 * 445)</label>
                                                         <input onchange="previewFile('image_lg_input', 'previewImg_lg', 'previewImg_lg_current');" type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
                                                         <br>
                                                         <button class="btn btn-success" type="button" 
@@ -121,7 +121,7 @@
                                                         </div>
                                                         <div class="d-none" id="previewImg_lg">
                                                             <img width="200px" height="100px" src="">
-                                                            <button type="button" title="Remove this image" onclick="removePreviewFile('previewImg_lg', 'previewImg_lg_current')" class="btn btn-sm btn-danger">X</button>
+                                                            <button type="button" title="Remove this image" onclick="removePreviewFile('previewImg_lg', 'previewImg_lg_current', 'image_lg_input')" class="btn btn-sm btn-danger">X</button>
                                                         </div>
                                                     </div>
 
@@ -131,7 +131,7 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-lg-6 col-md-12">
-                                                        <label>New Image for mobile (Size: 1920 * 600)</label>
+                                                        <label>New Image for mobile (Size: 600 * 300)</label>
                                                         <input onchange="previewFile('image_sm_input', 'previewImg_sm', 'previewImg_sm_current');" type="file" id="image_sm_input" name="image_sm" class="d-none" accept="image/*">
                                                         <br>
                                                         <button class="btn btn-success" type="button" 
@@ -147,7 +147,7 @@
                                                         </div>
                                                         <div class="d-none" id="previewImg_sm">
                                                             <img width="150px" height="80px" src="">
-                                                            <button type="button" title="Remove this image" onclick="removePreviewFile('previewImg_sm', 'previewImg_sm_current')" class="btn btn-sm btn-danger">X</button>
+                                                            <button type="button" title="Remove this image" onclick="removePreviewFile('previewImg_sm', 'previewImg_sm_current', 'image_sm_input')" class="btn btn-sm btn-danger">X</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -214,9 +214,11 @@
         }
     }
 
-    function removePreviewFile(imageID, show){
+    function removePreviewFile(imageID, show, input){
         $("#"+imageID).addClass('d-none')
+        $("#"+imageID+" img").attr('src', '')
         $("#"+show).removeClass('d-none')
+        $("#"+input).val('')
     }
 </script>
 @endpush

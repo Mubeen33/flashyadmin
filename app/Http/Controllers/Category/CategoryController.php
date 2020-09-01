@@ -107,7 +107,9 @@ class CategoryController extends Controller
         $id               = decrypt($id);
         $parentCategories = Category::where([['parent_id', '=',0],['deleted', '=',0]])->get();
     	$categories       = Category::where('id',$id)->first();
-
+        if (!$categories ) {
+            return abort(404);
+        }
         // parent categories array with selected parent
 
         $array_categories = array();

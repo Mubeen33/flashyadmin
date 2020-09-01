@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class EmailTemplate extends Model
 {
     protected $fillable =[
-    	'template',
+    	'subject_line',
+        'about_template',
+        'template',
     	'top_banner',
     	'text_line_one',
     	'button_text',

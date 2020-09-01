@@ -43,15 +43,15 @@
                                             <thead>
                                                 <tr>
                                                     <th class="sortAble" sorting-column='id' sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg> ID</th>
-                                                    <th class="sortAble" sorting-column='first_name' sorting-order=''>First Name</th>
-                                                    <th class="sortAble" sorting-column='last_name' sorting-order=''>Last Name</th>
-                                                    <th class="sortAble" sorting-column='email' sorting-order=''>Email</th>
-                                                    <th class="sortAble" sorting-column='bank_name' sorting-order=''>Bank Name</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Email</th>
+                                                    <th>Bank Name</th>
                                                     <th class="sortAble" sorting-column='created_at' sorting-order=''>Update at</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="render__data">
                                                 @include('Vendors.partials.bank-updates-request-list')
                                             </tbody>
                                         </table>
