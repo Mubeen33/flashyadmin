@@ -1,5 +1,14 @@
 @extends('layouts.master')
 @section('page-title','Add Category')
+
+@push('styles')
+<style type="text/css">
+    .border-danger-alert{
+      border:1px solid red;
+   }
+</style>
+@endpush
+
 @section('breadcrumbs')
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
         <li class="breadcrumb-item"><a href="#">Forms</a></li>
@@ -8,7 +17,7 @@
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form action="{{url('add-category')}}" method="post" enctype="multipart/form-data">
+                    <form id="formWithFile__" action="{{url('add-category')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row match-height">
                             
@@ -28,7 +37,8 @@
                                                                     <span>Category Name</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="name"  class="form-control" name="name" placeholder="Category Name" required="" value="{{ old('name') }}">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="text" id="name"  class="form-control" name="name" placeholder="Category Name" value="{{ old('name') }}">
+                                                                    <small class="place-error--msg"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -40,7 +50,8 @@
                                                                     <span>Slug</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="slug"  class="form-control" name="slug" placeholder="Slug"  value="{{ old('slug') }}">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="text" id="slug"  class="form-control" name="slug" placeholder="Slug"  value="{{ old('slug') }}">
+                                                                    <small class="place-error--msg"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -51,7 +62,8 @@
                                                                     <span>Title(meta tag)</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="title"  class="form-control" name="title" placeholder="Meta title"  value="{{ old('title') }}">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="text" id="title"  class="form-control" name="title" placeholder="Meta title"  value="{{ old('title') }}">
+                                                                    <small class="place-error--msg"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -62,7 +74,8 @@
                                                                     <span>Descripation(meta tag)</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="desc"  class="form-control" name="desc" placeholder="Meta descripation"  value="{{ old('desc') }}">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="text" id="desc"  class="form-control" name="desc" placeholder="Meta descripation"  value="{{ old('desc') }}">
+                                                                    <small class="place-error--msg"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -74,7 +87,8 @@
                                                                     <span>Keywords(meta tag)</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="keyword"  class="form-control" name="keyword" placeholder="Meta Keywords"  value="{{ old('keyword') }}">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="text" id="keyword"  class="form-control" name="keyword" placeholder="Meta Keywords"  value="{{ old('keyword') }}">
+                                                                    <small class="place-error--msg"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -86,7 +100,8 @@
                                                                     <span>Order</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="number" min="1" value="1" id="order"  class="form-control" name="order" placeholder="Order" required=""  value="{{ old('order') }}">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="number" min="1" value="1" id="order"  class="form-control" name="order" placeholder="Order"  value="{{ old('order') }}">
+                                                                    <small class="place-error--msg"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -97,7 +112,8 @@
                                                                     <span>Homepage order</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="number" min="1" value="1" id="home_order"  class="form-control" name="home_order" placeholder="homepage order" required="">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="number" min="1" value="1" id="home_order"  class="form-control" name="home_order" placeholder="homepage order">
+                                                                    <small class="place-error--msg"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -108,13 +124,14 @@
                                                                     <span>Parent Category</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <select class="form-control" name="parent_id[]" onchange="get_subcategories(this.value, 0);">
+                                                                    <select onclick="removeErrorLevels($(this), 'input')" class="form-control" name="parent_id[]" onchange="get_subcategories(this.value, 0);">
 >
                                                                       <option value="">None</option>
                                                                       @foreach ($categories as $category)
                                                                         <option value="{{$category->id}}">{{$category->name}}</option> 
                                                                       @endforeach
                                                                   </select>
+                                                                  <small class="place-error--msg"></small>
                                                                   <div id="subcategories_container"></div>
                                                                 </div>
                                                             </div>
@@ -126,7 +143,8 @@
                                                                     <span id="label_commission">Category Commission</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="number" min="1" value="1" id="commission"  class="form-control" name="commission" placeholder="Order" required="">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="number" min="1" value="1" id="commission"  class="form-control" name="commission" placeholder="Order">
+                                                                    <small class="place-error--msg"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -138,15 +156,17 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="custom-control custom-radio">
-                                                                        <input type="radio" class="custom-control-input" value="1"  name="visiblity" id="customRadio6">
+                                                                        <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="1"  name="visiblity" id="customRadio6" checked="1">
                                                                         <label class="custom-control-label" for="customRadio6">Yes</label>
+                                                                        <small class="place-error--msg"></small>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="col-md-4">
                                                                     <div class="custom-control custom-radio">
-                                                                        <input type="radio" class="custom-control-input" value="0"  name="visiblity" id="customRadio5">
+                                                                        <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="0"  name="visiblity" id="customRadio5">
                                                                         <label class="custom-control-label" for="customRadio5">No</label>
+                                                                        <small class="place-error--msg"></small>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -159,15 +179,17 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="custom-control custom-radio">
-                                                                        <input type="radio" class="custom-control-input" value="1"  name="home_visiblity" id="customRadio4">
+                                                                        <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="1"  name="home_visiblity" id="customRadio4" checked="1">
                                                                         <label class="custom-control-label" for="customRadio4">Yes</label>
+                                                                        <small class="place-error--msg"></small>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="col-md-4">
                                                                     <div class="custom-control custom-radio">
-                                                                        <input type="radio" class="custom-control-input" value="0"  name="home_visiblity" id="customRadio3">
+                                                                        <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="0"  name="home_visiblity" id="customRadio3">
                                                                         <label class="custom-control-label" for="customRadio3">No</label>
+                                                                        <small class="place-error--msg"></small>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -182,15 +204,17 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="custom-control custom-radio">
-                                                                        <input type="radio" class="custom-control-input" value="1"  name="image_visiblity" id="customRadio1">
+                                                                        <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="1"  name="image_visiblity" id="customRadio1" checked="1">
                                                                         <label class="custom-control-label" for="customRadio1">Yes</label>
+                                                                        <small class="place-error--msg"></small>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="col-md-4">
                                                                     <div class="custom-control custom-radio">
-                                                                        <input type="radio" class="custom-control-input" value="0"  name="image_visiblity" id="customRadio2">
+                                                                        <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="0"  name="image_visiblity" id="customRadio2">
                                                                         <label class="custom-control-label" for="customRadio2">No</label>
+                                                                        <small class="place-error--msg"></small>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -204,8 +228,10 @@
                                                                 <div class="col-md-8">
                                                                     <div class="custom-file">
                                                                         <input type="file" onchange="previewFile(this);" name="image" class="custom-file-input" id="inputGroupFile01">
-                                                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                                        <label id="custom--img-input" onclick="removeErrorLevels($(this), 'id__')" class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                                                         <small>Image Size 170px * 170px</small>
+                                                                        <br>
+                                                                        <small class="place-error--msg"></small>
                                                                     </div>
                                                                     <span><img id="previewImg" width="100" src=""></span>
                                                                 </div>
@@ -326,4 +352,20 @@
         }
     }
 </script>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#formWithFile__").on('submit', function(e){
+            e.preventDefault()
+            let formID = "formWithFile__";
+            let form = $(this);
+            let url = form.attr('action');
+            let type = form.attr('method');
+            let form_data = form.serialize();
+            formSubmitWithFile(formID, url, type, form_data);
+        })
+    })
+</script>
+<script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>
 @endpush

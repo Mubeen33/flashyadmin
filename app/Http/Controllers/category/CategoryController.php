@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Category;
 use Freshbitsweb\Laratables\Laratables;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -35,7 +36,7 @@ class CategoryController extends Controller
 
 
     public function createcategory(Request $request){
-        $this->validate($request,[
+        $validation = Validator::make($request->all(),[
             'name'=>'required|string|max:100',
             'slug'=>'required|string',
             'title'=>'required|string',
@@ -43,6 +44,20 @@ class CategoryController extends Controller
             'commission'=>'required',
             'image'=>'nullable|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000'
         ]);
+
+        if ($validation->fails()) {
+            foreach ($validation->messages()->get('*') as $key => $value) {
+                $value = json_encode($value);
+                $text = str_replace('["', "", $value);
+                $text = str_replace('"]', "", $text);
+                return response()->json([
+                    'field'=>$key,
+                    'targetHighlightIs'=>"",
+                    'msg'=>$text,
+                    'need_scroll'=>"yes"
+                ], 422);
+            }
+        }
         
         $image = NULL;
         $location = "upload-images/category/";
@@ -68,13 +83,23 @@ class CategoryController extends Controller
         if (intval($data['parent_id']) === 0) {
             //check image has been upload or not
             if ($image === NULL) {
-                return redirect()->back()->with('error', 'Image is required for parent category.');
+                return response()->json([
+                    'field'=>"id__",
+                    'targetID'=>"custom--img-input",
+                    'msg'=>"Image is required for parent category.",
+                    'need_scroll'=>"yes"
+                ], 422);
             }
         }
         if ($request->home_visiblity == 1) {
             //check image has been upload or not
             if ($image === NULL) {
-                return redirect()->back()->with('error', 'Image is required for category show on home page');
+                return response()->json([
+                    'field'=>"home_visiblity",
+                    'targetID'=>"",
+                    'msg'=>"Image is required for category show on home page",
+                    'need_scroll'=>"yes"
+                ], 422);
             }
         }
 
@@ -97,8 +122,10 @@ class CategoryController extends Controller
         
         
         if ($Category->save()) {
-
-        	return redirect("category-list")->with('success','Category added Successfully');
+            return response()->json([
+                    'success'=>true,
+                    'msg'=>"Category added Successfully",
+                ], 200);
         }
     }
     // edit Category
@@ -144,6 +171,7 @@ class CategoryController extends Controller
             'title'=>'required|string',
             'order'=>'required|numeric',
             'commission'=>'required',
+            'visiblity'=>'required|numeric|in:1,0',
             'image'=>'nullable|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000'
         ]);
 

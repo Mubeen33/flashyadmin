@@ -125,3 +125,12 @@
                 </div>
             </div>
 @endsection
+
+
+@push('scripts')
+<script type="text/javascript">
+    $(document).ready(function(){
+        alert('yes')
+    })
+</script>
+@endpush

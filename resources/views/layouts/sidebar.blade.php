@@ -86,7 +86,7 @@
                     <li class="dropdown nav-item" data-menu="dropdown">
                         <a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i>
                             <span data-i18n="UI Elements">
-                                Vendor Deals
+                                Deals
                                 @php
                                     $vendorsDealRequests = (\App\Deal::where('status', 0)->count());
                                     if($vendorsDealRequests > 0){
@@ -96,7 +96,7 @@
                             </span> 
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Deals</a>
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Vendor Deals</a>
                                 <ul class="dropdown-menu">
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendorDeals.pending.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>New Deals</a>
                                     </li>
