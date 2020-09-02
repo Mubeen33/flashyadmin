@@ -14,7 +14,7 @@
 
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
-    <li class="breadcrumb-item active">Customers</li>
+    <li class="breadcrumb-item active">Blocked Customers</li>
 @endsection    
 @section('content')                                
             <div class="content-body">
@@ -25,8 +25,8 @@
                             <div class="card-header justify-content-between">
                                 <div>
                                     <div class="d-flex">
-                                        <h4 class="card-title">Customers List</h4>
-                                        <a class="btn btn-info btn-sm ml-1" href="{{ route('admin.blockedCustomers.get') }}">Blocked Customers</a>
+                                        <h4 class="card-title">Blocked Customers List</h4>
+                                        <a class="btn btn-danger btn-sm ml-1" href="{{ route('admin.customers.index') }}">Back</a>
                                     </div>
                                 </div>
                                 <div>
@@ -53,18 +53,19 @@
                                                     <th class="sortAble" sorting-column='email' sorting-order=''>Email</th>
                                                     <th class="sortAble" sorting-column='phone' sorting-order=''>Phone</th>
                                                     <th>Join Date</th>
+                                                    <th>Blocked Date</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="render__data">
-                                                @include('Customers.partials.customers-list')
+                                                @include('Customers.partials.blocked-customers-list')
                                             </tbody>
                                         </table>
                                         <input type="hidden" id="hidden__action_url" value="/customers-ajax-pagination/fetch">
                                         <input type="hidden" id="hidden__page_number" value="1">
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">
-                                        <input type="hidden" id="hidden__status" value="unblocked">
+                                        <input type="hidden" id="hidden__status" value="blocked">
                                         <input type="hidden" id="hidden__id" value="">
                                     </div>
                                     

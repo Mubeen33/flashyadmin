@@ -117,6 +117,10 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
 
    //customers
    Route::resource('customers', 'Customers\CustomerController');
+   Route::get('block-customers', 'Customers\CustomerController@block_customers_list')->name('blockedCustomers.get');
+   Route::get('block-customer/{id}', 'Customers\CustomerController@block_customer')->name('blockCustomer');
+   Route::get('show-block-customer/{id}', 'Customers\CustomerController@show_block_customer')->name('showBlockCustomer.get');
+   Route::get('unblock-customer/{id}', 'Customers\CustomerController@unblock_customer')->name('unblockCustomer');
    Route::get('customers-ajax-pagination/fetch', 'Customers\CustomerController@fetch_paginate_data');
 
    //signup contents

@@ -6,6 +6,7 @@
         <td>{{ $content->email }}</td>
         <td>{{ $content->phone }}</td>
         <td>{{ $content->created_at->format('d/m/Y') }}</td>
+        <td>{{ $content->updated_at->format('d/m/Y') }}</td>
         <td>
             <div class="btn-group mb-1">
                 <div class="dropdown">
@@ -13,8 +14,8 @@
                         Actions
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                        <a class="dropdown-item" href="{{ route('admin.customers.show', Crypt::encrypt($content->id)) }}">Show</a>
-                        <a onclick="return confirm('Are you sure?')" class="dropdown-item" href="{{ route('admin.blockCustomer', Crypt::encrypt($content->id)) }}">Block</a>
+                        <a class="dropdown-item" href="{{ route('admin.showBlockCustomer.get', Crypt::encrypt($content->id)) }}">Show</a>
+                        <a onclick="return confirm('Are you sure?')" class="dropdown-item" href="{{ route('admin.unblockCustomer', Crypt::encrypt($content->id)) }}">Unblock</a>
                     </div>
                 </div>
             </div>

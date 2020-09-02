@@ -74,7 +74,8 @@ function removeErrorLevels(getThis, type){
 	}
 
 	if (type === "id__") {
-		console.log('yes this is id')
+		getThis.removeClass('border-danger-alert')
+		getThis.siblings('.place-error--msg').html('')
 		return;
 	}
 	console.log('yes outside')

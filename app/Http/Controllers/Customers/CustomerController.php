@@ -57,6 +57,18 @@ class CustomerController extends Controller
         return view('Customers.show', compact('data'));
     }
 
+    public function show_block_customer($id){
+        $id = \Crypt::decrypt($id);
+        $data = Customer::withTrashed()
+            ->where('id', $id)
+            ->with('get_addresses')
+            ->first();
+        if (!$data) {
+            return abort(404);
+        }
+        return view('Customers.show', compact('data'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -91,6 +103,33 @@ class CustomerController extends Controller
         //
     }
 
+    //block customer
+    public function block_customer($id){
+        $id = \Crypt::decrypt($id);
+        $blocked = Customer::where('id', $id)->delete();
+        if ($blocked == true) {
+            return redirect()->back()->with('success', 'Customer Blocked');
+        }else{
+            return redirect()->back()->with('error', 'SORRY - Something wrong.');
+        }
+    }
+    //unblocked customer
+    public function unblock_customer($id){
+        $id = \Crypt::decrypt($id);
+        $result = Customer::where('id', $id)->restore();
+        if ($result == true) {
+            return redirect()->back()->with('success', 'Customer Unblocked');
+        }else{
+            return redirect()->back()->with('error', 'SORRY - Something wrong.');
+        }
+    }
+    //blocked customer list
+    public function block_customers_list(){
+        $data = Customer::onlyTrashed()
+                ->paginate(5);
+        return view('Customers.blocked-list', compact('data'));
+    }
+
 
     //custom
     public function fetch_paginate_data(Request $request){
@@ -99,6 +138,7 @@ class CustomerController extends Controller
             $sort_by = $request->sort_by;
             $sorting_order = $request->sorting_order;
             $row_per_page = $request->row_per_page;
+            $status = $request->status;
 
             if ($sort_by == "") {
                 $sort_by = "id";
@@ -107,18 +147,50 @@ class CustomerController extends Controller
                 $sorting_order = "DESC";
             }
 
+            $viewName = "";
+            if ($status === "unblocked") {
+                $viewName = "Customers.partials.customers-list";
+            }else{
+                $viewName = "Customers.partials.blocked-customers-list";
+            }
+
             if ($request->search_key != "") {
-                $data = Customer::where("first_name", "LIKE", "%$searchKey%")
+                if($status === "unblocked"){
+                    $data = Customer::where("first_name", "LIKE", "%$searchKey%")
                             ->orWhere("last_name", "LIKE", "%$searchKey%")
                             ->orWhere("email", "LIKE", "%$searchKey%")
                             ->orWhere("phone", "LIKE", "%$searchKey%")
                             ->orderBy($sort_by, $sorting_order)
                             ->paginate($row_per_page);
-                return view('Customers.partials.customers-list', compact('data'))->render();
+                    return view($viewName, compact('data'))->render();
+                }
+                if($status === "blocked"){
+                    $data = Customer::onlyTrashed()
+                            ->where("first_name", "LIKE", "%$searchKey%")
+                            ->orWhere("last_name", "LIKE", "%$searchKey%")
+                            ->orWhere("email", "LIKE", "%$searchKey%")
+                            ->orWhere("phone", "LIKE", "%$searchKey%")
+                            ->orderBy($sort_by, $sorting_order)
+                            ->paginate($row_per_page);
+                    return view($viewName, compact('data'))->render();
+                }
+                return response()->json('SORRY - Invalid Request', 422);
+                
             }
 
-            $data = Customer::orderBy($sort_by, $sorting_order)->paginate($row_per_page);
-            return view('Customers.partials.customers-list', compact('data'))->render();
+            if($status === "unblocked"){
+                $data = Customer::orderBy($sort_by, $sorting_order)
+                        ->paginate($row_per_page);
+                return view($viewName, compact('data'))->render();
+            }
+            if($status === "blocked"){
+                $data = Customer::onlyTrashed()
+                        ->orderBy($sort_by, $sorting_order)
+                        ->paginate($row_per_page);
+                return view($viewName, compact('data'))->render();
+            }
+            return response()->json('SORRY - Invalid Request', 422);
+            
         }
         return abort(404);
     }

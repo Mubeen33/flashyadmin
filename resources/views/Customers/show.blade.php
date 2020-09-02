@@ -11,7 +11,14 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Customer Details</h4>
+                                <h4 class="card-title">
+                                  @if(Request::is('show-block-customer/*')) <span class="badge badge-danger">Blocked </span>@endif Customer Details
+                                  @if(Request::is('show-block-customer/*')) 
+                                  <a href="{{ route('admin.blockedCustomers.get') }}" class="badge badge-danger ml-1"> Back</a>
+                                  @else
+                                  <a href="{{ route('admin.customers.index') }}" class="badge badge-danger ml-1"> Back</a>
+                                  @endif
+                                </h4>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
