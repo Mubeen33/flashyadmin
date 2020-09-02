@@ -98,7 +98,7 @@
                         <ul class="dropdown-menu">
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Vendor Deals</a>
                                 <ul class="dropdown-menu">
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendorDeals.pending.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>New Deals</a>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendorDeals.pending.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Pending Deals</a>
                                     </li>
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendor-deals.index')}}" data-toggle="dropdown" data-i18n="Thumb View"><i class="feather icon-circle"></i>All Deals</a>
                                     </li>

@@ -36,7 +36,7 @@
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     <input type="hidden" id="name"  class="form-control" name="id" value="{{$categories->id}}">
-                                                                <input onclick="removeErrorLevels($(this), 'input')" type="text" id="name"  class="form-control" name="name" value="{{$categories->name}}">
+                                                                <input onclick="removeErrorLevels($(this), 'input')" type="text" id="name2"  class="form-control" name="name" value="{{$categories->name}}">
                                                                 <small class="place-error--msg"></small>
                                                                 </div>
                                                             </div>
@@ -102,7 +102,7 @@
                                                                     <span>Homepage order</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="number" min="1" id="home_order"  class="form-control" name="home_order" value="{{$categories->homepage_order}}" value="1" required="">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="number" min="1" id="home_order"  class="form-control" name="home_order" value="{{$categories->homepage_order}}" value="1">
                                                                     <small class="place-error--msg"></small>
                                                                 </div>
                                                             </div>
@@ -164,7 +164,7 @@
                                                                     </div>
                                                                     <span class="text text-danger" id="error"></span>
                                                                     <span><img id="previewImg" width="100" src="{{ $categories->image }}"></span>
-                                                                    <input type="hidden" id="image"  class="form-control" name="image" value="" required="">
+                                                                    <input type="hidden" id="image"  class="form-control" name="image" value="">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -174,7 +174,7 @@
                                                                     <span id="label_commission">Category Commission</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="number" min="1" value="1" id="commission"  class="form-control" name="commission" placeholder="Order" value="{{$categories->commission}}" required="">
+                                                                    <input type="number" min="1" value="1" id="commission"  class="form-control" name="commission" placeholder="Order" value="{{$categories->commission}}">
                                                                 </div>
                                                             </div>
                                                         </div>

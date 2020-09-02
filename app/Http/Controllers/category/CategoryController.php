@@ -26,7 +26,6 @@ class CategoryController extends Controller
 	}
     //active Categorys list
     public function categoryList(){
-
          $Categories=Category::orderBy('id','desc')
          ->where('deleted', '=', 0)->paginate(5);
         return view('category.category-list')
@@ -165,7 +164,7 @@ class CategoryController extends Controller
     // update Category
 
     public function updatecategory(Request $request){
-        $this->validate($request,[
+        $validation = Validator::make($request->all(),[
             'name'=>'required|string|max:100',
             'slug'=>'required|string',
             'title'=>'required|string',
@@ -174,6 +173,20 @@ class CategoryController extends Controller
             'visiblity'=>'required|numeric|in:1,0',
             'image'=>'nullable|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000'
         ]);
+
+        if ($validation->fails()) {
+            foreach ($validation->messages()->get('*') as $key => $value) {
+                $value = json_encode($value);
+                $text = str_replace('["', "", $value);
+                $text = str_replace('"]', "", $text);
+                return response()->json([
+                    'field'=>$key,
+                    'targetHighlightIs'=>"",
+                    'msg'=>$text,
+                    'need_scroll'=>"yes"
+                ], 422);
+            }
+        }
 
 
         $id              = $request->id;
@@ -213,7 +226,12 @@ class CategoryController extends Controller
             if ($image === NULL) {
                 //check has image already or not
                 if ($oldData->image == NULL) {
-                    return redirect()->back()->with('error', 'Image is required for parent category.');
+                    return response()->json([
+                        'field'=>"image",
+                        'targetHighlightIs'=>"",
+                        'msg'=>"Image is required for parent category.",
+                        'need_scroll'=>"yes"
+                    ], 422);
                 }
             }
         }
@@ -222,7 +240,12 @@ class CategoryController extends Controller
             if ($image === NULL) {
                 //check has image already or not
                 if ($oldData->image == NULL) {
-                    return redirect()->back()->with('error', 'Image is required for category show on home page');
+                    return response()->json([
+                        'field'=>"image",
+                        'targetHighlightIs'=>"",
+                        'msg'=>"Image is required for category show on home page",
+                        'need_scroll'=>"yes"
+                    ], 422);
                 }
             }
         }
@@ -245,7 +268,10 @@ class CategoryController extends Controller
 
         if ($Category->save()) {
 
-        	return redirect("category-list")->with('msg','<div class="alert alert-success" id="msg">Category updated Successfully!</div>');
+        	return response()->json([
+                    'success'=>true,
+                    'msg'=>"Category Updated",
+                ], 200);
         }
     }
 

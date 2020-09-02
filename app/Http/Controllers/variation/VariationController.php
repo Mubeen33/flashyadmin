@@ -8,6 +8,7 @@ use App\Category;
 use App\Variation;
 use App\VariationOption;
 use App\VariantOptionOptions;
+use Illuminate\Support\Facades\Validator;
 
 class VariationController extends Controller
 {
@@ -24,23 +25,26 @@ class VariationController extends Controller
 
     public function createVariation(Request $request){
 
-    	$variation  =  new Variation();
-
-    	// $data["parent_id"] = 0;
-     //    $category_ids_array = $request->input('parent_id');
-     //    if (!empty($category_ids_array)) {
-     //        foreach ($category_ids_array as $key => $value) {
-     //            if (!empty($value)) {
-     //                $data["parent_id"] = $value;
-     //            }
-     //        }
-     //    }
-        // $variation->category_id              = $data['parent_id'];
-        $this->validate($request,
-        [
-            'name'=>'required|string|max:60',
+        $validation = Validator::make($request->all(),[
+            'variation_name'=>'required|string|max:60',
             'image_approval'=>'required'
         ]);
+
+        if ($validation->fails()) {
+            foreach ($validation->messages()->get('*') as $key => $value) {
+                $value = json_encode($value);
+                $text = str_replace('["', "", $value);
+                $text = str_replace('"]', "", $text);
+                return response()->json([
+                    'field'=>$key,
+                    'targetHighlightIs'=>"",
+                    'msg'=>$text,
+                    'need_scroll'=>"no"
+                ], 422);
+            }
+        }
+
+        $variation  =  new Variation();
         $variation->variation_name           = $request->variation_name;
         $variation->image_approval           = $request->image_approval;
         $variation->sku_approval             = $request->sku_approval;
@@ -48,9 +52,10 @@ class VariationController extends Controller
         $variation->is_select                = $request->is_select;
 
         if ($variation->save()) {
-          	
-        	return redirect("variations-list")->with('msg','<div class="alert alert-success" id="msg">Variation added Successfully!</div>');
-       
+          	return response()->json([
+                    'success'=>true,
+                    'msg'=>"Variation added Successfully!",
+                ], 200);
         }  
     }
 

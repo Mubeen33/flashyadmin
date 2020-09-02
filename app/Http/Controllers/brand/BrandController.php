@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Brand;
 use Freshbitsweb\Laratables\Laratables;
+use Illuminate\Support\Facades\Validator;
 
 class BrandController extends Controller
 {
@@ -25,11 +26,24 @@ class BrandController extends Controller
 
     public function createBrand(Request $request){
 
-        $this->validate($request,
-        [
+        $validation = Validator::make($request->all(),[
             'name'=>'required|string|max:60',
-            'image'=>'required|image|mimes:png,jpeg,jpg,gif'
+            'image'=>'required|image|mimes:png,jpg,jpeg,gif'
         ]);
+
+        if ($validation->fails()) {
+            foreach ($validation->messages()->get('*') as $key => $value) {
+                $value = json_encode($value);
+                $text = str_replace('["', "", $value);
+                $text = str_replace('"]', "", $text);
+                return response()->json([
+                    'field'=>$key,
+                    'targetHighlightIs'=>"",
+                    'msg'=>$text,
+                    'need_scroll'=>"no"
+                ], 422);
+            }
+        }
         
 
         $image = "";
@@ -40,7 +54,12 @@ class BrandController extends Controller
             $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
             $image = $fileName__;
         }else{
-            return redirect()->back()->with('msg','<div class="alert alert-danger" id="msg">Image is required</div>');
+            return response()->json([
+                    'field'=>"image",
+                    'targetHighlightIs'=>"",
+                    'msg'=>"Image is required",
+                    'need_scroll'=>"no"
+                ], 422);
         }
 
     	$brand = new Brand();
@@ -49,7 +68,10 @@ class BrandController extends Controller
     	$brand->image        = url('/')."/".$location.$image;
 
         if ($brand->save()) {
-        	return redirect("brands-list")->with('msg','<div class="alert alert-success" id="msg">Brand added Successfully!</div>');
+            return response()->json([
+                    'success'=>true,
+                    'msg'=>"Brand added Successfully"
+                ], 200);
         }
     }
     // edit brand
@@ -63,11 +85,25 @@ class BrandController extends Controller
     // update brand
 
     public function updateBrand(Request $request){
-        $this->validate($request,
-        [
+
+        $validation = Validator::make($request->all(),[
             'name'=>'required|string|max:60',
-            'image'=>'nullable|image|mimes:png,jpeg,jpg,gif'
+            'image'=>'nullable|image|mimes:png,jpg,jpeg,gif'
         ]);
+
+        if ($validation->fails()) {
+            foreach ($validation->messages()->get('*') as $key => $value) {
+                $value = json_encode($value);
+                $text = str_replace('["', "", $value);
+                $text = str_replace('"]', "", $text);
+                return response()->json([
+                    'field'=>$key,
+                    'targetHighlightIs'=>"",
+                    'msg'=>$text,
+                    'need_scroll'=>"no"
+                ], 422);
+            }
+        }
 
     	$brand = Brand::find($request->id);
 
@@ -92,7 +128,10 @@ class BrandController extends Controller
         $brand->image = ($image === NULL ? $brand->image : $url."/".$location.$image);
 
         if ($brand->save()) {
-        	return redirect("brands-list")->with('msg','<div class="alert alert-success" id="msg">Brand updated Successfully!</div>');
+            return response()->json([
+                    'success'=>true,
+                    'msg'=>"Brand updated Successfully!",
+                ], 200);
         }
     }
 

@@ -1,5 +1,14 @@
 @extends('layouts.master')
 @section('page-title','Edit Brand')
+
+@push('styles')
+<style type="text/css">
+    .border-danger-alert{
+        border:1px solid red;
+    }
+</style>
+@endpush
+
 @section('breadcrumbs')
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
         <li class="breadcrumb-item"><a href="#">Forms</a></li>
@@ -8,7 +17,7 @@
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form action="{{url('update-brand')}}" method="post" enctype="multipart/form-data">
+                    <form id="brandAddForm_" action="{{url('update-brand')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row match-height">
                             <div class="col-12">
@@ -27,7 +36,8 @@
                                                                 </div>
                                                                 <input type="hidden" name="id" value="{{$brand->id}}">
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="first-name" value="{{$brand->name}}"  class="form-control" name="name" placeholder="Brand Name" required="">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="text" id="first-name" value="{{$brand->name}}"  class="form-control" name="name" placeholder="Brand Name">
+                                                                    <small class="place-error--msg"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -37,7 +47,8 @@
                                                                     <span>Description</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <textarea class="form-control" name="description" required="">{{$brand->description}}</textarea>
+                                                                    <textarea onclick="removeErrorLevels($(this), 'input')" class="form-control" name="description">{{$brand->description}}</textarea>
+                                                                    <small class="place-error--msg"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -69,7 +80,10 @@
                 </section>
 
             </div>
-@endsection       
+@endsection
+
+
+@push('scripts')   
 <script>
     function previewFile(input){
         var file = $("input[type=file]").get(0).files[0];
@@ -85,3 +99,20 @@
         }
     }
 </script>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#brandAddForm_").on('submit', function(e){
+            e.preventDefault()
+            let formID = "brandAddForm_";
+            let form = $(this);
+            let url = form.attr('action');
+            let type = form.attr('method');
+            let form_data = form.serialize();
+            formSubmitWithFile(formID, url, type, form_data);
+        })
+    })
+</script>
+<script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>
+@endpush

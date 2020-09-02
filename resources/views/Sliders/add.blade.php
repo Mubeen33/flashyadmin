@@ -1,5 +1,15 @@
 @extends('layouts.master')
-@section('page-title','Vendors')
+@section('page-title','Create Slider')
+
+@push('styles')
+<style type="text/css">
+    .border-danger-alert{
+        border:1px solid red;
+    }
+</style>
+@endpush
+
+
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Slider Create</li>
@@ -16,32 +26,37 @@
                             <div class="card-content">
                                 <div class="card-body">
                                     
-                                    <form action="{{ route('admin.sliders.store') }}" method="POST" enctype="multipart/form-data">
+                                    <form id="slider__form" action="{{ route('admin.sliders.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="form-group">
                                             <label>Title</label>
-                                            <input type="text" name="title" placeholder="Title" class="form-control" value="{{ old('title') }}">
+                                            <input onclick="removeErrorLevels($(this), 'input')" type="text" name="title" placeholder="Title" class="form-control">
+                                            <small class="place-error--msg"></small>
                                         </div>
                                         <div class="form-group">
                                             <label>Description</label>
-                                            <textarea name="description" class="form-control" placeholder="Description" rows="5" cols="10">{{ old('description') }}</textarea>
+                                            <textarea onclick="removeErrorLevels($(this), 'input')" name="description" class="form-control" placeholder="Description" rows="5" cols="10"></textarea>
+                                            <small class="place-error--msg"></small>
                                         </div>
                                         <div class="form-group">
                                             <label>Link</label>
-                                            <input type="text" name="link" placeholder="Link" class="form-control" value="{{ old('link') }}">
+                                            <input type="text" onclick="removeErrorLevels($(this), 'input')" name="link" placeholder="Link" class="form-control">
+                                            <small class="place-error--msg"></small>
                                         </div>
                                         
                                         <div class="row">
                                             <div class="col-lg-6 col-md-12">
                                                 <div class="form-group">
                                                     <label>Order</label>
-                                                    <input type="number" name="order_no" placeholder="Order" class="form-control" value="{{ old('order_no') }}">
+                                                    <input type="number" onclick="removeErrorLevels($(this), 'input')" name="order_no" placeholder="Order" class="form-control">
+                                                    <small class="place-error--msg"></small>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12">
                                                 <div class="form-group">
                                                     <label>Button Text</label>
-                                                    <input type="text" name="button_text" placeholder="Button Text" class="form-control" value="{{ old('button_text') }}">
+                                                    <input type="text" onclick="removeErrorLevels($(this), 'input')" name="button_text" placeholder="Button Text" class="form-control">
+                                                    <small class="place-error--msg"></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -50,20 +65,23 @@
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <label>Text Color</label>
-                                                    <input type="color" name="text_color" placeholder="Text Color" class="form-control" value="{{ old('text_color') }}">
+                                                    <input type="color" onclick="removeErrorLevels($(this), 'input')" name="text_color" placeholder="Text Color" class="form-control">
+                                                    <small class="place-error--msg"></small>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <label>Button Color</label>
-                                                    <input type="color" name="button_color" placeholder="Button Color" class="form-control" value="{{ old('button_color') }}">
+                                                    <input type="color" onclick="removeErrorLevels($(this), 'input')" name="button_color" placeholder="Button Color" class="form-control">
+                                                    <small class="place-error--msg"></small>
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <label>Button Text Color</label>
-                                                    <input type="color" name="button_text_color" placeholder="Button Text Color" class="form-control" value="{{ old('button_text_color') }}">
+                                                    <input type="color" onclick="removeErrorLevels($(this), 'input')" name="button_text_color" placeholder="Button Text Color" class="form-control">
+                                                    <small class="place-error--msg"></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -77,26 +95,29 @@
                                                 <div class="col-lg-4 col-md-12">
                                                     <div class="form-group">
                                                         <label>Title</label>
-                                                        <select class="form-control" name="title_animation">
+                                                        <select onclick="removeErrorLevels($(this), 'input')" class="form-control" name="title_animation">
                                                             <option value="fadeInUp">fadeInUp</option>
                                                         </select>
+                                                        <small class="place-error--msg"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-md-12">
                                                     <div class="form-group">
                                                         <label>Description</label>
-                                                        <select class="form-control" name="description_animation">
+                                                        <select onclick="removeErrorLevels($(this), 'input')" class="form-control" name="description_animation">
                                                             <option value="fadeInUp">fadeInUp</option>
                                                         </select>
+                                                        <small class="place-error--msg"></small>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-lg-4 col-md-12">
                                                     <div class="form-group">
                                                         <label>Button</label>
-                                                        <select class="form-control" name="button_animation">
+                                                        <select onclick="removeErrorLevels($(this), 'input')" class="form-control" name="button_animation">
                                                             <option value="fadeInUp">fadeInUp</option>
                                                         </select>
+                                                        <small class="place-error--msg"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -113,6 +134,7 @@
                                                         <br>
                                                         <span><img class="d-none" id="previewImg_lg" width="200px" height="100px" src=""></span>
                                                     </div>
+                                                    <small class="place-error--msg"></small>
                                                 </div>
 
                                                 <div class="col-lg-6 col-md-12">
@@ -126,6 +148,7 @@
                                                         <br>
                                                         <span><img class="d-none" id="previewImg_sm" width="150px" height="80px" src=""></span>
                                                     </div>
+                                                    <small class="place-error--msg"></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -135,22 +158,25 @@
                                                 <div class="col-lg-4 col-md-12">
                                                     <div class="form-group">
                                                         <label>Slider Type</label>
-                                                        <select class="form-control" name="slider_type">
-                                                            <option value="Product" @if(old('slider_type') === "Product" ) selected @endif>Product Slider</option>
-                                                            <option value="Deal" @if(old('slider_type') === "Deal" ) selected @endif>Deal Slider</option>
+                                                        <select onclick="removeErrorLevels($(this), 'input')" class="form-control" name="slider_type">
+                                                            <option value="Product">Product Slider</option>
+                                                            <option value="Deal">Deal Slider</option>
                                                         </select>
+                                                        <small class="place-error--msg"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-md-12">
                                                     <div class="form-group">
                                                         <label>Start Time</label>
-                                                        <input type="date" name="start_time" required="1" class="form-control" value="{{ old('start_time') }}">
+                                                        <input onclick="removeErrorLevels($(this), 'input')" type="date" name="start_time" class="form-control">
+                                                        <small class="place-error--msg"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-md-12">
                                                     <div class="form-group">
                                                         <label>End Time</label>
-                                                        <input type="date" name="end_time" required="1" class="form-control" value="{{ old('end_time') }}">    
+                                                        <input onclick="removeErrorLevels($(this), 'input')" type="date" name="end_time" class="form-control">    
+                                                        <small class="place-error--msg"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -188,4 +214,20 @@
         }
     }
 </script>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#slider__form").on('submit', function(e){
+            e.preventDefault()
+            let formID = "slider__form";
+            let form = $(this);
+            let url = form.attr('action');
+            let type = form.attr('method');
+            let form_data = form.serialize();
+            formSubmitWithFile(formID, url, type, form_data);
+        })
+    })
+</script>
+<script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>
 @endpush
