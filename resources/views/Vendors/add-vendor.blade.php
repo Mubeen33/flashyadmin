@@ -1,8 +1,8 @@
 @extends('layouts.master')
-@section('page-title','Vendors')
+@section('page-title','Vendor Add')
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
-    <li class="breadcrumb-item active">Vendors Details</li>
+    <li class="breadcrumb-item active">Vendor Add</li>
 @endsection    
 @section('content')                                
             <div class="content-body">
