@@ -583,4 +583,10 @@ class VendorController extends Controller
         return abort(404);
         
     }
+
+
+    //add_vendor_form
+    public function add_vendor_form(){
+        return view('Vendors.add-vendor');
+    }
 }

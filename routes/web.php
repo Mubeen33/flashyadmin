@@ -90,6 +90,9 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
   Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
   //ajax requests
   Route::get('vendors-ajax-pagination/fetch', 'Vendors\VendorController@fetch_paginate_data');
+  
+  //add vendor
+  Route::get('vendor-add', 'Vendors\VendorController@add_vendor_form')->name('vendor.addvendor.get');
 
 
   //vendor activity

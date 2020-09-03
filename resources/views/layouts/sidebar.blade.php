@@ -79,6 +79,7 @@
                                     @endphp
                                     
                                 </a></li>
+                                <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendor.addvendor.get')}}"><i class="feather icon-circle"></i>Add Vendor</a></li>
                             </li>
                         </ul>
                     </li>
