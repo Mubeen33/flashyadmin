@@ -93,6 +93,7 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
   
   //add vendor
   Route::get('vendor-add', 'Vendors\VendorController@add_vendor_form')->name('vendor.addvendor.get');
+  Route::post('vendor-add', 'Vendors\VendorController@add_vendor_post')->name('vendor.addvendor.post');
 
 
   //vendor activity

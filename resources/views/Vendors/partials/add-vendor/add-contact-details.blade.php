@@ -4,12 +4,14 @@
     <div class="col-12">
         <div class="form-group">
         	<label>Company Name</label>
-        	<input type="text" name="company_name" class="form-control">
+        	<input onclick="removeErrorLevels($(this), 'input')"  type="text" name="company_name" class="form-control">
+          <small class="place-error--msg"></small>
         </div>
 
         <div class="form-group">
         	<label>Business Information</label>
-        	<textarea name="business_information" class="form-control" rows="6" cols="10"></textarea>
+        	<textarea onclick="removeErrorLevels($(this), 'input')"  name="business_information" class="form-control" rows="6" cols="10"></textarea>
+          <small class="place-error--msg"></small>
         </div>
      </div>
 

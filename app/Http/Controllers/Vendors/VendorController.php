@@ -10,6 +10,7 @@ use App\VendorBankDetailsTempData;
 use Carbon\Carbon;
 use Hash;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Validator;
 
 class VendorController extends Controller
 {
@@ -588,5 +589,119 @@ class VendorController extends Controller
     //add_vendor_form
     public function add_vendor_form(){
         return view('Vendors.add-vendor');
+    }
+
+    //add_vendor_post
+    public function add_vendor_post(Request $request){
+        $validation = Validator::make($request->all(), [
+            'first_name' => ['required', 'string', 'max:50'],
+            'last_name' => ['required', 'string', 'max:50'],
+            'mobile' => ['required', 'string', 'max:16'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:vendors'],
+            'phone' => ['nullable', 'string', 'max:16'],
+            
+            
+            'company_name' => ['required', 'string', 'max:250'],
+            'business_information' => ['nullable', 'string', 'max:300'],
+            
+            'account_holder' => ['nullable', 'string', 'max:250'],
+            'bank_name' => ['nullable', 'string', 'max:250'],
+            'bank_account' => ['nullable', 'string', 'max:250'],
+            'branch_name' => ['nullable', 'string', 'max:250'],
+            'branch_code' => ['nullable', 'string', 'max:250'],
+
+            'director_first_name' => ['nullable', 'string', 'max:250'],
+            'director_last_name' => ['nullable', 'string', 'max:250'],
+            'director_email' => ['nullable', 'string', 'email', 'max:250'],
+            'director_details' => ['nullable', 'string', 'max:300'],
+            'website_url' => ['nullable', 'string', 'url', 'max:250'],
+            'vat_register' => ['nullable', 'string', 'in:Yes,No'],
+            'additional_info' => ['nullable', 'string', 'max:300'],
+            'product_type' => ['required', 'string', 'in:Physical Products,Digital Products,Grouped Products,Services'],
+
+            'address' => ['nullable', 'string', 'max:250'],
+            'street' => ['nullable', 'string', 'max:250'],
+            'city' => ['nullable', 'string', 'max:250'],
+            'state' => ['nullable', 'string', 'max:250'],
+            'subrub' => ['nullable', 'string', 'max:250'],
+            'zip_code' => ['nullable', 'string', 'max:250'],
+            'country' => ['nullable', 'string', 'max:250'],
+
+            'waddress' => ['nullable', 'string', 'max:250'],
+            'wstreet' => ['nullable', 'string', 'max:250'],
+            'wcity' => ['nullable', 'string', 'max:250'],
+            'wstate' => ['nullable', 'string', 'max:250'],
+            'wsubrub' => ['nullable', 'string', 'max:250'],
+            'wzip_code' => ['nullable', 'string', 'max:250'],
+            'wcountry' => ['nullable', 'string', 'max:250'],
+        ]);
+
+        if ($validation->fails()) {
+            foreach ($validation->messages()->get('*') as $key => $value) {
+                $value = json_encode($value);
+                $text = str_replace('["', "", $value);
+                $text = str_replace('"]', "", $text);
+                return response()->json([
+                    'field'=>$key,
+                    'targetHighlightIs'=>"",
+                    'msg'=>$text,
+                    'need_scroll'=>"yes"
+                ], 422);
+            }
+        }
+
+        //insert data
+        $result = Vendor::insert([
+           'first_name'=> $request->first_name,
+           'last_name'=> $request->last_name,
+           'email'=> $request->email,
+           'phone'=> $request->phone,
+           'mobile'=> $request->mobile,
+
+           'company_name'=> $request->company_name,
+           'business_information'=> $request->business_information,
+
+           'account_holder'=> $request->account_holder,
+           'bank_name'=> $request->bank_name,
+           'bank_account'=> $request->bank_account,
+           'branch_name'=> $request->branch_name,
+           'branch_code'=> $request->branch_code,
+
+           'website_url'=> $request->website_url,
+           'director_first_name'=> $request->director_first_name,
+           'director_last_name'=> $request->director_last_name,
+           'director_email'=> $request->director_email,
+           'director_details'=> $request->director_details,
+           'vat_register'=> $request->vat_register,
+           'additional_info'=> $request->additional_info,
+           'product_type'=> $request->product_type,
+
+           'address'=> $request->address,
+           'street'=> $request->street,
+           'city'=> $request->city,
+           'state'=> $request->state,
+           'subrub'=> $request->subrub,
+           'zip_code'=> $request->zip_code,
+           'country'=> $request->country,
+
+           'waddress'=> $request->waddress,
+           'wstreet'=> $request->wstreet,
+           'wcity'=> $request->wcity,
+           'wstate'=> $request->wstate,
+           'wsubrub'=> $request->wsubrub,
+           'wzip_code'=> $request->wzip_code,
+           'wcountry'=> $request->wcountry,
+           'created_at'=> Carbon::now()
+        ]);
+
+
+        if ($result == true) {
+            return response()->json([
+                    'success'=>true,
+                    'msg'=>"Vendor Added Successfully",
+            ], 200);
+        }else{
+            return response()->json("Something went wrong, please try again later", 500);
+        }
     }
 }
