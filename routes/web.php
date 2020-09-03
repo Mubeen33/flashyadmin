@@ -143,6 +143,9 @@ Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
    Route::resource('vendor-deals', "Deals\DealController");
    Route::get('pending-deals', "Deals\DealController@get_pending_deals")->name('vendorDeals.pending.get');
    Route::get('pending-deals-approve/{id}', "Deals\DealController@approve_deal")->name('vendor.deal.approve');
+
+   //popup routes
+   Route::resource('popup', 'Popup\PopupController');
 });
 
 

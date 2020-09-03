@@ -169,6 +169,14 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Popup</a>
+                                <ul class="dropdown-menu">
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.popup.create')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Add New</a>
+                                    </li>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.popup.index')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Popup List</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
 

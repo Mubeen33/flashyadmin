@@ -25,7 +25,7 @@ function formSubmitWithFile(formID, url, type, form_data){
 				if (jqXHR.status === 422) {
                   	let string_to_obj = JSON.parse(jqXHR.responseText)
                   	//console.log(string_to_obj.field)
-                  	if (string_to_obj.field !== "id__") {
+                  	if ($("input[name="+string_to_obj.field+"]").length) {
                   		$("input[name="+string_to_obj.field+"]").addClass('border-danger-alert');
                   		$("input[name="+string_to_obj.field+"]").siblings('.place-error--msg').html(string_to_obj.msg);
 
@@ -36,16 +36,18 @@ function formSubmitWithFile(formID, url, type, form_data){
 	                  	}
                   	}
 
-                  	if (string_to_obj.field === "id__") {
-                  		$("#"+string_to_obj.targetID).addClass('border-danger-alert');
-                  		$("#"+string_to_obj.targetID).siblings('.place-error--msg').html(string_to_obj.msg);
 
-                  		if (string_to_obj.need_scroll === "yes") {
+                  	if ($("textarea[name="+string_to_obj.field+"]").length) {
+                  		$("textarea[name="+string_to_obj.field+"]").addClass('border-danger-alert');
+	              		$("textarea[name="+string_to_obj.field+"]").siblings('.place-error--msg').html(string_to_obj.msg);
+
+	              		if (string_to_obj.need_scroll === "yes") {
 	                  		$('html, body').animate({
-			                    scrollTop: $("#"+string_to_obj.targetID).offset().top
+			                    scrollTop: $("textarea[name="+string_to_obj.field+"]").offset().top
 			                }, 1000);
 	                  	}
                   	}
+                  	
                   	
                   	
                 }else if (jqXHR.status === 500) {
