@@ -12,7 +12,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <label>Bank</label>
-                            <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="bank_name" class="form-control">
+                            <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="bank_name" class="form-control" placeholder="Bank">
                             <small class="place-error--msg"></small>
                         </div>
                     </div>
@@ -23,17 +23,17 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-6">
                             <label>Bank Account</label>
-                            <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="bank_account" class="form-control">
+                            <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="bank_account" class="form-control" placeholder="Bank Account">
                             <small class="place-error--msg"></small>
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <label>Branch Name</label>
-                            <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="branch_name" class="form-control">
+                            <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="branch_name" class="form-control" placeholder="Branch Name">
                             <small class="place-error--msg"></small>
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <label>Branch Code</label>
-                            <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="branch_code" class="form-control">
+                            <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="branch_code" class="form-control" placeholder="Branch Code">
                             <small class="place-error--msg"></small>
                         </div>
                     </div>

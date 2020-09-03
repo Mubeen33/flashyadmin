@@ -15,7 +15,7 @@
         @endif    
     </td>
     <td>
-        <div class="btn-group mb-1">
+        <div class="btn-group">
             <div class="dropdown">
                 <button class="btn btn-dark btn-sm dropdown-toggle mr-1" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Actions

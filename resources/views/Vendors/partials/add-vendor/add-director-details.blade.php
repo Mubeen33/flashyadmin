@@ -7,19 +7,19 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <label>Director First Name</label>
-                        <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="director_first_name"  class="form-control">
+                        <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="director_first_name"  class="form-control" placeholder="Director First Name">
                         <small class="place-error--msg"></small>
                     </div>
                     
                     <div class="col-lg-4 col-md-6">
                         <label>Director Last Name</label>
-                        <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="director_last_name"  class="form-control">
+                        <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="director_last_name"  class="form-control" placeholder="Director Last Name">
                         <small class="place-error--msg"></small>
                     </div>
 
                     <div class="col-lg-4 col-md-6">
                         <label>Director Email</label>
-                        <input onclick="removeErrorLevels($(this), 'input')" type="email" name="director_email" class="form-control">
+                        <input onclick="removeErrorLevels($(this), 'input')" type="email" name="director_email" class="form-control" placeholder="Director Email">
                         <small class="place-error--msg"></small>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
 
             <div class="form-group">
             	<label>Director Details</label>
-            	<textarea onclick="removeErrorLevels($(this), 'input')"  name="director_details" class="form-control" rows="6" cols="10"></textarea>
+            	<textarea onclick="removeErrorLevels($(this), 'input')"  name="director_details" class="form-control" rows="6" cols="10" placeholder="Director Details"></textarea>
                 <small class="place-error--msg"></small>
             </div>
 
@@ -38,7 +38,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <label>Website URL</label>
-                        <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="website_url" class="form-control">
+                        <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="website_url" class="form-control" placeholder="Website URL">
                         <small class="place-error--msg"></small>
                     </div>
                     
@@ -67,7 +67,7 @@
 
             <div class="form-group">
                 <label>Additioinal Info.</label>
-                <textarea onclick="removeErrorLevels($(this), 'input')"  name="additional_info" class="form-control" rows="6" cols="10"></textarea>
+                <textarea onclick="removeErrorLevels($(this), 'input')"  name="additional_info" class="form-control" rows="6" cols="10" placeholder="Additioinal Info."></textarea>
                 <small class="place-error--msg"></small>
             </div>
 

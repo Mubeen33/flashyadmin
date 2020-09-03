@@ -36,6 +36,22 @@
                                           @include('Vendors.partials.add-vendor.add-business-address-details')
                                           @include('Vendors.partials.add-vendor.add-wirehouse-details')
 
+                                          <div class="form-group">
+                                            <div class="row">
+                                              <div class="col-lg-6 col-md-6">
+                                                <label>Password</label>
+                                                <input onclick="removeErrorLevels($(this), 'input')" type="password" name="password" placeholder="Password" class="form-control">
+                                                <small class="place-error--msg"></small>
+                                              </div>
+                                              <div class="col-lg-6 col-md-6">
+                                                <div class="mb-1"><label>is active?</label></div>
+                                                <input type="radio" name="active" value="1"> <span>Yes</span>
+                                                <input type="radio" name="active" value="0" checked="1"> <span>No</span>
+                                                <small class="place-error--msg"></small>
+                                              </div>
+                                            </div>
+                                          </div>
+
                                           <button type="submit" class="btn btn-primary">Add Vendor</button>
                                         </form>
                                       </div>

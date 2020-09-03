@@ -634,6 +634,9 @@ class VendorController extends Controller
             'wsubrub' => ['nullable', 'string', 'max:250'],
             'wzip_code' => ['nullable', 'string', 'max:250'],
             'wcountry' => ['nullable', 'string', 'max:250'],
+            
+            'password' => ['nullable', 'string', 'min:8', 'max:33'],
+            'active' => ['required', 'numeric', 'in:0,1']
         ]);
 
         if ($validation->fails()) {
@@ -657,6 +660,7 @@ class VendorController extends Controller
            'email'=> $request->email,
            'phone'=> $request->phone,
            'mobile'=> $request->mobile,
+           'password'=>($request->password != NULL ? Hash::make($request->password) : NULL),
 
            'company_name'=> $request->company_name,
            'business_information'=> $request->business_information,
@@ -691,6 +695,7 @@ class VendorController extends Controller
            'wsubrub'=> $request->wsubrub,
            'wzip_code'=> $request->wzip_code,
            'wcountry'=> $request->wcountry,
+           'active'=>$request->active,
            'created_at'=> Carbon::now()
         ]);
 
