@@ -10,7 +10,7 @@
                 <div class="badge badge-dark">No</div>
             @endif    
         </td>
-        <td><button class="btn btn-sm btn-warning"><a href="{{url('variations-options-list')}}/{{encrypt($variation->id)}}" style="color: black">View Options</a></button></td>
+        <td><button class="btn btn-sm btn-warning"><a href="{{route('admin.variations.variationsoptionslist', encrypt($variation->id))}}" style="color: black">View Options</a></button></td>
         <td>
             @if($variation->active==1)
                 <div class="badge badge-success">Active</div>

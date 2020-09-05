@@ -128,7 +128,7 @@
                                                         </div>
                                                         <div class="card-header">
                                                             <div>
-                                                                <h4 class="card-title"><b>Add Option in This variant</b></h4><br><br>
+                                                                <h4 class="card-title"><b>Add Option in This variant (optional)</b></h4><br><br>
                                                             </div>
                                                         </div>        
                                                         <div class="col-12" id="form">
@@ -137,7 +137,11 @@
                                                                     <span>Option Name</span>
                                                                 </div>
                                                                 <div class="col-md-6">
+<<<<<<< HEAD
                                                                     <input type="text" name="option_name[]" class="form-control">
+=======
+                                                                    {{-- <input type="text" id="singleOption" name="option_name" class="form-control"> --}}
+>>>>>>> aec6336399b0ca100f7907165c435449a693ef7e
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <button class="btn btn-warning" type="button" onclick="appenddToForm('text')">Add new Option</button>
@@ -213,6 +217,8 @@
 
     // Append new rows
         function appenddToForm(type){
+
+            // $('#singleOption').attr('name', 'option_name[]');
 
         if(type == 'text'){
                 var str = '<div class="form-group row">'
