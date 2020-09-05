@@ -14,7 +14,7 @@
 
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
-    <li class="breadcrumb-item active">Variations</li>
+    <li class="breadcrumb-item active">Variations List</li>
 @endsection    
 @section('content')                                
             <div class="content-body">
@@ -27,7 +27,7 @@
                             <div class="card-header justify-content-between">
                                 <div class="d-flex">
                                     <h4 class="card-title mr-1">Variatons List</h4>
-                                    <a class="btn btn-primary btn-sm" href="{{Route('variations.addvariation')}}">Add new</a>
+                                    <a class="btn btn-primary btn-sm" href="{{Route('admin.variations.addvariation')}}">Add new</a>
                                 </div>
                                 <div>
                                     <input type="text" id="searchKey__" placeholder="Search">
@@ -61,7 +61,7 @@
 
                                             </tbody>
                                         </table>
-                                        <input type="hidden" id="hidden__action_url" value="/variations-ajax-pagination/fetch">
+                                        <input type="hidden" id="hidden__action_url" value="{{ route('admin.variations.ajaxPagination') }}">
                                         <input type="hidden" id="hidden__page_number" value="1">
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">

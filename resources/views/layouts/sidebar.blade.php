@@ -25,39 +25,38 @@
                         <ul class="dropdown-menu">
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Ecommerce"><i class="feather icon-circle"></i>Categories</a>
                                 <ul class="dropdown-menu">
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('category.categorylist')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Active Categories</a>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.category.categorylist')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Active Categories</a>
                                     </li>
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('category.disablecategoryList')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Disable Categories</a>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.category.disablecategoryList')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Disable Categories</a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Ecommerce"><i class="feather icon-circle"></i>Brands</a>
                                 <ul class="dropdown-menu">
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('brands.brandslist')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Brands</a>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.brands.brandslist')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Brands</a>
                                     </li>
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('brands.disablebrandslist')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Disable Brands</a>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.brands.disablebrandslist')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Disable Brands</a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Ecommerce"><i class="feather icon-circle"></i>Variations</a>
                                 <ul class="dropdown-menu">
-                                    <li data-menu=""><a class="dropdown-item" href="{{ Route('variations.variationslist')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Variations</a>
+                                    <li data-menu=""><a class="dropdown-item" href="{{ Route('admin.variations.variationslist')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Variations</a>
                                     </li>
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('variations.disablevariationslist')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Disable Variations</a>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.variations.disablevariationslist')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Disable Variations</a>
                                     </li>
                                     {{-- <li data-menu=""><a class="dropdown-item" href="{{Route('variations.addvariationsoption')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Add Option to Variations</a>
                                     </li> --}}
                                     {{-- <li data-menu=""><a class="dropdown-item" href="{{Route('variations.variationsoptionslist')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Variations Options</a>
                                     </li> --}}
+
                                 </ul>
                             </li>
 
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Ecommerce"><i class="feather icon-circle"></i>Custom Fields</a>
                                 <ul class="dropdown-menu">
-                                    <li data-menu=""><a class="dropdown-item" href="{{ url('customfield-list')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Custom Fields</a>
+                                    <li data-menu=""><a class="dropdown-item" href="{{ route('admin.customFieldList.get')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Custom Fields</a>
                                     </li>
-                                    {{-- <li data-menu=""><a class="dropdown-item" href="{{Route('variations.disablevariationslist')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Disable Variations</a>
-                                    </li> --}}
                                 </ul>
                             </li>
                         </ul>

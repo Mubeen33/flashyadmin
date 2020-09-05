@@ -1,12 +1,13 @@
 @foreach($data as $key=>$content)
+    @if($content->deleted_at != NULL)
     <tr>
         <th scope="row">{{ $key+1 }}</th>
         <td>{{ $content->first_name }}</td>                                          
         <td>{{ $content->last_name }}</td>
         <td>{{ $content->email }}</td>
         <td>{{ $content->phone }}</td>
+        <td><span class="badge badge-danger">Blocked</span></td>
         <td>{{ $content->created_at->format('d/m/Y') }}</td>
-        <td>{{ $content->updated_at->format('d/m/Y') }}</td>
         <td>
             <div class="btn-group mb-1">
                 <div class="dropdown">
@@ -22,6 +23,7 @@
             
         </td>
     </tr>
+    @endif
 @endforeach
     <tr>
         <td colspan="7">{!! $data->links() !!}</td>

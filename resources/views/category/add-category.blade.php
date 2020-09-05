@@ -11,13 +11,13 @@
 
 @section('breadcrumbs')
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Forms</a></li>
+        <li class="breadcrumb-item"><a href="#">Add Category</a></li>
 @endsection    
 @section('content')         
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form id="formWithFile__" action="{{url('add-category')}}" method="post" enctype="multipart/form-data">
+                    <form id="formWithFile__" action="{{route('admin.addCategory.post')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row match-height">
                             

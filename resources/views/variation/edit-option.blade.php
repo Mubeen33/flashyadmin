@@ -8,13 +8,13 @@
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form action="{{url('update-option')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.updateOption.post')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="id" value="{{$variantOption->id}}">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title"><b>Add Variation</b></h4>
+                                        <h4 class="card-title"><b>Add Variaton</b></h4>
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">

@@ -1,14 +1,14 @@
 @extends('layouts.master')
-@section('page-title','Add Variations')
+@section('page-title','Add Option')
 @section('breadcrumbs')
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Forms</a></li>
+        <li class="breadcrumb-item"><a href="#">Add Option</a></li>
 @endsection    
 @section('content')         
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form action="{{url('submit-option')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.addOption.post')}}" method="post" enctype="multipart/form-data">
                         @csrf
                             <div class="col-12">
                                 <div class="card">

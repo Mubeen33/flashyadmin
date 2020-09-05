@@ -66,8 +66,8 @@
                                                                         Actions
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                                                                        <a class="dropdown-item" href="{{url('option-edit')}}/{{encrypt($option->id)}}">Edit</a>
-                                                                        <a class="dropdown-item" href="{{url('option-delete')}}/{{encrypt($option->id)}}">Delete</a>
+                                                                        <a class="dropdown-item" href="{{route('admin.optionEdit.get', encrypt($option->id))}}">Edit</a>
+                                                                        <a class="dropdown-item" href="{{route('admin.optionDelete.post', encrypt($option->id))}}">Delete</a>
                                                                     </div>
                                                                 </div>
                                                             </div>

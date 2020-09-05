@@ -1,8 +1,8 @@
 @extends('layouts.master')
-@section('page-title','Brands')
+@section('page-title','Custom Fields List')
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
-    <li class="breadcrumb-item active">Brands</li>
+    <li class="breadcrumb-item active">Custom Fields List</li>
 @endsection    
 @section('content')                                
             <div class="content-body">
@@ -13,7 +13,7 @@
                     <div class="col-12">
                         <div class="row">
                             <div class="col offset-10">
-                                <button class="btn btn-primary"><a href="{{url('add-customfields')}}" style="text-decoration: none;color: #fff">Add new</a></button>
+                                <a class="btn btn-primary" href="{{route('admin.addCustomField.get')}}">Add new</a>
                             </div>
                         </div>
                         <div class="card">

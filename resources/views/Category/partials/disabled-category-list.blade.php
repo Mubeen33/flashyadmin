@@ -23,7 +23,7 @@
         @endif
     </td>
         <td> 
-            <a href="{{url('category-active')}}/{{$item->id}}"><i class="feather icon-check"></i></a>
+            <a href="{{route('admin.categoryActive.post', $item->id)}}"><i class="feather icon-check"></i></a>
         </td>
     </tr>
     @endforeach

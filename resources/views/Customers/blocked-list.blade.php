@@ -52,8 +52,8 @@
                                                     <th class="sortAble" sorting-column='last_name' sorting-order=''>Last Name</th>
                                                     <th class="sortAble" sorting-column='email' sorting-order=''>Email</th>
                                                     <th class="sortAble" sorting-column='phone' sorting-order=''>Phone</th>
+                                                    <th>Status</th>
                                                     <th>Join Date</th>
-                                                    <th>Blocked Date</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -61,7 +61,7 @@
                                                 @include('Customers.partials.blocked-customers-list')
                                             </tbody>
                                         </table>
-                                        <input type="hidden" id="hidden__action_url" value="/customers-ajax-pagination/fetch">
+                                        <input type="hidden" id="hidden__action_url" value="{{ route('admin.customers.ajaxPgination') }}">
                                         <input type="hidden" id="hidden__page_number" value="1">
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">

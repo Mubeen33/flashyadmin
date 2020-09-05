@@ -2,13 +2,13 @@
 @section('page-title','Add Variations')
 @section('breadcrumbs')
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Forms</a></li>
+        <li class="breadcrumb-item"><a href="#">Add Variations</a></li>
 @endsection    
 @section('content')         
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form action="{{url('submit-variation-option')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.addVaritaionOption.post')}}" method="post" enctype="multipart/form-data">
                         @csrf
                             <div class="col-12">
                                 <div class="card">

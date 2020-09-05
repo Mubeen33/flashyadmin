@@ -26,7 +26,7 @@
                             <div class="card-header justify-content-between">
                                 <div class="d-flex">
                                     <h4 class="card-title mr-1">Brands List</h4> 
-                                    <a class="btn btn-success btn-sm" href="{{Route('brands.addbrand')}}">Add new</a>
+                                    <a class="btn btn-success btn-sm" href="{{Route('admin.brands.addbrand')}}">Add new</a>
                                 </div>
                                 <div>
                                     <input type="text" id="searchKey__" placeholder="Search">
@@ -59,7 +59,7 @@
 
                                             </tbody>
                                         </table>
-                                        <input type="hidden" id="hidden__action_url" value="/brands-ajax-pagination/fetch">
+                                        <input type="hidden" id="hidden__action_url" value="{{ route('admin.brands.ajaxPgination') }}">
                                         <input type="hidden" id="hidden__page_number" value="1">
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">

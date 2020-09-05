@@ -293,7 +293,7 @@ class CategoryController extends Controller
     	$Categories          = Category::find($id);
     	$Categories->deleted = 0;
     	if ($Categories->save()) {
-        	return redirect("category-list")->with('msg','<div class="alert alert-success" id="msg">Category Active Successfully!</div>');
+        	return redirect()->back()->with('msg','<div class="alert alert-success" id="msg">Category Active Successfully!</div>');
         }
     }
 
@@ -306,7 +306,7 @@ class CategoryController extends Controller
     	$Categories->deleted  = 1;
     	if ($Categories->save()) {
 
-        	return redirect("disable-categories-list")->with('msg','<div class="alert alert-success" id="msg">Category Disable Successfully!</div>');
+        	return redirect()->back()->with('msg','<div class="alert alert-success" id="msg">Category Disable Successfully!</div>');
         }
     }
 

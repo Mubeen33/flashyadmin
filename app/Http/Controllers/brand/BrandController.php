@@ -151,7 +151,7 @@ class BrandController extends Controller
     	$brand              = Brand::find($id);
     	$brand->active      = 'Y';
     	if ($brand->save()) {
-        	return redirect("brands-list")->with('msg','<div class="alert alert-success" id="msg">Brand Active Successfully!</div>');
+        	return redirect()->back()->with('msg','<div class="alert alert-success" id="msg">Brand Active Successfully!</div>');
         }
     }
 
@@ -163,7 +163,7 @@ class BrandController extends Controller
     	$brand              = Brand::find($id);
     	$brand->active      = 'N';
     	if ($brand->save()) {
-        	return redirect("disable-brands-list")->with('msg','<div class="alert alert-success" id="msg">Brand Disable Successfully!</div>');
+        	return redirect()->back()->with('msg','<div class="alert alert-success" id="msg">Brand Disable Successfully!</div>');
         }
     }
 

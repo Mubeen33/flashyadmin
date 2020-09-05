@@ -9,7 +9,7 @@
             @endif    
         </td>
         <td>
-            <a href="{{url('brand-active', encrypt($brand->id))}}"><i class="feather icon-check"></i></a>
+            <a href="{{route('admin.activeBrand.post', encrypt($brand->id))}}"><i class="feather icon-check"></i></a>
         </td>
     </tr>
 @endforeach

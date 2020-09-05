@@ -11,13 +11,13 @@
 
 @section('breadcrumbs')
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Forms</a></li>
+        <li class="breadcrumb-item"><a href="#">Edit Brand</a></li>
 @endsection    
 @section('content')         
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form id="brandAddForm_" action="{{url('update-brand')}}" method="post" enctype="multipart/form-data">
+                    <form id="brandAddForm_" action="{{route('admin.updateBrand.post')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row match-height">
                             <div class="col-12">
