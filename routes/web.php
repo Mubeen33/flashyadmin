@@ -105,19 +105,19 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
 
   // Variation routes
   Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
-  Route::post('submit-variation','variation\VariationController@createVariation');
+  Route::post('submit-variation','variation\VariationController@createVariation')->name('addVariaton.post');
   Route::get('variations-list','variation\VariationController@variationsList')->name('variations.variationslist');
   Route::get('disable-variations-list','variation\VariationController@disableVariationsList')->name('variations.disablevariationslist');
-  Route::get('variation-edit/{id}','variation\VariationController@editVariation');
+  Route::get('variation-edit/{id}','variation\VariationController@editVariation')->name('variationEdit.get');
   Route::post('update-variation','variation\VariationController@updateVariation');
-  Route::get('variations-ajax-pagination/fetch','variation\VariationController@fetch_paginate_data');
-  Route::get('variation-disable/{id}','variation\VariationController@disableAVariation');
-  Route::get('variation-active/{id}','variation\VariationController@activeVariation');
+  Route::get('variations-ajax-pagination/fetch','variation\VariationController@fetch_paginate_data')->name('variations.ajaxPagination');
+  Route::get('variation-disable/{id}','variation\VariationController@disableAVariation')->name('variationDisable.post');
+  Route::get('variation-active/{id}','variation\VariationController@activeVariation')->name('variationActive.post');
 
   // variant options
   Route::get('add-variations-options','variation\VariationController@addvariationsoption')->name('variations.addvariationsoption');
   Route::get('variations-options-list','variation\VariationController@variationsOptionsList')->name('variations.variationsoptionslist');
-  Route::post('submit-variation-option','variation\VariationController@createOption');
+  Route::post('submit-variation-option','variation\VariationController@createOption')->name('addVaritaionOption.post');
   Route::get('variation-option-edit/{id}','variation\VariationController@editOption');
   Route::post('update-variation-option','variation\VariationController@updateOption');
   Route::get('variation-option-delete/{id}','variation\VariationController@deleteOption');
@@ -126,7 +126,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::post('update-option','variation\VariationController@updateOptionOptions');
   Route::get('option-delete/{id}','variation\VariationController@deleteOptionOptions');
   Route::get('add-options/{id}','variation\VariationController@addOption');
-  Route::post('submit-option','variation\VariationController@createOptionOptions');
+  Route::post('submit-option','variation\VariationController@createOptionOptions')->name('addOption.post');
   // End Variation Routes
 
   // Add Custom Fields

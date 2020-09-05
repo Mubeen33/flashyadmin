@@ -17,7 +17,7 @@
                 @endif    
             </td>
             <td>
-                <a href="{{url('variation-active', encrypt($variation->id))}}"><i class="feather icon-check"></i></a>
+                <a href="{{route('admin.variationActive.post', encrypt($variation->id))}}"><i class="feather icon-check"></i></a>
             </td>
         </tr>
     @endforeach

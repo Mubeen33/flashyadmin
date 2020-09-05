@@ -95,7 +95,7 @@ class VariationController extends Controller
 
         if ($variation->save()) {
           	
-        	return redirect("variations-list")->with('msg','<div class="alert alert-success" id="msg">Variation update Successfully!</div>');
+        	return redirect()->back()->with('msg','<div class="alert alert-success" id="msg">Variation update Successfully!</div>');
        
         } 
     }
@@ -110,7 +110,7 @@ class VariationController extends Controller
 
     	if ($variation->save()) {
           	
-        	return redirect("disable-variations-list")->with('msg','<div class="alert alert-success" id="msg">Variation Disable Successfully!</div>');
+        	return redirect()->back()->with('msg','<div class="alert alert-success" id="msg">Variation Disable Successfully!</div>');
        
         }
     }
@@ -133,7 +133,7 @@ class VariationController extends Controller
 
     	if ($variation->save()) {
           	
-        	return redirect("variations-list")->with('msg','<div class="alert alert-success" id="msg">Variation Active Successfully!</div>');
+        	return redirect()->back()->with('msg','<div class="alert alert-success" id="msg">Variation Active Successfully!</div>');
        
         }
     }
@@ -161,7 +161,7 @@ class VariationController extends Controller
         
         }
 
-        return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option added Successfully!</div>');
+        return redirect()->back()->with('msg','<div class="alert alert-success" id="msg">Option added Successfully!</div>');
     }
 
     // variationsOptionsList
@@ -195,7 +195,7 @@ class VariationController extends Controller
 
         if ($variantOption->save()) {
             
-            return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option updated Successfully!</div>');
+            return redirect()->back()->with('msg','<div class="alert alert-success" id="msg">Option updated Successfully!</div>');
        
         }
     } 
@@ -208,7 +208,7 @@ class VariationController extends Controller
         $variantOption = VariationOption::find($id);
         if ($variantOption->delete()) {
             
-            return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option removed Successfully!</div>');
+            return redirect()->back()->with('msg','<div class="alert alert-success" id="msg">Option removed Successfully!</div>');
        
         }
 
@@ -237,7 +237,7 @@ class VariationController extends Controller
         
         }
 
-        return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option added Successfully!</div>');
+        return redirect()->back()->with('msg','<div class="alert alert-success" id="msg">Option added Successfully!</div>');
     }
 
     // OptionsList
@@ -273,7 +273,7 @@ class VariationController extends Controller
 
         if ($variantOption->save()) {
             
-            return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option updated Successfully!</div>');
+            return redirect()->back()->with('msg','<div class="alert alert-success" id="msg">Option updated Successfully!</div>');
        
         }
     }
@@ -287,7 +287,7 @@ class VariationController extends Controller
         $variantOption = VariantOptionOptions::find($id);
         if ($variantOption->delete()) {
             
-            return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option removed Successfully!</div>');
+            return redirect()->back()->with('msg','<div class="alert alert-success" id="msg">Option removed Successfully!</div>');
        
         }
 

@@ -23,8 +23,8 @@
                     Actions
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                    <a class="dropdown-item" href="{{url('variation-edit', encrypt($variation->id))}}">Edit</a>
-                    <a class="dropdown-item" href="{{url('variation-disable', encrypt($variation->id))}}">Disable</a>
+                    <a class="dropdown-item" href="{{route('admin.variationEdit.get', encrypt($variation->id))}}">Edit</a>
+                    <a class="dropdown-item" href="{{route('admin.variationDisable.post', encrypt($variation->id))}}">Disable</a>
                 </div>
             </div>
         </div>
