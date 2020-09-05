@@ -63,10 +63,10 @@
                                                                 @endif
                                                         </td>
                                                         <td>
-                                                            <button class="btn btn-sm btn-info"><a href="{{url('add-options')}}/{{encrypt($option->id)}}" style="color: black">Add Options</a></button>
+                                                            <button class="btn btn-sm btn-info"><a href="{{url('admin/add-options')}}/{{encrypt($option->id)}}" style="color: black">Add Options</a></button>
                                                         </td>
                                                         <td>
-                                                            <button class="btn btn-sm btn-warning"><a href="{{url('options-list')}}/{{encrypt($option->id)}}" style="color: black">View Options</a></button>
+                                                            <button class="btn btn-sm btn-warning"><a href="{{url('admin/options-list')}}/{{encrypt($option->id)}}" style="color: black">View Options</a></button>
                                                         </td>
                                                         <td>
                                                             <div class="btn-group">

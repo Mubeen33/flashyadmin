@@ -52,7 +52,8 @@ class VariationController extends Controller
         $variation->is_select                = $request->is_select;
         $variation->save();
         $Id = $variation->id;
-        if ($request->option_name) {
+       
+        if (!empty($request->has('option_name'))) {
             
         
             foreach ($request->option_name as $key => $value) {

@@ -84,7 +84,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 // End Categories
 
 
-Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
+// Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
 
 
 
@@ -191,7 +191,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
 
   // variant options
   Route::get('add-variations-options','variation\VariationController@addvariationsoption')->name('variations.addvariationsoption');
-  Route::get('variations-options-list','variation\VariationController@variationsOptionsList')->name('variations.variationsoptionslist');
+  Route::get('variations-options-list{id}','variation\VariationController@variationsOptionsList')->name('variations.variationsoptionslist');
   Route::post('submit-variation-option','variation\VariationController@createOption')->name('addVaritaionOption.post');
   Route::get('variation-option-edit/{id}','variation\VariationController@editOption')->name('variationOptionEdit.get');
   Route::post('update-variation-option','variation\VariationController@updateOption')->name('updateVariationOption.post');
