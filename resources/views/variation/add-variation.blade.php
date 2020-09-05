@@ -17,7 +17,7 @@
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form id="addVariationForm_" action="{{url('submit-variation')}}" method="post" enctype="multipart/form-data">
+                    <form id="addVariationForm_" action="{{url('admin/submit-variation')}}" method="post" enctype="multipart/form-data">
                         @csrf
                             <div class="col-12">
                                 <div class="card">

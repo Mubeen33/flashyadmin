@@ -13,7 +13,7 @@
 
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
-    <li class="breadcrumb-item active">Table</li>
+    <li class="breadcrumb-item active">Disabled Brands</li>
 @endsection    
 @section('content')                                
             <div class="content-body">
@@ -55,7 +55,7 @@
                                             </tbody>
                                         </table>
                                         
-                                        <input type="hidden" id="hidden__action_url" value="/brands-ajax-pagination/fetch">
+                                        <input type="hidden" id="hidden__action_url" value="{{ route('admin.brands.ajaxPgination') }}">
                                         <input type="hidden" id="hidden__page_number" value="1">
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">

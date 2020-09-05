@@ -17,7 +17,7 @@
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form id="edit_categoryForm" action="{{url('update-category')}}" method="post" enctype="multipart/form-data">
+                    <form id="edit_categoryForm" action="{{route('admin.updateCategory.post')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row match-height">
                             <div class="col-md-12 col-12">

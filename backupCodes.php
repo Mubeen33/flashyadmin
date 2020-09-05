@@ -1,175 +1,175 @@
 <?php
 
-namespace App\Http\Controllers\Popup;
-
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\FileUploader;
+use App\Category;
 use Illuminate\Http\Request;
-use App\Popup;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Route;
 
-class PopupController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $data = Popup::orderBy('id', 'DESC')->paginate(5);
-        return view('Popup.index', compact('data'));
-    }
+// Route::get('add-customfields', function () {
+//     return view('customfields.add-customfields');
+// });
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('Popup.create');
-    }
+Auth::routes();
+Route::get('/', 'HomeController@checkLogin');
+Route::get('/home', 'HomeController@index')->name('home');
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //store sliders
-        $validation = Validator::make($request->all(), [
-            'name'=>'required|string|max:70|unique:popups',
-            'title'=>'required|string|max:80',
-            'description'=>'nullable|string|max:150',
-            'button_text'=>'nullable|string|max:20',
-            'button_background'=>'nullable|string',
-            'button_text_color'=>'nullable|string',
-            'button_link'=>'nullable|url',
-            'popup_background_image'=>'nullable|image:png,jpeg,jpg,gif|max:1000|dimensions:width=830,height=398',
-            'start_time'=>'required|date',
-            'end_time'=>'required|date',
-            'url_list'=>'required|string|max:3000'
-        ]);
+// Route::get('/add-product', 'HomeController@addProduct');
 
-        if ($validation->fails()) {
-            foreach ($validation->messages()->get('*') as $key => $value) {
-                $value = json_encode($value);
-                $text = str_replace('["', "", $value);
-                $text = str_replace('"]', "", $text);
-                return response()->json([
-                    'field'=>$key,
-                    'targetHighlightIs'=>"",
-                    'msg'=>$text,
-                    'need_scroll'=>"yes"
-                ], 422);
-            }
-        }
 
-        $current = Carbon::now();
-        $today = $current->format('Y-m-d');
-        if ($today > (date('Y-m-d', strtotime($request->start_time)))) {
-            return response()->json([
-                    'field'=>"start_time",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"SORRY - Start Time can not be backdate",
-                    'need_scroll'=>"no"
-                ], 422);
-        }
 
-        if (date('Y-m-d', strtotime($request->start_time)) >= date('Y-m-d', strtotime($request->end_time))) {
-            return response()->json([
-                    'field'=>"end_time",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"SORRY - End Time can not be equal or less of Start Time",
-                    'need_scroll'=>"no"
-                ], 422);
-        }
+Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], function(){
+    //vendors controller
+    Route::resource('vendors', 'Vendors\VendorController');
+    Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
+  Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
+  //ajax requests
+  Route::get('vendors-ajax-pagination/fetch', 'Vendors\VendorController@fetch_paginate_data');
+  
+  //add vendor
+  Route::get('vendor-add', 'Vendors\VendorController@add_vendor_form')->name('vendor.addvendor.get');
+  Route::post('vendor-add', 'Vendors\VendorController@add_vendor_post')->name('vendor.addvendor.post');
 
-        //insert image
-        $obj_fu = new FileUploader();
-        $popupBG = NULL;
-        $location = "upload-images/popup/";
-        if($request->hasFile('popup_background_image')){
-            $fileName ='popup-bg-'.uniqid();
-            $fileName__ = $obj_fu->fileUploader($request->file('popup_background_image'), $fileName, $location);
-            $popupBG = $fileName__;
-        }
 
-        $url = url('/');
+  //vendor activity
+  Route::get('vendors-activity','Vendors\VendorController@vendors_activitities')->name("vendor.activities.get");
+  Route::get('ajax/vendors-activity-list/fetch','Vendors\VendorController@vendors_activitities_ajax');
+  Route::get('vendor/activity/{vendorID}','Vendors\VendorController@vendor_actitvity')->name('vendor.activity.get');
+  Route::post('vendor/activity','Vendors\VendorController@delete_vendor_activity')->name('vendor.activityDelete.post');
+  Route::get('signle-vendor-activity-ajax/fetch','Vendors\VendorController@ajax_single_vendor_actitvity');
+    
+  //vendor bank details updates
+  Route::get('vendor/bank-updates','Vendors\VendorController@get_bank_updates')->name('vendor.bankUpdates.get');
+  Route::post('vendor/bank-updates','Vendors\VendorController@approve_bank_updates')->name('vendor.bankUpdatesApprove.post');
+  Route::get('vendors-bankupdates-request-ajax/fetch','Vendors\VendorController@ajax__vendors_bank_updates_requet');
 
-        //insert
-        $created = Popup::insert([
-            'name'=>$request->name,
-            'title'=>$request->title,
-            'description'=>$request->description,
-            'button_text'=>$request->button_text,
-            'button_background'=>$request->button_background,
-            'button_text_color'=>$request->button_text_color,
-            'popup_background_image'=>($popupBG === NULL ? NULL : $url."/".$location.$popupBG),
-            'start_time'=>$request->start_time,
-            'end_time'=>$request->end_time,
-            'url_list'=>$request->url_list,
-            'created_at'=>Carbon::now()
-        ]);
+  //slider routes
+    Route::resource('sliders', 'Slider\SliderController');
+    Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
+  Route::get('sliders-ajax-pagination/fetch', 'Slider\SliderController@fetch_paginate_data');
 
-        if ($created == true) {
-            return response()->json([
-                    'success'=>true,
-                    'msg'=>"Popup Created",
-            ], 200);
-        }else{
-            return response()->json("Something went wrong, please try again later", 500);
-        }
-    }
+  //Banner routes
+  Route::resource('banners', 'Banner\BannerController');
+  Route::get('ads-banners/create', 'Banner\BannerController@create_ads_banner')->name('ads-banner.create');
+  Route::get('ads-banners', 'Banner\BannerController@ads_banner_index')->name('ads-banner.index');
+  Route::get('banner/delete/{id}', 'Banner\BannerController@delete_banner')->name('banner.delete');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+   //customers
+   Route::resource('customers', 'Customers\CustomerController');
+   Route::get('block-customers', 'Customers\CustomerController@block_customers_list')->name('blockedCustomers.get');
+   Route::get('block-customer/{id}', 'Customers\CustomerController@block_customer')->name('blockCustomer');
+   Route::get('show-block-customer/{id}', 'Customers\CustomerController@show_block_customer')->name('showBlockCustomer.get');
+   Route::get('unblock-customer/{id}', 'Customers\CustomerController@unblock_customer')->name('unblockCustomer');
+   Route::get('customers-ajax-pagination/fetch', 'Customers\CustomerController@fetch_paginate_data');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $id = \Crypt::decrypt($id);
-        $data = Popup::findOrFail($id);
-        return view('Popup.edit', compact('data'));
-    }
+   //signup contents
+   Route::resource('signup-contents', 'Auth\SignupContentsController');
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+   //coupons routes
+   Route::resource('coupons', 'Coupons\CouponController');
+   Route::get('coupon-delete/{id}', 'Coupons\CouponController@delete')->name('coupon.delete');
+   Route::post('coupon-action', 'Coupons\CouponController@active_inactive')->name('coupon.activeInactive.post');
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-}
+   //email templates
+   Route::resource('email-templates', 'emailTemplates\EmailTemplateController');
+   Route::get('get-email-template', 'emailTemplates\EmailTemplateController@get_template');
+
+   //deals routes
+   Route::resource('vendor-deals', "Deals\DealController");
+   Route::get('pending-deals', "Deals\DealController@get_pending_deals")->name('vendorDeals.pending.get');
+   Route::get('pending-deals-approve/{id}', "Deals\DealController@approve_deal")->name('vendor.deal.approve');
+
+   //popup routes
+   Route::resource('popup', 'Popup\PopupController');
+
+
+  
+
+
+
+  // General Route
+  Route::post('/get_subcategories/{id}','HomeController@getSubcategories')->name('subCategories.get');
+  Route::post('/get_categories_commission/{id}','HomeController@getCategoriesCommission')->name('subCategories.post');
+
+
+  // brands Route
+  Route::get('add-brand','HomeController@addBrands')->name('brands.addbrand');
+  Route::get('brands-list','brand\BrandController@brandsList')->name('brands.brandslist');
+  Route::get('brands','brand\BrandController@brandsList')->name('brands.brands');
+  Route::get('disable-brands-list','brand\BrandController@disableBrandsList')->name('brands.disablebrandslist');
+  Route::post('add-brand','brand\BrandController@createBrand')->name('addBrand.post');
+  Route::get('brand-edit/{id}','brand\BrandController@editBrand')->name('brandEdit.get');
+  Route::get('brand-disable/{id}','brand\BrandController@disableABrand')->name('disabledBrand.single');
+  Route::post('update-brand','brand\BrandController@updateBrand')->name('updateBrand.post');
+  Route::get('brand-active/{id}','brand\BrandController@activeBrand')->name('activeBrand.post');
+  Route::get('brands-ajax-pagination/fetch', 'brand\BrandController@fetch_paginate_data')->name('brands.ajaxPgination');
+  // 
+
+  // Variation routes
+  Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
+  Route::post('submit-variation','variation\VariationController@createVariation');
+  Route::get('variations-list','variation\VariationController@variationsList')->name('variations.variationslist');
+  Route::get('disable-variations-list','variation\VariationController@disableVariationsList')->name('variations.disablevariationslist');
+  Route::get('variation-edit/{id}','variation\VariationController@editVariation');
+  Route::post('update-variation','variation\VariationController@updateVariation');
+  Route::get('variations-ajax-pagination/fetch','variation\VariationController@fetch_paginate_data');
+  Route::get('variation-disable/{id}','variation\VariationController@disableAVariation');
+  Route::get('variation-active/{id}','variation\VariationController@activeVariation');
+
+  // variant options
+  Route::get('add-variations-options','variation\VariationController@addvariationsoption')->name('variations.addvariationsoption');
+  Route::get('variations-options-list','variation\VariationController@variationsOptionsList')->name('variations.variationsoptionslist');
+  Route::post('submit-variation-option','variation\VariationController@createOption');
+  Route::get('variation-option-edit/{id}','variation\VariationController@editOption');
+  Route::post('update-variation-option','variation\VariationController@updateOption');
+  Route::get('variation-option-delete/{id}','variation\VariationController@deleteOption');
+  Route::get('options-list/{id}','variation\VariationController@OptionsList');
+  Route::get('option-edit/{id}','variation\VariationController@editOptionOptions');
+  Route::post('update-option','variation\VariationController@updateOptionOptions');
+  Route::get('option-delete/{id}','variation\VariationController@deleteOptionOptions');
+  Route::get('add-options/{id}','variation\VariationController@addOption');
+  Route::post('submit-option','variation\VariationController@createOptionOptions');
+  // End Variation Routes
+
+  // Add Custom Fields
+
+  Route::get('add-customfields','customfields\CustomfieldController@addCustomFieldsView')->name('addCustomField.get');
+  Route::post('submit-customfield','customfields\CustomfieldController@createCustomFields')->name('addCustomField.post');
+  Route::get('customfield-list','customfields\CustomfieldController@customFieldList')->name('customFieldList.get');
+  
+  // categories
+  Route::get('add-category','category\CategoryController@index')->name('addCategory.get');
+  Route::get('category-list','category\CategoryController@categoryList')->name('category.categorylist');
+  Route::get('disable-categories-list','category\CategoryController@disablecategoryList')->name('category.disablecategoryList');
+  Route::post('add-category','category\CategoryController@createcategory')->name('addCategory.post');
+  Route::get('category-edit/{id}','category\CategoryController@editcategory')->name('categoryEdit.get');
+  Route::post('update-category','category\CategoryController@updatecategory')->name('updateCategory.post');
+  Route::get('category-active/{id}','category\CategoryController@activecategory')->name('categoryActive.post');
+  Route::get('category-disable/{id}','category\CategoryController@disableAcategory')->name('categoryDisable.post');
+  Route::Post('get_child','category\CategoryController@getChild')->name('get_child');
+  Route::Post('getparent','category\CategoryController@getparent')->name('getparent');
+  Route::get('categories-ajax-pagination/fetch','category\CategoryController@fetch_paginate_data')->name('admin.categories.ajaxPgination');
+  // End Categories
+
+
+  Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
+  Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
+  // files added by asad ..
+  Route::get("/test/page",function(){
+      return view("vendors");
+  });
+  // order page ..
+  Route::get("/test/order",function(){
+    return view("order");
+  });
+  // order view page ..
+  Route::get("/test/order/view",function(){
+    return view("orderview");
+  });
+});
+
+
+
+
+
+
+
+

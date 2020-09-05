@@ -17,7 +17,7 @@
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form id="brandAddForm_" action="{{url('add-brand')}}" method="post" enctype="multipart/form-data">
+                    <form id="brandAddForm_" action="{{route('admin.brands.addbrand')}}" method="post" enctype="multipart/form-data">
                         @csrf
                             <div class="col-12">
                                 <div class="card">
@@ -26,7 +26,7 @@
                                             <h4 class="card-title"><b>Add Brands</b></h4>
                                         </div>
                                         <div>
-                                            <a class="btn btn-primary btn-sm" href="{{Route('brands.brandslist')}}">Brands</a>
+                                            <a class="btn btn-primary btn-sm" href="{{Route('admin.brands.brandslist')}}">Brands</a>
                                         </div>
                                     </div>
                                     <div class="card-content">

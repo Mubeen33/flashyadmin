@@ -26,8 +26,8 @@
                         Actions
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                        <a class="dropdown-item" href="{{url('category-edit')}}/{{encrypt($item->id)}}">Edit</a>
-                        <a class="dropdown-item" href="{{url('category-disable')}}/{{$item->id}}">Disable</a>
+                        <a class="dropdown-item" href="{{route('admin.categoryEdit.get')}}/{{encrypt($item->id)}}">Edit</a>
+                        <a class="dropdown-item" href="{{route('admin.categoryDisable.post')}}/{{$item->id}}">Disable</a>
                     </div>
                 </div>
             </div>

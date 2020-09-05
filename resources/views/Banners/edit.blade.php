@@ -42,13 +42,13 @@
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <label>Start Time</label>
-                                                    <input type="date" name="start_time" required="1" class="form-control" value="{{ $data->start_time }}">
+                                                    <input type="date" name="start_time" class="form-control" value="{{ $data->start_time }}">
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <label>End Time</label>
-                                                    <input type="date" name="end_time" required="1" class="form-control" value="{{ $data->end_time }}">    
+                                                    <input type="date" name="end_time" class="form-control" value="{{ $data->end_time }}">    
                                                 </div>
                                             </div>
                                         </div>

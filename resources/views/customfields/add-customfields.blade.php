@@ -2,13 +2,13 @@
 @section('page-title','Add CustomFeilds')
 @section('breadcrumbs')
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Forms</a></li>
+        <li class="breadcrumb-item"><a href="#">Custom Feilds</a></li>
 @endsection    
 @section('content')         
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form action="{{url('submit-customfield')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.addCustomField.post')}}" method="post" enctype="multipart/form-data">
                         @csrf
                             <div class="row match-height">
                                 
