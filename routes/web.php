@@ -13,76 +13,6 @@ Route::get('/', 'HomeController@checkLogin');
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-// Route::get('/add-product', 'HomeController@addProduct');
-
-// General Route
-
-// Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
-// Route::post('/get_categories_commission/{id}','HomeController@getCategoriesCommission');
-
-// // 
-
-// // brands Route
-// Route::get('add-brand','HomeController@addBrands')->name('brands.addbrand');
-// Route::get('brands-list','brand\BrandController@brandsList')->name('brands.brandslist');
-// Route::get('brands','brand\BrandController@brandsList')->name('brands.brands');
-// Route::get('disable-brands-list','brand\BrandController@disableBrandsList')->name('brands.disablebrandslist');
-// Route::post('add-brand','brand\BrandController@createBrand');
-// Route::get('brand-edit/{id}','brand\BrandController@editBrand');
-// Route::get('brand-disable/{id}','brand\BrandController@disableABrand');
-// Route::post('update-brand','brand\BrandController@updateBrand');
-// Route::get('brand-active/{id}','brand\BrandController@activeBrand');
-// Route::get('brands-ajax-pagination/fetch', 'brand\BrandController@fetch_paginate_data');
-// // 
-
-// // Variation routes
-// Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
-// Route::post('submit-variation','variation\VariationController@createVariation');
-// Route::get('variations-list','variation\VariationController@variationsList')->name('variations.variationslist');
-// Route::get('disable-variations-list','variation\VariationController@disableVariationsList')->name('variations.disablevariationslist');
-// Route::get('variation-edit/{id}','variation\VariationController@editVariation');
-// Route::post('update-variation','variation\VariationController@updateVariation');
-// Route::get('variations-ajax-pagination/fetch','variation\VariationController@fetch_paginate_data');
-// Route::get('variation-disable/{id}','variation\VariationController@disableAVariation');
-// Route::get('variation-active/{id}','variation\VariationController@activeVariation');
-
-// // variant options
-// Route::get('add-variations-options','variation\VariationController@addvariationsoption')->name('variations.addvariationsoption');
-// Route::get('variations-options-list/{id}','variation\VariationController@variationsOptionsList')->name('variations.variationsoptionslist');
-// Route::post('submit-variation-option','variation\VariationController@createOption');
-// Route::get('variation-option-edit/{id}','variation\VariationController@editOption');
-// Route::post('update-variation-option','variation\VariationController@updateOption');
-// Route::get('variation-option-delete/{id}','variation\VariationController@deleteOption');
-// Route::get('options-list/{id}','variation\VariationController@OptionsList');
-// Route::get('option-edit/{id}','variation\VariationController@editOptionOptions');
-// Route::post('update-option','variation\VariationController@updateOptionOptions');
-// Route::get('option-delete/{id}','variation\VariationController@deleteOptionOptions');
-// Route::get('add-options/{id}','variation\VariationController@addOption');
-// Route::post('submit-option','variation\VariationController@createOptionOptions');
-// // End Variation Routes
-
-// // Add Custom Fields
-
-// Route::get('add-customfields','customfields\CustomfieldController@addCustomFieldsView');
-// Route::post('submit-customfield','customfields\CustomfieldController@createCustomFields');
-// Route::get('customfield-list','customfields\CustomfieldController@customFieldList');
-// // categories
-// Route::get('add-category','category\CategoryController@index');
-// Route::get('category-list','category\CategoryController@categoryList')->name('category.categorylist');
-// Route::get('disable-categories-list','category\CategoryController@disablecategoryList')->name('category.disablecategoryList');
-// Route::post('add-category','category\CategoryController@createcategory');
-// Route::get('category-edit/{id}','category\CategoryController@editcategory');
-// Route::post('update-category','category\CategoryController@updatecategory');
-// Route::get('category-active/{id}','category\CategoryController@activecategory');
-// Route::get('category-disable/{id}','category\CategoryController@disableAcategory');
-// Route::Post('get_child','category\CategoryController@getChild')->name('get_child');
-// Route::Post('getparent','category\CategoryController@getparent')->name('getparent');
-// Route::get('categories-ajax-pagination/fetch','category\CategoryController@fetch_paginate_data');
-
-
-
-// End Categories
-
 
 Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], function(){
 
@@ -149,6 +79,9 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    //popup routes
    Route::resource('popup', 'Popup\PopupController');
 
+
+   //products categories
+   
 
   
 
