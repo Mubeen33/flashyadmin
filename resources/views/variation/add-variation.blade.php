@@ -125,6 +125,24 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="card-header">
+                                                            <div>
+                                                                <h4 class="card-title"><b>Add Option in This variant</b></h4><br><br>
+                                                            </div>
+                                                        </div>        
+                                                        <div class="col-12" id="form">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Option Name</span>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" name="option_name[]" class="form-control" required="">
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <button class="btn btn-warning" type="button" onclick="appenddToForm('text')">Add new Option</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="col-11"></div>
                                                             <button class="btn btn-primary" type="submit">Submit</button>
                                                     </div>
@@ -190,7 +208,30 @@
             let form_data = form.serialize();
             formSubmitWithFile(formID, url, type, form_data);
         })
-    })
+    });
+
+    // Append new rows
+        function appenddToForm(type){
+
+        if(type == 'text'){
+                var str = '<div class="form-group row">'
+                                +'<div class="col-md-4">'
+                                    +'<span>Option Name</span>'
+                                +'</div>'
+                                +'<div class="col-md-6">'
+                                    +'<input type="text" name="option_name[]" class="form-control" required="">'
+                                +'</div>'    
+                                +'<div class="col-md-1">'
+                                    +'<span class="btn btn-icon btn-circle icon-lg fa fa-times" onclick="delete_choice_clearfix(this)"></span>'
+                                +'</div>'
+                            +'</div>';
+                $('#form').append(str);
+            }
+    }
+
+    function delete_choice_clearfix(em){
+        $(em).parent().parent().remove();
+    }
 </script>
 <script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>
 @endpush

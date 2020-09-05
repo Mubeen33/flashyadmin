@@ -50,13 +50,31 @@ class VariationController extends Controller
         $variation->sku_approval             = $request->sku_approval;
         $variation->is_text                  = $request->is_text;
         $variation->is_select                = $request->is_select;
+        $variation->save();
+        $Id = $variation->id;
+        if ($request->option_name) {
+            
+        
+            foreach ($request->option_name as $key => $value) {
+                
+                $variantOption = new VariationOption();
+                $variantOption->variation_id = $Id;
+                $variantOption->option_name  = $request->option_name[$key];
+                $variantOption->save();
+            
+            }
+        }
+        else{
 
-        if ($variation->save()) {
-          	return response()->json([
+            return response()->json([
                     'success'=>true,
                     'msg'=>"Variation added Successfully!",
                 ], 200);
-        }  
+        }    
+      	return response()->json([
+                'success'=>true,
+                'msg'=>"Variation added Successfully!",
+            ], 200);  
     }
 
     //variationsList
@@ -73,7 +91,7 @@ class VariationController extends Controller
 
     public function editVariation($id){
 
-    	$id = decrypt($id);
+    	$id = decryptz($id);
 
     	$variant          = Variation::where('id',$id)->first();
     	$image_approval   = Variation::where('id',$id)->value('image_approval');
@@ -166,9 +184,11 @@ class VariationController extends Controller
 
     // variationsOptionsList
 
-    public function variationsOptionsList(){
+    public function variationsOptionsList($id){
 
-        $variationsOptions = VariationOption::where('active', 1)->get();
+
+        $variation_id      = decrypt($id);
+        $variationsOptions = VariationOption::where('active', 1)->where('variation_id',$variation_id)->get();
 
         return view('variation.variations-options-list',compact('variationsOptions'));
 
@@ -237,7 +257,7 @@ class VariationController extends Controller
         
         }
 
-        return redirect("variations-options-list")->with('msg','<div class="alert alert-success" id="msg">Option added Successfully!</div>');
+        return redirect("variations-options-list/".$request->option_id)->with('msg','<div class="alert alert-success" id="msg">Option added Successfully!</div>');
     }
 
     // OptionsList

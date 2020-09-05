@@ -47,7 +47,7 @@ Route::get('variation-active/{id}','variation\VariationController@activeVariatio
 
 // variant options
 Route::get('add-variations-options','variation\VariationController@addvariationsoption')->name('variations.addvariationsoption');
-Route::get('variations-options-list','variation\VariationController@variationsOptionsList')->name('variations.variationsoptionslist');
+Route::get('variations-options-list/{id}','variation\VariationController@variationsOptionsList')->name('variations.variationsoptionslist');
 Route::post('submit-variation-option','variation\VariationController@createOption');
 Route::get('variation-option-edit/{id}','variation\VariationController@editOption');
 Route::post('update-variation-option','variation\VariationController@updateOption');

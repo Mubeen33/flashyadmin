@@ -27,7 +27,7 @@
                                                                 <div class="col-md-8">
                                                                     <select class="form-control" name="variation_id" required>
                                                                         <option selected="">Select Variation</option>
-                                                                        @foreach($variationsOptions as $variation)
+                                                                        @foreach($variations as $variation)
                                                                             <option value="{{$variation->id}}">{{$variation->variation_name}}</option>
                                                                         @endforeach    
                                                                     </select>
@@ -40,7 +40,7 @@
                                                                     <span>Option Name</span>
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <input type="text" name="option_name[]" class="form-control" required="">
+                                                                    <input type="text" name="option_name[]" class="form-control">
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <button class="btn btn-warning" type="button" onclick="appenddToForm('text')">Add new Option</button>

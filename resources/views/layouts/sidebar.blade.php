@@ -45,10 +45,10 @@
                                     </li>
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('variations.disablevariationslist')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Disable Variations</a>
                                     </li>
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('variations.addvariationsoption')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Add Option to Variations</a>
-                                    </li>
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('variations.variationsoptionslist')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Variations Options</a>
-                                    </li>
+                                    {{-- <li data-menu=""><a class="dropdown-item" href="{{Route('variations.addvariationsoption')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Add Option to Variations</a>
+                                    </li> --}}
+                                    {{-- <li data-menu=""><a class="dropdown-item" href="{{Route('variations.variationsoptionslist')}}" data-toggle="dropdown" data-i18n="Details"><i class="feather icon-circle"></i>Variations Options</a>
+                                    </li> --}}
                                 </ul>
                             </li>
 
