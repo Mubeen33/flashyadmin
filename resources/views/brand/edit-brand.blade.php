@@ -27,6 +27,7 @@
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
+                                                @include('msg.msg')
                                                 <div class="form-body">
                                                     <div class="row">
                                                         <div class="col-12">
@@ -62,7 +63,7 @@
                                                                         <input type="file" onchange="previewFile(this);" name="image" class="custom-file-input" id="inputGroupFile01">
                                                                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                                                     </div>
-                                                                    <span><img id="previewImg" width="100" src="{{$brand->image}}"></span>
+                                                                    <span><img class="preview--file" id="previewImg" width="100" src="{{$brand->image}}"></span>
                                                                 </div>
                                                             </div>
                                                         </div>

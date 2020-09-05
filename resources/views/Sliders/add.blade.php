@@ -16,7 +16,6 @@
 @endsection    
 @section('content')                                
             <div class="content-body">
-                @include('msg.msg')
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
@@ -25,7 +24,7 @@
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
-                                    
+                                    @include('msg.msg')
                                     <form id="slider__form" action="{{ route('admin.sliders.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="form-group">
@@ -132,7 +131,7 @@
                                                     >Image</button>
                                                     <div>
                                                         <br>
-                                                        <span><img class="d-none" id="previewImg_lg" width="200px" height="100px" src=""></span>
+                                                        <span><img class="d-none preview--file" id="previewImg_lg" width="200px" height="100px" src=""></span>
                                                     </div>
                                                     <small class="place-error--msg"></small>
                                                 </div>
@@ -146,7 +145,7 @@
                                                     >Image</button>
                                                     <div>
                                                         <br>
-                                                        <span><img class="d-none" id="previewImg_sm" width="150px" height="80px" src=""></span>
+                                                        <span><img class="d-none preview--file" id="previewImg_sm" width="150px" height="80px" src=""></span>
                                                     </div>
                                                     <small class="place-error--msg"></small>
                                                 </div>

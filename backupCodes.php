@@ -1,175 +1,453 @@
 <?php
 
-use App\Category;
+namespace App\Http\Controllers\Banner;
+
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FileUploader;
+use App\Banner;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
-// Route::get('add-customfields', function () {
-//     return view('customfields.add-customfields');
-// });
+class BannerController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $pageTitle = "Banners";
+        $data = Banner::where('type', 'Banner')
+                        ->orderBy('order_no', 'ASC')
+                        ->paginate(20);
+        return view('Banners.index', compact('data', 'pageTitle'));
+    }
+    public function ads_banner_index(){
+        $pageTitle = "Ads-Banners";
+        $data = Banner::where('type', 'Ads-Banner')
+                        ->orderBy('order_no', 'ASC')
+                        ->paginate(20);
+        return view('Banners.index', compact('data', 'pageTitle'));
+    }
 
-Auth::routes();
-Route::get('/', 'HomeController@checkLogin');
-Route::get('/home', 'HomeController@index')->name('home');
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $pageTitle = "Banner";
+        return view('Banners.add', compact('pageTitle'));
+    }
 
-// Route::get('/add-product', 'HomeController@addProduct');
+    public function create_ads_banner()
+    {
+        $pageTitle = "Ads-Banner";
+        return view('Banners.add', compact('pageTitle'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //store banners
+        $validation = Validator::make($request->all(), [
+            'type'=>'required|string|in:Banner,Ads-Banner',
+            'title'=>'nullable|string|max:100',
+            'link'=>'nullable|string|url',
+            'order_no'=>'required|numeric',
+            'start_time'=>'required|date',
+            'end_time'=>'required|date'
+        ]);
+
+        if ($validation->fails()) {
+            foreach ($validation->messages()->get('*') as $key => $value) {
+                $value = json_encode($value);
+                $text = str_replace('["', "", $value);
+                $text = str_replace('"]', "", $text);
+                return response()->json([
+                    'field'=>$key,
+                    'targetHighlightIs'=>"",
+                    'msg'=>$text,
+                    'need_scroll'=>"yes"
+                ], 422);
+            }
+        }
+
+        $current = Carbon::now();
+        $today = $current->format('Y-m-d');
+        if ($today > (date('Y-m-d', strtotime($request->start_time)))) {
+            return response()->json([
+                    'field'=>"start_time",
+                    'targetHighlightIs'=>"",
+                    'msg'=>"SORRY - Start Time can not be backdate",
+                    'need_scroll'=>"yes"
+                ], 422);
+        }
+
+        if (date('Y-m-d', strtotime($request->start_time)) >= date('Y-m-d', strtotime($request->end_time))) {
+            return response()->json([
+                    'field'=>"end_time",
+                    'targetHighlightIs'=>"",
+                    'msg'=>"SORRY - End Time can not be equal or less of Start Time",
+                    'need_scroll'=>"yes"
+                ], 422);
+        }
+        
+
+        $fileName = "";
+        if ($request->type === "Banner") {
+            $validation = Validator::make($request->all(), [
+                'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193'
+            ]);
+            if ($validation->fails()) {
+                return response()->json([
+                    'field'=>"image_lg",
+                    'targetHighlightIs'=>"",
+                    'msg'=>"Image is required of png,jpeg,jpg,gif & width=390, height=193",
+                    'need_scroll'=>"yes"
+                ], 422);
+            }
+            $fileName = 'banner-'.uniqid();
+        }else{
+
+            $validation = Validator::make($request->all(), [
+                'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
+            ]);
+            if ($validation->fails()) {
+                return response()->json([
+                    'field'=>"ads_banner_position",
+                    'targetHighlightIs'=>"",
+                    'msg'=>"Invalid Banner Position",
+                    'need_scroll'=>"yes"
+                ], 422);
+            }
+
+            if ($request->ads_banner_position === "Banner-Groups") {
+                $validation = Validator::make($request->all(), [
+                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
+                ]);
+                if ($validation->fails()) {
+                    return response()->json([
+                        'field'=>"image_lg",
+                        'targetHighlightIs'=>"",
+                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=530, height=285",
+                        'need_scroll'=>"yes"
+                    ], 422);
+                }
+            }
+            if ($request->ads_banner_position === "Banner-Long") {
+                $validation = Validator::make($request->all(), [
+                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
+                ]);
+                if ($validation->fails()) {
+                    return response()->json([
+                        'field'=>"image_lg",
+                        'targetHighlightIs'=>"",
+                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=1090, height=245",
+                        'need_scroll'=>"yes"
+                    ], 422);
+                }
+            }
+            if ($request->ads_banner_position === "Banner-Short") {
+                $validation = Validator::make($request->all(), [
+                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
+                ]);
+                if ($validation->fails()) {
+                    return response()->json([
+                        'field'=>"image_lg",
+                        'targetHighlightIs'=>"",
+                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=530, height=245",
+                        'need_scroll'=>"yes"
+                    ], 422);
+                }
+            }
+            if ($request->ads_banner_position === "Banner-Box") {
+                $validation = Validator::make($request->all(), [
+                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
+                ]);
+                if ($validation->fails()) {
+                    return response()->json([
+                        'field'=>"image_lg",
+                        'targetHighlightIs'=>"",
+                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=487, height=379",
+                        'need_scroll'=>"yes"
+                    ], 422);
+                }
+            }
+            $fileName = 'ads-banner-'.uniqid();
+        }
+
+        //insert image
+        $obj_fu = new FileUploader();
+        $lgImage = "";
+        $location = "upload-images/banners/";
+        if($request->hasFile('image_lg')){
+            $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
+            $lgImage = $fileName__;
+        }else{
+            if ($validation->fails()) {
+                return response()->json([
+                    'field'=>"image_lg",
+                    'targetHighlightIs'=>"",
+                    'msg'=>"Please Upload Image",
+                    'need_scroll'=>"yes"
+                ], 422);
+            }
+        }
+
+        $url = $this->getURL();
+        $inserted = Banner::insert([
+            'type'=>$request->type,
+            'title'=>$request->title,
+            'link'=>$request->link,
+            'order_no'=>$request->order_no,
+            'image_lg'=>$url."/".$location.$lgImage,
+            'start_time'=>$request->start_time,
+            'end_time'=>$request->end_time,
+            'ads_banner_position'=>$request->ads_banner_position,
+            'created_at'=>Carbon::now()
+        ]);
+
+        if ($inserted == true) {
+            return response()->json([
+                    'success'=>true,
+                    'msg'=>"Banner Added",
+            ], 200);
+        }else{
+            return response()->json("Something went wrong, please try again later", 500);
+        }
+    }
+
+
+    private function getURL(){
+        if(isset($_SERVER['HTTPS'])){
+            $protocol = ($_SERVER['HTTPS'] && $_SERVER['HTTPS'] != "off") ? "https" : "http";
+        }
+        else{
+            $protocol = 'http';
+        }
+        $http_port = $protocol . "://" . parse_url($_SERVER['REQUEST_URI'], PHP_URL_HOST);
+        return $http_port.$_SERVER['HTTP_HOST'];
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $id = \Crypt::decrypt($id);
+        $data = Banner::findOrFail($id);
+        return view('Banners.edit', compact('data'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //store banners
+        $this->validate($request, [
+            'type'=>'required|string|in:Banner,Ads-Banner',
+            'title'=>'nullable|string|max:100',
+            'link'=>'nullable|string|url',
+            'order_no'=>'required|numeric',
+            'start_time'=>'required|date',
+            'end_time'=>'required|date'
+        ]);
+        $oldData = Banner::where([
+            'id'=>$id,
+            'type'=>$request->type,
+        ])->first();
+        if (!$oldData) {
+            return redirect()->back()->with('error', 'Sorry - Requested Data not Found!');
+        }
+
+        $fileName = "";
+        $obj_fu = new FileUploader();
+        $lgImage = NULL;
+        $url = $this->getURL();
+        $location = "upload-images/banners/";
+
+        if($request->hasFile('image_lg')){
+            if ($request->type === "Banner") {
+                $validation = Validator::make($request->all(), [
+                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193'
+                ]);
+                if ($validation->fails()) {
+                    return response()->json([
+                        'field'=>"image_lg",
+                        'targetHighlightIs'=>"",
+                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=390, height=193",
+                        'need_scroll'=>"yes"
+                    ], 422);
+                }
+                $fileName = 'banner-'.uniqid();
+            
+            }else{
+                $validation = Validator::make($request->all(), [
+                    'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
+                ]);
+                if ($validation->fails()) {
+                    return response()->json([
+                        'field'=>"ads_banner_position",
+                        'targetHighlightIs'=>"",
+                        'msg'=>"Invalid Banner Position",
+                        'need_scroll'=>"yes"
+                    ], 422);
+                }
+
+                if ($request->ads_banner_position === "Banner-Groups") {
+                    $validation = Validator::make($request->all(), [
+                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
+                    ]);
+                    if ($validation->fails()) {
+                        return response()->json([
+                            'field'=>"image_lg",
+                            'targetHighlightIs'=>"",
+                            'msg'=>"Image is required of png,jpeg,jpg,gif & width=530, height=285",
+                            'need_scroll'=>"yes"
+                        ], 422);
+                    }
+                }
+                if ($request->ads_banner_position === "Banner-Long") {
+                    $validation = Validator::make($request->all(), [
+                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
+                    ]);
+                    if ($validation->fails()) {
+                        return response()->json([
+                            'field'=>"image_lg",
+                            'targetHighlightIs'=>"",
+                            'msg'=>"Image is required of png,jpeg,jpg,gif & width=1090, height=245",
+                            'need_scroll'=>"yes"
+                        ], 422);
+                    }
+                }
+                if ($request->ads_banner_position === "Banner-Short") {
+                    $validation = Validator::make($request->all(), [
+                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
+                    ]);
+                    if ($validation->fails()) {
+                        return response()->json([
+                            'field'=>"image_lg",
+                            'targetHighlightIs'=>"",
+                            'msg'=>"Image is required of png,jpeg,jpg,gif & width=530, height=245",
+                            'need_scroll'=>"yes"
+                        ], 422);
+                    }
+                }
+                if ($request->ads_banner_position === "Banner-Box") {
+                    $validation = Validator::make($request->all(), [
+                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
+                    ]);
+                    if ($validation->fails()) {
+                        return response()->json([
+                            'field'=>"image_lg",
+                            'targetHighlightIs'=>"",
+                            'msg'=>"Image is required of png,jpeg,jpg,gif & width=487, height=379",
+                            'need_scroll'=>"yes"
+                        ], 422);
+                    }
+                }
+                $fileName = 'ads-banner-'.uniqid();
+            }
+
+            //upload new image
+            //delete
+            if ($oldData->image_lg != NULL) {
+                $file_name = str_replace($url."/".$location, "", $oldData->image_lg);
+                $obj_fu->deleteFile($file_name, $location);
+            }
+            //upload
+            $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
+            $lgImage = $fileName__;
+            
+        
+        }
+
+        $url = $this->getURL();
+        $updated = Banner::where([
+            'id'=>$id,
+            'type'=>$request->type
+        ])->update([
+            'title'=>$request->title,
+            'link'=>$request->link,
+            'order_no'=>$request->order_no,
+            'image_lg'=>($lgImage === NULL ? $oldData->image_lg : $url."/".$location.$lgImage),
+            'start_time'=>$request->start_time,
+            'end_time'=>$request->end_time,
+            'ads_banner_position'=>$request->ads_banner_position,
+            'updated_at'=>Carbon::now()
+        ]);
+
+        if ($updated == true) {
+            return redirect()->back()->with('success', 'Banner Updated');
+        }else{
+            return redirect()->back()->with('error', 'SORRY - Something wrong!');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 
 
 
-Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], function(){
-  //vendors controller
-  Route::resource('vendors', 'Vendors\VendorController');
-  Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
-  Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
-  //ajax requests
-  Route::get('vendors-ajax-pagination/fetch', 'Vendors\VendorController@fetch_paginate_data');
-  
-  //add vendor
-  Route::get('vendor-add', 'Vendors\VendorController@add_vendor_form')->name('vendor.addvendor.get');
-  Route::post('vendor-add', 'Vendors\VendorController@add_vendor_post')->name('vendor.addvendor.post');
+    //delete the slider
+    public function delete_banner($id){
+        $id = \Crypt::decrypt($id);
+        $data = Banner::where('id', $id)->first();
+        if (!$data) {
+            return redirect()->back()->with('error', 'SORRY - Banner not Found!');
+        }
 
+        //delete slider images
+        $url = $this->getURL();
+        $location = "upload-images/banners/";
+        $obj_fu = new FileUploader();
+        if ($data->image_lg != NULL) {
+            $fileName = str_replace($url."/".$location, "", $data->image_lg);
+            $obj_fu->deleteFile($fileName, $location);
+        }
 
-  //vendor activity
-  Route::get('vendors-activity','Vendors\VendorController@vendors_activitities')->name("vendor.activities.get");
-  Route::get('ajax/vendors-activity-list/fetch','Vendors\VendorController@vendors_activitities_ajax');
-  Route::get('vendor/activity/{vendorID}','Vendors\VendorController@vendor_actitvity')->name('vendor.activity.get');
-  Route::post('vendor/activity','Vendors\VendorController@delete_vendor_activity')->name('vendor.activityDelete.post');
-  Route::get('signle-vendor-activity-ajax/fetch','Vendors\VendorController@ajax_single_vendor_actitvity');
-    
-  //vendor bank details updates
-  Route::get('vendor/bank-updates','Vendors\VendorController@get_bank_updates')->name('vendor.bankUpdates.get');
-  Route::post('vendor/bank-updates','Vendors\VendorController@approve_bank_updates')->name('vendor.bankUpdatesApprove.post');
-  Route::get('vendors-bankupdates-request-ajax/fetch','Vendors\VendorController@ajax__vendors_bank_updates_requet');
+        $deleted = $data->delete();
+        if ($deleted == true) {
+            return redirect()->back()->with('success', 'Banner Deleted');
+        }else{
+            return redirect()->back()->with('error', 'SORRY - Something Wrong!');
+        }
 
-  //slider routes
-  Route::resource('sliders', 'Slider\SliderController');
-  Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
-  Route::get('sliders-ajax-pagination/fetch', 'Slider\SliderController@fetch_paginate_data');
-
-  //Banner routes
-  Route::resource('banners', 'Banner\BannerController');
-  Route::get('ads-banners/create', 'Banner\BannerController@create_ads_banner')->name('ads-banner.create');
-  Route::get('ads-banners', 'Banner\BannerController@ads_banner_index')->name('ads-banner.index');
-  Route::get('banner/delete/{id}', 'Banner\BannerController@delete_banner')->name('banner.delete');
-
-   //customers
-   Route::resource('customers', 'Customers\CustomerController');
-   Route::get('block-customers', 'Customers\CustomerController@block_customers_list')->name('blockedCustomers.get');
-   Route::get('block-customer/{id}', 'Customers\CustomerController@block_customer')->name('blockCustomer');
-   Route::get('show-block-customer/{id}', 'Customers\CustomerController@show_block_customer')->name('showBlockCustomer.get');
-   Route::get('unblock-customer/{id}', 'Customers\CustomerController@unblock_customer')->name('unblockCustomer');
-   Route::get('customers-ajax-pagination/fetch', 'Customers\CustomerController@fetch_paginate_data');
-
-   //signup contents
-   Route::resource('signup-contents', 'Auth\SignupContentsController');
-
-   //coupons routes
-   Route::resource('coupons', 'Coupons\CouponController');
-   Route::get('coupon-delete/{id}', 'Coupons\CouponController@delete')->name('coupon.delete');
-   Route::post('coupon-action', 'Coupons\CouponController@active_inactive')->name('coupon.activeInactive.post');
-
-   //email templates
-   Route::resource('email-templates', 'emailTemplates\EmailTemplateController');
-   Route::get('get-email-template', 'emailTemplates\EmailTemplateController@get_template');
-
-   //deals routes
-   Route::resource('vendor-deals', "Deals\DealController");
-   Route::get('pending-deals', "Deals\DealController@get_pending_deals")->name('vendorDeals.pending.get');
-   Route::get('pending-deals-approve/{id}', "Deals\DealController@approve_deal")->name('vendor.deal.approve');
-
-   //popup routes
-   Route::resource('popup', 'Popup\PopupController');
-
-
-  
-
-
-
-  // General Route
-  Route::post('/get_subcategories/{id}','HomeController@getSubcategories')->name('subCategories.get');
-  Route::post('/get_categories_commission/{id}','HomeController@getCategoriesCommission')->name('subCategories.post');
-
-
-  // brands Route
-  Route::get('add-brand','HomeController@addBrands')->name('brands.addbrand');
-  Route::get('brands-list','brand\BrandController@brandsList')->name('brands.brandslist');
-  Route::get('brands','brand\BrandController@brandsList')->name('brands.brands');
-  Route::get('disable-brands-list','brand\BrandController@disableBrandsList')->name('brands.disablebrandslist');
-  Route::post('add-brand','brand\BrandController@createBrand')->name('addBrand.post');
-  Route::get('brand-edit/{id}','brand\BrandController@editBrand')->name('brandEdit.get');
-  Route::get('brand-disable/{id}','brand\BrandController@disableABrand')->name('disabledBrand.single');
-  Route::post('update-brand','brand\BrandController@updateBrand')->name('updateBrand.post');
-  Route::get('brand-active/{id}','brand\BrandController@activeBrand')->name('activeBrand.post');
-  Route::get('brands-ajax-pagination/fetch', 'brand\BrandController@fetch_paginate_data')->name('brands.ajaxPgination');
-  // 
-
-  // Variation routes
-  Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
-  Route::post('submit-variation','variation\VariationController@createVariation')->name('addVariaton.post');
-  Route::get('variations-list','variation\VariationController@variationsList')->name('variations.variationslist');
-  Route::get('disable-variations-list','variation\VariationController@disableVariationsList')->name('variations.disablevariationslist');
-  Route::get('variation-edit/{id}','variation\VariationController@editVariation')->name('variationEdit.get');
-  Route::post('update-variation','variation\VariationController@updateVariation')->name('updateVariation.post');
-  Route::get('variations-ajax-pagination/fetch','variation\VariationController@fetch_paginate_data')->name('variations.ajaxPagination');
-  Route::get('variation-disable/{id}','variation\VariationController@disableAVariation')->name('variationDisable.post');
-  Route::get('variation-active/{id}','variation\VariationController@activeVariation')->name('variationActive.post');
-
-  // variant options
-  Route::get('add-variations-options','variation\VariationController@addvariationsoption')->name('variations.addvariationsoption');
-  Route::get('variations-options-list','variation\VariationController@variationsOptionsList')->name('variations.variationsoptionslist');
-  Route::post('submit-variation-option','variation\VariationController@createOption')->name('addVaritaionOption.post');
-  Route::get('variation-option-edit/{id}','variation\VariationController@editOption');
-  Route::post('update-variation-option','variation\VariationController@updateOption')->name('updateVariationOption.post');
-  Route::get('variation-option-delete/{id}','variation\VariationController@deleteOption');
-  Route::get('options-list/{id}','variation\VariationController@OptionsList');
-  Route::get('option-edit/{id}','variation\VariationController@editOptionOptions');
-  Route::post('update-option','variation\VariationController@updateOptionOptions')->name('updateOption.post');
-  Route::get('option-delete/{id}','variation\VariationController@deleteOptionOptions');
-  Route::get('add-options/{id}','variation\VariationController@addOption');
-  Route::post('submit-option','variation\VariationController@createOptionOptions')->name('addOption.post');
-  // End Variation Routes
-
-  // Add Custom Fields
-
-  Route::get('add-customfields','customfields\CustomfieldController@addCustomFieldsView')->name('addCustomField.get');
-  Route::post('submit-customfield','customfields\CustomfieldController@createCustomFields')->name('addCustomField.post');
-  Route::get('customfield-list','customfields\CustomfieldController@customFieldList')->name('customFieldList.get');
-  
-  // categories
-  Route::get('add-category','category\CategoryController@index')->name('addCategory.get');
-  Route::get('category-list','category\CategoryController@categoryList')->name('category.categorylist');
-  Route::get('disable-categories-list','category\CategoryController@disablecategoryList')->name('category.disablecategoryList');
-  Route::post('add-category','category\CategoryController@createcategory')->name('addCategory.post');
-  Route::get('category-edit/{id}','category\CategoryController@editcategory')->name('categoryEdit.get');
-  Route::post('update-category','category\CategoryController@updatecategory')->name('updateCategory.post');
-  Route::get('category-active/{id}','category\CategoryController@activecategory')->name('categoryActive.post');
-  Route::get('category-disable/{id}','category\CategoryController@disableAcategory')->name('categoryDisable.post');
-  Route::Post('get_child','category\CategoryController@getChild')->name('get_child');
-  Route::Post('getparent','category\CategoryController@getparent')->name('getparent');
-  Route::get('categories-ajax-pagination/fetch','category\CategoryController@fetch_paginate_data')->name('categories.ajaxPgination');
-  // End Categories
-
-
-  Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
-  Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
-  // files added by asad ..
-  Route::get("/test/page",function(){
-      return view("vendors");
-  });
-  // order page ..
-  Route::get("/test/order",function(){
-    return view("order");
-  });
-  // order view page ..
-  Route::get("/test/order/view",function(){
-    return view("orderview");
-  });
-});
-
-
-
-
-
-
-
-
+    }
+}

@@ -233,7 +233,7 @@
                                                                         <br>
                                                                         <small class="place-error--msg"></small>
                                                                     </div>
-                                                                    <span><img id="previewImg" width="100" src=""></span>
+                                                                    <span><img class="preview--file" id="previewImg" width="100" src=""></span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -287,7 +287,7 @@
                          'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
                          },
                     method  : 'POST',
-                    url     : "{{url('get_subcategories')}}/"+category_id,
+                    url     : "{{url('admin/get_subcategories')}}/"+category_id,
                     data    : {"_token": "{{ csrf_token() }}","category_id":category_id},
                     success : function(subcategories){
 
@@ -310,7 +310,7 @@
                  'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
                  },
             method  : 'POST',
-            url     : "{{url('get_categories_commission')}}/"+category_id,
+            url     : "{{url('admin/get_categories_commission')}}/"+category_id,
             data    : {"_token": "{{ csrf_token() }}","category_id":category_id},
             success : function(commission){
 

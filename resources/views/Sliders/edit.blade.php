@@ -15,7 +15,6 @@
 @endsection    
 @section('content')                                
             <div class="content-body">
-                @include('msg.msg')
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
@@ -24,7 +23,7 @@
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
-                                    
+                                    @include('msg.msg')
                                     <form id="slider__form" action="{{ route('admin.sliders.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
@@ -141,7 +140,7 @@
                                                             <img src="{{ $data->image_lg }}" width="100px" height="100px">
                                                         </div>
                                                         <div class="d-none" id="previewImg_lg">
-                                                            <img width="200px" height="100px" src="">
+                                                            <img class="preview--file" width="200px" height="100px" src="">
                                                             <button type="button" title="Remove this image" onclick="removePreviewFile('previewImg_lg', 'previewImg_lg_current', 'image_lg_input')" class="btn btn-sm btn-danger">X</button>
                                                         </div>
                                                     </div>
@@ -168,7 +167,7 @@
                                                             <img src="{{ $data->image_sm }}" width="100px" height="100px">
                                                         </div>
                                                         <div class="d-none" id="previewImg_sm">
-                                                            <img width="150px" height="80px" src="">
+                                                            <img class="preview--file" width="150px" height="80px" src="">
                                                             <button type="button" title="Remove this image" onclick="removePreviewFile('previewImg_sm', 'previewImg_sm_current', 'image_sm_input')" class="btn btn-sm btn-danger">X</button>
                                                         </div>
                                                     </div>

@@ -31,6 +31,7 @@
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
+                                                @include('msg.msg')
                                                 <div class="form-body">
                                                     <div class="row">
                                                         <div class="col-12">
@@ -67,7 +68,7 @@
                                                                         <br>
                                                                         <small class="place-error--msg"></small>
                                                                     </div>
-                                                                    <span><img id="previewImg" width="100"></span>
+                                                                    <span><img class="preview--file" id="previewImg" width="100"></span>
                                                                 </div>
                                                             </div>
                                                         </div>

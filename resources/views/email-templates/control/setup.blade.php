@@ -1,5 +1,14 @@
 @extends('layouts.master')
 @section('page-title','Email Templates Setup')
+
+@push('styles')
+<style type="text/css">
+    .border-danger-alert{
+        border:1px solid red;
+    }
+</style>
+@endpush
+
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Email Templates</li>
@@ -15,6 +24,7 @@
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
+                                    @include('msg.msg')
                                     <form id="setupEmailTemplateForm" action="{{ route('admin.email-templates.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="form-group">
@@ -50,7 +60,7 @@
             return false;
         }else{
             $.ajax({
-                url:"/get-email-template?templateName="+templateName,
+                url:"/admin/get-email-template?templateName="+templateName,
                 method:"GET",
                 cache:false,
                 success:function(response){
@@ -75,44 +85,16 @@
 
     $(document).ready(function(){
         $("#setupEmailTemplateForm").on('submit', function(e){
-            e.preventDefault();
-            var form = $(this);
-            var url = form.attr('action');
-            var type = form.attr('method');
-
-            var form_data = form.serialize();
-
-            $.ajax({
-                url: url,
-                data: new FormData(this),
-                method: type,
-                dataType: 'JSON',
-                contentType: false,
-                cache: false,
-                processData:false,
-                beforeSend:function(){
-                    $("#setupEmailTemplateForm button[type=submit]").attr('disabled', true)
-                },
-                success: function(response){
-                    $("#setupEmailTemplateForm button[type=submit]").attr('disabled', false)
-                    alert(response)
-                    window.location.reload(true)
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    $("#setupEmailTemplateForm button[type=submit]").attr('disabled', false)
-
-                      if (jqXHR.status == 422) {
-                          alert('SORRY\n'+jqXHR.responseText)
-                      } else {
-                          alert('Someting wrong...')
-                          window.location.reload(true)
-                      }
-                },
-                complete:function(){
-                    $("#setupEmailTemplateForm button[type=submit]").attr('disabled', false)
-                }   
-            });
+            e.preventDefault()
+            let formID = "setupEmailTemplateForm";
+            let form = $(this);
+            let url = form.attr('action');
+            let type = form.attr('method');
+            let form_data = form.serialize();
+            formSubmitWithFile(formID, url, type, form_data);
         })
     })
 </script>
+
+<script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>
 @endpush

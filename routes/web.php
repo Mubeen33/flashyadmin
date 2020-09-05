@@ -84,11 +84,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 // End Categories
 
 
-Route::group(['as'=>'admin.', 'middleware' => ['auth']], function(){
-
-
-
-
 //protected routes
 Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], function(){
 
@@ -161,8 +156,8 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
 
 
   // General Route
-  Route::post('/get_subcategories/{id}','HomeController@getSubcategories')->name('subCategories.get');
-  Route::post('/get_categories_commission/{id}','HomeController@getCategoriesCommission')->name('subCategories.post');
+  Route::post('get_subcategories/{id}','HomeController@getSubcategories')->name('subCategories.get');
+  Route::post('get_categories_commission/{id}','HomeController@getCategoriesCommission')->name('subCategories.post');
 
 
   // brands Route

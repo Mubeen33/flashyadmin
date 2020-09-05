@@ -41,7 +41,7 @@ class EmailTemplateController extends Controller
      */
     public function store(Request $request)
     {  
-        $validate = Validator::make($request->all(), [
+        $validation = Validator::make($request->all(), [
             'template'=>'required|string|in:Customer-Signup,Vendor-Signup',
             'subject_line'=>'required|string|max:70',
             'about_template'=>'nullable|string|max:70',
@@ -60,20 +60,32 @@ class EmailTemplateController extends Controller
             'footer_banner'=>'nullable|image|mimes:png,jpeg,jpg,gif|dimensions:width=1200,height=200',
         ]);
 
-        if ($validate->fails()) {
-            foreach ($validate->messages()->get('*') as $key => $value) {
+        if ($validation->fails()) {
+            foreach ($validation->messages()->get('*') as $key => $value) {
                 $value = json_encode($value);
                 $text = str_replace('["', "", $value);
                 $text = str_replace('"]', "", $text);
-                return response()->json($text, 422);
+                return response()->json([
+                    'field'=>$key,
+                    'targetHighlightIs'=>"",
+                    'msg'=>$text,
+                    'need_scroll'=>"yes"
+                ], 422);
             }
         }
 
         $oldData = EmailTemplate::where('template', $request->template)->first();
         $location = "upload-images/email-assets/";
         $response = $this->manageFiles($request, $oldData, $location);
+        
         if ($response[0] === false) {
-            return response()->json($response[1], 422);
+            return response()->json([
+                'field'=>$response[1],
+                'targetHighlightIs'=>"",
+                'msg'=>"This field is required",
+                'need_scroll'=>"yes"
+            ], 422);
+            
         }
 
         //insert value
@@ -98,9 +110,12 @@ class EmailTemplateController extends Controller
                 'updated_at'=>Carbon::now()
             ]);
             if ($updated == true) {
-                return response()->json('Template Updated', 200);
+                return response()->json([
+                        'success'=>true,
+                        'msg'=>"Template Updated",
+                ], 200);
             }else{
-                return response()->json('Something went wrong, please refresh & try again.', 422);
+                return response()->json("Something went wrong, please try again later", 500);
             }
         }else{
             //insert
@@ -124,9 +139,12 @@ class EmailTemplateController extends Controller
                 'created_at'=>Carbon::now()
             ]);
             if ($inserted == true) {
-                return response()->json('Template Successfully Setup', 200);
+                return response()->json([
+                        'success'=>true,
+                        'msg'=>"Template Successfully Setup",
+                ], 200);
             }else{
-                return response()->json('Something went wrong, please refresh & try again to setup.', 422);
+                return response()->json("Something went wrong, please try again later", 500);
             }
         }
     }
@@ -161,7 +179,7 @@ class EmailTemplateController extends Controller
                 $fileName__ = $obj_fu->fileUploader($request->file('top_banner'), $fileName, $location);
                 $top_banner = $fileName__;
             }else{
-                $respone = [false, 'Top Banner is required'];
+                $respone = [false, 'top_banner'];
                 return $respone;
             }
         }
@@ -243,7 +261,7 @@ class EmailTemplateController extends Controller
             if ($validation->fails()) {
                 return response()->json('Invalid Request', 422);
             }
-            $data = EmailTemplate::where('template', $request->templateName)->first();
+            $data = EmailTemplate::where('template', '=', $request->templateName)->first();
             return view('email-templates.control.partials.form-body', compact('data'))->render();
         }
         return abort(404);

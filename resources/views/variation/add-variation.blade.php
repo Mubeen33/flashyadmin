@@ -31,6 +31,7 @@
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
+                                            @include('msg.msg')
                                                 <div class="form-body">
                                                     <div class="row">
                                                         <div class="col-12">
@@ -136,7 +137,7 @@
                                                                     <span>Option Name</span>
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <input type="text" name="option_name[]" class="form-control" required="">
+                                                                    <input type="text" name="option_name[]" class="form-control">
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <button class="btn btn-warning" type="button" onclick="appenddToForm('text')">Add new Option</button>

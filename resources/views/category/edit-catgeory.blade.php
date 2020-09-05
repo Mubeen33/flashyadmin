@@ -27,6 +27,7 @@
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
+                                            @include('msg.msg')
                                                 <div class="form-body">
                                                     <div class="row">
                                                         <div class="col-12">
@@ -164,7 +165,7 @@
                                                                         <small class="place-error--msg"></small>
                                                                     </div>
                                                                     <span class="text text-danger" id="error"></span>
-                                                                    <span><img id="previewImg" width="100" src="{{ $categories->image }}"></span>
+                                                                    <span><img class="preview--file" id="previewImg" width="100" src="{{ $categories->image }}"></span>
                                                                     <input type="hidden" id="image"  class="form-control" name="image" value="">
                                                                 </div>
                                                             </div>
