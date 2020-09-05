@@ -80,8 +80,8 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::resource('popup', 'Popup\PopupController');
 
 
-   //products categories
-   
+   //products
+   Route::get('products/pending-products', 'Products\ProductController@get_pending_products')->name('pendingProducts.get');
 
   
 
