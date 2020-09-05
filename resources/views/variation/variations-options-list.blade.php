@@ -27,7 +27,7 @@
                             <div class="card-header justify-content-between">
                                 <div class="d-flex">
                                     <h4 class="card-title mr-1">Variatons Options List</h4>
-                                    <a class="btn btn-primary btn-sm" href="{{Route('variations.addvariationsoption')}}">Add new</a>
+                                    <a class="btn btn-primary btn-sm" href="{{Route('admin.variations.addvariationsoption')}}">Add new</a>
                                 </div>
                             </div>
                             <div class="card-content">
@@ -69,14 +69,14 @@
                                                             <button class="btn btn-sm btn-warning"><a href="{{url('options-list')}}/{{encrypt($option->id)}}" style="color: black">View Options</a></button>
                                                         </td>
                                                         <td>
-                                                            <div class="btn-group mb-1">
+                                                            <div class="btn-group">
                                                                 <div class="dropdown">
                                                                     <button class="btn btn-primary btn-sm dropdown-toggle mr-1" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                         Actions
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                                                                        <a class="dropdown-item" href="{{url('variation-option-edit')}}/{{encrypt($option->id)}}">Edit</a>
-                                                                        <a class="dropdown-item" href="{{url('variation-option-delete')}}/{{encrypt($option->id)}}">Delete</a>
+                                                                        <a class="dropdown-item" href="{{route('admin.variationOptionEdit.get', encrypt($option->id))}}">Edit</a>
+                                                                        <a class="dropdown-item" href="{{route('admin.variationOptionDelete.post', encrypt($option->id))}}}">Delete</a>
                                                                     </div>
                                                                 </div>
                                                             </div>

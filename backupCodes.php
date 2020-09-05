@@ -17,9 +17,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], function(){
-    //vendors controller
-    Route::resource('vendors', 'Vendors\VendorController');
-    Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
+  //vendors controller
+  Route::resource('vendors', 'Vendors\VendorController');
+  Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
   Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
   //ajax requests
   Route::get('vendors-ajax-pagination/fetch', 'Vendors\VendorController@fetch_paginate_data');
@@ -42,8 +42,8 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::get('vendors-bankupdates-request-ajax/fetch','Vendors\VendorController@ajax__vendors_bank_updates_requet');
 
   //slider routes
-    Route::resource('sliders', 'Slider\SliderController');
-    Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
+  Route::resource('sliders', 'Slider\SliderController');
+  Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
   Route::get('sliders-ajax-pagination/fetch', 'Slider\SliderController@fetch_paginate_data');
 
   //Banner routes
@@ -105,28 +105,28 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
 
   // Variation routes
   Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
-  Route::post('submit-variation','variation\VariationController@createVariation');
+  Route::post('submit-variation','variation\VariationController@createVariation')->name('addVariaton.post');
   Route::get('variations-list','variation\VariationController@variationsList')->name('variations.variationslist');
   Route::get('disable-variations-list','variation\VariationController@disableVariationsList')->name('variations.disablevariationslist');
-  Route::get('variation-edit/{id}','variation\VariationController@editVariation');
-  Route::post('update-variation','variation\VariationController@updateVariation');
-  Route::get('variations-ajax-pagination/fetch','variation\VariationController@fetch_paginate_data');
-  Route::get('variation-disable/{id}','variation\VariationController@disableAVariation');
-  Route::get('variation-active/{id}','variation\VariationController@activeVariation');
+  Route::get('variation-edit/{id}','variation\VariationController@editVariation')->name('variationEdit.get');
+  Route::post('update-variation','variation\VariationController@updateVariation')->name('updateVariation.post');
+  Route::get('variations-ajax-pagination/fetch','variation\VariationController@fetch_paginate_data')->name('variations.ajaxPagination');
+  Route::get('variation-disable/{id}','variation\VariationController@disableAVariation')->name('variationDisable.post');
+  Route::get('variation-active/{id}','variation\VariationController@activeVariation')->name('variationActive.post');
 
   // variant options
   Route::get('add-variations-options','variation\VariationController@addvariationsoption')->name('variations.addvariationsoption');
   Route::get('variations-options-list','variation\VariationController@variationsOptionsList')->name('variations.variationsoptionslist');
-  Route::post('submit-variation-option','variation\VariationController@createOption');
+  Route::post('submit-variation-option','variation\VariationController@createOption')->name('addVaritaionOption.post');
   Route::get('variation-option-edit/{id}','variation\VariationController@editOption');
-  Route::post('update-variation-option','variation\VariationController@updateOption');
+  Route::post('update-variation-option','variation\VariationController@updateOption')->name('updateVariationOption.post');
   Route::get('variation-option-delete/{id}','variation\VariationController@deleteOption');
   Route::get('options-list/{id}','variation\VariationController@OptionsList');
   Route::get('option-edit/{id}','variation\VariationController@editOptionOptions');
-  Route::post('update-option','variation\VariationController@updateOptionOptions');
+  Route::post('update-option','variation\VariationController@updateOptionOptions')->name('updateOption.post');
   Route::get('option-delete/{id}','variation\VariationController@deleteOptionOptions');
   Route::get('add-options/{id}','variation\VariationController@addOption');
-  Route::post('submit-option','variation\VariationController@createOptionOptions');
+  Route::post('submit-option','variation\VariationController@createOptionOptions')->name('addOption.post');
   // End Variation Routes
 
   // Add Custom Fields
@@ -146,7 +146,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::get('category-disable/{id}','category\CategoryController@disableAcategory')->name('categoryDisable.post');
   Route::Post('get_child','category\CategoryController@getChild')->name('get_child');
   Route::Post('getparent','category\CategoryController@getparent')->name('getparent');
-  Route::get('categories-ajax-pagination/fetch','category\CategoryController@fetch_paginate_data')->name('admin.categories.ajaxPgination');
+  Route::get('categories-ajax-pagination/fetch','category\CategoryController@fetch_paginate_data')->name('categories.ajaxPgination');
   // End Categories
 
 

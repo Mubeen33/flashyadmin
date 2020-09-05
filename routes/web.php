@@ -12,17 +12,17 @@ Auth::routes();
 Route::get('/', 'HomeController@checkLogin');
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::get('/add-product', 'HomeController@addProduct');
 
 
 
+//protected routes
 Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], function(){
 	//vendors controller
 	Route::resource('vendors', 'Vendors\VendorController');
 	Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
   Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
   //ajax requests
-  Route::get('vendors-ajax-pagination/fetch', 'Vendors\VendorController@fetch_paginate_data');
+  Route::get('vendors-ajax-pagination/fetch', 'Vendors\VendorController@fetch_paginate_data')->name('vendors.ajaxPgination');
   
   //add vendor
   Route::get('vendor-add', 'Vendors\VendorController@add_vendor_form')->name('vendor.addvendor.get');
@@ -31,20 +31,20 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
 
   //vendor activity
   Route::get('vendors-activity','Vendors\VendorController@vendors_activitities')->name("vendor.activities.get");
-  Route::get('ajax/vendors-activity-list/fetch','Vendors\VendorController@vendors_activitities_ajax');
+  Route::get('ajax/vendors-activity-list/fetch','Vendors\VendorController@vendors_activitities_ajax')->name('vendorsActityList.ajaxPgination');
   Route::get('vendor/activity/{vendorID}','Vendors\VendorController@vendor_actitvity')->name('vendor.activity.get');
   Route::post('vendor/activity','Vendors\VendorController@delete_vendor_activity')->name('vendor.activityDelete.post');
-  Route::get('signle-vendor-activity-ajax/fetch','Vendors\VendorController@ajax_single_vendor_actitvity');
+  Route::get('signle-vendor-activity-ajax/fetch','Vendors\VendorController@ajax_single_vendor_actitvity')->name('signleVendorActivity.ajaxPgination');
     
   //vendor bank details updates
   Route::get('vendor/bank-updates','Vendors\VendorController@get_bank_updates')->name('vendor.bankUpdates.get');
   Route::post('vendor/bank-updates','Vendors\VendorController@approve_bank_updates')->name('vendor.bankUpdatesApprove.post');
-  Route::get('vendors-bankupdates-request-ajax/fetch','Vendors\VendorController@ajax__vendors_bank_updates_requet');
+  Route::get('vendors-bankupdates-request-ajax/fetch','Vendors\VendorController@ajax__vendors_bank_updates_requet')->name('vendorsBankupdates.ajaxPgination');
 
   //slider routes
 	Route::resource('sliders', 'Slider\SliderController');
 	Route::get('slider/delete/{id}', 'Slider\SliderController@delete_slider')->name('slider.delete');
-  Route::get('sliders-ajax-pagination/fetch', 'Slider\SliderController@fetch_paginate_data');
+  Route::get('sliders-ajax-pagination/fetch', 'Slider\SliderController@fetch_paginate_data')->name('sliders.ajaxPgination');
 
   //Banner routes
   Route::resource('banners', 'Banner\BannerController');
@@ -58,7 +58,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::get('block-customer/{id}', 'Customers\CustomerController@block_customer')->name('blockCustomer');
    Route::get('show-block-customer/{id}', 'Customers\CustomerController@show_block_customer')->name('showBlockCustomer.get');
    Route::get('unblock-customer/{id}', 'Customers\CustomerController@unblock_customer')->name('unblockCustomer');
-   Route::get('customers-ajax-pagination/fetch', 'Customers\CustomerController@fetch_paginate_data');
+   Route::get('customers-ajax-pagination/fetch', 'Customers\CustomerController@fetch_paginate_data')->name('customers.ajaxPgination');
 
    //signup contents
    Route::resource('signup-contents', 'Auth\SignupContentsController');
@@ -109,7 +109,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::get('variations-list','variation\VariationController@variationsList')->name('variations.variationslist');
   Route::get('disable-variations-list','variation\VariationController@disableVariationsList')->name('variations.disablevariationslist');
   Route::get('variation-edit/{id}','variation\VariationController@editVariation')->name('variationEdit.get');
-  Route::post('update-variation','variation\VariationController@updateVariation');
+  Route::post('update-variation','variation\VariationController@updateVariation')->name('updateVariation.post');
   Route::get('variations-ajax-pagination/fetch','variation\VariationController@fetch_paginate_data')->name('variations.ajaxPagination');
   Route::get('variation-disable/{id}','variation\VariationController@disableAVariation')->name('variationDisable.post');
   Route::get('variation-active/{id}','variation\VariationController@activeVariation')->name('variationActive.post');
@@ -118,13 +118,13 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::get('add-variations-options','variation\VariationController@addvariationsoption')->name('variations.addvariationsoption');
   Route::get('variations-options-list','variation\VariationController@variationsOptionsList')->name('variations.variationsoptionslist');
   Route::post('submit-variation-option','variation\VariationController@createOption')->name('addVaritaionOption.post');
-  Route::get('variation-option-edit/{id}','variation\VariationController@editOption');
-  Route::post('update-variation-option','variation\VariationController@updateOption');
-  Route::get('variation-option-delete/{id}','variation\VariationController@deleteOption');
+  Route::get('variation-option-edit/{id}','variation\VariationController@editOption')->name('variationOptionEdit.get');
+  Route::post('update-variation-option','variation\VariationController@updateOption')->name('updateVariationOption.post');
+  Route::get('variation-option-delete/{id}','variation\VariationController@deleteOption')->name('variationOptionDelete.post');
   Route::get('options-list/{id}','variation\VariationController@OptionsList');
-  Route::get('option-edit/{id}','variation\VariationController@editOptionOptions');
-  Route::post('update-option','variation\VariationController@updateOptionOptions');
-  Route::get('option-delete/{id}','variation\VariationController@deleteOptionOptions');
+  Route::get('option-edit/{id}','variation\VariationController@editOptionOptions')->name('optionEdit.get');
+  Route::post('update-option','variation\VariationController@updateOptionOptions')->name('updateOption.post');
+  Route::get('option-delete/{id}','variation\VariationController@deleteOptionOptions')->name('optionDelete.post');
   Route::get('add-options/{id}','variation\VariationController@addOption');
   Route::post('submit-option','variation\VariationController@createOptionOptions')->name('addOption.post');
   // End Variation Routes
@@ -146,7 +146,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::get('category-disable/{id}','category\CategoryController@disableAcategory')->name('categoryDisable.post');
   Route::Post('get_child','category\CategoryController@getChild')->name('get_child');
   Route::Post('getparent','category\CategoryController@getparent')->name('getparent');
-  Route::get('categories-ajax-pagination/fetch','category\CategoryController@fetch_paginate_data')->name('admin.categories.ajaxPgination');
+  Route::get('categories-ajax-pagination/fetch','category\CategoryController@fetch_paginate_data')->name('categories.ajaxPgination');
   // End Categories
 
 
@@ -164,6 +164,9 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::get("/test/order/view",function(){
     return view("orderview");
   });
+
+
+  // Route::get('/add-product', 'HomeController@addProduct');
 });
 
 

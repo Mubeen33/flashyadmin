@@ -1,14 +1,14 @@
 @extends('layouts.master')
 @section('page-title','Add Variations')
 @section('breadcrumbs')
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
         <li class="breadcrumb-item"><a href="#">Forms</a></li>
 @endsection    
 @section('content')         
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form action="{{url('update-variation-option')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.updateVariationOption.post')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="id" value="{{$variantOption->id}}">
                             <div class="col-12">

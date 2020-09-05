@@ -8,7 +8,7 @@
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form action="{{url('update-variation')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.updateVariation.post')}}" method="post" enctype="multipart/form-data">
                         @csrf
                             <div class="row match-height">
                             <div class="col-12">

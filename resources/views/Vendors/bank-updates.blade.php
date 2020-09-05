@@ -56,7 +56,7 @@
                                             </tbody>
                                         </table>
 
-                                        <input type="hidden" id="hidden__action_url" value="/vendors-bankupdates-request-ajax/fetch">
+                                        <input type="hidden" id="hidden__action_url" value="{{ route('admin.vendorsBankupdates.ajaxPgination') }}">
                                         <input type="hidden" id="hidden__page_number" value="1">
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">
