@@ -62,4 +62,45 @@ class ProductController extends Controller
     		return redirect()->back()->with('error', 'SORRY - Something wrong.');
     	}
     }
+
+
+
+    public function fetch_paginate_data(Request $request){
+    	if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+            $status = $request->status;
+            $row_per_page = $request->row_per_page;
+
+            if ($sort_by == "") {
+                $sort_by = "id";
+            }
+            if ($sorting_order == "") {
+                $sorting_order = "DESC";
+            }
+
+            if ($request->search_key != "") {
+                $data = Product::where([
+        			'approved'=>$status,
+        			'disable'=>0,//not disable
+        		])
+        		->where("title", "LIKE", "%$searchKey%")
+                ->orWhere("product_type", "LIKE", "%$searchKey%")
+                ->orWhere("created_at", "LIKE", "%$searchKey%")
+        		->orderBy($sort_by, $sorting_order )
+                ->paginate($row_per_page );
+                return view('product.partials.pending-product-list', compact('data'))->render();
+            }
+
+            $data = Product::where([
+	        			'approved'=>$status,
+	        			'disable'=>0,//not disable
+	        		])
+	            	->orderBy($sort_by, $sorting_order)
+	            	->paginate($row_per_page );
+            return view('product.partials.pending-product-list', compact('data'))->render();
+        }
+        return abort(404);
+    }
 }

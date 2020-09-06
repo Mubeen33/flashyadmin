@@ -378,6 +378,7 @@ class SliderController extends Controller
             $searchKey = $request->search_key;
             $sort_by = $request->sort_by;
             $sorting_order = $request->sorting_order;
+            $row_per_page = $request->row_per_page;
 
             if ($sort_by == "") {
                 $sort_by = "id";
@@ -393,11 +394,11 @@ class SliderController extends Controller
                             ->orWhere("start_time", "LIKE", "%$searchKey%")
                             ->orWhere("end_time", "LIKE", "%$searchKey%")
                             ->orderBy($sort_by, $sorting_order)
-                            ->paginate(3);
+                            ->paginate($row_per_page);
                 return view('Sliders.partials.sliders-list', compact('data'))->render();
             }
 
-            $data = Slider::orderBy($sort_by, $sorting_order)->paginate(3);
+            $data = Slider::orderBy($sort_by, $sorting_order)->paginate($row_per_page);
             return view('Sliders.partials.sliders-list', compact('data'))->render();
         }
         return abort(404);
