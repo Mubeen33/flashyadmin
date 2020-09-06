@@ -14,7 +14,7 @@
 
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
-    <li class="breadcrumb-item active">Vendors</li>
+    <li class="breadcrumb-item active">Pending Products</li>
 @endsection 
 @section('content')                                
             <div class="content-body">
@@ -23,7 +23,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header justify-content-between">
-                                <div><h4 class="card-title">Vendors List</h4></div>
+                                <div><h4 class="card-title">Pending Products</h4></div>
                                 <div>
                                     <input type="text" id="searchKey__" placeholder="Search">
                                     <select id="selected_row_per_page" title="Display row per page">
