@@ -49,7 +49,7 @@ class PopupController extends Controller
             'button_background'=>'nullable|string',
             'button_text_color'=>'nullable|string',
             'button_link'=>'nullable|url',
-            'popup_background_image'=>'nullable|image:png,jpeg,jpg,gif|max:1000|dimensions:width=830,height=398',
+            'popup_background_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=830,height=398',
             'start_time'=>'required|date',
             'end_time'=>'required|date',
             'url_list'=>'required|string|max:3000'
