@@ -4,9 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Customfield extends Model
+class CustomField extends Model
 {
-    protected $table = 'customfields';
+    //
 }
-
-

@@ -18,17 +18,17 @@ class CreateCategoriesTable extends Migration
             $table->unsignedInteger('parent_id')->nullable();
             $table->string('name');
             $table->string('slug');
-            $table->string('title');
-            $table->text('desc');
-            $table->text('keyword');
-            $table->string('order');
-            $table->string('home_order');
-            $table->boolean('visiblity')->default(1);
-            $table->boolean('home_visiblity')->default(1);
-            $table->boolean('image_visiblity')->default(1);
-            $table->text('photo')->nullable();
+            $table->string('title_meta_tag')->nullable();
+            $table->text('description')->nullable();
+            $table->text('keywords')->nullable();
+            $table->string('category_order');
+            $table->string('homepage_order');
+            $table->integer('commission');
+            $table->tinyInteger('visibility')->default(1);
+            $table->tinyInteger('show_on_homepage')->default(1);
+            $table->tinyInteger('show_image_nav')->default(1);
+            $table->string('image')->nullable();
             $table->boolean('deleted')->default(0);
-            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

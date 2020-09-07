@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBannersTable extends Migration
+class CreateDealsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateBannersTable extends Migration
      */
     public function up()
     {
-        Schema::create('banners', function (Blueprint $table) {
+        Schema::create('deals', function (Blueprint $table) {
             $table->id();
-            $table->string('type')->default('Banner');//Banner or AdsBanner
-            $table->string('title')->nullable();
-            $table->string('link')->nullable();
-            $table->string('order_no');
+            $table->unsignedBigInteger('product_id');
             $table->date('start_time');
             $table->date('end_time');
-            $table->string('image_lg');
-            $table->string('ads_banner_position')->nullable();
+            $table->integer('price');
+            $table->integer('quantity');
+            $table->tinyInteger('status')->default(0);// 0 or 1 (approved or not), by admin
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ class CreateBannersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('banners');
+        Schema::dropIfExists('deals');
     }
 }
