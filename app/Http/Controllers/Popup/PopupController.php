@@ -7,6 +7,7 @@ use App\Http\Controllers\FileUploader;
 use Illuminate\Http\Request;
 use App\Popup;
 use Carbon\Carbon;
+use Auth;
 use Illuminate\Support\Facades\Validator;
 
 class PopupController extends Controller
@@ -94,7 +95,7 @@ class PopupController extends Controller
         $popupBG = NULL;
         $location = "upload-images/popup/";
         if($request->hasFile('popup_background_image')){
-            $fileName ='popup-bg-'.uniqid();
+            $fileName ='popup-bg-'.uniqid().Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('popup_background_image'), $fileName, $location);
             $popupBG = $fileName__;
         }
@@ -229,7 +230,7 @@ class PopupController extends Controller
                 $obj_fu->deleteFile($file_name, $location);
             }
 
-            $fileName ='popup-bg-'.uniqid();
+            $fileName ='popup-bg-'.uniqid().Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('popup_background_image'), $fileName, $location);
             $popupBG = $fileName__;
         }

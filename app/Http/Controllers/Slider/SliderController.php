@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileUploader;
 use Illuminate\Http\Request;
 use App\Slider;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
@@ -100,7 +101,7 @@ class SliderController extends Controller
         $smImage = "";
         $location = "upload-images/sliders/";
         if($request->hasFile('image_lg')){
-            $fileName ='slider-'.uniqid();
+            $fileName ='slider-'.uniqid().Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
             $lgImage = $fileName__;
         }else{
@@ -282,7 +283,7 @@ class SliderController extends Controller
                 $obj_fu->deleteFile($file_name, $location);
             }
             //upload
-            $fileName ='slider-'.uniqid();
+            $fileName ='slider-'.uniqid().Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
             $lgImage = $fileName__;
         }
@@ -294,7 +295,7 @@ class SliderController extends Controller
                 $obj_fu->deleteFile($file_name, $location);
             }
             //upload
-            $fileName ='slider-'.uniqid();
+            $fileName ='slider-'.uniqid().Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('image_sm'), $fileName, $location);
             $smImage = $fileName__;
         }

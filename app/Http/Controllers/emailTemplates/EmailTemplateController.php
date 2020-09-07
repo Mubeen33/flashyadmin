@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\EmailTemplate;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Auth;
 
 class EmailTemplateController extends Controller
 {
@@ -166,7 +167,7 @@ class EmailTemplateController extends Controller
                     $obj_fu->deleteFile($file_name, $location);
                 }
                 //upload new one
-                $fileName ='banner-'.uniqid();
+                $fileName ='banner-'.uniqid().Auth::user()->id;
                 $fileName__ = $obj_fu->fileUploader($request->file('top_banner'), $fileName, $location);
                 $top_banner = $fileName__;
             }
@@ -175,7 +176,7 @@ class EmailTemplateController extends Controller
         //if not old data
         if (!$oldData) {
             if ($request->hasFile('top_banner')) {
-                $fileName ='banner-'.uniqid();
+                $fileName ='banner-'.uniqid().Auth::user()->id;
                 $fileName__ = $obj_fu->fileUploader($request->file('top_banner'), $fileName, $location);
                 $top_banner = $fileName__;
             }else{
@@ -192,7 +193,7 @@ class EmailTemplateController extends Controller
                 $obj_fu->deleteFile($file_name, $location);
             }
             //upload new one
-            $fileName ='banner-'.uniqid();
+            $fileName ='banner-'.uniqid().Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('footer_banner'), $fileName, $location);
             $footer_banner = $fileName__;
         }

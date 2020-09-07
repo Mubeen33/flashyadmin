@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileUploader;
 use Illuminate\Http\Request;
 use App\Coupon;
+use Auth;
 use Carbon\Carbon;
 
 class CouponController extends Controller
@@ -46,7 +47,7 @@ class CouponController extends Controller
         $coupon = NULL;
         $location = "upload-images/coupons/";
         if($request->hasFile('coupon_image')){
-            $fileName ='coupon-'.uniqid();
+            $fileName ='coupon-'.uniqid().Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('coupon_image'), $fileName, $location);
             $coupon = $fileName__;
         }else{
@@ -121,7 +122,7 @@ class CouponController extends Controller
                 $obj_fu->deleteFile($file_name, $location);
             }
             //upload
-            $fileName ='coupon-'.uniqid();
+            $fileName ='coupon-'.uniqid().Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('coupon_image'), $fileName, $location);
             $coupon = $fileName__;
         }

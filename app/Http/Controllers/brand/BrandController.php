@@ -7,6 +7,7 @@ use App\Http\Controllers\FileUploader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Brand;
+use Auth;
 use Freshbitsweb\Laratables\Laratables;
 use Illuminate\Support\Facades\Validator;
 
@@ -50,7 +51,7 @@ class BrandController extends Controller
         $location = "upload-images/brands/";
         if($request->hasFile('image')){
             $obj_fu = new FileUploader();
-            $fileName ='brands-'.uniqid().mt_rand(10, 9999);
+            $fileName ='brands-'.uniqid().mt_rand(10, 9999).Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
             $image = $fileName__;
         }else{
@@ -118,7 +119,7 @@ class BrandController extends Controller
                 $obj_fu->deleteFile($file_name, $location);
             }
 	       //upload new one
-		    $fileName ='brands-'.uniqid().mt_rand(10, 9999);
+		    $fileName ='brands-'.uniqid().mt_rand(10, 9999).Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
             $image = $fileName__;
 		}

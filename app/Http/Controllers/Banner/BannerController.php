@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\FileUploader;
 use App\Banner;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
@@ -115,74 +116,50 @@ class BannerController extends Controller
                     'need_scroll'=>"no"
                 ], 422);
             }
-            $fileName = 'banner-'.uniqid();
+            $fileName = 'banner-'.uniqid().Auth::user()->id;
         }else{
+            $validation = NULL;
 
             $validation = Validator::make($request->all(), [
                 'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
             ]);
-            if ($validation->fails()) {
-                return response()->json([
-                    'field'=>"ads_banner_position",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"Required Banner Position",
-                    'need_scroll'=>"no"
-                ], 422);
-            }
 
             if ($request->ads_banner_position === "Banner-Groups") {
                 $validation = Validator::make($request->all(), [
                     'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
                 ]);
-                if ($validation->fails()) {
-                    return response()->json([
-                        'field'=>"image_lg",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=530, height=285",
-                        'need_scroll'=>"no"
-                    ], 422);
-                }
             }
             if ($request->ads_banner_position === "Banner-Long") {
                 $validation = Validator::make($request->all(), [
                     'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
                 ]);
-                if ($validation->fails()) {
-                    return response()->json([
-                        'field'=>"image_lg",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=1090, height=245",
-                        'need_scroll'=>"no"
-                    ], 422);
-                }
             }
             if ($request->ads_banner_position === "Banner-Short") {
                 $validation = Validator::make($request->all(), [
                     'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
                 ]);
-                if ($validation->fails()) {
-                    return response()->json([
-                        'field'=>"image_lg",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=530, height=245",
-                        'need_scroll'=>"no"
-                    ], 422);
-                }
             }
             if ($request->ads_banner_position === "Banner-Box") {
                 $validation = Validator::make($request->all(), [
                     'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
                 ]);
-                if ($validation->fails()) {
+            }
+
+            if ($validation->fails()) {
+                foreach ($validation->messages()->get('*') as $key => $value) {
+                    $value = json_encode($value);
+                    $text = str_replace('["', "", $value);
+                    $text = str_replace('"]', "", $text);
                     return response()->json([
-                        'field'=>"image_lg",
+                        'field'=>$key,
                         'targetHighlightIs'=>"",
-                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=487, height=379",
-                        'need_scroll'=>"no"
+                        'msg'=>$text,
+                        'need_scroll'=>"yes"
                     ], 422);
                 }
             }
-            $fileName = 'ads-banner-'.uniqid();
+
+            $fileName = 'ads-banner-'.uniqid().Auth::user()->id;
         }
 
         //insert image
@@ -307,74 +284,49 @@ class BannerController extends Controller
                         'need_scroll'=>"no"
                     ], 422);
                 }
-                $fileName = 'banner-'.uniqid();
+                $fileName = 'banner-'.uniqid().Auth::user()->id;
             
             }else{
+                $validation = NULL;
                 $validation = Validator::make($request->all(), [
                     'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
                 ]);
-                if ($validation->fails()) {
-                    return response()->json([
-                        'field'=>"ads_banner_position",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"Required Banner Position",
-                        'need_scroll'=>"no"
-                    ], 422);
-                }
 
                 if ($request->ads_banner_position === "Banner-Groups") {
                     $validation = Validator::make($request->all(), [
                         'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
                     ]);
-                    if ($validation->fails()) {
-                        return response()->json([
-                            'field'=>"image_lg",
-                            'targetHighlightIs'=>"",
-                            'msg'=>"Image is required of png,jpeg,jpg,gif & width=530, height=285",
-                            'need_scroll'=>"no"
-                        ], 422);
-                    }
                 }
                 if ($request->ads_banner_position === "Banner-Long") {
                     $validation = Validator::make($request->all(), [
                         'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
                     ]);
-                    if ($validation->fails()) {
-                        return response()->json([
-                            'field'=>"image_lg",
-                            'targetHighlightIs'=>"",
-                            'msg'=>"Image is required of png,jpeg,jpg,gif & width=1090, height=245",
-                            'need_scroll'=>"no"
-                        ], 422);
-                    }
                 }
                 if ($request->ads_banner_position === "Banner-Short") {
                     $validation = Validator::make($request->all(), [
                         'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
                     ]);
-                    if ($validation->fails()) {
-                        return response()->json([
-                            'field'=>"image_lg",
-                            'targetHighlightIs'=>"",
-                            'msg'=>"Image is required of png,jpeg,jpg,gif & width=530, height=245",
-                            'need_scroll'=>"no"
-                        ], 422);
-                    }
                 }
                 if ($request->ads_banner_position === "Banner-Box") {
                     $validation = Validator::make($request->all(), [
                         'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
                     ]);
-                    if ($validation->fails()) {
+                }
+
+                if ($validation->fails()) {
+                    foreach ($validation->messages()->get('*') as $key => $value) {
+                        $value = json_encode($value);
+                        $text = str_replace('["', "", $value);
+                        $text = str_replace('"]', "", $text);
                         return response()->json([
-                            'field'=>"image_lg",
+                            'field'=>$key,
                             'targetHighlightIs'=>"",
-                            'msg'=>"Image is required of png,jpeg,jpg,gif & width=487, height=379",
-                            'need_scroll'=>"no"
+                            'msg'=>$text,
+                            'need_scroll'=>"yes"
                         ], 422);
                     }
                 }
-                $fileName = 'ads-banner-'.uniqid();
+                $fileName = 'ads-banner-'.uniqid().Auth::user()->id;
             }
 
             //upload new image

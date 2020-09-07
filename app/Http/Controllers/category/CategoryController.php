@@ -6,6 +6,7 @@ use App\Http\Controllers\FileUploader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Category;
+use Auth;
 use Freshbitsweb\Laratables\Laratables;
 use Illuminate\Support\Facades\Validator;
 
@@ -62,7 +63,7 @@ class CategoryController extends Controller
         $location = "upload-images/category/";
         if($request->hasFile('image')){
             $obj_fu = new FileUploader();
-            $fileName ='category-'.uniqid().mt_rand(10, 9999);
+            $fileName ='category-'.uniqid().mt_rand(10, 9999).Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
             $image = $fileName__;
         }
@@ -216,7 +217,7 @@ class CategoryController extends Controller
                 $obj_fu->deleteFile($file_name, $location);
             }
            //upload new one
-            $fileName ='category-'.uniqid().mt_rand(10, 9999);
+            $fileName ='category-'.uniqid().mt_rand(10, 9999).Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
             $image = $fileName__;
         }
