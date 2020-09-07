@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Products;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
+use App\Vendor;
 use Carbon\Carbon;
 
 class ProductController extends Controller
@@ -16,8 +17,20 @@ class ProductController extends Controller
         		])
         		->orderBy('id', 'DESC')
                 ->paginate(5);
+        $vendorsID = Product::where([
+                    'approved'=>0,
+                    'disable'=>0
+                ])
+                ->get('vendor_id');
+        $vendorID_list = NULL;
+        foreach ($vendorsID as $key => $value) {
+            $vendorID_list[] = $value->vendor_id;
+        }
+        $vendors = Vendor::whereIn('id', $vendorID_list)
+                    ->orderBy('first_name', 'ASC')
+                    ->get();
 
-        return view('product.pending-products', compact('data'));
+        return view('product.pending-products', compact('data', 'vendors'));
     }
 
     //show details
@@ -72,6 +85,7 @@ class ProductController extends Controller
             $sorting_order = $request->sorting_order;
             $status = $request->status;
             $row_per_page = $request->row_per_page;
+            $id = $request->id;
 
             if ($sort_by == "") {
                 $sort_by = "id";
@@ -81,18 +95,37 @@ class ProductController extends Controller
             }
 
             if ($request->search_key != "") {
+                if ($id != "") {
+                    $data = Product::where("title", "LIKE", "%$searchKey%")
+                    ->orWhere("created_at", "LIKE", "%$searchKey%")
+                    ->where('vendor_id', $id)
+                    ->where('approved', $status)
+                    ->where('disable', 0)
+                    ->orderBy($sort_by, $sorting_order )
+                    ->paginate($row_per_page );
+                    return view('product.partials.pending-product-list', compact('data'))->render();
+                }
                 $data = Product::where([
         			'approved'=>$status,
         			'disable'=>0,//not disable
         		])
         		->where("title", "LIKE", "%$searchKey%")
-                ->orWhere("product_type", "LIKE", "%$searchKey%")
                 ->orWhere("created_at", "LIKE", "%$searchKey%")
         		->orderBy($sort_by, $sorting_order )
                 ->paginate($row_per_page );
                 return view('product.partials.pending-product-list', compact('data'))->render();
             }
 
+            if ($id != "") {
+                $data = Product::where([
+                            'vendor_id'=>$id,
+                            'approved'=>$status,
+                            'disable'=>0,//not disable
+                        ])
+                        ->orderBy($sort_by, $sorting_order)
+                        ->paginate($row_per_page );
+                return view('product.partials.pending-product-list', compact('data'))->render();
+            }
             $data = Product::where([
 	        			'approved'=>$status,
 	        			'disable'=>0,//not disable

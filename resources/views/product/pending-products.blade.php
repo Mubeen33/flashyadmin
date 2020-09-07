@@ -4,7 +4,8 @@
 @push('styles')
 <style type="text/css">
     #searchKey__,
-    #selected_row_per_page{
+    #selected_row_per_page,
+    #hidden__id{
         border: 1px solid #ddd;
         padding: 2px 10px;
         outline: none;
@@ -25,6 +26,12 @@
                             <div class="card-header justify-content-between">
                                 <div><h4 class="card-title">Pending Products</h4></div>
                                 <div>
+                                    <select id="hidden__id" title="Select Vendor">
+                                        <option value="">Select Vendor</option>
+                                        @foreach($vendors as $vendor)
+                                        <option value="{{ $vendor->id }}">{{ $vendor->first_name." ".$vendor->last_name }}</option>
+                                        @endforeach
+                                    </select>
                                     <input type="text" id="searchKey__" placeholder="Search">
                                     <select id="selected_row_per_page" title="Display row per page">
                                         <option value="5" selected="1">Show 5</option>
@@ -73,7 +80,6 @@
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">
                                         <input type="hidden" id="hidden__status" value="0">
-                                        <input type="hidden" id="hidden__id" value="">
                                     </div>
                                 </div>
                             </div>
@@ -84,5 +90,22 @@
 @endsection
 
 @push('scripts')
+
+<script type="text/javascript">
+    $(document).on('change', '#hidden__id', function(e){
+        e.preventDefault()
+        let action_url = $("#hidden__action_url").val()
+        let pageNumber = 1;
+        let searchKey = $("#searchKey__").val()
+        $("#hidden__page_number").val(pageNumber)
+        let sort_by = $("#hidden__sort_by").val()
+        let sorting_order = $("#hidden__sorting_order").val()
+        let hidden__status = $("#hidden__status").val()
+        let row_per_page = $("#selected_row_per_page").val()
+        let hidden__id = $("#hidden__id").val()
+        fetch_paginate_data(action_url, pageNumber, searchKey, sort_by, sorting_order, hidden__status, row_per_page, hidden__id);
+    })
+</script>
+
 <script type="text/javascript" src="{{ asset('js/ajax-pagination.js') }}"></script>
 @endpush

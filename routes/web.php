@@ -20,6 +20,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
 	Route::resource('vendors', 'Vendors\VendorController');
 	Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
   Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
+  Route::post('new-vendor/update-pass','Vendors\VendorController@update_vendor_pass')->name("vendor.passUpdate.post");
   //ajax requests
   Route::get('vendors-ajax-pagination/fetch', 'Vendors\VendorController@fetch_paginate_data')->name('vendors.ajaxPgination');
   

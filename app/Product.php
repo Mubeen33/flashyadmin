@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     public function get_vendor(){
-    	$this->belongsTo('App\Vendor', 'vendor_id');
+    	$this->belongsTo('App\Vendor', 'id', 'vendor_id');
     }
 
     public function get_category(){

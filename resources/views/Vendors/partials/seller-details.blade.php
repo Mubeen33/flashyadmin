@@ -94,7 +94,7 @@
                                     </div>
                                 </div>
 
-                                {{--Off Password Updating 
+                                
                                 <div class="col-md-12 pt-1">
                                     <div class="row">
                                         <div class="col-md-3 col-3">
@@ -107,7 +107,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                --}}
+                                
                             </div>
                         </div>
                         
