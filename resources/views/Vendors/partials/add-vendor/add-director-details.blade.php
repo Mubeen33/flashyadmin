@@ -44,22 +44,22 @@
                     
                     <div class="col-lg-4 col-md-6">
                         <label>Vat Register?</label>
-                        <select onclick="removeErrorLevels($(this), 'input')"  name="vat_register" class="form-control">
+                        <select is-required='true' onclick="removeErrorLevels($(this), 'input')"  name="vat_register" class="form-control">
                             <option value="Yes" selected="1">Yes</option>
                             <option value="No">No</option>
                         </select>
-                        <small class="place-error--msg"></small>
+                        <small class="place-error--msg text-danger"></small>
                     </div>
 
                     <div class="col-lg-4 col-md-6">
                         <label>Product Type</label>
-                        <select onclick="removeErrorLevels($(this), 'input')"  required="1" name="product_type" class="form-control">
-                            <option value="Physical Products">Physical Product </option>
+                        <select is-required='true' onclick="removeErrorLevels($(this), 'input')"  required="1" name="product_type" class="form-control">
+                            <option value="Physical Products" selected="1">Physical Product </option>
                             <option value="Digital Products">Digital Products</option>
                             <option value="Grouped Products">Grouped Products</option>
                             <option value="Services">Services</option>
                         </select>
-                        <small class="place-error--msg"></small>
+                        <small class="place-error--msg text-danger"></small>
                     </div>
                 </div>
             </div>

@@ -27,25 +27,10 @@ class BrandController extends Controller
 
     public function createBrand(Request $request){
 
-        $validation = Validator::make($request->all(),[
+        $this->validate($request,[
             'name'=>'required|string|max:60',
             'image'=>'required|image|mimes:png,jpg,jpeg,gif'
         ]);
-
-        if ($validation->fails()) {
-            foreach ($validation->messages()->get('*') as $key => $value) {
-                $value = json_encode($value);
-                $text = str_replace('["', "", $value);
-                $text = str_replace('"]', "", $text);
-                return response()->json([
-                    'field'=>$key,
-                    'targetHighlightIs'=>"",
-                    'msg'=>$text,
-                    'need_scroll'=>"no"
-                ], 422);
-            }
-        }
-        
 
         $image = "";
         $location = "upload-images/brands/";
@@ -55,12 +40,7 @@ class BrandController extends Controller
             $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
             $image = $fileName__;
         }else{
-            return response()->json([
-                    'field'=>"image",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"Image is required",
-                    'need_scroll'=>"no"
-                ], 422);
+          return redirect()->back()->with('error', "Image is required");
         }
 
     	$brand = new Brand();
@@ -69,10 +49,7 @@ class BrandController extends Controller
     	$brand->image        = url('/')."/".$location.$image;
 
         if ($brand->save()) {
-            return response()->json([
-                    'success'=>true,
-                    'msg'=>"Brand added Successfully"
-                ], 200);
+            return redirect()->route('admin.brands.brandslist')->with('error', "Brand added Successfully");
         }
     }
     // edit brand
@@ -87,24 +64,10 @@ class BrandController extends Controller
 
     public function updateBrand(Request $request){
 
-        $validation = Validator::make($request->all(),[
+        $this->validate($request,[
             'name'=>'required|string|max:60',
             'image'=>'nullable|image|mimes:png,jpg,jpeg,gif'
         ]);
-
-        if ($validation->fails()) {
-            foreach ($validation->messages()->get('*') as $key => $value) {
-                $value = json_encode($value);
-                $text = str_replace('["', "", $value);
-                $text = str_replace('"]', "", $text);
-                return response()->json([
-                    'field'=>$key,
-                    'targetHighlightIs'=>"",
-                    'msg'=>$text,
-                    'need_scroll'=>"no"
-                ], 422);
-            }
-        }
 
     	$brand = Brand::find($request->id);
 
@@ -129,10 +92,7 @@ class BrandController extends Controller
         $brand->image = ($image === NULL ? $brand->image : $url."/".$location.$image);
 
         if ($brand->save()) {
-            return response()->json([
-                    'success'=>true,
-                    'msg'=>"Brand updated Successfully!",
-                ], 200);
+            return redirect()->route('admin.brands.brandslist')->with('success', "Brand updated Successfully");
         }
     }
 

@@ -13,7 +13,8 @@
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Slider Edit</li>
 @endsection    
-@section('content')                                
+@section('content')
+    @include('msg.msg')                             
             <div class="content-body">
                 <div class="row" id="basic-table">
                     <div class="col-12">
@@ -23,7 +24,6 @@
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
-                                    @include('msg.msg')
                                     <form id="slider__form" action="{{ route('admin.sliders.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
@@ -180,25 +180,25 @@
                                                 <div class="col-lg-4 col-md-12">
                                                     <div class="form-group">
                                                         <label>Slider Type</label>
-                                                        <select onclick="removeErrorLevels($(this), 'input')" class="form-control" name="slider_type">
+                                                        <select is-required='true' onclick="removeErrorLevels($(this), 'input')" class="form-control" name="slider_type">
                                                             <option value="Product" @if($data->slider_type) === "Product" ) selected @endif>Product Slider</option>
                                                             <option value="Deal" @if($data->slider_type === "Deal" ) selected @endif>Deal Slider</option>
                                                         </select>
-                                                        <small class="place-error--msg"></small>
+                                                        <small class="place-error--msg text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-md-12">
                                                     <div class="form-group">
                                                         <label>Start Time</label>
-                                                        <input onclick="removeErrorLevels($(this), 'input')" type="date" name="start_time" class="form-control" value="{{ $data->start_time }}">
-                                                        <small class="place-error--msg"></small>
+                                                        <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="date" name="start_time" class="form-control" value="{{ $data->start_time }}">
+                                                        <small class="place-error--msg text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-md-12">
                                                      <div class="form-group">
                                                         <label>End Time</label>
-                                                        <input onclick="removeErrorLevels($(this), 'input')" type="date" name="end_time" class="form-control" value="{{ $data->end_time }}">    
-                                                        <small class="place-error--msg"></small>
+                                                        <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="date" name="end_time" class="form-control" value="{{ $data->end_time }}">    
+                                                        <small class="place-error--msg text-danger"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -249,16 +249,8 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("#slider__form").on('submit', function(e){
-            e.preventDefault()
-            let formID = "slider__form";
-            let form = $(this);
-            let url = form.attr('action');
-            let type = form.attr('method');
-            let form_data = form.serialize();
-            formSubmitWithFile(formID, url, type, form_data);
-        })
+    $("#slider__form").on('submit', function(e){
+        formClientSideValidation(e, "slider__form", 'yes');
     })
 </script>
 <script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>

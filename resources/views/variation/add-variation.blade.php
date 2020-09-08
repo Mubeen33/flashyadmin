@@ -13,7 +13,8 @@
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
         <li class="breadcrumb-item"><a href="#">Add Variation</a></li>
 @endsection    
-@section('content')         
+@section('content')
+ @include('msg.msg')         
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
@@ -31,7 +32,6 @@
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
-                                            @include('msg.msg')
                                                 <div class="form-body">
                                                     <div class="row">
                                                         <div class="col-12">
@@ -40,8 +40,8 @@
                                                                     <span>Name</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="text" name="variation_name" class="form-control">
-                                                                    <small class="place-error--msg"></small>
+                                                                    <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="text" name="variation_name" class="form-control">
+                                                                    <small class="place-error--msg text-danger"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -70,10 +70,10 @@
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <div class="custom-control custom-radio">
-                                                                        <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="1" name="image_approval" id="customRadio1">
+                                                                        <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="1" name="image_approval" id="customRadio1" checked="1">
                                                                         <label class="custom-control-label" for="customRadio1">Yes</label>
                                                                         <br>
-                                                                        <small class="place-error--msg"></small>
+                                                                        <small class="place-error--msg text-danger"></small>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4">
@@ -217,18 +217,6 @@
 
 @push('scripts')
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("#addVariationForm_").on('submit', function(e){
-            e.preventDefault()
-            let formID = "addVariationForm_";
-            let form = $(this);
-            let url = form.attr('action');
-            let type = form.attr('method');
-            let form_data = form.serialize();
-            formSubmitWithFile(formID, url, type, form_data);
-        })
-    });
-
     // Append new rows
         function appenddToForm(type){
 
@@ -253,6 +241,13 @@
     function delete_choice_clearfix(em){
         $(em).parent().parent().remove();
     }
+</script>
+
+
+<script type="text/javascript">
+    $("#addVariationForm_").on('submit', function(e){
+        formClientSideValidation(e, "addVariationForm_", 'yes');
+    })
 </script>
 <script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>
 @endpush

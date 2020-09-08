@@ -42,7 +42,7 @@ class PopupController extends Controller
     public function store(Request $request)
     {
         //store sliders
-        $validation = Validator::make($request->all(), [
+        $this->validate($request, [
             'name'=>'required|string|max:70|unique:popups',
             'title'=>'required|string|max:80',
             'description'=>'nullable|string|max:150',
@@ -56,38 +56,14 @@ class PopupController extends Controller
             'url_list'=>'required|string|max:3000'
         ]);
 
-        if ($validation->fails()) {
-            foreach ($validation->messages()->get('*') as $key => $value) {
-                $value = json_encode($value);
-                $text = str_replace('["', "", $value);
-                $text = str_replace('"]', "", $text);
-                return response()->json([
-                    'field'=>$key,
-                    'targetHighlightIs'=>"",
-                    'msg'=>$text,
-                    'need_scroll'=>"yes"
-                ], 422);
-            }
-        }
-
         $current = Carbon::now();
         $today = $current->format('Y-m-d');
         if ($today > (date('Y-m-d', strtotime($request->start_time)))) {
-            return response()->json([
-                    'field'=>"start_time",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"SORRY - Start Time can not be backdate",
-                    'need_scroll'=>"no"
-                ], 422);
+            return redirect()->back()->withInput()->with('error', "SORRY - Start Time can not be backdate");
         }
 
         if (date('Y-m-d', strtotime($request->start_time)) >= date('Y-m-d', strtotime($request->end_time))) {
-            return response()->json([
-                    'field'=>"end_time",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"SORRY - End Time can not be equal or less of Start Time",
-                    'need_scroll'=>"no"
-                ], 422);
+            return redirect()->back()->withInput()->with('error', "SORRY - End Time can not be equal or less of Start Time");
         }
 
         //insert image
@@ -118,12 +94,9 @@ class PopupController extends Controller
         ]);
 
         if ($created == true) {
-            return response()->json([
-                    'success'=>true,
-                    'msg'=>"Popup Created",
-            ], 200);
+            return redirect()->back()->with('success', "Popup Created");
         }else{
-            return response()->json("Something went wrong, please try again later", 500);
+            return redirect()->back()->with('success', "Something went wrong, please try again later");
         }
     }
 
@@ -161,7 +134,7 @@ class PopupController extends Controller
     public function update(Request $request, $id)
     {
         //edit popup
-        $validation = Validator::make($request->all(), [
+        $this->validate($request, [
             'name'=>'required|string|max:70|unique:popups,name,'.$id,
             'title'=>'required|string|max:80',
             'description'=>'nullable|string|max:150',
@@ -175,23 +148,9 @@ class PopupController extends Controller
             'url_list'=>'required|string|max:3000'
         ]);
 
-        if ($validation->fails()) {
-            foreach ($validation->messages()->get('*') as $key => $value) {
-                $value = json_encode($value);
-                $text = str_replace('["', "", $value);
-                $text = str_replace('"]', "", $text);
-                return response()->json([
-                    'field'=>$key,
-                    'targetHighlightIs'=>"",
-                    'msg'=>$text,
-                    'need_scroll'=>"yes"
-                ], 422);
-            }
-        }
-
         $oldData = Popup::where('id', $id)->first();
         if (!$oldData) {
-            return response()->json("SORRY - Invalid Request", 404);
+            return redirect()->back()->withInput()->with('error', "SORRY - Invalid Request");
         }
 
         $current = Carbon::now();
@@ -199,23 +158,13 @@ class PopupController extends Controller
 
         if ($oldData->start_time != $request->start_time) {
             if ($today > (date('Y-m-d', strtotime($request->start_time)))) {
-                return response()->json([
-                        'field'=>"start_time",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"SORRY - Start Time can not be backdate",
-                        'need_scroll'=>"no"
-                    ], 422);
+                return redirect()->back()->withInput()->with('error', "SORRY - Start Time can not be backdate");
             }
         }
 
         if ($oldData->end_time != $request->end_time) {
             if (date('Y-m-d', strtotime($request->start_time)) >= date('Y-m-d', strtotime($request->end_time))) {
-                return response()->json([
-                        'field'=>"end_time",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"SORRY - End Time can not be equal or less of Start Time",
-                        'need_scroll'=>"no"
-                    ], 422);
+                return redirect()->back()->withInput()->with('error', "SORRY - End Time can not be equal or less of Start Time");
             }
         }
 
@@ -252,12 +201,9 @@ class PopupController extends Controller
         ]);
 
         if ($updated == true) {
-            return response()->json([
-                    'success'=>true,
-                    'msg'=>"Popup Updated",
-            ], 200);
+            return redirect()->back()->withInput()->with('success', "Popup Updated");
         }else{
-            return response()->json("Something went wrong, please try again later", 500);
+            return redirect()->back()->withInput()->with('error', "SORRY - Something went wrong");
         }
     }
 

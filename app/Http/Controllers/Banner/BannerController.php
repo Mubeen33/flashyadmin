@@ -68,95 +68,48 @@ class BannerController extends Controller
             'end_time'=>'required|date'
         ]);
 
-        if ($validation->fails()) {
-            foreach ($validation->messages()->get('*') as $key => $value) {
-                $value = json_encode($value);
-                $text = str_replace('["', "", $value);
-                $text = str_replace('"]', "", $text);
-                return response()->json([
-                    'field'=>$key,
-                    'targetHighlightIs'=>"",
-                    'msg'=>$text,
-                    'need_scroll'=>"yes"
-                ], 422);
-            }
-        }
-
         $current = Carbon::now();
         $today = $current->format('Y-m-d');
         if ($today > (date('Y-m-d', strtotime($request->start_time)))) {
-            return response()->json([
-                    'field'=>"start_time",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"SORRY - Start Time can not be backdate",
-                    'need_scroll'=>"yes"
-                ], 422);
+            return redirect()->back()->with('error', 'SORRY - Start Time can not be backdate');
         }
 
         if (date('Y-m-d', strtotime($request->start_time)) >= date('Y-m-d', strtotime($request->end_time))) {
-            return response()->json([
-                    'field'=>"end_time",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"SORRY - End Time can not be equal or less of Start Time",
-                    'need_scroll'=>"yes"
-                ], 422);
+            return redirect()->back()->with('error', 'SORRY - End Time can not be equal or less of Start Time');
         }
         
 
         $fileName = "";
         if ($request->type === "Banner") {
-            $validation = Validator::make($request->all(), [
+            $this->validate($request, [
                 'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193'
             ]);
-            if ($validation->fails()) {
-                return response()->json([
-                    'field'=>"image_lg",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"Image is required of png,jpeg,jpg,gif & width=390, height=193",
-                    'need_scroll'=>"no"
-                ], 422);
-            }
             $fileName = 'banner-'.uniqid().Auth::user()->id;
         }else{
-            $validation = NULL;
 
-            $validation = Validator::make($request->all(), [
+            $this->validate($request, [
                 'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
             ]);
 
             if ($request->ads_banner_position === "Banner-Groups") {
-                $validation = Validator::make($request->all(), [
+                $this->validate($request, [
                     'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
                 ]);
             }
             if ($request->ads_banner_position === "Banner-Long") {
-                $validation = Validator::make($request->all(), [
+                $this->validate($request, [
                     'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
                 ]);
             }
             if ($request->ads_banner_position === "Banner-Short") {
-                $validation = Validator::make($request->all(), [
+                $this->validate($request, [
                     'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
                 ]);
             }
             if ($request->ads_banner_position === "Banner-Box") {
-                $validation = Validator::make($request->all(), [
+                $this->validate($request, [
                     'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
                 ]);
-            }
-
-            if ($validation->fails()) {
-                foreach ($validation->messages()->get('*') as $key => $value) {
-                    $value = json_encode($value);
-                    $text = str_replace('["', "", $value);
-                    $text = str_replace('"]', "", $text);
-                    return response()->json([
-                        'field'=>$key,
-                        'targetHighlightIs'=>"",
-                        'msg'=>$text,
-                        'need_scroll'=>"yes"
-                    ], 422);
-                }
             }
 
             $fileName = 'ads-banner-'.uniqid().Auth::user()->id;
@@ -170,14 +123,7 @@ class BannerController extends Controller
             $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
             $lgImage = $fileName__;
         }else{
-            if ($validation->fails()) {
-                return response()->json([
-                    'field'=>"image_lg",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"Please Upload Image",
-                    'need_scroll'=>"no"
-                ], 422);
-            }
+            return redirect()->back()->with('error', 'Please Upload Image');
         }
 
         $url = $this->getURL();
@@ -194,12 +140,9 @@ class BannerController extends Controller
         ]);
 
         if ($inserted == true) {
-            return response()->json([
-                    'success'=>true,
-                    'msg'=>"Banner Added",
-            ], 200);
+            return redirect()->back()->with('success', 'Banner Added');
         }else{
-            return response()->json("Something went wrong, please try again later", 500);
+            return redirect()->back()->with('error', 'Something went wrong.');
         }
     }
 
@@ -255,7 +198,7 @@ class BannerController extends Controller
             'link'=>'nullable|string|url',
             'order_no'=>'required|numeric',
             'start_time'=>'required|date',
-            'end_time'=>'required|date'
+            'end_time'=>'required|date',
         ]);
         $oldData = Banner::where([
             'id'=>$id,
@@ -273,58 +216,35 @@ class BannerController extends Controller
 
         if($request->hasFile('image_lg')){
             if ($request->type === "Banner") {
-                $validation = Validator::make($request->all(), [
+                $this->validate($request, [
                     'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193'
                 ]);
-                if ($validation->fails()) {
-                    return response()->json([
-                        'field'=>"image_lg",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=390, height=193",
-                        'need_scroll'=>"no"
-                    ], 422);
-                }
                 $fileName = 'banner-'.uniqid().Auth::user()->id;
             
             }else{
-                $validation = NULL;
-                $validation = Validator::make($request->all(), [
+                $this->validate($request, [
                     'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
                 ]);
 
                 if ($request->ads_banner_position === "Banner-Groups") {
-                    $validation = Validator::make($request->all(), [
+                    $this->validate($request, [
                         'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
                     ]);
                 }
                 if ($request->ads_banner_position === "Banner-Long") {
-                    $validation = Validator::make($request->all(), [
+                    $this->validate($request, [
                         'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
                     ]);
                 }
                 if ($request->ads_banner_position === "Banner-Short") {
-                    $validation = Validator::make($request->all(), [
+                    $this->validate($request, [
                         'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
                     ]);
                 }
                 if ($request->ads_banner_position === "Banner-Box") {
-                    $validation = Validator::make($request->all(), [
+                    $this->validate($request, [
                         'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
                     ]);
-                }
-
-                if ($validation->fails()) {
-                    foreach ($validation->messages()->get('*') as $key => $value) {
-                        $value = json_encode($value);
-                        $text = str_replace('["', "", $value);
-                        $text = str_replace('"]', "", $text);
-                        return response()->json([
-                            'field'=>$key,
-                            'targetHighlightIs'=>"",
-                            'msg'=>$text,
-                            'need_scroll'=>"yes"
-                        ], 422);
-                    }
                 }
                 $fileName = 'ads-banner-'.uniqid().Auth::user()->id;
             }
@@ -358,12 +278,9 @@ class BannerController extends Controller
         ]);
 
         if ($updated == true) {
-            return response()->json([
-                    'success'=>true,
-                    'msg'=>"Banner Updated",
-            ], 200);
+            return redirect()->back()->with('success', 'Banner Updated');
         }else{
-            return response()->json("Something went wrong, please try again later", 500);
+            return redirect()->back()->with('error', "Something went wrong, please try again later");
         }
     }
 
@@ -385,7 +302,7 @@ class BannerController extends Controller
         $id = \Crypt::decrypt($id);
         $data = Banner::where('id', $id)->first();
         if (!$data) {
-            return redirect()->back()->with('error', 'SORRY - Banner not Found!');
+            return redirect()->back()->with('error', "SORRY - Banner not Found");
         }
 
         //delete slider images

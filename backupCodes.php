@@ -1,453 +1,365 @@
-<?php
+@extends('layouts.master')
+@section('page-title','Add Category')
 
-namespace App\Http\Controllers\Banner;
+@push('styles')
+<style type="text/css">
+    .border-danger-alert{
+      border:1px solid red;
+   }
+</style>
+@endpush
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Http\Controllers\FileUploader;
-use App\Banner;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Validator;
+@section('breadcrumbs')
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Add Category</a></li>
+@endsection    
+@section('content')         
+            <div class="content-body">
+               
+                <section id="basic-horizontal-layouts">
+                    <form id="myForm__validate" action="{{route('admin.addCategory.post')}}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="row match-height">
+                            
+                            <div class="col-md-12 col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title"><b>Add Category</b></h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            @include('msg.msg')
+                                                <div class="form-body">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Category Name</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="text" id="name"  class="form-control required__true" name="name" placeholder="Category Name" value="{{ old('name') }}">
+                                                                    <small class="place-error--msg"></small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-class BannerController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $pageTitle = "Banners";
-        $data = Banner::where('type', 'Banner')
-                        ->orderBy('order_no', 'ASC')
-                        ->paginate(20);
-        return view('Banners.index', compact('data', 'pageTitle'));
-    }
-    public function ads_banner_index(){
-        $pageTitle = "Ads-Banners";
-        $data = Banner::where('type', 'Ads-Banner')
-                        ->orderBy('order_no', 'ASC')
-                        ->paginate(20);
-        return view('Banners.index', compact('data', 'pageTitle'));
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $pageTitle = "Banner";
-        return view('Banners.add', compact('pageTitle'));
-    }
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Slug</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="text" id="slug"  class="form-control required__true" name="slug" placeholder="Slug"  value="{{ old('slug') }}">
+                                                                    <small class="place-error--msg"></small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-    public function create_ads_banner()
-    {
-        $pageTitle = "Ads-Banner";
-        return view('Banners.add', compact('pageTitle'));
-    }
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Title(meta tag)</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="text" id="title"  class="form-control required__true" name="title" placeholder="Meta title"  value="{{ old('title') }}">
+                                                                    <small class="place-error--msg"></small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //store banners
-        $validation = Validator::make($request->all(), [
-            'type'=>'required|string|in:Banner,Ads-Banner',
-            'title'=>'nullable|string|max:100',
-            'link'=>'nullable|string|url',
-            'order_no'=>'required|numeric',
-            'start_time'=>'required|date',
-            'end_time'=>'required|date'
-        ]);
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Descripation(meta tag)</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="text" id="desc"  class="form-control" name="desc" placeholder="Meta descripation"  value="{{ old('desc') }}">
+                                                                    <small class="place-error--msg"></small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-        if ($validation->fails()) {
-            foreach ($validation->messages()->get('*') as $key => $value) {
-                $value = json_encode($value);
-                $text = str_replace('["', "", $value);
-                $text = str_replace('"]', "", $text);
-                return response()->json([
-                    'field'=>$key,
-                    'targetHighlightIs'=>"",
-                    'msg'=>$text,
-                    'need_scroll'=>"yes"
-                ], 422);
+
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Keywords(meta tag)</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="text" id="keyword"  class="form-control" name="keyword" placeholder="Meta Keywords"  value="{{ old('keyword') }}">
+                                                                    <small class="place-error--msg"></small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Order</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="number" min="1" value="1" id="order"  class="form-control required__true" name="order" placeholder="Order"  value="{{ old('order') }}">
+                                                                    <small class="place-error--msg"></small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Homepage order</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="number" min="1" value="1" id="home_order"  class="form-control" name="home_order" placeholder="homepage order">
+                                                                    <small class="place-error--msg"></small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                      
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Parent Category</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <select onclick="removeErrorLevels($(this), 'input')" class="form-control" name="parent_id[]" onchange="get_subcategories(this.value, 0);">
+>
+                                                                      <option value="">None</option>
+                                                                      @foreach ($categories as $category)
+                                                                        <option value="{{$category->id}}">{{$category->name}}</option> 
+                                                                      @endforeach
+                                                                  </select>
+                                                                  <small class="place-error--msg"></small>
+                                                                  <div id="subcategories_container"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12" id="scommission">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span id="label_commission">Category Commission</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="number" min="1" value="1" id="commission"  class="form-control required__true" name="commission" placeholder="Order">
+                                                                    <small class="place-error--msg"></small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                       <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Visibilty</span>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="1"  name="visiblity" id="customRadio6" checked="1">
+                                                                        <label class="custom-control-label" for="customRadio6">Yes</label>
+                                                                        <small class="place-error--msg"></small>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="0"  name="visiblity" id="customRadio5">
+                                                                        <label class="custom-control-label" for="customRadio5">No</label>
+                                                                        <small class="place-error--msg"></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>show on Homepage</span>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="1"  name="home_visiblity" id="customRadio4" checked="1">
+                                                                        <label class="custom-control-label" for="customRadio4">Yes</label>
+                                                                        <small class="place-error--msg"></small>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="0"  name="home_visiblity" id="customRadio3">
+                                                                        <label class="custom-control-label" for="customRadio3">No</label>
+                                                                        <small class="place-error--msg"></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Show Category on navigation</span>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="1"  name="image_visiblity" id="customRadio1" checked="1">
+                                                                        <label class="custom-control-label" for="customRadio1">Yes</label>
+                                                                        <small class="place-error--msg"></small>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="0"  name="image_visiblity" id="customRadio2">
+                                                                        <label class="custom-control-label" for="customRadio2">No</label>
+                                                                        <small class="place-error--msg"></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Category Image</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <div class="custom-file">
+                                                                        <input is-required='true' type="file" onchange="previewFile(this);" name="image" class="custom-file-input" id="inputGroupFile01">
+                                                                        <label id="custom--img-input" onclick="removeErrorLevels($(this), 'id__')" class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                                        <small>Image Size 170px * 170px</small>
+                                                                        <br>
+                                                                        <small class="place-error--msg"></small>
+                                                                    </div>
+                                                                    <span><img class="preview--file" id="previewImg" width="100" src=""></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-9"></div>
+                                                        <div class="col-md-3">
+                                                            <button class="btn btn-primary" type="submit">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </form>    
+                </section>
+
+            </div>
+
+<script>
+
+// function for subcategories 
+
+    function get_subcategories(category_id,data_select_id){
+
+        // commission on category base.
+
+            getCommission(category_id);
+
+        // end comission
+
+        //reset subcategories
+
+        $('.subcategory-select').each(function () {
+            if (parseInt($(this).attr('data-select-id')) > parseInt(data_select_id)) {
+                $(this).remove();
             }
-        }
+        });
+        // ajax function for subcategories 
+            if (category_id == null) {
 
-        $current = Carbon::now();
-        $today = $current->format('Y-m-d');
-        if ($today > (date('Y-m-d', strtotime($request->start_time)))) {
-            return response()->json([
-                    'field'=>"start_time",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"SORRY - Start Time can not be backdate",
-                    'need_scroll'=>"yes"
-                ], 422);
-        }
-
-        if (date('Y-m-d', strtotime($request->start_time)) >= date('Y-m-d', strtotime($request->end_time))) {
-            return response()->json([
-                    'field'=>"end_time",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"SORRY - End Time can not be equal or less of Start Time",
-                    'need_scroll'=>"yes"
-                ], 422);
-        }
-        
-
-        $fileName = "";
-        if ($request->type === "Banner") {
-            $validation = Validator::make($request->all(), [
-                'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193'
-            ]);
-            if ($validation->fails()) {
-                return response()->json([
-                    'field'=>"image_lg",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"Image is required of png,jpeg,jpg,gif & width=390, height=193",
-                    'need_scroll'=>"yes"
-                ], 422);
+                return false;
             }
-            $fileName = 'banner-'.uniqid();
-        }else{
+            else{
 
-            $validation = Validator::make($request->all(), [
-                'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
-            ]);
-            if ($validation->fails()) {
-                return response()->json([
-                    'field'=>"ads_banner_position",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"Invalid Banner Position",
-                    'need_scroll'=>"yes"
-                ], 422);
-            }
+                $.ajax({
 
-            if ($request->ads_banner_position === "Banner-Groups") {
-                $validation = Validator::make($request->all(), [
-                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
-                ]);
-                if ($validation->fails()) {
-                    return response()->json([
-                        'field'=>"image_lg",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=530, height=285",
-                        'need_scroll'=>"yes"
-                    ], 422);
-                }
-            }
-            if ($request->ads_banner_position === "Banner-Long") {
-                $validation = Validator::make($request->all(), [
-                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
-                ]);
-                if ($validation->fails()) {
-                    return response()->json([
-                        'field'=>"image_lg",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=1090, height=245",
-                        'need_scroll'=>"yes"
-                    ], 422);
-                }
-            }
-            if ($request->ads_banner_position === "Banner-Short") {
-                $validation = Validator::make($request->all(), [
-                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
-                ]);
-                if ($validation->fails()) {
-                    return response()->json([
-                        'field'=>"image_lg",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=530, height=245",
-                        'need_scroll'=>"yes"
-                    ], 422);
-                }
-            }
-            if ($request->ads_banner_position === "Banner-Box") {
-                $validation = Validator::make($request->all(), [
-                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
-                ]);
-                if ($validation->fails()) {
-                    return response()->json([
-                        'field'=>"image_lg",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=487, height=379",
-                        'need_scroll'=>"yes"
-                    ], 422);
-                }
-            }
-            $fileName = 'ads-banner-'.uniqid();
-        }
+                    headers: {
+                         'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
+                         },
+                    method  : 'POST',
+                    url     : "{{url('admin/get_subcategories')}}/"+category_id,
+                    data    : {"_token": "{{ csrf_token() }}","category_id":category_id},
+                    success : function(subcategories){
 
-        //insert image
-        $obj_fu = new FileUploader();
-        $lgImage = "";
-        $location = "upload-images/banners/";
-        if($request->hasFile('image_lg')){
-            $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
-            $lgImage = $fileName__;
-        }else{
-            if ($validation->fails()) {
-                return response()->json([
-                    'field'=>"image_lg",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"Please Upload Image",
-                    'need_scroll'=>"yes"
-                ], 422);
-            }
-        }
-
-        $url = $this->getURL();
-        $inserted = Banner::insert([
-            'type'=>$request->type,
-            'title'=>$request->title,
-            'link'=>$request->link,
-            'order_no'=>$request->order_no,
-            'image_lg'=>$url."/".$location.$lgImage,
-            'start_time'=>$request->start_time,
-            'end_time'=>$request->end_time,
-            'ads_banner_position'=>$request->ads_banner_position,
-            'created_at'=>Carbon::now()
-        ]);
-
-        if ($inserted == true) {
-            return response()->json([
-                    'success'=>true,
-                    'msg'=>"Banner Added",
-            ], 200);
-        }else{
-            return response()->json("Something went wrong, please try again later", 500);
-        }
-    }
-
-
-    private function getURL(){
-        if(isset($_SERVER['HTTPS'])){
-            $protocol = ($_SERVER['HTTPS'] && $_SERVER['HTTPS'] != "off") ? "https" : "http";
-        }
-        else{
-            $protocol = 'http';
-        }
-        $http_port = $protocol . "://" . parse_url($_SERVER['REQUEST_URI'], PHP_URL_HOST);
-        return $http_port.$_SERVER['HTTP_HOST'];
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $id = \Crypt::decrypt($id);
-        $data = Banner::findOrFail($id);
-        return view('Banners.edit', compact('data'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //store banners
-        $this->validate($request, [
-            'type'=>'required|string|in:Banner,Ads-Banner',
-            'title'=>'nullable|string|max:100',
-            'link'=>'nullable|string|url',
-            'order_no'=>'required|numeric',
-            'start_time'=>'required|date',
-            'end_time'=>'required|date'
-        ]);
-        $oldData = Banner::where([
-            'id'=>$id,
-            'type'=>$request->type,
-        ])->first();
-        if (!$oldData) {
-            return redirect()->back()->with('error', 'Sorry - Requested Data not Found!');
-        }
-
-        $fileName = "";
-        $obj_fu = new FileUploader();
-        $lgImage = NULL;
-        $url = $this->getURL();
-        $location = "upload-images/banners/";
-
-        if($request->hasFile('image_lg')){
-            if ($request->type === "Banner") {
-                $validation = Validator::make($request->all(), [
-                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193'
-                ]);
-                if ($validation->fails()) {
-                    return response()->json([
-                        'field'=>"image_lg",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"Image is required of png,jpeg,jpg,gif & width=390, height=193",
-                        'need_scroll'=>"yes"
-                    ], 422);
-                }
-                $fileName = 'banner-'.uniqid();
-            
-            }else{
-                $validation = Validator::make($request->all(), [
-                    'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
-                ]);
-                if ($validation->fails()) {
-                    return response()->json([
-                        'field'=>"ads_banner_position",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"Invalid Banner Position",
-                        'need_scroll'=>"yes"
-                    ], 422);
-                }
-
-                if ($request->ads_banner_position === "Banner-Groups") {
-                    $validation = Validator::make($request->all(), [
-                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
-                    ]);
-                    if ($validation->fails()) {
-                        return response()->json([
-                            'field'=>"image_lg",
-                            'targetHighlightIs'=>"",
-                            'msg'=>"Image is required of png,jpeg,jpg,gif & width=530, height=285",
-                            'need_scroll'=>"yes"
-                        ], 422);
+                        // console.log(subcategories);
+                       $('#subcategories_container').append(subcategories); 
+                        
                     }
-                }
-                if ($request->ads_banner_position === "Banner-Long") {
-                    $validation = Validator::make($request->all(), [
-                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
-                    ]);
-                    if ($validation->fails()) {
-                        return response()->json([
-                            'field'=>"image_lg",
-                            'targetHighlightIs'=>"",
-                            'msg'=>"Image is required of png,jpeg,jpg,gif & width=1090, height=245",
-                            'need_scroll'=>"yes"
-                        ], 422);
+                });
+            }          
+
+    }
+
+//  commission function 
+    
+    function getCommission(category_id){
+
+        $.ajax({
+
+            headers: {
+                 'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
+                 },
+            method  : 'POST',
+            url     : "{{url('admin/get_categories_commission')}}/"+category_id,
+            data    : {"_token": "{{ csrf_token() }}","category_id":category_id},
+            success : function(commission){
+
+                // console.log(commission);
+
+                    if (category_id == null) {
+
+                        return false;
+                    }else{
+
+                        $('#label_commission').html('Default Category Commission<span class="text text-danger">(You can edit it.)</span>');
+                        $('#commission').val(commission);
+
                     }
-                }
-                if ($request->ads_banner_position === "Banner-Short") {
-                    $validation = Validator::make($request->all(), [
-                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
-                    ]);
-                    if ($validation->fails()) {
-                        return response()->json([
-                            'field'=>"image_lg",
-                            'targetHighlightIs'=>"",
-                            'msg'=>"Image is required of png,jpeg,jpg,gif & width=530, height=245",
-                            'need_scroll'=>"yes"
-                        ], 422);
-                    }
-                }
-                if ($request->ads_banner_position === "Banner-Box") {
-                    $validation = Validator::make($request->all(), [
-                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
-                    ]);
-                    if ($validation->fails()) {
-                        return response()->json([
-                            'field'=>"image_lg",
-                            'targetHighlightIs'=>"",
-                            'msg'=>"Image is required of png,jpeg,jpg,gif & width=487, height=379",
-                            'need_scroll'=>"yes"
-                        ], 422);
-                    }
-                }
-                $fileName = 'ads-banner-'.uniqid();
+                    
+                  
+                
+                
             }
+        });
+    } 
+</script>
+@endsection       
 
-            //upload new image
-            //delete
-            if ($oldData->image_lg != NULL) {
-                $file_name = str_replace($url."/".$location, "", $oldData->image_lg);
-                $obj_fu->deleteFile($file_name, $location);
+
+@push('scripts')
+<script>
+    function previewFile(input){
+        var file = $("input[type=file]").get(0).files[0];
+ 
+        if(file){
+            var reader = new FileReader();
+ 
+            reader.onload = function(){
+                $("#previewImg").attr("src", reader.result);
             }
-            //upload
-            $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
-            $lgImage = $fileName__;
-            
-        
-        }
-
-        $url = $this->getURL();
-        $updated = Banner::where([
-            'id'=>$id,
-            'type'=>$request->type
-        ])->update([
-            'title'=>$request->title,
-            'link'=>$request->link,
-            'order_no'=>$request->order_no,
-            'image_lg'=>($lgImage === NULL ? $oldData->image_lg : $url."/".$location.$lgImage),
-            'start_time'=>$request->start_time,
-            'end_time'=>$request->end_time,
-            'ads_banner_position'=>$request->ads_banner_position,
-            'updated_at'=>Carbon::now()
-        ]);
-
-        if ($updated == true) {
-            return redirect()->back()->with('success', 'Banner Updated');
-        }else{
-            return redirect()->back()->with('error', 'SORRY - Something wrong!');
+ 
+            reader.readAsDataURL(file);
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+</script>
 
 
-
-    //delete the slider
-    public function delete_banner($id){
-        $id = \Crypt::decrypt($id);
-        $data = Banner::where('id', $id)->first();
-        if (!$data) {
-            return redirect()->back()->with('error', 'SORRY - Banner not Found!');
-        }
-
-        //delete slider images
-        $url = $this->getURL();
-        $location = "upload-images/banners/";
-        $obj_fu = new FileUploader();
-        if ($data->image_lg != NULL) {
-            $fileName = str_replace($url."/".$location, "", $data->image_lg);
-            $obj_fu->deleteFile($fileName, $location);
-        }
-
-        $deleted = $data->delete();
-        if ($deleted == true) {
-            return redirect()->back()->with('success', 'Banner Deleted');
-        }else{
-            return redirect()->back()->with('error', 'SORRY - Something Wrong!');
-        }
-
-    }
-}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#myForm__validate").on('submit', function(e){
+            formClientSideValidation(e, "myForm__validate", 'yes');
+        })
+    })
+</script>
+<script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>
+@endpush
