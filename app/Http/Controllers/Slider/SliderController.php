@@ -41,6 +41,8 @@ class SliderController extends Controller
      */
     public function store(Request $request)
     {
+        //return response()->json($request->all());
+
         //store sliders
         $validation = Validator::make($request->all(), [
             'title'=>'nullable|string|max:100',
@@ -57,9 +59,9 @@ class SliderController extends Controller
             'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1230,height=445',
             'image_sm'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=600,height=300',
             'slider_type'=>'required|string|in:Product,Deal',
-            'start_time'=>'required|date',
-            'end_time'=>'required|date'
+            'daterange'=>'required',
         ]);
+
 
         if ($validation->fails()) {
             foreach ($validation->messages()->get('*') as $key => $value) {
@@ -75,25 +77,25 @@ class SliderController extends Controller
             }
         }
 
-        $current = Carbon::now();
-        $today = $current->format('Y-m-d');
-        if ($today > (date('Y-m-d', strtotime($request->start_time)))) {
-            return response()->json([
-                    'field'=>"start_time",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"SORRY - Start Time can not be backdate",
-                    'need_scroll'=>"no"
-                ], 422);
-        }
+        // $current = Carbon::now();
+        // $today = $current->format('Y-m-d');
+        // if ($today > (date('Y-m-d', strtotime($request->start_time)))) {
+        //     return response()->json([
+        //             'field'=>"start_time",
+        //             'targetHighlightIs'=>"",
+        //             'msg'=>"SORRY - Start Time can not be backdate",
+        //             'need_scroll'=>"no"
+        //         ], 422);
+        // }
 
-        if (date('Y-m-d', strtotime($request->start_time)) >= date('Y-m-d', strtotime($request->end_time))) {
-            return response()->json([
-                    'field'=>"end_time",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"SORRY - End Time can not be equal or less of Start Time",
-                    'need_scroll'=>"no"
-                ], 422);
-        }
+        // if (date('Y-m-d', strtotime($request->start_time)) >= date('Y-m-d', strtotime($request->end_time))) {
+        //     return response()->json([
+        //             'field'=>"end_time",
+        //             'targetHighlightIs'=>"",
+        //             'msg'=>"SORRY - End Time can not be equal or less of Start Time",
+        //             'need_scroll'=>"no"
+        //         ], 422);
+        // }
 
         //insert image
         $obj_fu = new FileUploader();
@@ -125,6 +127,26 @@ class SliderController extends Controller
             ], 422);
         }
 
+
+        $string = explode('-', $request->daterange);
+        
+
+        $date1 = explode('/',$string[0]);
+        $date2 = explode('/',$string[1]);
+
+        
+
+        $makefinalDate1 = $date1[2].'-'.$date1[0].'-'.$date1[1];
+        $makefinalDate2 = $date2[2].'-'.$date2[0].'-'.$date2[1];
+
+        
+        $finalDate1 = date('Y-m-d', strtotime($makefinalDate1));
+        $finalDate2 = date('Y-m-d', strtotime($makefinalDate2));
+
+       // return $finalDate1;
+
+        //dd($finalDate1);
+
         $url = $this->getURL();
         $inserted = Slider::insert([
             'title'=>$request->title,
@@ -141,8 +163,8 @@ class SliderController extends Controller
             'image_lg'=>$url."/".$location.$lgImage,
             'image_sm'=>$url."/".$location.$smImage,
             'slider_type'=>$request->slider_type,
-            'start_time'=>$request->start_time,
-            'end_time'=>$request->end_time,
+            'start_time'=>$finalDate1,
+            'end_time'=>$finalDate2,
             'created_at'=>Carbon::now()
         ]);
 
