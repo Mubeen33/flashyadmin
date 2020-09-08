@@ -16,9 +16,10 @@
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Customers</li>
 @endsection    
-@section('content')                                
+@section('content')
+        @include('msg.msg')
+
             <div class="content-body">
-                @include('msg.msg')
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">

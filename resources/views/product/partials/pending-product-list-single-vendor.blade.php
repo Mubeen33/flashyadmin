@@ -5,7 +5,7 @@
         $get_image = (\App\ProductMedia::where('image_id', $content->image_id)->first());
     @endphp
 
-@if($get_vendor->active == 1)
+@if($get_vendor->id == $id && $get_vendor->active == 1)
 <tr>
     <th scope="row">{{ $key+1 }}</th>
     <td>

@@ -13,7 +13,8 @@
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
         <li class="breadcrumb-item"><a href="#">Add Brand</a></li>
 @endsection    
-@section('content')         
+@section('content')
+        @include('msg.msg')       
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
@@ -31,7 +32,6 @@
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
-                                                @include('msg.msg')
                                                 <div class="form-body">
                                                     <div class="row">
                                                         <div class="col-12">
@@ -40,8 +40,8 @@
                                                                     <span>Brand Name</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="text" id="first-name"  class="form-control" name="name" placeholder="Brand Name">
-                                                                    <small class="place-error--msg"></small>
+                                                                    <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="text" id="first-name"  class="form-control" name="name" placeholder="Brand Name">
+                                                                    <small class="place-error--msg text-danger"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -51,8 +51,8 @@
                                                                     <span>Description</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <textarea onclick="removeErrorLevels($(this), 'input')" class="form-control" name="description"></textarea>
-                                                                    <small class="place-error--msg"></small>
+                                                                    <textarea class="form-control" name="description"></textarea>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -63,10 +63,10 @@
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     <div class="custom-file">
-                                                                        <input type="file" onchange="previewFile(this);" name="image" class="custom-file-input" id="inputGroupFile01">
+                                                                        <input is-required='true' type="file" onchange="previewFile(this);" name="image" class="custom-file-input" id="inputGroupFile01">
                                                                         <label id="custom-image-upload" onclick="removeErrorLevels($(this), 'id__')" class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                                                         <br>
-                                                                        <small class="place-error--msg"></small>
+                                                                        <small class="place-error--msg text-danger"></small>
                                                                     </div>
                                                                     <span><img class="preview--file" id="previewImg" width="100"></span>
                                                                 </div>
@@ -109,16 +109,8 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("#brandAddForm_").on('submit', function(e){
-            e.preventDefault()
-            let formID = "brandAddForm_";
-            let form = $(this);
-            let url = form.attr('action');
-            let type = form.attr('method');
-            let form_data = form.serialize();
-            formSubmitWithFile(formID, url, type, form_data);
-        })
+    $("#brandAddForm_").on('submit', function(e){
+        formClientSideValidation(e, "brandAddForm_", 'no');
     })
 </script>
 <script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>

@@ -25,24 +25,10 @@ class VariationController extends Controller
 
     public function createVariation(Request $request){
 
-        $validation = Validator::make($request->all(),[
+        $this->validate($request,[
             'variation_name'=>'required|string|max:60',
             'image_approval'=>'required'
         ]);
-
-        if ($validation->fails()) {
-            foreach ($validation->messages()->get('*') as $key => $value) {
-                $value = json_encode($value);
-                $text = str_replace('["', "", $value);
-                $text = str_replace('"]', "", $text);
-                return response()->json([
-                    'field'=>$key,
-                    'targetHighlightIs'=>"",
-                    'msg'=>$text,
-                    'need_scroll'=>"no"
-                ], 422);
-            }
-        }
 
         $variation  =  new Variation();
         $data["parent_id"] = 0;
@@ -77,15 +63,9 @@ class VariationController extends Controller
         }
         else{
 
-            return response()->json([
-                    'success'=>true,
-                    'msg'=>"Variation added Successfully!",
-                ], 200);
+            return redirect()->back()->with('success', "Variation added Successfully!");
         }    
-      	return response()->json([
-                'success'=>true,
-                'msg'=>"Variation added Successfully!",
-            ], 200);  
+      	return redirect()->back()->with('success', "Variation added Successfully!"); 
     }
 
     //variationsList

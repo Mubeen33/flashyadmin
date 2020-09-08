@@ -42,7 +42,7 @@ class EmailTemplateController extends Controller
      */
     public function store(Request $request)
     {  
-        $validation = Validator::make($request->all(), [
+        $this->validate($request, [
             'template'=>'required|string|in:Customer-Signup,Vendor-Signup',
             'subject_line'=>'required|string|max:70',
             'about_template'=>'nullable|string|max:70',
@@ -61,32 +61,12 @@ class EmailTemplateController extends Controller
             'footer_banner'=>'nullable|image|mimes:png,jpeg,jpg,gif|dimensions:width=1200,height=200',
         ]);
 
-        if ($validation->fails()) {
-            foreach ($validation->messages()->get('*') as $key => $value) {
-                $value = json_encode($value);
-                $text = str_replace('["', "", $value);
-                $text = str_replace('"]', "", $text);
-                return response()->json([
-                    'field'=>$key,
-                    'targetHighlightIs'=>"",
-                    'msg'=>$text,
-                    'need_scroll'=>"yes"
-                ], 422);
-            }
-        }
-
         $oldData = EmailTemplate::where('template', $request->template)->first();
         $location = "upload-images/email-assets/";
         $response = $this->manageFiles($request, $oldData, $location);
         
         if ($response[0] === false) {
-            return response()->json([
-                'field'=>$response[1],
-                'targetHighlightIs'=>"",
-                'msg'=>"This field is required",
-                'need_scroll'=>"yes"
-            ], 422);
-            
+            return redirect()->back()->with('error', "The ".$response[1]." field is required");
         }
 
         //insert value
@@ -111,12 +91,9 @@ class EmailTemplateController extends Controller
                 'updated_at'=>Carbon::now()
             ]);
             if ($updated == true) {
-                return response()->json([
-                        'success'=>true,
-                        'msg'=>"Template Updated",
-                ], 200);
+                return redirect()->back()->with('success', "Template Updated");
             }else{
-                return response()->json("Something went wrong, please try again later", 500);
+                return redirect()->back()->with('error', "Something went wrong.");
             }
         }else{
             //insert
@@ -140,12 +117,9 @@ class EmailTemplateController extends Controller
                 'created_at'=>Carbon::now()
             ]);
             if ($inserted == true) {
-                return response()->json([
-                        'success'=>true,
-                        'msg'=>"Template Successfully Setup",
-                ], 200);
+                return redirect()->back()->with('success', "Template Setup Success");
             }else{
-                return response()->json("Something went wrong, please try again later", 500);
+                return redirect()->back()->with('error', "SORRY - Something went wrong.");
             }
         }
     }

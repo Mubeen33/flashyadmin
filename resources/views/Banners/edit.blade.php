@@ -4,9 +4,10 @@
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">{{ $data->type }}</li>
 @endsection    
-@section('content')                                
+@section('content')
+    @include('msg.msg')  
+
             <div class="content-body">
-                @include('msg.msg')
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
@@ -19,7 +20,7 @@
                             <div class="card-content">
                                 <div class="card-body">
                                     
-                                    <form action="{{ route('admin.banners.update', $data->id) }}" method="POST" enctype="multipart/form-data">
+                                    <form id="banner--form-" action="{{ route('admin.banners.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="type" value="{{$data->type }}">
@@ -36,19 +37,22 @@
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <label>Order</label>
-                                                    <input type="number" name="order_no" placeholder="Order" class="form-control" value="{{ $data->order_no }}">
+                                                    <input is-required='true' type="number" name="order_no" placeholder="Order" class="form-control" value="{{ $data->order_no }}">
+                                                    <small class="place-error--msg text-danger"></small>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <label>Start Time</label>
-                                                    <input type="date" name="start_time" class="form-control" value="{{ $data->start_time }}">
+                                                    <input is-required='true' type="date" name="start_time" class="form-control" value="{{ $data->start_time }}">
+                                                    <small class="place-error--msg text-danger"></small>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <label>End Time</label>
-                                                    <input type="date" name="end_time" class="form-control" value="{{ $data->end_time }}">    
+                                                    <input is-required='true' type="date" name="end_time" class="form-control" value="{{ $data->end_time }}">    
+                                                    <small class="place-error--msg text-danger"></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -56,13 +60,14 @@
                                         @if($data->type === 'Ads-Banner')
                                         <div class="form-group">
                                             <label>Choose Position</label>
-                                            <select name="ads_banner_position" class="form-control">
+                                            <select is-required='true' name="ads_banner_position" class="form-control">
                                                 <option value="">Choose One</option>
                                                 <option value="Banner-Groups" @if($data->ads_banner_position === "Banner-Groups") selected @endif>Banner Groups (Size: 530 * 285)</option>
                                                 <option value="Banner-Long" @if($data->ads_banner_position === "Banner-Long") selected @endif>Banner Long (Size: 1090 * 245)</option>
                                                 <option value="Banner-Short" @if($data->ads_banner_position === "Banner-Short") selected @endif>Banner Short (Size: 530 * 245)</option>
                                                 <option value="Banner-Box" @if($data->ads_banner_position === "Banner-Box") selected @endif>Banner Box (Size: 487 * 379)</option>
                                             </select>
+                                            <small class="place-error--msg text-danger"></small>
                                         </div>
                                         @else
                                         <input type="hidden" name="ads_banner_position" value="">
@@ -71,7 +76,7 @@
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-12">
-                                                    <label>Image</label>
+                                                    <label>Image (Size: width 390 & height 193)</label>
                                                     <input type="file" onchange="previewFile('image_lg_input', 'previewImg_lg', 'previewImg_lg_current');" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
                                                     <br>
                                                     <button class="btn btn-success" type="button" 
@@ -150,4 +155,12 @@
         $("#"+input).val('')
     }
 </script>
+
+
+<script type="text/javascript">
+    $("#banner--form-").on('submit', function(e){
+        formClientSideValidation(e, "banner--form-", 'no');
+    })
+</script>
+<script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>
 @endpush

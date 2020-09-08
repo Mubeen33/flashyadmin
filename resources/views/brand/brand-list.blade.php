@@ -15,7 +15,9 @@
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Brands</li>
 @endsection    
-@section('content')                                
+@section('content')
+        @include('msg.msg') 
+                                   
             <div class="content-body">
                 @if(session('msg'))
                   {!! session('msg') !!}

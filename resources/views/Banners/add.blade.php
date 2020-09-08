@@ -13,7 +13,10 @@
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">@if(Request::is('banners/create')) {{ 'Banner' }} @else {{ 'Ads Banner' }} @endif Create</li>
 @endsection    
-@section('content')                                
+@section('content')
+
+@include('msg.msg')
+
             <div class="content-body">
                 <div class="row" id="basic-table">
                     <div class="col-12">
@@ -28,41 +31,39 @@
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
-                                    @include('msg.msg')
+                                    
                                     <form id="banner--form-" action="{{ route('admin.banners.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="type" value="@if($pageTitle === 'Banner'){{'Banner'}}@elseif($pageTitle === 'Ads-Banner'){{'Ads-Banner'}}@else{{'Invalid'}}@endif">
                                         <div class="form-group">
                                             <label>Title</label>
-                                            <input onclick="removeErrorLevels($(this), 'input')" type="text" name="title" placeholder="Title" class="form-control" value="{{ old('title') }}">
-                                            <small class="place-error--msg"></small>
+                                            <input type="text" name="title" placeholder="Title" class="form-control" value="{{ old('title') }}">
                                         </div>
                                         <div class="form-group">
                                             <label>link</label>
-                                            <input onclick="removeErrorLevels($(this), 'input')" type="url" name="link" placeholder="Link" value="{{ old('link') }}" class="form-control">
-                                            <small class="place-error--msg"></small>
+                                            <input type="url" name="link" placeholder="Link" value="{{ old('link') }}" class="form-control">
                                         </div>
                                         
                                         <div class="row">
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <label>Order</label>
-                                                    <input onclick="removeErrorLevels($(this), 'input')" type="number" name="order_no" placeholder="Order" class="form-control" value="{{ old('order_no') }}">
-                                                    <small class="place-error--msg"></small>
+                                                    <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="number" name="order_no" placeholder="Order" class="form-control" value="{{ old('order_no') }}">
+                                                    <small class="place-error--msg text-danger"></small>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <label>Start Time</label>
-                                                    <input onclick="removeErrorLevels($(this), 'input')" type="date" name="start_time" class="form-control" value="{{ old('start_time') }}">
-                                                    <small class="place-error--msg"></small>
+                                                    <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="date" name="start_time" class="form-control" value="{{ old('start_time') }}">
+                                                    <small class="place-error--msg text-danger"></small>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-12">
                                                 <div class="form-group">
                                                     <label>End Time</label>
-                                                    <input onclick="removeErrorLevels($(this), 'input')" type="date" name="end_time" class="form-control" value="{{ old('end_time') }}">    
-                                                    <small class="place-error--msg"></small>
+                                                    <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="date" name="end_time" class="form-control" value="{{ old('end_time') }}">    
+                                                    <small class="place-error--msg text-danger"></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -70,14 +71,14 @@
                                         @if($pageTitle === 'Ads-Banner')
                                         <div class="form-group">
                                             <label>Choose Position</label>
-                                            <select onclick="removeErrorLevels($(this), 'input')" name="ads_banner_position" class="form-control">
+                                            <select is-required='true' onclick="removeErrorLevels($(this), 'input')" name="ads_banner_position" class="form-control">
                                                 <option value="">Choose One</option>
                                                 <option value="Banner-Groups">Banner Groups (Size: 530 * 285)</option>
                                                 <option value="Banner-Long">Banner Long (Size: 1090 * 245)</option>
                                                 <option value="Banner-Short">Banner Short (Size: 530 * 245)</option>
                                                 <option value="Banner-Box">Banner Box (Size: 487 * 379)</option>
                                             </select>
-                                            <small class="place-error--msg"></small>
+                                            <small class="place-error--msg text-danger"></small>
                                         </div>
                                         @else
                                         <input type="hidden" name="ads_banner_position" value="">
@@ -87,7 +88,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-12">
                                                     <label>Image (Size: width 390 & height 193)</label>
-                                                    <input onchange="previewFile('image_lg_input', 'previewImg_lg');" type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
+                                                    <input is-required='true' onchange="previewFile('image_lg_input', 'previewImg_lg');" type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
                                                     <br>
                                                     <button class="btn btn-success" type="button" 
                                                         onclick="document.getElementById('image_lg_input').click()" 
@@ -97,7 +98,7 @@
                                                         <br>
                                                         <span><img class="preview--file d-none" id="previewImg_lg" width="150px" height="80px" src=""></span>
                                                     </div>
-                                                    <small class="place-error--msg"></small>
+                                                    <small class="place-error--msg text-danger"></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -153,16 +154,8 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("#banner--form-").on('submit', function(e){
-            e.preventDefault()
-            let formID = "banner--form-";
-            let form = $(this);
-            let url = form.attr('action');
-            let type = form.attr('method');
-            let form_data = form.serialize();
-            formSubmitWithFile(formID, url, type, form_data);
-        })
+    $("#banner--form-").on('submit', function(e){
+        formClientSideValidation(e, "banner--form-", 'no');
     })
 </script>
 <script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>

@@ -1,5 +1,15 @@
 @extends('layouts.master')
 @section('page-title','Edit Variations')
+
+
+@push('styles')
+<style type="text/css">
+    .border-danger-alert{
+        border:1px solid red;
+    }
+</style>
+@endpush
+
 @section('breadcrumbs')
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
         <li class="breadcrumb-item"><a href="#">Forms</a></li>
@@ -8,7 +18,7 @@
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
-                    <form action="{{route('admin.updateVariation.post')}}" method="post" enctype="multipart/form-data">
+                    <form id="editVariationForm_" action="{{route('admin.updateVariation.post')}}" method="post" enctype="multipart/form-data">
                         @csrf
                             <div class="row match-height">
                             <div class="col-12">
@@ -27,7 +37,8 @@
                                                                     <span>Name</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" name="variation_name" value="{{ $variant->variation_name  }}" class="form-control" required="">
+                                                                    <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="text" name="variation_name" value="{{ $variant->variation_name  }}" class="form-control" required="">
+                                                                    <small class="place-error--msg text-danger"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -211,5 +222,15 @@
         });  
     }
     
-</script>            
-@endsection       
+</script>        
+@endsection
+
+
+@push('scripts')
+<script type="text/javascript">
+    $("#editVariationForm_").on('submit', function(e){
+        formClientSideValidation(e, "editVariationForm_", 'yes');
+    })
+</script>
+<script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>
+@endpush       

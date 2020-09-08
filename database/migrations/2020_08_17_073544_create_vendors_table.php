@@ -22,7 +22,7 @@ class CreateVendorsTable extends Migration
             $table->string('password')->nullable();
             $table->string('phone')->nullable();
             $table->string('mobile');
-            $table->text('business_info')->nullable();
+            $table->text('business_information')->nullable();
             $table->string('vat_register');
             $table->string('company_name')->nullable();
             $table->string('website_url')->nullable();
