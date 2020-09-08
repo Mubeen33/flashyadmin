@@ -27,7 +27,62 @@
                                                                     <span>Name</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" name="variation_name" value="{{ $variant->variation_name }}" class="form-control" required="">
+                                                                    <input type="text" name="variation_name" value="{{ $variant->variation_name  }}" class="form-control" required="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Parent Category</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <select onclick="removeErrorLevels($(this), 'input')" class="form-control" name="parent_id[]" onchange="get_subcategories(this.value, 0);">
+>
+                                                                      <option value="">None</option>
+                                                                      @php  
+                                                                            $categoryname = null;
+                                                                      @endphp
+                                                                      @foreach ($parentCategories as $category)
+                                                                        @if($category->id != $variant->category_id)
+                                                                            @if (!empty($parent_categories_array[0]) && $category->id == $parent_categories_array[0]->id)
+
+                                                                                <option value="{{$category->id}}" selected>{{$category->name}}</option>
+                                                                            @else
+                                                                                @if($categoryname == null)
+                                                                                    @php
+                                                                                        $categoryname = \App\Category::where('id','=',$variant->category_id)->first();
+                                                                                    @endphp 
+                                                                                    <option value="{{$categoryname->id}}" selected>{{$categoryname->name}}</option>
+                                                                                @endif    
+                                                                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                                                            @endif  
+                                                                        @endif 
+                                                                      @endforeach
+                                                                  </select>
+                                                                <small class="place-error--msg"></small>
+                                                                  <div id="subcategories_container">
+                                                                      @if (!empty($parent_categories_array))
+                                                                        @for($i = 1; $i < count($parent_categories_array); $i++)
+                                                                            @if (!empty($parent_categories_array[$i]))
+                                                                                @php
+                                                                                    $subcategories = \App\Category::where([['id','!=',$variant->category_id],['parent_id','=',$parent_categories_array[$i]->parent_id]])->get();
+
+                                                                                @endphp
+
+                                                                                @if(!empty($subcategories))
+                                                                                    <select name="parent_id[]" class="form-control subcategory-select" data-select-id="{{$i}}" onchange="get_subcategories(this.value,'{{$i}}');">
+                                                                                        <option value="">None</option>
+                                                                                        @foreach ($subcategories as $subcategory)
+                                                                                            <option value="{{ $subcategory->id }}" <?php echo ($subcategory->id == $parent_categories_array[$i]->id) ? 'selected' : ''; ?>><?php echo $subcategory->name; ?></option>
+                                                                                        @endforeach
+                                                                                    </select>    
+                                                                                @endif
+                                                                            @endif
+                                                                        @endfor
+                                                                      @endif
+                                                                  </div>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -139,7 +194,7 @@
                  'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
                  },
             method  : 'POST',
-            url     : "{{url('get_subcategories')}}/"+category_id,
+            url     : "{{url('admin/get_subcategories')}}/"+category_id,
             data    : {"_token": "{{ csrf_token() }}","category_id":category_id},
             success : function(subcategories){
 
