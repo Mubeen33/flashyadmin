@@ -13,7 +13,9 @@
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
         <li class="breadcrumb-item"><a href="#">Edit Brand</a></li>
 @endsection    
-@section('content')         
+@section('content')
+
+        @include('msg.msg')         
             <div class="content-body">
                
                 <section id="basic-horizontal-layouts">
@@ -27,7 +29,6 @@
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
-                                                @include('msg.msg')
                                                 <div class="form-body">
                                                     <div class="row">
                                                         <div class="col-12">
@@ -37,8 +38,8 @@
                                                                 </div>
                                                                 <input type="hidden" name="id" value="{{$brand->id}}">
                                                                 <div class="col-md-8">
-                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="text" id="first-name" value="{{$brand->name}}"  class="form-control" name="name" placeholder="Brand Name">
-                                                                    <small class="place-error--msg"></small>
+                                                                    <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="text" id="first-name" value="{{$brand->name}}"  class="form-control" name="name" placeholder="Brand Name">
+                                                                    <small class="place-error--msg text-danger"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -103,16 +104,8 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("#brandAddForm_").on('submit', function(e){
-            e.preventDefault()
-            let formID = "brandAddForm_";
-            let form = $(this);
-            let url = form.attr('action');
-            let type = form.attr('method');
-            let form_data = form.serialize();
-            formSubmitWithFile(formID, url, type, form_data);
-        })
+    $("#brandAddForm_").on('submit', function(e){
+        formClientSideValidation(e, "brandAddForm_", 'no');
     })
 </script>
 <script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>

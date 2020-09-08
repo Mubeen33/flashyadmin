@@ -13,14 +13,13 @@
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
         <li class="breadcrumb-item"><a href="#">Custom Feilds</a></li>
 @endsection    
-@section('content')         
+@section('content')
+    @include('msg.msg')
             <div class="content-body">
-               
                 <section id="basic-horizontal-layouts">
                     <form id="addCustomFields_from" action="{{route('admin.addCustomField.post')}}" method="post" enctype="multipart/form-data">
                         @csrf
                             <div class="row match-height">
-                                
                                 <div class="col-10"></div>
                                 <button type="button" class="btn btn-primary"><a href="" style="text-decoration: none;color: #fff">Variations</a></button>    
                             </div>
@@ -31,7 +30,6 @@
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
-                                            @include('msg.msg')
                                                 <div class="form-body">
                                                     <div class="row">
                                                         <div class="col-12">
@@ -233,16 +231,8 @@
 
 @push('scripts')
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("#addCustomFields_from").on('submit', function(e){
-            e.preventDefault()
-            let formID = "addCustomFields_from";
-            let form = $(this);
-            let url = form.attr('action');
-            let type = form.attr('method');
-            let form_data = form.serialize();
-            formSubmitWithFile(formID, url, type, form_data);
-        })
+    $("#addCustomFields_from").on('submit', function(e){
+        formClientSideValidation(e, "addCustomFields_from", 'no');
     })
 </script>
 <script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>

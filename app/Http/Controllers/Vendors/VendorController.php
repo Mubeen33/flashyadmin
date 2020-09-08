@@ -593,7 +593,7 @@ class VendorController extends Controller
 
     //add_vendor_post
     public function add_vendor_post(Request $request){
-        $validation = Validator::make($request->all(), [
+        $this->validate($request, [
             'first_name' => ['required', 'string', 'max:50'],
             'last_name' => ['required', 'string', 'max:50'],
             'mobile' => ['required', 'string', 'max:16'],
@@ -638,20 +638,6 @@ class VendorController extends Controller
             'password' => ['nullable', 'string', 'min:8', 'max:33'],
             'active' => ['required', 'numeric', 'in:0,1']
         ]);
-
-        if ($validation->fails()) {
-            foreach ($validation->messages()->get('*') as $key => $value) {
-                $value = json_encode($value);
-                $text = str_replace('["', "", $value);
-                $text = str_replace('"]', "", $text);
-                return response()->json([
-                    'field'=>$key,
-                    'targetHighlightIs'=>"",
-                    'msg'=>$text,
-                    'need_scroll'=>"yes"
-                ], 422);
-            }
-        }
 
         //insert data
         $result = Vendor::insert([
@@ -701,12 +687,9 @@ class VendorController extends Controller
 
 
         if ($result == true) {
-            return response()->json([
-                    'success'=>true,
-                    'msg'=>"Vendor Added Successfully",
-            ], 200);
+            return redirect()->back()->with('success', "Vendor Added Successfully");
         }else{
-            return response()->json("Something went wrong, please try again later", 500);
+            return redirect()->back()->with('error', "SORRY - Something went wrong.");
         }
     }
 }

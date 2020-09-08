@@ -17,16 +17,8 @@ class ProductController extends Controller
         		])
         		->orderBy('id', 'DESC')
                 ->paginate(5);
-        $vendorsID = Product::where([
-                    'approved'=>0,
-                    'disable'=>0
-                ])
-                ->get('vendor_id');
-        $vendorID_list = NULL;
-        foreach ($vendorsID as $key => $value) {
-            $vendorID_list[] = $value->vendor_id;
-        }
-        $vendors = Vendor::whereIn('id', $vendorID_list)
+        
+        $vendors = Vendor::where('active', 1)
                     ->orderBy('first_name', 'ASC')
                     ->get();
 
@@ -103,7 +95,7 @@ class ProductController extends Controller
                     ->where('disable', 0)
                     ->orderBy($sort_by, $sorting_order )
                     ->paginate($row_per_page );
-                    return view('product.partials.pending-product-list', compact('data'))->render();
+                    return view('product.partials.pending-product-list-single-vendor', compact('data', 'id'))->render();
                 }
                 $data = Product::where([
         			'approved'=>$status,

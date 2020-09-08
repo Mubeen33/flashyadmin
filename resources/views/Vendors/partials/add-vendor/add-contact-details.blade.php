@@ -4,8 +4,8 @@
     <div class="col-12">
         <div class="form-group">
         	<label>Company Name</label>
-        	<input onclick="removeErrorLevels($(this), 'input')"  type="text" name="company_name" class="form-control" placeholder="Company Name">
-          <small class="place-error--msg"></small>
+        	<input is-required='true' onclick="removeErrorLevels($(this), 'input')"  type="text" name="company_name" class="form-control" placeholder="Company Name">
+          <small class="place-error--msg text-danger"></small>
         </div>
 
         <div class="form-group">

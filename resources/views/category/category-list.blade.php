@@ -24,7 +24,7 @@
                 @if(session('msg'))
                   {!! session('msg') !!}
                 @endif
-
+                @include('msg.msg')
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
@@ -47,7 +47,7 @@
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
-                                    @include('msg.msg')
+                                    
                                     <div class="table-responsive ">
                                         <table  class="table table-bordered zero-configuration">
                                             <thead>

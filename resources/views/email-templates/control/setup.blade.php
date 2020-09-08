@@ -13,9 +13,9 @@
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Email Templates</li>
 @endsection    
-@section('content')                                
+@section('content')
+        @include('msg.msg')                             
             <div class="content-body">
-                @include('msg.msg')
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
@@ -24,16 +24,16 @@
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
-                                    @include('msg.msg')
                                     <form id="setupEmailTemplateForm" action="{{ route('admin.email-templates.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="form-group">
                                             <label>Template</label>
-                                            <select onchange="getTemplate(this.value)" class="form-control" name="template">
+                                            <select onclick="removeErrorLevels($(this), 'input')" is-required='true' onchange="getTemplate(this.value)" class="form-control" name="template">
                                                 <option value="">Choose One</option>
-                                                <option value="Customer-Signup" @if(isset($data) && $data->template === "Customer-Signup") selected @endif >Customer Signup Template</option>
-                                                <option value="Vendor-Signup" @if(isset($data) && $data->template === "Vendor-Signup") selected @endif >Vendor Signup Template</option>
+                                                <option value="Customer-Signup" @if(isset($data) && $data->template === "Customer-Signup") selected @else @if(old('template') === "Customer-Signup") selected @endif @endif >Customer Signup Template</option>
+                                                <option value="Vendor-Signup" @if(isset($data) && $data->template === "Vendor-Signup") selected @if(old('template') === "Vendor-Signup") selected @endif  @endif >Vendor Signup Template</option>
                                             </select>
+                                            <small class="place-error--msg text-danger"></small>
                                         </div>
                                         <div id="render--data">
                                             @include('email-templates.control.partials.form-body')
@@ -80,21 +80,12 @@
         }
 
     }
-
-
-
-    $(document).ready(function(){
-        $("#setupEmailTemplateForm").on('submit', function(e){
-            e.preventDefault()
-            let formID = "setupEmailTemplateForm";
-            let form = $(this);
-            let url = form.attr('action');
-            let type = form.attr('method');
-            let form_data = form.serialize();
-            formSubmitWithFile(formID, url, type, form_data);
-        })
-    })
 </script>
 
+<script type="text/javascript">
+    $("#setupEmailTemplateForm").on('submit', function(e){
+        formClientSideValidation(e, "setupEmailTemplateForm", 'yes');
+    })
+</script>
 <script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>
 @endpush

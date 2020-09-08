@@ -1,12 +1,21 @@
 @extends('layouts.master')
-@section('page-title','Vendors')
+@section('page-title','Signup Contents')
+
+@push('styles')
+<style type="text/css">
+    .border-danger-alert{
+        border:1px solid red;
+    }
+</style>
+@endpush
+
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Signup Contents</li>
 @endsection    
-@section('content')                                
+@section('content')  
+    @include('msg.msg')                              
             <div class="content-body">
-                @include('msg.msg')
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
@@ -51,7 +60,9 @@
                                             <tr>
                                                 <th>Text Line Two Icon</th>
                                                 <td>
+                                                    @if($data->text_line_two_icon != NULL)
                                                     <img src="{{$data->text_line_two_icon}}" width="70px" height="70px">
+                                                    @endif
                                                 </td>
                                             </tr>
 
@@ -64,7 +75,9 @@
                                             <tr>
                                                 <th>Text Line Three Icon</th>
                                                 <td>
+                                                    @if($data->text_line_three_icon != NULL)
                                                     <img src="{{$data->text_line_three_icon}}" width="70px" height="70px">
+                                                    @endif
                                                 </td>
                                             </tr>
                                         </table>
@@ -94,11 +107,12 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <form action="{{ route('admin.signup-contents.store') }}" method="POST" enctype="multipart/form-data">
+                    <form id="myForm__" action="{{ route('admin.signup-contents.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label>Heading</label>
-                            <input type="text" name="heading" value="@if($data){{$data->heading}}@endif" placeholder="Heading" class="form-control">
+                            <input onclick="removeErrorLevels($(this), 'input')" is-required='true' type="text" name="heading" value="@if($data){{$data->heading}}@endif" placeholder="Heading" class="form-control">
+                            <small class="place-error--msg text-danger"></small>
                         </div>
                         <div class="form-group">
                             <label>Description</label>
@@ -106,16 +120,18 @@
                         </div>
                         <div class="form-group">
                             <label>Text Line One</label>
-                            <input type="text" name="text_line_one" class="form-control" value="{{ $data->text_line_one }}" placeholder="Text Line One">
+                            <input onclick="removeErrorLevels($(this), 'input')" is-required='true' type="text" name="text_line_one" class="form-control" value="@if($data){{$data->text_line_one}}@endif" placeholder="Text Line One">
+                            <small class="place-error--msg text-danger"></small>
                         </div>
                         <div class="form-group">
                             <label>Text Line One Icon (Width 40px & height 40px)</label>
-                            <input type="file" name="text_line_one_icon" class="form-control" accept="image/*">
+                            <input onclick="removeErrorLevels($(this), 'input')" @if(!$data) is-required='true' @endif type="file" name="text_line_one_icon" class="form-control" accept="image/*">
+                            <small class="place-error--msg text-danger"></small>
                         </div>
 
                         <div class="form-group">
                             <label>Text Line Two</label>
-                            <input type="text" name="text_line_two" class="form-control" value="{{ $data->text_line_two }}" placeholder="Text Line Two">
+                            <input type="text" name="text_line_two" class="form-control" value="@if($data){{$data->text_line_two}}@endif" placeholder="Text Line Two">
                         </div>
                         <div class="form-group">
                             <label>Text Line Two Icon  (Width 40px & height 40px)</label>
@@ -124,7 +140,7 @@
 
                         <div class="form-group">
                             <label>Text Line Three</label>
-                            <input type="text" name="text_line_three" class="form-control" value="{{ $data->text_line_three }}" placeholder="Text Line Three">
+                            <input type="text" name="text_line_three" class="form-control" value="@if($data){{$data->text_line_three}}@endif" placeholder="Text Line Three">
                         </div>
                         <div class="form-group">
                             <label>Text Line Three Icon  (Width 40px & height 40px)</label>
@@ -139,3 +155,12 @@
               </div>
             </div>
 @endsection
+
+@push('scripts')
+<script type="text/javascript">
+    $("#myForm__").on('submit', function(e){
+        formClientSideValidation(e, "myForm__", 'yes');
+    })
+</script>
+<script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>
+@endpush

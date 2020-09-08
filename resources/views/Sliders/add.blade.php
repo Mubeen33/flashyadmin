@@ -15,37 +15,19 @@
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Slider Create</li>
 @endsection    
-@section('content')                                
-    <div class="content-body">
-        <div class="row" id="basic-table">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Add New Slider</h4>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                            @include('msg.msg')
-                            <form id="slider__form" action="{{ route('admin.sliders.store') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <div class="form-group">
-                                    <label>Title</label>
-                                    <input onclick="removeErrorLevels($(this), 'input')" type="text" name="title" placeholder="Title" class="form-control">
-                                    <small class="place-error--msg"></small>
-                                </div>
-                                <div class="form-group">
-                                    <label>Description</label>
-                                    <textarea onclick="removeErrorLevels($(this), 'input')" name="description" class="form-control" placeholder="Description" rows="5" cols="10"></textarea>
-                                    <small class="place-error--msg"></small>
-                                </div>
-                                <div class="form-group">
-                                    <label>Link</label>
-                                    <input type="text" onclick="removeErrorLevels($(this), 'input')" name="link" placeholder="Link" class="form-control">
-                                    <small class="place-error--msg"></small>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-12">
+@section('content')
+        @include('msg.msg')                               
+            <div class="content-body">
+                <div class="row" id="basic-table">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Add New Slider</h4>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <form id="slider__form" action="{{ route('admin.sliders.store') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
                                         <div class="form-group">
                                             <label>Order</label>
                                             <input type="number" onclick="removeErrorLevels($(this), 'input')" name="order_no" placeholder="Order" class="form-control">
@@ -137,16 +119,34 @@
                                             <small class="place-error--msg"></small>
                                         </div>
 
-                                        <div class="col-lg-6 col-md-12">
-                                            <label>Image for mobile (Size: 600 * 300)</label>
-                                            <input onchange="previewFile('image_sm_input', 'previewImg_sm');" type="file" id="image_sm_input" name="image_sm" class="d-none" accept="image/*">
-                                            <br>
-                                            <button class="btn btn-success" type="button" 
-                                                onclick="document.getElementById('image_sm_input').click()" 
-                                            >Image</button>
-                                            <div>
-                                                <br>
-                                                <span><img class="d-none preview--file" id="previewImg_sm" width="150px" height="80px" src=""></span>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-12">
+                                                    <label>Image (Size: 1230 * 445)</label>
+                                                    <input is-required='true' onchange="previewFile('image_lg_input', 'previewImg_lg');" type="file" id="image_lg_input" name="image_lg" class="d-none" accept="image/*">
+                                                    <br>
+                                                    <button class="btn btn-success" type="button" 
+                                                        onclick="document.getElementById('image_lg_input').click()" 
+                                                    >Image</button>
+                                                    <div>
+                                                        <br>
+                                                        <span><img class="d-none preview--file" id="previewImg_lg" width="200px" height="100px" src=""></span>
+                                                    </div>
+                                                    <small class="place-error--msg text-danger"></small>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-12">
+                                                    <label>Image for mobile (Size: 600 * 300)</label>
+                                                    <input is-required='true' onchange="previewFile('image_sm_input', 'previewImg_sm');" type="file" id="image_sm_input" name="image_sm" class="d-none" accept="image/*">
+                                                    <br>
+                                                    <button class="btn btn-success" type="button" 
+                                                        onclick="document.getElementById('image_sm_input').click()" 
+                                                    >Image</button>
+                                                    <div>
+                                                        <br>
+                                                        <span><img class="d-none preview--file" id="previewImg_sm" width="150px" height="80px" src=""></span>
+                                                    </div>
+                                                    <small class="place-error--msg text-danger"></small>
+                                                </div>
                                             </div>
                                             <small class="place-error--msg"></small>
                                         </div>
@@ -217,19 +217,10 @@
 </script>
 
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#slider__form").on('submit', function(e){
-            e.preventDefault()
-            let formID = "slider__form";
-            let form = $(this);
-            let url = form.attr('action');
-            let type = form.attr('method');
-            let form_data = form.serialize();
-            formSubmitWithFile(formID, url, type, form_data);
-        })
 
-       
+<script type="text/javascript">
+    $("#slider__form").on('submit', function(e){
+        formClientSideValidation(e, "slider__form", 'yes');
     })
 
 

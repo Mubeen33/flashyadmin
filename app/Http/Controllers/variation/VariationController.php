@@ -16,35 +16,31 @@ class VariationController extends Controller
 
     public function addVariation(){
 
-    	// $parentCategory = Category::where([['parent_id',0],['deleted','=',0]])->get();
+    	$categories = Category::where([['parent_id',0],['deleted','=',0]])->get();
         
-        return view('variation.add-variation');
+        return view('variation.add-variation',compact('categories'));
     }
 
     //save new variation
 
     public function createVariation(Request $request){
 
-        $validation = Validator::make($request->all(),[
+        $this->validate($request,[
             'variation_name'=>'required|string|max:60',
             'image_approval'=>'required'
         ]);
 
-        if ($validation->fails()) {
-            foreach ($validation->messages()->get('*') as $key => $value) {
-                $value = json_encode($value);
-                $text = str_replace('["', "", $value);
-                $text = str_replace('"]', "", $text);
-                return response()->json([
-                    'field'=>$key,
-                    'targetHighlightIs'=>"",
-                    'msg'=>$text,
-                    'need_scroll'=>"no"
-                ], 422);
+        $variation  =  new Variation();
+        $data["parent_id"] = 0;
+        $category_ids_array = $request->input('parent_id');
+        if (!empty($category_ids_array)) {
+            foreach ($category_ids_array as $key => $value) {
+                if (!empty($value)) {
+                    $data["parent_id"] = $value;
+                }
             }
         }
-
-        $variation  =  new Variation();
+        $variation->category_id              = $data['parent_id'];
         $variation->variation_name           = $request->variation_name;
         $variation->image_approval           = $request->image_approval;
         $variation->sku_approval             = $request->sku_approval;
@@ -67,15 +63,9 @@ class VariationController extends Controller
         }
         else{
 
-            return response()->json([
-                    'success'=>true,
-                    'msg'=>"Variation added Successfully!",
-                ], 200);
+            return redirect()->back()->with('success', "Variation added Successfully!");
         }    
-      	return response()->json([
-                'success'=>true,
-                'msg'=>"Variation added Successfully!",
-            ], 200);  
+      	return redirect()->back()->with('success', "Variation added Successfully!"); 
     }
 
     //variationsList
@@ -92,12 +82,34 @@ class VariationController extends Controller
 
     public function editVariation($id){
 
-    	$id = decryptz($id);
+    	$id = decrypt($id);
 
     	$variant          = Variation::where('id',$id)->first();
     	$image_approval   = Variation::where('id',$id)->value('image_approval');
+        $category_id      = Variation::where('id',$id)->value('category_id');
+        $parentCategories = Category::where([['parent_id', '=',0],['deleted', '=',0]])->get();
 
-    	return view('variation.edit-variation',compact('variant','image_approval'));
+        // parent categories array with selected parent
+
+        $array_categories = array();
+        $category = Category::where('id',$category_id)->first();
+        if (!empty($category)) {
+            array_push($array_categories, $category);
+            for ($i = 0; $i < 50; $i++) {
+                    $parent = Category::where('id',$category->parent_id)->first();
+                
+                    if (!empty($parent)) {
+                        array_push($array_categories, $parent);
+                        $category = $parent;
+                        if ($category->parent_id == 0) {
+                            break;
+                        }
+                    }   
+            }
+        }
+        $parent_categories_array = array_reverse($array_categories);
+
+    	return view('variation.edit-variation',compact('variant','image_approval','parentCategories','parent_categories_array'));
     }
 
     // update variations
@@ -105,7 +117,17 @@ class VariationController extends Controller
     public function updateVariation(Request $request){
 
     	$id = $request->id;
-    	$variation = Variation::find($id); 
+    	$variation = Variation::find($id);
+         $data["parent_id"] = 0;
+        $category_ids_array = $request->input('parent_id');
+        if (!empty($category_ids_array)) {
+            foreach ($category_ids_array as $key => $value) {
+                if (!empty($value)) {
+                    $data["parent_id"] = $value;
+                }
+            }
+        }
+        $variation->category_id              = $data['parent_id']; 
     	$variation->variation_name           = $request->variation_name;
         $variation->image_approval           = $request->image_approval;
         $variation->sku_approval             = $request->sku_approval;

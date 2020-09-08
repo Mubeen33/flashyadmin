@@ -40,9 +40,9 @@ class SignupContentsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'heading'=>'nullable|string|max:250',
+            'heading'=>'required|string|max:250',
             'description'=>'nullable|string|max:250',
-            'text_line_one'=>'nullable|string|max:250',
+            'text_line_one'=>'required|string|max:250',
             'text_line_two'=>'nullable|string|max:250',
             'text_line_three'=>'nullable|string|max:250',
             'text_line_one_icon'=>'nullable|image|mimes:jpeg,jpg,png,gif|dimensions:width=40,height=40|max:1000',
@@ -54,7 +54,11 @@ class SignupContentsController extends Controller
         //if pass then
         $result = NULL;
         $oldData = SignupContent::where('id', 1)->first();
-
+        if (!$oldData) {
+            if (!$request->hasFile('text_line_one_icon')) {
+                return redirect()->back()->with('error', 'Text Line One Icon Required');
+            }
+        }
         
         $url = url('/');
         $location = "upload-images/signup-contents/";
@@ -91,14 +95,15 @@ class SignupContentsController extends Controller
             ]);
         }else{
             $result = SignupContent::insert([
+                'id'=>1,
                 'heading'=>$request->heading,
                 'description'=>$request->description,
                 'text_line_one'=>$request->text_line_one,
                 'text_line_two'=>$request->text_line_two,
                 'text_line_three'=>$request->text_line_three,
-                'text_line_one_icon'=>$text_line_one_icon,
-                'text_line_two_icon'=>$text_line_two_icon,
-                'text_line_three_icon'=>$text_line_three_icon,
+                'text_line_one_icon'=>$url."/".$location.$text_line_one_icon,
+                'text_line_two_icon'=>($text_line_two_icon === NULL ? NULL : $url."/".$location.$text_line_two_icon),
+                'text_line_three_icon'=>($text_line_three_icon === NULL ? NULL : $url."/".$location.$text_line_three_icon),
                 'created_at'=>Carbon::now()
             ]);
         }
