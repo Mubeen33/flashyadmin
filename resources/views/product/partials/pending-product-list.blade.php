@@ -40,7 +40,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
                     <a class="dropdown-item" href="{{ route('admin.productDetails.get', encrypt($content->id)) }}">Show</a>
-                    <a onclick="return confirm('Are you sure to approve?')" class="dropdown-item" href="{{ route('admin.productControl.post', ['approve', encrypt($content->id)]) }}">Approve</a>
+                    <a  class="dropdown-item" href="{{route('admin.productControl.post', encrypt($content->id))}}">Approve</a>
                     <a onclick="return confirm('Are you sure to disable?')" class="dropdown-item" href="{{ route('admin.productControl.post', ['disable', encrypt($content->id)]) }}">Disable</a>
                 </div>
             </div>

@@ -396,11 +396,11 @@
       					</div>
           			</div>
           			<div class="row">
-          					<div class="col-lg-10">
-          						{{-- <button type="button" onclick="openVariant()" class="btn btn-light mr-1 mb-1 waves-effect waves-light"> --}}
-          							{{-- Add Variations
-          						</button> --}}
-                            </div>
+          					{{-- <div class="col-lg-10">
+          						<button type="button" onclick="openVariant()" class="btn btn-light mr-1 mb-1 waves-effect waves-light">
+          							Add Variations
+          						</button>
+                            </div> --}}
                             <div class="col-lg-2">
                                 <button type="submit" class="btn btn-warning">Submit</button>
                             </div>
@@ -493,7 +493,7 @@ $.ajaxSetup({
         }
         if (searchCategory !== "") {
             $.ajax({
-                url:"/vendor/ajax-get-category/fetch?search_key="+searchCategory,
+                url:"/admin/ajax-get-category/fetch?search_key="+searchCategory,
                 method:'GET',
                 cache:false,
                 success:function(response){
@@ -534,7 +534,7 @@ $.ajaxSetup({
 
         if (categoryID !== "") {
             $.ajax({
-                url:"/vendor/ajax-get-category-customfields/fetch?categoryId="+categoryID,
+                url:"/admin/ajax-get-category-customfields/fetch?categoryId="+categoryID,
                 method:'GET',
                 cache:false,
                 success:function(response){
@@ -547,7 +547,7 @@ $.ajaxSetup({
             return false;
         }
     }
-</script>
+  </script>
 
   
 @endsection

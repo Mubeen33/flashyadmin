@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Vendor;
 use Carbon\Carbon;
+use App\ProductMedia;
+use App\ProductCustomfield;
 
 class ProductController extends Controller
 {
@@ -36,6 +38,46 @@ class ProductController extends Controller
     }
 
     //approve product
+
+    public function getProductApproval($id){
+
+        $id                 = decrypt($id);
+        $product            = Product::where([['id','=',$id],['approved','=',0]])->first();
+        $productCustomField = ProductCustomfield::where('product_id',$id)->first();
+       
+        return view('product.approval-product',compact('product','productCustomField'));
+    }
+
+    // 
+
+    // 
+    // get Categories 
+
+    public function getCategories(Request $request){
+
+        if ($request->ajax()) {
+
+            $searchKey = $request->search_key;
+
+            $categories = Category::where("name", "LIKE", "%$searchKey%")->get();
+
+            return view('product.partials.auto-category', compact('categories'))->render();
+        }
+    }
+
+    // get getCustomFields
+
+    public function getCustomFields(Request $request){
+
+        if ($request->ajax()) {
+
+            $categoryId   = $request->categoryId;
+            $customFields = CustomField::where("category_id", $categoryId)->get();
+
+            return view('product.partials.auto-customfields', compact('customFields'))->render();
+        }
+    }
+    // 
     public function approve_or_disable($type, $id){
     	$field = NULL;
     	$value = NULL;
