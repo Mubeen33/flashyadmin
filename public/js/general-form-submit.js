@@ -25,8 +25,9 @@ function formSubmitWithFile(formID, url, type, form_data){
 	                }, 1000);
 
 				}else{
-					alert("Something went wrong...")
-					window.location.reload(true)
+					console.log(response);
+					//alert("Something went wrong...")
+					//window.location.reload(true)
 				}
 									
 			},
