@@ -88,6 +88,8 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::get('product/approval/{id}', 'Products\ProductController@getProductApproval')->name('productControl.post');
    Route::get('ajax-get-category/fetch','Products\ProductController@getCategories');
    Route::get('ajax-get-category-customfields/fetch','Products\ProductController@getCustomFields');
+   Route::post('add-product-images/{product_image_id}','Products\ProductController@addProductImages');
+   Route::post('delete-product-image','Products\ProductController@removeProductImage');
    Route::get('products/ajax-pagination/fetch', 'Products\ProductController@fetch_paginate_data')->name('products.ajaxPgination');
 
   

@@ -3,6 +3,7 @@
     Description: This dropzone file is applied to Upload Products Images file addproduct.blade.php
 ==========================================================================================*/
 // Dropzone 1
+var base_url = window.location.origin;
 Dropzone.options.dpzSingleFileP1 = {
   paramName: "fileDropzone", // The name that will be used to transfer the file
   maxFiles: 1,
@@ -51,7 +52,7 @@ Dropzone.options.dpzSingleFileP1 = {
 		
 		$.ajax({
 			type: 'POST',
-			url: 'vendor/delete-product-image',
+			url: $('#baseUrl').val()+'admin/delete-product-image',
 			data: { 
 				"token": "{{ csrf_token() }}",
 				name: name 
@@ -118,7 +119,7 @@ Dropzone.options.dpzSingleFileP2 = {
 		  
 		  $.ajax({
 			  type: 'POST',
-			  url: 'vendor/delete-product-image',
+			  url: $('#baseUrl').val()+'admin/delete-product-image',
 			  data: { 
 				  "token": "{{ csrf_token() }}",
 				  name: name 
@@ -185,7 +186,7 @@ Dropzone.options.dpzSingleFileP3 = {
 		  
 		  $.ajax({
 			  type: 'POST',
-			  url: 'vendor/delete-product-image',
+			  url: $('#baseUrl').val()+'admin/delete-product-image',
 			  data: { 
 				  "token": "{{ csrf_token() }}",
 				  name: name 
@@ -252,7 +253,7 @@ Dropzone.options.dpzSingleFileP4 = {
 		  
 		  $.ajax({
 			  type: 'POST',
-			  url: 'vendor/delete-product-image',
+			  url: $('#baseUrl').val()+'admin/delete-product-image',
 			  data: { 
 				  "token": "{{ csrf_token() }}",
 				  name: name 
@@ -319,7 +320,7 @@ Dropzone.options.dpzSingleFileP5 = {
 		  
 		  $.ajax({
 			  type: 'POST',
-			  url: 'vendor/delete-product-image',
+			  url: $('#baseUrl').val()+'admin/delete-product-image',
 			  data: { 
 				  "token": "{{ csrf_token() }}",
 				  name: name 

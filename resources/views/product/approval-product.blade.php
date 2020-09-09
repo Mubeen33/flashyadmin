@@ -456,7 +456,7 @@
 </div>
 {{-- <input type="hidden"  id="nmbr" name="" value="0"> --}}
 @endsection
-@section('script')
+@push('scripts')
   <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js')}}"></script>
   <script src="{{ asset('app-assets/js/scripts/extensions/custom-dropzone.js')}}"></script>
   <script src="{{ asset('app-assets/vendors/js/forms/select/select2.full.min.js')}}"></script>
@@ -550,5 +550,5 @@ $.ajaxSetup({
   </script>
 
   
-@endsection
+@endpush
     

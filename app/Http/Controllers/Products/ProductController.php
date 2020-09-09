@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
 use App\Product;
-use App\Vendor;
-use Carbon\Carbon;
+use App\Category;
 use App\ProductMedia;
+use App\CustomField;
+use App\Variation;
 use App\ProductCustomfield;
+use App\VariantOptionOptions;
+use App\VariationOption;
 
 class ProductController extends Controller
 {
@@ -78,6 +82,37 @@ class ProductController extends Controller
         }
     }
     // 
+    // product Images
+    public function addProductImages(Request $request,$product_image_id) 
+    {
+        $image = $request->file('fileDropzone');
+        
+        $file_name=$product_image_id.'_'.$image->getClientOriginalName();
+        $is_present=ProductMedia::where(['image'=>$file_name,'image_id'=>$product_image_id])->get();
+        if(count($is_present) > 0){
+            return;
+        }
+        if($image->move(public_path()."\product_images",$file_name)){
+            $product_image = new ProductMedia;
+            $product_image->image_id = $product_image_id;
+            $product_image->image = $file_name;
+            $product_image->save();
+
+            $success_message = array( 'success' => 200,
+                'filename' => $file_name,
+            );
+            return json_encode($success_message);
+        }
+     }
+     
+     public function removeProductImage(Request $request) {
+        ProductMedia::where('image', $request->name)->delete();
+        $image_path = public_path()."\product_images/".$request->name;
+        @unlink($image_path);
+        return "Image deleted successfully";
+     }
+
+     // 
     public function approve_or_disable($type, $id){
     	$field = NULL;
     	$value = NULL;
