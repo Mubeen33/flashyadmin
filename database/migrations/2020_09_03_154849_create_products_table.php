@@ -28,6 +28,7 @@ class CreateProductsTable extends Migration
             $table->string('sku');
             $table->string('video_link')->nullable();
             $table->tinyInteger('approved')->default(0);
+            $table->boolean('rejected')->default(0);
             $table->boolean('disable')->default(0);
             $table->timestamps();
         });

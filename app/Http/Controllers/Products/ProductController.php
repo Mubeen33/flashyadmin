@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Products;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
+use App\Category;
 use App\Vendor;
 use Carbon\Carbon;
 use App\ProductMedia;
@@ -15,7 +16,8 @@ class ProductController extends Controller
     public function get_pending_products(){
         $data = Product::where([
         			'approved'=>0,
-        			'disable'=>0
+        			'rejected'=>0,
+                    'disable'=>0
         		])
         		->orderBy('id', 'DESC')
                 ->paginate(5);
@@ -42,13 +44,47 @@ class ProductController extends Controller
     public function getProductApproval($id){
 
         $id                 = decrypt($id);
-        $product            = Product::where([['id','=',$id],['approved','=',0]])->first();
+        $product            = Product::where([
+                                    ['id','=',$id],
+                                    ['approved','=',0]
+                                ])
+                                ->first();
+        if (!$product) {
+            return abort(404);
+        }
+        $currentCategory = Category::where('id', $product->category_id)->first();
         $productCustomField = ProductCustomfield::where('product_id',$id)->first();
        
-        return view('product.approval-product',compact('product','productCustomField'));
+        return view('product.approval-product',compact('product','productCustomField', 'currentCategory'));
     }
 
-    // 
+
+
+    //approve_product
+    public function approve_product($id){
+        $updated = Product::where('id', decrypt($id))->update([
+            'approved'=>1,
+            'updated_at'=>Carbon::now()
+        ]);
+        if ($updated == true) {
+            return redirect()->route('admin.pendingProducts.get')->with('success', 'Product Approved');
+        }else{
+            return redirect()->route('admin.pendingProducts.get')->with('error', 'Something went wrong.');
+        }
+    }
+
+    //reject_product
+    public function reject_product($id){
+        $updated = Product::where('id', decrypt($id))->update([
+            'rejected'=>1,
+            'updated_at'=>Carbon::now()
+        ]);
+        if ($updated == true) {
+            return redirect()->route('admin.pendingProducts.get')->with('success', 'Product Rejected');
+        }else{
+            return redirect()->route('admin.pendingProducts.get')->with('error', 'Something went wrong.');
+        }
+    }
 
     // 
     // get Categories 
@@ -112,7 +148,7 @@ class ProductController extends Controller
 
 
 
-    public function fetch_paginate_data(Request $request){
+    public function fetch_paginate_pending_data(Request $request){
     	if ($request->ajax()) {
             $searchKey = $request->search_key;
             $sort_by = $request->sort_by;
@@ -134,6 +170,7 @@ class ProductController extends Controller
                     ->orWhere("created_at", "LIKE", "%$searchKey%")
                     ->where('vendor_id', $id)
                     ->where('approved', $status)
+                    ->where('rejected', 0)
                     ->where('disable', 0)
                     ->orderBy($sort_by, $sorting_order )
                     ->paginate($row_per_page );
@@ -141,7 +178,8 @@ class ProductController extends Controller
                 }
                 $data = Product::where([
         			'approved'=>$status,
-        			'disable'=>0,//not disable
+                    'rejected'=>0,
+        			'disable'=>0,
         		])
         		->where("title", "LIKE", "%$searchKey%")
                 ->orWhere("created_at", "LIKE", "%$searchKey%")
@@ -154,7 +192,8 @@ class ProductController extends Controller
                 $data = Product::where([
                             'vendor_id'=>$id,
                             'approved'=>$status,
-                            'disable'=>0,//not disable
+                            'rejected'=>0,
+                            'disable'=>0,
                         ])
                         ->orderBy($sort_by, $sorting_order)
                         ->paginate($row_per_page );
@@ -162,7 +201,8 @@ class ProductController extends Controller
             }
             $data = Product::where([
 	        			'approved'=>$status,
-	        			'disable'=>0,//not disable
+	        			'rejected'=>0,
+                        'disable'=>0,
 	        		])
 	            	->orderBy($sort_by, $sorting_order)
 	            	->paginate($row_per_page );

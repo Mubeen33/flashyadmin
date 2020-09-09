@@ -86,9 +86,11 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    // Route::get('product/approval','Products\ProductController@getProductApproval')->name('product.approval');
    Route::get('product/details/{id}', 'Products\ProductController@get_product_details')->name('productDetails.get');
    Route::get('product/approval/{id}', 'Products\ProductController@getProductApproval')->name('productControl.post');
+   Route::get('product-approved/{id}', 'Products\ProductController@reject_product')->name('rejectProduct.post');
+   Route::get('product-rejected/{id}', 'Products\ProductController@approve_product')->name('approveProduct.post');
    Route::get('ajax-get-category/fetch','Products\ProductController@getCategories');
    Route::get('ajax-get-category-customfields/fetch','Products\ProductController@getCustomFields');
-   Route::get('products/ajax-pagination/fetch', 'Products\ProductController@fetch_paginate_data')->name('products.ajaxPgination');
+   Route::get('products/ajax-pagination/fetch', 'Products\ProductController@fetch_paginate_pending_data')->name('products.ajaxPgination');
 
   
 

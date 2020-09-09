@@ -71,9 +71,10 @@
 </style>
 <div class="content-body">
 	<div class="container-fluid">
+            
             @if(session('msg'))
-                  {!! session('msg') !!}
-                @endif
+              {!! session('msg') !!}
+            @endif
       		<!-- Photos -->
       		<div class="card form-group">
              	<div class="card-body">
@@ -176,7 +177,7 @@
           							<label class="mb-xs-1 strong">Video</label>
           						</div>
           						<div class="col-lg-9">
-          							<input type="text" placeholder="Paste here youtube link" class="form-control" name="video_link">
+          							<input type="text" placeholder="Paste here youtube link" class="form-control" name="video_link" value="{{ $product->video_link }}">
           							<p class="text-smaller text-gray-lighter">
           								Add photos to your variations so buyers can see all their options. Try it out
           							</p>
@@ -205,7 +206,7 @@
                  						</p>
                  					</div>
                  					<div class="col-lg-9"> <br />
-                 						<input type="text" class="form-control" name="title" required="" />
+                 						<input type="text" class="form-control" name="title" required="" value="{{ $product->title }}" />
                  					</div>
                      			</div>
                      			<div class="row">
@@ -218,21 +219,21 @@
                  					<div class="col-lg-3">
                  						<br />
                  						<select class="form-control" name="made_by">>
-                 							<option selected >Who made it?</option>
+                 							<option value="">Who made it?</option>
                  							<optgroup label="Select a maker"> 
-          						      <option value="I did">I did</option>
-          						      <option value="A member of my shop">A member of my shop</option>
-          						      <option value="Another company or person" >Another company or person</option>
+          						      <option value="I did" @if($product->made_by === "I did") selected @endif>I did</option>
+          						      <option value="A member of my shop" @if($product->made_by === "A member of my shop") selected @endif>A member of my shop</option>
+          						      <option value="Another company or person" @if($product->made_by === "Another company or person") selected @endif>Another company or person</option>
           						    </optgroup>
                  						</select>
                  					</div>
                  					<div class="col-lg-3">
                  						<br />
                  						<select class="form-control" name="what_is_it">
-                 							<option>What is it?</option>
+                 							<option value="">What is it?</option>
                  							<optgroup label="Select a use">
-          						      <option value="A finished product">A finished product</option>
-          						      <option value="Another company or person">
+          						      <option value="A finished product" @if($product->what_is_it === "A finished product") selected @endif>A finished product</option>
+          						      <option value="Another company or person" @if($product->what_is_it === "Another company or person") selected @endif>
           						      	A supply or tool to make things
           						      </option>
           						    </optgroup>
@@ -241,22 +242,23 @@
                  					<div class="col-lg-3">
                  						<br />
                  						<select class="form-control" name="made_date">
-                 							<option>Whan was it made?</option>
-                 							<optgroup label="Not yet Made">
-          						      <option value="Made to order">Made to order</option>
-          						    </optgroup>
-          						    <optgroup label="Recently">
-          						      <option value="2020 - 2020">2020 - 2020</option>
-          						      <option value="2010 - 2019">2010 - 2019</option>
-          						      <option value="2001 - 2009">2001 - 2009</option>
-          						    </optgroup>
-          						    <optgroup label="Vintage">
-          						      <option value="Before 2001">Before 2001</option>
-          						      <option value="2010 - 2019">2000 - 2000</option>
-          						      <option value="1990s">1990s</option>
-          						       <option value="1980s">1980s</option>
-          						       <option value="1970s">1970s</option>
-          						    </optgroup>
+                 							<option value="">When was it made?</option>
+                   						<optgroup label="Not yet Made">
+            						          <option value="Made to order" @if($product->made_date === "Made to order") selected @endif>Made to order</option>
+            						      </optgroup>
+
+              						    <optgroup label="Recently">
+              						      <option value="2020 - 2020" @if($product->made_date === "2020 - 2020") selected @endif>2020 - 2020</option>
+              						      <option value="2010 - 2019" @if($product->made_date === "2010 - 2019") selected @endif>2010 - 2019</option>
+              						      <option value="2001 - 2009" @if($product->made_date === "2001 - 2009") selected @endif>2001 - 2009</option>
+              						    </optgroup>
+
+              						    <optgroup label="Vintage">
+              						      <option value="Before 2001" @if($product->made_date === "Before 2001") selected @endif>Before 2001</option>
+              						      <option value="1990s" @if($product->made_date === "1990s") selected @endif>1990s</option>
+              						       <option value="1980s" @if($product->made_date === "1980s") selected @endif>1980s</option>
+              						       <option value="1970s" @if($product->made_date === "1970s") selected @endif>1970s</option>
+              						    </optgroup>
                  						</select>
                  					</div>
                      			</div>
@@ -270,9 +272,9 @@
                  						</p>
                  					</div>
                  					<div class="col-lg-9"> <br />
-                 						<input type="text" id="category_search" class="form-control" name="" />
-										<input type="hidden" name="category_id" id='category_id' value="">
-										<i id="filtersubmit" class="fa fa-search"></i>
+                 						<input type="text" id="category_search" class="form-control" name="" value="{{$currentCategory->name}}" />
+        										<input type="hidden" name="category_id" id='category_id' value="">
+        										<i id="filtersubmit" class="fa fa-search"></i>
                                         <div id="render__data">
                                             @include('product.partials.auto-category')
                                         </div>
@@ -292,7 +294,7 @@
                  					</div>
                  					<div class="col-lg-3"> <br />
                      					<label class="radio-custom">
-                     						<input type="radio" name="renewal" value="auto"> <span class="radio-label">  Automatic </span>
+                     						<input type="radio" name="renewal" value="auto" @if($product->renewal === "auto") checked @endif> <span class="radio-label">  Automatic </span>
                      						<p class="text-smaller text-gray-lighter" style="margin-left:15px;">
                      							This listing will renew as it expires for USD 0.20 USD each time (recommended).
                      						</p>
@@ -300,7 +302,7 @@
                  					</div>
                  					<div class="col-lg-3"> <br />
                  						<label class="radio-custom">
-                     						<input type="radio" name="renewal" value="mannual"> <span class="radio-label">  Mannual </span>
+                     						<input type="radio" name="renewal" value="mannual" @if($product->renewal === "mannual") checked @endif> <span class="radio-label">  Mannual </span>
                      						<p class="text-smaller text-gray-lighter" style="margin-left:15px;">
                      							I'll renew expired listings myself.
                      						</p>
@@ -315,7 +317,7 @@
                  					</div>
                  					<div class="col-lg-3"> <br />
                      					<label class="radio-custom">
-                     						<input type="radio" name="product_type" value="physical"> <span class="radio-label">  Physical </span>
+                     						<input type="radio" name="product_type" value="physical" @if($product->product_type === "physical") checked @endif> <span class="radio-label">  Physical </span>
                      						<p class="text-smaller text-gray-lighter" style="margin-left:15px;">
                      							A tangible item that you will deliver to buyers.
                      						</p>
@@ -323,7 +325,7 @@
                  					</div>
                  					<div class="col-lg-3"> <br />
                  						<label class="radio-custom">
-                     						<input type="radio" name="product_type" value="digital"> <span class="radio-label">  Digital </span>
+                     						<input type="radio" name="product_type" value="digital" @if($product->product_type === "digital") checked @endif> <span class="radio-label">  Digital </span>
                      						<p class="text-smaller text-gray-lighter" style="margin-left:15px;">
                      							A digital file that buyers will download.
                      						</p>
@@ -341,7 +343,7 @@
                  						</p>
                  					</div>
                  					<div class="col-lg-9">
-                 						<textarea class="form-control textarea" rows="10" name="description"></textarea>
+                 						<textarea class="form-control textarea" rows="10" name="description"><?php echo $product->description;?></textarea>
                  					</div>
                  				</div>
           			</div>
@@ -385,27 +387,29 @@
           				</div>
           				<div class="col-lg-3">
           					<br />
-          					<input type="text" class="form-control" name="sku" />
+          					<input type="text" class="form-control" name="sku" value="{{ $product->sku }}" />
           				</div>
           			</div>
           			<hr />
           			<div class="row">
-      					<div class="col-lg-9">
-      						<label class="mb-xs-2 strong">Variations</label> <br/>
-         					<p class="text-gray-lighter">Add available options like color or size. Buyers will choose from these during checkout.</p>
-      					</div>
+        					<div class="col-lg-9">
+        						<label class="mb-xs-2 strong">Variations</label> <br/>
+           					<p class="text-gray-lighter">Add available options like color or size. Buyers will choose from these during checkout.</p>
+        					</div>
           			</div>
           			<div class="row">
-          					{{-- <div class="col-lg-10">
-          						<button type="button" onclick="openVariant()" class="btn btn-light mr-1 mb-1 waves-effect waves-light">
-          							Add Variations
-          						</button>
-                            </div> --}}
-                            <div class="col-lg-2">
-                                <button type="submit" class="btn btn-warning">Submit</button>
-                            </div>
+          					{{-- 
+                      <div class="col-lg-10">
+                						<button type="button" onclick="openVariant()" class="btn btn-light mr-1 mb-1 waves-effect waves-light">
+                							Add Variations
+                						</button>
+                        </div> 
+                    --}}
+                          <div class="col-lg-4 d-flex">
+                              <a onclick="return confirm('Are you sure to reject?')" href="{{ route('admin.rejectProduct.post', encrypt($product->id)) }}" class="btn btn-warning">Reject</a>
+                              <a onclick="return confirm('Are you sure to approve?')" href="{{ route('admin.approveProduct.post', encrypt($product->id)) }}" class="btn btn-success ml-1">Approve</a>
+                          </div>
           					</div>
-                            
           			</div>
           		</div>
                 {{-- <div class="card" id="variant-card" style="display: none;">
