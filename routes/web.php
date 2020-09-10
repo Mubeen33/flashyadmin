@@ -85,19 +85,16 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::get('products/pending-products', 'Products\ProductController@get_pending_products')->name('pendingProducts.get');
    // Route::get('product/approval','Products\ProductController@getProductApproval')->name('product.approval');
    Route::get('product/details/{id}', 'Products\ProductController@get_product_details')->name('productDetails.get');
+   Route::post('product/update/{id}', 'Products\ProductController@product__update')->name('productUpdate.post');
    Route::get('product/approval/{id}', 'Products\ProductController@getProductApproval')->name('productControl.post');
    Route::get('product-approved/{id}', 'Products\ProductController@reject_product')->name('rejectProduct.post');
    Route::get('product-rejected/{id}', 'Products\ProductController@approve_product')->name('approveProduct.post');
    Route::get('ajax-get-category/fetch','Products\ProductController@getCategories');
    Route::get('ajax-get-category-customfields/fetch','Products\ProductController@getCustomFields');
-<<<<<<< HEAD
-   Route::get('products/ajax-pagination/fetch', 'Products\ProductController@fetch_paginate_pending_data')->name('products.ajaxPgination');
-=======
+
    Route::post('add-product-images/{product_image_id}','Products\ProductController@addProductImages');
    Route::post('delete-product-image','Products\ProductController@removeProductImage');
    Route::get('products/ajax-pagination/fetch', 'Products\ProductController@fetch_paginate_data')->name('products.ajaxPgination');
->>>>>>> 26f8efad5c1a57ccbe04bc2590905596cb7891ff
-
   
 
 
@@ -182,8 +179,6 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
     return view("orderview");
   });
 
-
-  // Route::get('/add-product', 'HomeController@addProduct');
 });
 
 

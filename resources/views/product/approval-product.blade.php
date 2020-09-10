@@ -71,7 +71,7 @@
 </style>
 <div class="content-body">
 	<div class="container-fluid">
-            
+            @include('msg.msg')
             @if(session('msg'))
               {!! session('msg') !!}
             @endif
@@ -104,6 +104,8 @@
 							>
 							@csrf
 								<input type="hidden" name="fileDropzone" />
+
+                @include('product.partials.preview-current-thumb', ['serialNumber'=>0])
 							</form>
 						</div>
 						<div class="col-lg-2 col-md-3 col22">
@@ -115,6 +117,7 @@
 							>  
 							@csrf
 								<input type="hidden" name="fileDropzone" />
+                @include('product.partials.preview-current-thumb', ['serialNumber'=>1])
 							</form>
 						</div>
 						<div class="col-lg-2 col-md-3 col22">
@@ -126,6 +129,7 @@
 							>  
 							@csrf
 								<input type="hidden" name="fileDropzone" />
+                @include('product.partials.preview-current-thumb', ['serialNumber'=>2])
 							</form>
 						</div>  
 						<div class="col-lg-2 col-md-3 col22">
@@ -137,6 +141,7 @@
 							>  
 							@csrf
 								<input type="hidden" name="fileDropzone" />
+                @include('product.partials.preview-current-thumb', ['serialNumber'=>3])
 							</form>
 						</div>  
 						<div class="col-lg-2 col-md-3 col22">
@@ -148,6 +153,7 @@
 							>  
 							@csrf
 								<input type="hidden" name="fileDropzone" />
+                @include('product.partials.preview-current-thumb', ['serialNumber'=>4])
 							</form> 
 						</div>
 						</div>  
@@ -165,7 +171,7 @@
       		</div>
     
     
-        <form action="{{url('admin/add-product')}}" method="post" enctype="multipart/form-data" id="choice_form">
+        <form action="{{route('admin.productUpdate.post', encrypt($product->id))}}" method="post" enctype="multipart/form-data" id="choice_form">
             @csrf
             <input type="hidden" name="image_id" value="{{$prod_img_id}}">      
           		<!-- end Photos -->
@@ -408,6 +414,7 @@
                           <div class="col-lg-4 d-flex">
                               <a onclick="return confirm('Are you sure to reject?')" href="{{ route('admin.rejectProduct.post', encrypt($product->id)) }}" class="btn btn-warning">Reject</a>
                               <a onclick="return confirm('Are you sure to approve?')" href="{{ route('admin.approveProduct.post', encrypt($product->id)) }}" class="btn btn-success ml-1">Approve</a>
+                              <button type="submit" class="btn btn-primary ml-1">UPDATE</button>
                           </div>
           					</div>
           			</div>
@@ -552,7 +559,5 @@ $.ajaxSetup({
         }
     }
   </script>
-
-  
 @endpush
     

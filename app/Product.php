@@ -6,6 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+	protected $fillable = [
+		'title',
+		'category_id',
+		'description',
+		'image_id',
+		'made_by',
+		'what_is_it',
+		'made_date',
+		'renewal',
+		'product_type',
+		'sku',
+		'video_link',
+		'approved',
+		'rejected',
+		'disable'
+	];
+
     public function get_vendor(){
     	$this->belongsTo('App\Vendor', 'id', 'vendor_id');
     }

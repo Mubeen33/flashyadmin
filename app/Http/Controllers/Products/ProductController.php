@@ -48,19 +48,23 @@ class ProductController extends Controller
 
     public function getProductApproval($id){
 
-        $id                 = decrypt($id);
-        $product            = Product::where([
-                                    ['id','=',$id],
-                                    ['approved','=',0]
-                                ])
-                                ->first();
+        $id      = decrypt($id);
+        $product = Product::where([
+                            ['id','=',$id],
+                            ['approved','=',0]
+                        ])
+                        ->first();
         if (!$product) {
             return abort(404);
         }
         $currentCategory = Category::where('id', $product->category_id)->first();
+        $currentImages = ProductMedia::where('image_id', $product->image_id)
+                                    ->orderBy('created_at', 'ASC')
+                                    ->get();
+        //return $currentImages;
         $productCustomField = ProductCustomfield::where('product_id',$id)->first();
        
-        return view('product.approval-product',compact('product','productCustomField', 'currentCategory'));
+        return view('product.approval-product', compact('product','productCustomField', 'currentCategory', 'currentImages'));
     }
 
 
@@ -132,7 +136,7 @@ class ProductController extends Controller
         if($image->move(public_path()."\product_images",$file_name)){
             $product_image = new ProductMedia;
             $product_image->image_id = $product_image_id;
-            $product_image->image = $file_name;
+            $product_image->image = url('/')."/product_images/".$file_name;
             $product_image->save();
 
             $success_message = array( 'success' => 200,
@@ -149,7 +153,7 @@ class ProductController extends Controller
         return "Image deleted successfully";
      }
 
-     // 
+    // old System
     public function approve_or_disable($type, $id){
     	$field = NULL;
     	$value = NULL;
@@ -182,6 +186,48 @@ class ProductController extends Controller
     	}
     }
 
+
+    //update product
+    public function product__update(Request $request, $id){
+        $isNewImageUploaded = ProductMedia::where([
+            'image_id'=>$request->image_id
+        ])->get();
+
+        $isImagesUpdated = NULL;
+        if (!$isNewImageUploaded->isEmpty()) {
+            $isImagesUpdated = "Yes";
+        }else{
+            $isImagesUpdated = NULL;
+        }
+
+        $oldData = Product::where('id', decrypt($id))->first();
+        if (!$oldData) {
+            return redirect()->back()->with('error', 'SORRY - Requested Product Not Found.');
+        }
+
+        //update
+        $updated = $oldData->update([
+            'title'=>$request->title,
+            'category_id'=>($request->category_id == null ? $oldData->category_id : $request->category_id),
+            'description'=>$request->description,
+            'image_id'=>($isImagesUpdated === "Yes" ? $request->image_id : $oldData->image_id),
+            'made_by'=>$request->made_by,
+            'what_is_it'=>$request->what_is_it,
+            'made_date'=>$request->made_date,
+            'renewal'=>$request->renewal,
+            'product_type'=>$request->product_type,
+            'sku'=>$request->sku,
+            'video_link'=>$request->video_link,
+            'updated_at'=>Carbon::now()
+            
+        ]);
+        if ($updated == true) {
+            return redirect()->back()->with('success', "Product updated successfully");
+        }else{
+            return redirect()->back()->with('error', "SORRY - Soomething went wrong, please try again later.");
+        }
+
+    }
 
 
     public function fetch_paginate_pending_data(Request $request){
