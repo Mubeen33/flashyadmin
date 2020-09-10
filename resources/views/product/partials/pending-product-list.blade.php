@@ -21,7 +21,7 @@
     </td>
     <td>
         @if($get_image)
-        <img src="{{ asset('upload-images/products/'.$get_image->image) }}">
+        <img src="{{ $get_image->image }}">
         @endif
     </td>
     <td>{{ $content->made_by }}</td>
