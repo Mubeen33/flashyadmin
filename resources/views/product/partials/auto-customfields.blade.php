@@ -13,7 +13,7 @@
                                                 <input type="{{ $field->type }}" class="form-control mb-3" placeholder="{{ $field->label }}" name="element_{{ $key }}" required>
                                             </div>
                                         </div><br>
-                            @elseif($field->type == 'file')
+                            {{-- @elseif($field->type == 'file')
                                         <div class="row">
                                             <div class="col-lg-3">
                                                 <div class="mb-xs-2 strong">
@@ -30,7 +30,7 @@
                                                     </strong>
                                                 </label>
                                             </div>
-                                        </div>
+                                        </div> --}}
                         @elseif ($field->type == 'select' && is_array(json_decode($field->options)))
                                 
                                 <div class="row">
