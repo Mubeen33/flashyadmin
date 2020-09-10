@@ -12,14 +12,18 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <div class="d-flex"><h4 class="card-title">Products Details</h4> 
-                                    @if($data->approved == 0 && $data->disable == 0)
-                                    <a onclick="return confirm('Are you sure?')" class="btn btn-success btn-sm ml-1" href="{{ route('admin.productControl.post', ['approve', encrypt($data->id)]) }}">Approve Now</a>   
-                                    @elseif($data->disable == 1)
-                                    <a onclick="return confirm('Are you sure?')" class="btn btn-success btn-sm ml-1" href="{{ route('admin.productControl.post', ['enable', encrypt($data->id)]) }}">Enable Now</a>   
-                                    @endif
+                                <div class="d-flex">
+                                    <h4 class="card-title">Products Details</h4> 
                                 </div>
-                                <div><a href="{{ route('admin.pendingProducts.get') }}" class="ml-1 btn btn-danger btn-sm">Back</a></div>
+
+                                @php
+                                    $ref = $_SERVER['HTTP_REFERER'];
+                                    $backTo = route('admin.allProducts.get');
+                                    if(isset($ref)){
+                                        $backTo = $ref;
+                                    }  
+                                @endphp
+                                <div><a href="{{$backTo}}" class="ml-1 btn btn-danger btn-sm">Back</a></div>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">

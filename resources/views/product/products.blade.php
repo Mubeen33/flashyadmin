@@ -71,7 +71,7 @@
                                             </thead>
 
                                             <tbody id="render__data">
-                                                @include('product.partials.pending-product-list')
+                                                @include('product.partials.product-list')
                                             </tbody>
                                             
                                         </table>
@@ -79,7 +79,17 @@
                                         <input type="hidden" id="hidden__page_number" value="1">
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">
-                                        <input type="hidden" id="hidden__status" value="0">
+                                        @php
+                                            $status_val = NULL;
+                                            if(Request::is('admin/products/pending-products')){
+                                                $status_val = 'pending';
+                                            }else{
+                                                $status_val = 'all';  
+                                            }
+                                        @endphp
+
+                                        
+                                        <input type="hidden" id="hidden__status" value="{{$status_val}}">
                                     </div>
                                 </div>
                             </div>

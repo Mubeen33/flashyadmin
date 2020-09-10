@@ -21,9 +21,7 @@ class ProductController extends Controller
 {
     public function get_pending_products(){
         $data = Product::where([
-        			'approved'=>0,
-        			'rejected'=>0,
-                    'disable'=>0
+        			'approved'=>0
         		])
         		->orderBy('id', 'DESC')
                 ->paginate(5);
@@ -32,17 +30,17 @@ class ProductController extends Controller
                     ->orderBy('first_name', 'ASC')
                     ->get();
 
-        return view('product.pending-products', compact('data', 'vendors'));
+        return view('product.products', compact('data', 'vendors'));
     }
 
     //show details
-    public function get_product_details($id){
+    public function product_details_show($id){
     	$data = Product::where('id' , decrypt($id))
     			->first();
     	if (!$data) {
     		return abort(404);
     	}
-        return view('product.products-details', compact('data'));
+        return view('product.show', compact('data'));
     }
 
     //approve product
@@ -109,6 +107,18 @@ class ProductController extends Controller
         }
     }
 
+    //get all products
+    public function get_all_products(){
+        $data = Product::orderBy('id', 'DESC')
+                ->paginate(5);
+        
+        $vendors = Vendor::where('active', 1)
+                    ->orderBy('first_name', 'ASC')
+                    ->get();
+
+        return view('product.products', compact('data', 'vendors'));
+    }
+
     // 
     // get Categories 
 
@@ -167,38 +177,6 @@ class ProductController extends Controller
         return "Image deleted successfully";
      }
 
-    // old System
-    public function approve_or_disable($type, $id){
-    	$field = NULL;
-    	$value = NULL;
-    	$msg = NULL;
-    	if ($type === "approve") {
-    		$field = "approved";
-    		$value = 1;
-    		$msg = "Product Approved";
-    	}elseif ($type === "disable") {
-    		$field = "disable";
-    		$value = 1;
-    		$msg = "Product Disabled";
-    	}elseif ($type === "enable") {
-    		$field = "disable";
-    		$value = 0;
-    		$msg = "Product Enabled";
-    	}else{
-    		return redirect()->back()->with('error', 'SORRY - Invalid Request');
-    	}
-
-    	$data = Product::where('id' , decrypt($id))
-    			->update([
-    				$field=>$value,
-    				'updated_at'=>Carbon::now()
-    			]);
-    	if ($data == true) {
-    		return redirect()->back()->with('success', $msg);
-    	}else{
-    		return redirect()->back()->with('error', 'SORRY - Something wrong.');
-    	}
-    }
 
 
     //update product
@@ -244,7 +222,7 @@ class ProductController extends Controller
     }
 
 
-    public function fetch_paginate_pending_data(Request $request){
+    public function fetch__data(Request $request){
     	if ($request->ajax()) {
             $searchKey = $request->search_key;
             $sort_by = $request->sort_by;
@@ -260,49 +238,62 @@ class ProductController extends Controller
                 $sorting_order = "DESC";
             }
 
-            if ($request->search_key != "") {
-                if ($id != "") {
-                    $data = Product::where("title", "LIKE", "%$searchKey%")
-                    ->orWhere("created_at", "LIKE", "%$searchKey%")
-                    ->where('vendor_id', $id)
-                    ->where('approved', $status)
-                    ->where('rejected', 0)
-                    ->where('disable', 0)
-                    ->orderBy($sort_by, $sorting_order )
-                    ->paginate($row_per_page );
-                    return view('product.partials.pending-product-list-single-vendor', compact('data', 'id'))->render();
+
+            //check status
+            $field = "";
+            $value = "";
+            if ($status === "pending") {
+                $field = "approved";
+                $value = 0;
+            }elseif ($status === "rejected") {
+                $field = "rejected";
+                $value = 1;
+            }elseif ($status === "disabled") {
+                $field = "disable";
+                $value = 1;
+            }elseif ($status === "approved") {
+                $field = "approved";
+                $value = 1;
+            }else{
+                return response()->json("Invalid request", 422);
+            }
+
+            if (!empty($request->search_key)) {
+                if (!empty($id) && is_numeric($id)) {
+                    $data = Product::where('vendor_id', $id)
+                            ->orderBy($sort_by, $sorting_order)
+                            ->where($field, $value)
+                            ->where("title", "LIKE", "%$searchKey%")
+                            ->orWhere("created_at", "LIKE", "%$searchKey%")
+                            ->paginate($row_per_page );
+                            return view('product.partials.product-list', compact('data', 'id'))->render();
                 }
+
                 $data = Product::where([
-        			'approved'=>$status,
-                    'rejected'=>0,
-        			'disable'=>0,
+        			$field=>$value
         		])
         		->where("title", "LIKE", "%$searchKey%")
                 ->orWhere("created_at", "LIKE", "%$searchKey%")
         		->orderBy($sort_by, $sorting_order )
                 ->paginate($row_per_page );
-                return view('product.partials.pending-product-list', compact('data'))->render();
+                return view('product.partials.product-list', compact('data'))->render();
             }
 
-            if ($id != "") {
+            if (!empty($id) && is_numeric($id)) {
                 $data = Product::where([
                             'vendor_id'=>$id,
-                            'approved'=>$status,
-                            'rejected'=>0,
-                            'disable'=>0,
+                            $field=>$value,
                         ])
                         ->orderBy($sort_by, $sorting_order)
                         ->paginate($row_per_page );
-                return view('product.partials.pending-product-list', compact('data'))->render();
+                return view('product.partials.product-list', compact('data'))->render();
             }
             $data = Product::where([
-	        			'approved'=>$status,
-	        			'rejected'=>0,
-                        'disable'=>0,
+	        			$field=>$value,
 	        		])
 	            	->orderBy($sort_by, $sorting_order)
 	            	->paginate($row_per_page );
-            return view('product.partials.pending-product-list', compact('data'))->render();
+            return view('product.partials.product-list', compact('data'))->render();
         }
         return abort(404);
     }
