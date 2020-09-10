@@ -9,6 +9,10 @@
         padding: 2px 10px;
         outline: none;
     }
+    .table th, .table td{
+
+            text-align: left !important;
+    }
 </style>
 @endpush
 
