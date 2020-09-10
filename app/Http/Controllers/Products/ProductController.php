@@ -77,6 +77,8 @@ class ProductController extends Controller
 
         $updated = $product->update([
             'approved'=>1,
+            'rejected'=>0,
+            'disable'=>0,
             'updated_at'=>Carbon::now()
         ]);
         if ($updated == true) {
@@ -96,16 +98,37 @@ class ProductController extends Controller
 
     //reject_product
     public function reject_product($id){
-        $updated = Product::where('id', decrypt($id))->update([
+        $id = decrypt($id);
+        $updated = Product::where('id', $id)->update([
+            'approved'=>0,
+            'disable'=>0,
             'rejected'=>1,
             'updated_at'=>Carbon::now()
         ]);
         if ($updated == true) {
-            return redirect()->route('admin.pendingProducts.get')->with('success', 'Product Rejected');
+            return redirect()->back()->with('success', 'Product Rejected');
         }else{
-            return redirect()->route('admin.pendingProducts.get')->with('error', 'Something went wrong.');
+            return redirect()->back()->with('error', 'Something went wrong.');
         }
     }
+
+    //disable_product
+    public function disable_product($id){
+        $id = decrypt($id);
+        $updated = Product::where('id', $id)->update([
+            'approved'=>0,
+            'disable'=>1,
+            'rejected'=>0,
+            'updated_at'=>Carbon::now()
+        ]);
+        if ($updated == true) {
+            return redirect()->back()->with('success', 'Product Disabled');
+        }else{
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
+    }
+
+
 
     //get all products
     public function get_all_products(){
@@ -240,8 +263,11 @@ class ProductController extends Controller
 
 
             //check status
-            $field = "";
-            $value = "";
+            $field_approved = "";
+            $value_approved = "";
+
+            $field_approved = "";
+            $value_approved = "";
             if ($status === "pending") {
                 $field = "approved";
                 $value = 0;
@@ -255,45 +281,86 @@ class ProductController extends Controller
                 $field = "approved";
                 $value = 1;
             }else{
-                return response()->json("Invalid request", 422);
+                $field = "all";
             }
 
             if (!empty($request->search_key)) {
+                //if have specific vendor ID
                 if (!empty($id) && is_numeric($id)) {
-                    $data = Product::where('vendor_id', $id)
-                            ->orderBy($sort_by, $sorting_order)
-                            ->where($field, $value)
-                            ->where("title", "LIKE", "%$searchKey%")
-                            ->orWhere("created_at", "LIKE", "%$searchKey%")
-                            ->paginate($row_per_page );
-                            return view('product.partials.product-list', compact('data', 'id'))->render();
+                    if ($field !== "all") {
+                        $data = Product::where('vendor_id', $id)
+                        ->orderBy($sort_by, $sorting_order)
+                        ->where($field, $value)
+                        ->where("title", "LIKE", "%$searchKey%")
+                        ->orWhere("created_at", "LIKE", "%$searchKey%")
+                        ->paginate($row_per_page );
+                        return view('product.partials.product-list', compact('data', 'id'))->render();
+                    }else{
+                        $data = Product::where('vendor_id', $id)
+                        ->orderBy($sort_by, $sorting_order)
+                        ->where("title", "LIKE", "%$searchKey%")
+                        ->orWhere("created_at", "LIKE", "%$searchKey%")
+                        ->paginate($row_per_page );
+                        return view('product.partials.product-list', compact('data', 'id'))->render();
+                    }
+                    
                 }
 
-                $data = Product::where([
-        			$field=>$value
-        		])
-        		->where("title", "LIKE", "%$searchKey%")
-                ->orWhere("created_at", "LIKE", "%$searchKey%")
-        		->orderBy($sort_by, $sorting_order )
-                ->paginate($row_per_page );
-                return view('product.partials.product-list', compact('data'))->render();
+                //if not have specific vendor ID
+                if ($field !== "all") {
+                    $data = Product::where([
+                        $field=>$value
+                    ])
+                    ->where("title", "LIKE", "%$searchKey%")
+                    ->orWhere("created_at", "LIKE", "%$searchKey%")
+                    ->orderBy($sort_by, $sorting_order )
+                    ->paginate($row_per_page );
+                    return view('product.partials.product-list', compact('data'))->render();
+                }
+
+                $data = Product::where("title", "LIKE", "%$searchKey%")
+                    ->orWhere("created_at", "LIKE", "%$searchKey%")
+                    ->orderBy($sort_by, $sorting_order )
+                    ->paginate($row_per_page );
+                    return view('product.partials.product-list', compact('data'))->render();
+                
             }
 
+            //without search
+                //if have specific vendor id
             if (!empty($id) && is_numeric($id)) {
-                $data = Product::where([
+                if ($field !== 'all') {
+                    $data = Product::where([
                             'vendor_id'=>$id,
                             $field=>$value,
                         ])
                         ->orderBy($sort_by, $sorting_order)
                         ->paginate($row_per_page );
-                return view('product.partials.product-list', compact('data'))->render();
+                    return view('product.partials.product-list', compact('data'))->render();
+                }else{
+                    $data = Product::where([
+                            'vendor_id'=>$id,
+                        ])
+                        ->orderBy($sort_by, $sorting_order)
+                        ->paginate($row_per_page );
+                    return view('product.partials.product-list', compact('data'))->render();
+                }
             }
-            $data = Product::where([
-	        			$field=>$value,
-	        		])
-	            	->orderBy($sort_by, $sorting_order)
-	            	->paginate($row_per_page );
-            return view('product.partials.product-list', compact('data'))->render();
+
+            //if not have specific vendor id
+            if ($field !== 'all') {
+                $data = Product::where([
+                        $field=>$value,
+                    ])
+                    ->orderBy($sort_by, $sorting_order)
+                    ->paginate($row_per_page );
+                return view('product.partials.product-list', compact('data'))->render();
+            }else{
+               $data = Product::orderBy($sort_by, $sorting_order)
+                    ->paginate($row_per_page );
+                return view('product.partials.product-list', compact('data'))->render(); 
+            }
+            
         }
         return abort(404);
     }

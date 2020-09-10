@@ -30,13 +30,13 @@
           {{ $content->created_at->format('d/m/Y') }}
     </td>
     <td>
-        @if(intval($content->approved) === 0)
+        @if(intval($content->approved) === 0 && intval($content->rejected) === 0 && intval($content->disable) === 0)
             <span class="badge badge-danger">Pending</span>
-        @elseif(intval($content->approved) === 1)
+        @elseif(intval($content->approved) === 1 && intval($content->rejected) === 0 && intval($content->disable) === 0)
             <span class="badge badge-success">Approved</span>
-        @elseif(intval($content->rejected) === 1)
+        @elseif(intval($content->rejected) === 1 && intval($content->approved) === 0 && intval($content->disable) === 0)
             <span class="badge badge-warning">Rejected</span>
-        @elseif(intval($content->disable) === 1)
+        @elseif(intval($content->disable) === 1 && intval($content->approved) === 0 && intval($content->rejected) === 0)
             <span class="badge badge-danger">Disabled</span>
         @endif
     </td>
@@ -49,7 +49,7 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
                     <a class="dropdown-item" href="{{ route('admin.productDetails.get', encrypt($content->id)) }}">Show</a>
                     <a  class="dropdown-item" href="{{route('admin.productControl.post', encrypt($content->id))}}">Approve</a>
-                    <a onclick="return confirm('Are you sure to disable?')" class="dropdown-item" href="{{ route('admin.productControl.post', ['disable', encrypt($content->id)]) }}">Disable</a>
+                    <a onclick="return confirm('Are you sure to disable?')" class="dropdown-item" href="{{ route('admin.disableProduct.post', encrypt($content->id)) }}">Disable</a>
                 </div>
             </div>
         </div>

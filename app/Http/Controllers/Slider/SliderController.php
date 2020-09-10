@@ -44,7 +44,7 @@ class SliderController extends Controller
         //return response()->json($request->all());
 
         //store sliders
-        $validation = Validator::make($request->all(), [
+        $this->validate($request, [
             'title'=>'nullable|string|max:100',
             'description'=>'nullable|string|max:150',
             'link'=>'nullable|string|url',
@@ -61,21 +61,6 @@ class SliderController extends Controller
             'slider_type'=>'required|string|in:Product,Deal',
             'daterange'=>'required',
         ]);
-
-
-        if ($validation->fails()) {
-            foreach ($validation->messages()->get('*') as $key => $value) {
-                $value = json_encode($value);
-                $text = str_replace('["', "", $value);
-                $text = str_replace('"]', "", $text);
-                return response()->json([
-                    'field'=>$key,
-                    'targetHighlightIs'=>"",
-                    'msg'=>$text,
-                    'need_scroll'=>"no"
-                ], 422);
-            }
-        }
 
         // $current = Carbon::now();
         // $today = $current->format('Y-m-d');
@@ -107,24 +92,15 @@ class SliderController extends Controller
             $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
             $lgImage = $fileName__;
         }else{
-            return response()->json([
-                    'field'=>"image_lg",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"Please Upload Image",
-                    'need_scroll'=>"no"
-            ], 422);
+            return redirect()->back()->with('error', "Please Upload Desktop Image");
         }
+
         if($request->hasFile('image_sm')){
             $fileName ='slider-'.uniqid();
             $fileName__ = $obj_fu->fileUploader($request->file('image_sm'), $fileName, $location);
             $smImage = $fileName__;
         }else{
-            return response()->json([
-                    'field'=>"image_sm",
-                    'targetHighlightIs'=>"",
-                    'msg'=>"Please Upload Image",
-                    'need_scroll'=>"no"
-            ], 422);
+            return redirect()->back()->with('error', "Please Upload Mobile Image");
         }
 
 
@@ -169,13 +145,10 @@ class SliderController extends Controller
         ]);
 
         if ($inserted == true) {
-            return response()->json([
-                    'success'=>true,
-                    'msg'=>"Slider Added",
-            ], 200);
+            return redirect()->back()->with('success', 'Slider Added');
             
         }else{
-            return response()->json("Something went wrong, please try again later", 500);
+            return redirect()->back()->with('error', 'SORRY - Something wrong.');
         }
     }
 
@@ -224,7 +197,7 @@ class SliderController extends Controller
     public function update(Request $request, $id)
     {
         //update slider
-        $validation = Validator::make($request->all(), [
+        $this->validate($request, [
             'title'=>'nullable|string|max:100',
             'description'=>'nullable|string|max:150',
             'link'=>'nullable|string|url',
@@ -243,20 +216,6 @@ class SliderController extends Controller
             'end_time'=>'required|date'
         ]);
 
-        if ($validation->fails()) {
-            foreach ($validation->messages()->get('*') as $key => $value) {
-                $value = json_encode($value);
-                $text = str_replace('["', "", $value);
-                $text = str_replace('"]', "", $text);
-                return response()->json([
-                    'field'=>$key,
-                    'targetHighlightIs'=>"",
-                    'msg'=>$text,
-                    'need_scroll'=>"no"
-                ], 422);
-            }
-        }
-
 
         $oldData = Slider::where('id', $id)->first();
         if (!$oldData) {
@@ -268,24 +227,14 @@ class SliderController extends Controller
 
         if ($oldData->start_time != $request->start_time) {
             if ($today > (date('Y-m-d', strtotime($request->start_time)))) {
-                return response()->json([
-                        'field'=>"start_time",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"SORRY - Start Time can not be backdate",
-                        'need_scroll'=>"no"
-                    ], 422);
+                return redirect()->back()->with('error', 'SORRY - Start Time can not be backdate');
             }
         }
         
 
         if ($oldData->end_time != $request->end_time) {
             if (date('Y-m-d', strtotime($request->start_time)) >= date('Y-m-d', strtotime($request->end_time))) {
-                return response()->json([
-                        'field'=>"end_time",
-                        'targetHighlightIs'=>"",
-                        'msg'=>"SORRY - End Time can not be equal or less of Start Time",
-                        'need_scroll'=>"no"
-                    ], 422);
+                return redirect()->back()->with('error', 'SORRY - End Time can not be equal or less of Start Time');
             }
         }
         
@@ -344,12 +293,9 @@ class SliderController extends Controller
         ]);
 
         if ($updated == true) {
-            return response()->json([
-                    'success'=>true,
-                    'msg'=>"Slider Updated",
-            ], 200);
+            return redirect()->back()->with('success', 'Slider Updated Successfully.');
         }else{
-            return response()->json("Something went wrong, please try again later", 500);
+            return redirect()->back()->with('error', 'SORRY - Something wrong.');
         }
     }
 

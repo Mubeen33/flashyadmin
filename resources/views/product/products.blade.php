@@ -1,11 +1,12 @@
 @extends('layouts.master')
-@section('page-title','Vendors')
+@section('page-title','Products')
 
 @push('styles')
 <style type="text/css">
     #searchKey__,
     #selected_row_per_page,
-    #hidden__id{
+    #hidden__id,
+    #hidden__status{
         border: 1px solid #ddd;
         padding: 2px 10px;
         outline: none;
@@ -15,17 +16,38 @@
 
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
-    <li class="breadcrumb-item active">Pending Products</li>
+    <li class="breadcrumb-item active">Vendors Products</li>
 @endsection 
-@section('content')                                
+@section('content')
+
+    @php
+        $title = NULL;
+        if(Request::is('admin/products/pending-products')){
+            $title = 'Pending';
+        }else{
+            $title = 'All';
+        }
+    @endphp
+
             <div class="content-body">
                 @include('msg.msg')
                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header justify-content-between">
-                                <div><h4 class="card-title">Pending Products</h4></div>
+                                <div><h4 class="card-title">{{$title}} Products</h4></div>
                                 <div>
+                                    <select class="@if($title === 'Pending') d-none @endif" id="hidden__status" title="Select Status">
+                                        <option value="">Select Status</option>
+                                        @if($title === 'All')
+                                        <option value="all" selected>All</option>
+                                        <option value="rejected">Rejected</option>
+                                        <option value="disabled">Disabled</option>
+                                        <option value="approved">Approved</option>
+                                        @endif
+                                        <option value="pending" @if($title === 'Pending') selected @endif>Pending</option>
+                                    </select>
+
                                     <select id="hidden__id" title="Select Vendor">
                                         <option value="">Select Vendor</option>
                                         @foreach($vendors as $vendor)
@@ -79,17 +101,6 @@
                                         <input type="hidden" id="hidden__page_number" value="1">
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">
-                                        @php
-                                            $status_val = NULL;
-                                            if(Request::is('admin/products/pending-products')){
-                                                $status_val = 'pending';
-                                            }else{
-                                                $status_val = 'all';  
-                                            }
-                                        @endphp
-
-                                        
-                                        <input type="hidden" id="hidden__status" value="{{$status_val}}">
                                     </div>
                                 </div>
                             </div>
@@ -103,6 +114,20 @@
 
 <script type="text/javascript">
     $(document).on('change', '#hidden__id', function(e){
+        e.preventDefault()
+        let action_url = $("#hidden__action_url").val()
+        let pageNumber = 1;
+        let searchKey = $("#searchKey__").val()
+        $("#hidden__page_number").val(pageNumber)
+        let sort_by = $("#hidden__sort_by").val()
+        let sorting_order = $("#hidden__sorting_order").val()
+        let hidden__status = $("#hidden__status").val()
+        let row_per_page = $("#selected_row_per_page").val()
+        let hidden__id = $("#hidden__id").val()
+        fetch_paginate_data(action_url, pageNumber, searchKey, sort_by, sorting_order, hidden__status, row_per_page, hidden__id);
+    })
+
+    $(document).on('change', '#hidden__status', function(e){
         e.preventDefault()
         let action_url = $("#hidden__action_url").val()
         let pageNumber = 1;

@@ -1,332 +1,132 @@
-<?php
+@extends('layouts.master')
+@section('page-title','Products')
 
-namespace App\Http\Controllers\Products;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Auth;
-use App\Product;
-use App\Category;
-use App\Vendor;
-use Carbon\Carbon;
-use App\ProductMedia;
-use App\CustomField;
-use App\VendorProduct;
-use App\Variation;
-use App\ProductCustomfield;
-use App\VariantOptionOptions;
-use App\VariationOption;
-
-class ProductController extends Controller
-{
-    public function get_pending_products(){
-        $data = Product::where([
-                    'approved'=>0
-                ])
-                ->orderBy('id', 'DESC')
-                ->paginate(5);
-        
-        $vendors = Vendor::where('active', 1)
-                    ->orderBy('first_name', 'ASC')
-                    ->get();
-
-        return view('product.products', compact('data', 'vendors'));
+@push('styles')
+<style type="text/css">
+    #searchKey__,
+    #selected_row_per_page,
+    #hidden__id,
+    #hidden__status{
+        border: 1px solid #ddd;
+        padding: 2px 10px;
+        outline: none;
     }
+</style>
+@endpush
 
-    //show details
-    public function product_details_show($id){
-        $data = Product::where('id' , decrypt($id))
-                ->first();
-        if (!$data) {
-            return abort(404);
-        }
-        return view('product.show', compact('data'));
-    }
+@section('breadcrumbs')
+    <li class="breadcrumb-item"><a href="">Home</a></li>
+    <li class="breadcrumb-item active">Vendors Products</li>
+@endsection 
+@section('content')
 
-    //approve product
-
-    public function getProductApproval($id){
-
-        $id      = decrypt($id);
-        $product = Product::where([
-                            ['id','=',$id],
-                            ['approved','=',0]
-                        ])
-                        ->first();
-        if (!$product) {
-            return abort(404);
-        }
-        $currentCategory = Category::where('id', $product->category_id)->first();
-        $currentImages = ProductMedia::where('image_id', $product->image_id)
-                                    ->orderBy('created_at', 'ASC')
-                                    ->get();
-        //return $currentImages;
-        $productCustomField = ProductCustomfield::where('product_id',$id)->first();
-       
-        return view('product.approval-product', compact('product','productCustomField', 'currentCategory', 'currentImages'));
-    }
-
-
-
-    //approve_product
-    public function approve_product($id){
-        $product = Product::where('id', decrypt($id))->first();
-        if (!$product) {
-            return abort(404);
-        }
-
-        $updated = $product->update([
-            'approved'=>1,
-            'updated_at'=>Carbon::now()
-        ]);
-        if ($updated == true) {
-            //update to vendor_products tbl
-            VendorProduct::insert([
-                'ven_id'=>$product->vendor_id,
-                'prod_id'=>$product->id,
-                'quantity'=>0,
-                'mk_price'=>0,
-                'price'=>0
-            ]);
-            return redirect()->route('admin.pendingProducts.get')->with('success', 'Product Approved');
+    @php
+        $title = NULL;
+        if(Request::is('admin/products/pending-products')){
+            $title = 'Pending';
         }else{
-            return redirect()->route('admin.pendingProducts.get')->with('error', 'Something went wrong.');
+            $title = 'All';
         }
-    }
+    @endphp
 
-    //reject_product
-    public function reject_product($id){
-        $updated = Product::where('id', decrypt($id))->update([
-            'rejected'=>1,
-            'updated_at'=>Carbon::now()
-        ]);
-        if ($updated == true) {
-            return redirect()->route('admin.pendingProducts.get')->with('success', 'Product Rejected');
-        }else{
-            return redirect()->route('admin.pendingProducts.get')->with('error', 'Something went wrong.');
-        }
-    }
+            <div class="content-body">
+                @include('msg.msg')
+                <div class="row" id="basic-table">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header justify-content-between">
+                                <div><h4 class="card-title">{{$title}} Products</h4></div>
+                                <div>
+                                    <select class="@if($title === 'Pending') d-none @endif" id="hidden__status" title="Select Status">
+                                        <option value="">Select Status</option>
+                                        @if($title === 'All')
+                                        <option value="all" selected>All</option>
+                                        <option value="rejected">Rejected</option>
+                                        <option value="disabled">Disabled</option>
+                                        <option value="approved">Approved</option>
+                                        @endif
+                                        <option value="pending" @if($title === 'Pending') selected @endif>Pending</option>
+                                    </select>
 
-    //get all products
-    public function get_all_products(){
-        $data = Product::orderBy('id', 'DESC')
-                ->paginate(5);
-        
-        $vendors = Vendor::where('active', 1)
-                    ->orderBy('first_name', 'ASC')
-                    ->get();
+                                    <select id="hidden__id" title="Select Vendor">
+                                        <option value="">Select Vendor</option>
+                                        @foreach($vendors as $vendor)
+                                        <option value="{{ $vendor->id }}">{{ $vendor->first_name." ".$vendor->last_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="text" id="searchKey__" placeholder="Search">
+                                    <select id="selected_row_per_page" title="Display row per page">
+                                        <option value="5" selected="1">Show 5</option>
+                                        <option value="10">Show 10</option>
+                                        <option value="15">Show 15</option>
+                                        <option value="20">Show 20</option>
+                                        <option value="25">Show 25</option>
+                                        <option value="30">Show 30</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th class="sortAble" sorting-column='id' sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg> 
+                                                        ID
+                                                    </th>
+                                                    <th>Vendor</th>
+                                                    <th class="sortAble" sorting-column='title' sorting-order=''>
+                                                        Title
+                                                    </th>
+                                                    <th>Category</th>
+                                                    <th>Image</th>
+                                                    <th>Made by</th>
+                                                    <th class="sortAble" sorting-column='product_type' sorting-order=''>
+                                                        Product Type
+                                                    </th>
+                                                    <th class="sortAble" sorting-column='created_at' sorting-order=''>
+                                                        Date
+                                                    </th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
 
-        return view('product.products', compact('data', 'vendors'));
-    }
+                                            <tbody id="render__data">
+                                                @include('product.partials.product-list')
+                                            </tbody>
+                                            
+                                        </table>
+                                        <input type="hidden" id="hidden__action_url" value="{{ route('admin.products.ajaxPgination') }}">
+                                        <input type="hidden" id="hidden__page_number" value="1">
+                                        <input type="hidden" id="hidden__sort_by" value="id">
+                                        <input type="hidden" id="hidden__sorting_order" value="DESC">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+@endsection
 
-    // 
-    // get Categories 
+@push('scripts')
 
-    public function getCategories(Request $request){
+<script type="text/javascript">
+    $(document).on('change', '#hidden__id', function(e){
+        e.preventDefault()
+        let action_url = $("#hidden__action_url").val()
+        let pageNumber = 1;
+        let searchKey = $("#searchKey__").val()
+        $("#hidden__page_number").val(pageNumber)
+        let sort_by = $("#hidden__sort_by").val()
+        let sorting_order = $("#hidden__sorting_order").val()
+        let hidden__status = $("#hidden__status").val()
+        let row_per_page = $("#selected_row_per_page").val()
+        let hidden__id = $("#hidden__id").val()
+        fetch_paginate_data(action_url, pageNumber, searchKey, sort_by, sorting_order, hidden__status, row_per_page, hidden__id);
+    })
+</script>
 
-        if ($request->ajax()) {
-
-            $searchKey = $request->search_key;
-
-            $categories = Category::where("name", "LIKE", "%$searchKey%")->get();
-
-            return view('product.partials.auto-category', compact('categories'))->render();
-        }
-    }
-
-    // get getCustomFields
-
-    public function getCustomFields(Request $request){
-
-        if ($request->ajax()) {
-
-            $categoryId   = $request->categoryId;
-            $customFields = CustomField::where("category_id", $categoryId)->get();
-
-            return view('product.partials.auto-customfields', compact('customFields'))->render();
-        }
-    }
-    // 
-    // product Images
-    public function addProductImages(Request $request,$product_image_id) 
-    {
-        $image = $request->file('fileDropzone');
-        
-        $file_name=$product_image_id.'_'.$image->getClientOriginalName();
-        $is_present=ProductMedia::where(['image'=>$file_name,'image_id'=>$product_image_id])->get();
-        if(count($is_present) > 0){
-            return;
-        }
-        if($image->move(public_path()."\product_images",$file_name)){
-            $product_image = new ProductMedia;
-            $product_image->image_id = $product_image_id;
-            $product_image->image = url('/')."/product_images/".$file_name;
-            $product_image->save();
-
-            $success_message = array( 'success' => 200,
-                'filename' => $file_name,
-            );
-            return json_encode($success_message);
-        }
-     }
-     
-     public function removeProductImage(Request $request) {
-        ProductMedia::where('image', $request->name)->delete();
-        $image_path = public_path()."\product_images/".$request->name;
-        @unlink($image_path);
-        return "Image deleted successfully";
-     }
-
-    // old System
-    public function approve_or_disable($type, $id){
-        $field = NULL;
-        $value = NULL;
-        $msg = NULL;
-        if ($type === "approve") {
-            $field = "approved";
-            $value = 1;
-            $msg = "Product Approved";
-        }elseif ($type === "disable") {
-            $field = "disable";
-            $value = 1;
-            $msg = "Product Disabled";
-        }elseif ($type === "enable") {
-            $field = "disable";
-            $value = 0;
-            $msg = "Product Enabled";
-        }else{
-            return redirect()->back()->with('error', 'SORRY - Invalid Request');
-        }
-
-        $data = Product::where('id' , decrypt($id))
-                ->update([
-                    $field=>$value,
-                    'updated_at'=>Carbon::now()
-                ]);
-        if ($data == true) {
-            return redirect()->back()->with('success', $msg);
-        }else{
-            return redirect()->back()->with('error', 'SORRY - Something wrong.');
-        }
-    }
-
-
-    //update product
-    public function product__update(Request $request, $id){
-        $isNewImageUploaded = ProductMedia::where([
-            'image_id'=>$request->image_id
-        ])->get();
-
-        $isImagesUpdated = NULL;
-        if (!$isNewImageUploaded->isEmpty()) {
-            $isImagesUpdated = "Yes";
-        }else{
-            $isImagesUpdated = NULL;
-        }
-
-        $oldData = Product::where('id', decrypt($id))->first();
-        if (!$oldData) {
-            return redirect()->back()->with('error', 'SORRY - Requested Product Not Found.');
-        }
-
-        //update
-        $updated = $oldData->update([
-            'title'=>$request->title,
-            'category_id'=>($request->category_id == null ? $oldData->category_id : $request->category_id),
-            'description'=>$request->description,
-            'image_id'=>($isImagesUpdated === "Yes" ? $request->image_id : $oldData->image_id),
-            'made_by'=>$request->made_by,
-            'what_is_it'=>$request->what_is_it,
-            'made_date'=>$request->made_date,
-            'renewal'=>$request->renewal,
-            'product_type'=>$request->product_type,
-            'sku'=>$request->sku,
-            'video_link'=>$request->video_link,
-            'updated_at'=>Carbon::now()
-            
-        ]);
-        if ($updated == true) {
-            return redirect()->back()->with('success', "Product updated successfully");
-        }else{
-            return redirect()->back()->with('error', "SORRY - Soomething went wrong, please try again later.");
-        }
-
-    }
-
-
-    public function fetch_paginate_pending_data(Request $request){
-        if ($request->ajax()) {
-            $searchKey = $request->search_key;
-            $sort_by = $request->sort_by;
-            $sorting_order = $request->sorting_order;
-            $status = $request->status;
-            $row_per_page = $request->row_per_page;
-            $id = $request->id;
-
-            if ($sort_by == "") {
-                $sort_by = "id";
-            }
-            if ($sorting_order == "") {
-                $sorting_order = "DESC";
-            }
-
-
-            //check status
-            $field = "";
-            $value = "";
-            if ($status === "pending") {
-                $field = "approved";
-                $value = 0;
-            }elseif ($status === "rejected") {
-                $field = "rejected";
-                $value = 1;
-            }elseif ($status === "disabled") {
-                $field = "disable";
-                $value = 1;
-            }elseif ($status === "approved") {
-                $field = "approved";
-                $value = 1;
-            }else{
-                return response()->json("Invalid request", 422);
-            }
-
-            if (!empty($request->search_key)) {
-                if (!empty($id) && is_numeric($id)) {
-                    $data = Product::where('vendor_id', $id)
-                            ->orderBy($sort_by, $sorting_order)
-                            ->where($field, $value)
-                            ->where("title", "LIKE", "%$searchKey%")
-                            ->orWhere("created_at", "LIKE", "%$searchKey%")
-                            ->paginate($row_per_page );
-                            return view('product.partials.product-list', compact('data', 'id'))->render();
-                }
-
-                $data = Product::where([
-                    $field=>$value
-                ])
-                ->where("title", "LIKE", "%$searchKey%")
-                ->orWhere("created_at", "LIKE", "%$searchKey%")
-                ->orderBy($sort_by, $sorting_order )
-                ->paginate($row_per_page );
-                return view('product.partials.product-list', compact('data'))->render();
-            }
-
-            if (!empty($id) && is_numeric($id)) {
-                $data = Product::where([
-                            'vendor_id'=>$id,
-                            $field=>$value,
-                        ])
-                        ->orderBy($sort_by, $sorting_order)
-                        ->paginate($row_per_page );
-                return view('product.partials.product-list', compact('data'))->render();
-            }
-            $data = Product::where([
-                        $field=>$value,
-                    ])
-                    ->orderBy($sort_by, $sorting_order)
-                    ->paginate($row_per_page );
-            return view('product.partials.product-list', compact('data'))->render();
-        }
-        return abort(404);
-    }
-}
+<script type="text/javascript" src="{{ asset('js/ajax-pagination.js') }}"></script>
+@endpush

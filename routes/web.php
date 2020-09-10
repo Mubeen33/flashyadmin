@@ -84,12 +84,12 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    //products
    Route::get('products/pending-products', 'Products\ProductController@get_pending_products')->name('pendingProducts.get');
    Route::get('products/all', 'Products\ProductController@get_all_products')->name('allProducts.get');
-   Route::get('products/disabled', 'Products\ProductController@get_all_products')->name('disabledProducts.get');
    Route::get('product/show/{id}', 'Products\ProductController@product_details_show')->name('productDetails.get');
    Route::post('product/update/{id}', 'Products\ProductController@product__update')->name('productUpdate.post');
-   Route::get('product/approval/{id}', 'Products\ProductController@getProductApproval')->name('productControl.post');
-   Route::get('product-approved/{id}', 'Products\ProductController@reject_product')->name('rejectProduct.post');
-   Route::get('product-rejected/{id}', 'Products\ProductController@approve_product')->name('approveProduct.post');
+   Route::get('product-approval/show/{id}', 'Products\ProductController@getProductApproval')->name('productControl.post');
+   Route::get('make-approved-product/{id}', 'Products\ProductController@approve_product')->name('approveProduct.post');
+   Route::get('make-rejected-product/{id}', 'Products\ProductController@reject_product')->name('rejectProduct.post');
+   Route::get('make-disable-product/{id}', 'Products\ProductController@disable_product')->name('disableProduct.post');
    Route::get('ajax-get-category/fetch','Products\ProductController@getCategories');
    Route::get('ajax-get-category-customfields/fetch','Products\ProductController@getCustomFields');
 

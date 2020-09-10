@@ -153,8 +153,6 @@
                                 <ul class="dropdown-menu">
                                     <li data-menu=""><a class="dropdown-item" href="{{route('admin.pendingProducts.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Pending</a>
                                     </li>
-                                    <li data-menu=""><a class="dropdown-item" href="{{route('admin.disabledProducts.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Disabled</a>
-                                    </li>
                                     <li data-menu=""><a class="dropdown-item" href="{{route('admin.allProducts.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>All</a>
                                     </li>
                                 </ul>
