@@ -90,13 +90,13 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::get('product-rejected/{id}', 'Products\ProductController@approve_product')->name('approveProduct.post');
    Route::get('ajax-get-category/fetch','Products\ProductController@getCategories');
    Route::get('ajax-get-category-customfields/fetch','Products\ProductController@getCustomFields');
-<<<<<<< HEAD
+
    Route::get('products/ajax-pagination/fetch', 'Products\ProductController@fetch_paginate_pending_data')->name('products.ajaxPgination');
-=======
+
    Route::post('add-product-images/{product_image_id}','Products\ProductController@addProductImages');
    Route::post('delete-product-image','Products\ProductController@removeProductImage');
    Route::get('products/ajax-pagination/fetch', 'Products\ProductController@fetch_paginate_data')->name('products.ajaxPgination');
->>>>>>> 26f8efad5c1a57ccbe04bc2590905596cb7891ff
+
 
   
 
