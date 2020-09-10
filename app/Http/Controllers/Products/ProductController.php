@@ -263,23 +263,37 @@ class ProductController extends Controller
 
 
             //check status
-            $field_approved = "";
-            $value_approved = "";
+            $field = NULL;
+            $approved = "approved";
+            $value_approved = NULL;
 
-            $field_approved = "";
-            $value_approved = "";
+            $rejected = "rejected";
+            $value_rejected = NULL;
+
+            $disable = "disable";
+            $value_disable = NULL;
+
             if ($status === "pending") {
-                $field = "approved";
-                $value = 0;
+                $field = 'pending';
+                $value_approved = 0;
+                $value_rejected = 0;
+                $value_disable = 0;
+
             }elseif ($status === "rejected") {
-                $field = "rejected";
-                $value = 1;
+                $field = 'rejected';
+                $value_approved = 0;
+                $value_rejected = 1;
+                $value_disable = 0;
             }elseif ($status === "disabled") {
-                $field = "disable";
-                $value = 1;
+                $field = 'disabled';
+                $value_approved = 0;
+                $value_rejected = 0;
+                $value_disable = 1;
             }elseif ($status === "approved") {
-                $field = "approved";
-                $value = 1;
+                $field = 'approved';
+                $value_approved = 1;
+                $value_rejected = 0;
+                $value_disable = 0;
             }else{
                 $field = "all";
             }
@@ -290,7 +304,11 @@ class ProductController extends Controller
                     if ($field !== "all") {
                         $data = Product::where('vendor_id', $id)
                         ->orderBy($sort_by, $sorting_order)
-                        ->where($field, $value)
+                        ->where([
+                            $approved => $value_approved,
+                            $rejected => $value_rejected,
+                            $disable => $value_disable
+                        ])
                         ->where("title", "LIKE", "%$searchKey%")
                         ->orWhere("created_at", "LIKE", "%$searchKey%")
                         ->paginate($row_per_page );
@@ -309,7 +327,9 @@ class ProductController extends Controller
                 //if not have specific vendor ID
                 if ($field !== "all") {
                     $data = Product::where([
-                        $field=>$value
+                        $approved => $value_approved,
+                        $rejected => $value_rejected,
+                        $disable => $value_disable
                     ])
                     ->where("title", "LIKE", "%$searchKey%")
                     ->orWhere("created_at", "LIKE", "%$searchKey%")
@@ -332,7 +352,9 @@ class ProductController extends Controller
                 if ($field !== 'all') {
                     $data = Product::where([
                             'vendor_id'=>$id,
-                            $field=>$value,
+                            $approved => $value_approved,
+                            $rejected => $value_rejected,
+                            $disable => $value_disable
                         ])
                         ->orderBy($sort_by, $sorting_order)
                         ->paginate($row_per_page );
@@ -350,7 +372,9 @@ class ProductController extends Controller
             //if not have specific vendor id
             if ($field !== 'all') {
                 $data = Product::where([
-                        $field=>$value,
+                        $approved => $value_approved,
+                        $rejected => $value_rejected,
+                        $disable => $value_disable
                     ])
                     ->orderBy($sort_by, $sorting_order)
                     ->paginate($row_per_page );
