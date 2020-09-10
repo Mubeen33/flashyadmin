@@ -412,15 +412,15 @@
                         </div> 
                     --}}
                           <div class="col-lg-4 d-flex">
-                              @if($product->rejected == 0)
+                              @if(intval($product->rejected) === 0)
                               <a onclick="return confirm('Are you sure to reject?')" href="{{ route('admin.rejectProduct.post', encrypt($product->id)) }}" class="btn btn-warning">Reject</a>
                               @endif
 
-                              @if($product->approved == 0)
+                              @if(intval($product->approved) === 0)
                               <a onclick="return confirm('Are you sure to approve?')" href="{{ route('admin.approveProduct.post', encrypt($product->id)) }}" class="btn btn-success ml-1">Approve</a>
                               @endif
 
-                              @if($product->approved == 1)
+                              @if(intval($product->approved) === 1)
                               <button type="submit" class="btn btn-primary ml-1">UPDATE</button>
                               @endif
                           </div>
