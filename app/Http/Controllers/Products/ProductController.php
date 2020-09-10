@@ -11,6 +11,7 @@ use App\Vendor;
 use Carbon\Carbon;
 use App\ProductMedia;
 use App\CustomField;
+use App\VendorProduct;
 use App\Variation;
 use App\ProductCustomfield;
 use App\VariantOptionOptions;
@@ -71,11 +72,24 @@ class ProductController extends Controller
 
     //approve_product
     public function approve_product($id){
-        $updated = Product::where('id', decrypt($id))->update([
+        $product = Product::where('id', decrypt($id))->first();
+        if (!$product) {
+            return abort(404);
+        }
+
+        $updated = $product->update([
             'approved'=>1,
             'updated_at'=>Carbon::now()
         ]);
         if ($updated == true) {
+            //update to vendor_products tbl
+            VendorProduct::insert([
+                'ven_id'=>$product->vendor_id,
+                'prod_id'=>$product->id,
+                'quantity'=>0,
+                'mk_price'=>0,
+                'price'=>0
+            ]);
             return redirect()->route('admin.pendingProducts.get')->with('success', 'Product Approved');
         }else{
             return redirect()->route('admin.pendingProducts.get')->with('error', 'Something went wrong.');
