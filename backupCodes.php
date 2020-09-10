@@ -11,6 +11,7 @@ use App\Vendor;
 use Carbon\Carbon;
 use App\ProductMedia;
 use App\CustomField;
+use App\VendorProduct;
 use App\Variation;
 use App\ProductCustomfield;
 use App\VariantOptionOptions;
@@ -20,9 +21,7 @@ class ProductController extends Controller
 {
     public function get_pending_products(){
         $data = Product::where([
-                    'approved'=>0,
-                    'rejected'=>0,
-                    'disable'=>0
+                    'approved'=>0
                 ])
                 ->orderBy('id', 'DESC')
                 ->paginate(5);
@@ -31,17 +30,17 @@ class ProductController extends Controller
                     ->orderBy('first_name', 'ASC')
                     ->get();
 
-        return view('product.pending-products', compact('data', 'vendors'));
+        return view('product.products', compact('data', 'vendors'));
     }
 
     //show details
-    public function get_product_details($id){
+    public function product_details_show($id){
         $data = Product::where('id' , decrypt($id))
                 ->first();
         if (!$data) {
             return abort(404);
         }
-        return view('product.products-details', compact('data'));
+        return view('product.show', compact('data'));
     }
 
     //approve product
@@ -71,11 +70,24 @@ class ProductController extends Controller
 
     //approve_product
     public function approve_product($id){
-        $updated = Product::where('id', decrypt($id))->update([
+        $product = Product::where('id', decrypt($id))->first();
+        if (!$product) {
+            return abort(404);
+        }
+
+        $updated = $product->update([
             'approved'=>1,
             'updated_at'=>Carbon::now()
         ]);
         if ($updated == true) {
+            //update to vendor_products tbl
+            VendorProduct::insert([
+                'ven_id'=>$product->vendor_id,
+                'prod_id'=>$product->id,
+                'quantity'=>0,
+                'mk_price'=>0,
+                'price'=>0
+            ]);
             return redirect()->route('admin.pendingProducts.get')->with('success', 'Product Approved');
         }else{
             return redirect()->route('admin.pendingProducts.get')->with('error', 'Something went wrong.');
@@ -93,6 +105,18 @@ class ProductController extends Controller
         }else{
             return redirect()->route('admin.pendingProducts.get')->with('error', 'Something went wrong.');
         }
+    }
+
+    //get all products
+    public function get_all_products(){
+        $data = Product::orderBy('id', 'DESC')
+                ->paginate(5);
+        
+        $vendors = Vendor::where('active', 1)
+                    ->orderBy('first_name', 'ASC')
+                    ->get();
+
+        return view('product.products', compact('data', 'vendors'));
     }
 
     // 
@@ -206,12 +230,27 @@ class ProductController extends Controller
         }
 
         //update
-        $oldData->update([
+        $updated = $oldData->update([
             'title'=>$request->title,
+            'category_id'=>($request->category_id == null ? $oldData->category_id : $request->category_id),
             'description'=>$request->description,
             'image_id'=>($isImagesUpdated === "Yes" ? $request->image_id : $oldData->image_id),
-            'image_id'=>($isImagesUpdated === "Yes" ? $request->image_id : $oldData->image_id),
-        ])
+            'made_by'=>$request->made_by,
+            'what_is_it'=>$request->what_is_it,
+            'made_date'=>$request->made_date,
+            'renewal'=>$request->renewal,
+            'product_type'=>$request->product_type,
+            'sku'=>$request->sku,
+            'video_link'=>$request->video_link,
+            'updated_at'=>Carbon::now()
+            
+        ]);
+        if ($updated == true) {
+            return redirect()->back()->with('success', "Product updated successfully");
+        }else{
+            return redirect()->back()->with('error', "SORRY - Soomething went wrong, please try again later.");
+        }
+
     }
 
 
@@ -231,49 +270,62 @@ class ProductController extends Controller
                 $sorting_order = "DESC";
             }
 
-            if ($request->search_key != "") {
-                if ($id != "") {
-                    $data = Product::where("title", "LIKE", "%$searchKey%")
-                    ->orWhere("created_at", "LIKE", "%$searchKey%")
-                    ->where('vendor_id', $id)
-                    ->where('approved', $status)
-                    ->where('rejected', 0)
-                    ->where('disable', 0)
-                    ->orderBy($sort_by, $sorting_order )
-                    ->paginate($row_per_page );
-                    return view('product.partials.pending-product-list-single-vendor', compact('data', 'id'))->render();
+
+            //check status
+            $field = "";
+            $value = "";
+            if ($status === "pending") {
+                $field = "approved";
+                $value = 0;
+            }elseif ($status === "rejected") {
+                $field = "rejected";
+                $value = 1;
+            }elseif ($status === "disabled") {
+                $field = "disable";
+                $value = 1;
+            }elseif ($status === "approved") {
+                $field = "approved";
+                $value = 1;
+            }else{
+                return response()->json("Invalid request", 422);
+            }
+
+            if (!empty($request->search_key)) {
+                if (!empty($id) && is_numeric($id)) {
+                    $data = Product::where('vendor_id', $id)
+                            ->orderBy($sort_by, $sorting_order)
+                            ->where($field, $value)
+                            ->where("title", "LIKE", "%$searchKey%")
+                            ->orWhere("created_at", "LIKE", "%$searchKey%")
+                            ->paginate($row_per_page );
+                            return view('product.partials.product-list', compact('data', 'id'))->render();
                 }
+
                 $data = Product::where([
-                    'approved'=>$status,
-                    'rejected'=>0,
-                    'disable'=>0,
+                    $field=>$value
                 ])
                 ->where("title", "LIKE", "%$searchKey%")
                 ->orWhere("created_at", "LIKE", "%$searchKey%")
                 ->orderBy($sort_by, $sorting_order )
                 ->paginate($row_per_page );
-                return view('product.partials.pending-product-list', compact('data'))->render();
+                return view('product.partials.product-list', compact('data'))->render();
             }
 
-            if ($id != "") {
+            if (!empty($id) && is_numeric($id)) {
                 $data = Product::where([
                             'vendor_id'=>$id,
-                            'approved'=>$status,
-                            'rejected'=>0,
-                            'disable'=>0,
+                            $field=>$value,
                         ])
                         ->orderBy($sort_by, $sorting_order)
                         ->paginate($row_per_page );
-                return view('product.partials.pending-product-list', compact('data'))->render();
+                return view('product.partials.product-list', compact('data'))->render();
             }
             $data = Product::where([
-                        'approved'=>$status,
-                        'rejected'=>0,
-                        'disable'=>0,
+                        $field=>$value,
                     ])
                     ->orderBy($sort_by, $sorting_order)
                     ->paginate($row_per_page );
-            return view('product.partials.pending-product-list', compact('data'))->render();
+            return view('product.partials.product-list', compact('data'))->render();
         }
         return abort(404);
     }

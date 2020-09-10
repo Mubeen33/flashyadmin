@@ -149,9 +149,13 @@
 
                     <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">Products</span></a>
                         <ul class="dropdown-menu">
-                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Pending</a>
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Products</a>
                                 <ul class="dropdown-menu">
-                                    <li data-menu=""><a class="dropdown-item" href="{{route('admin.pendingProducts.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Pending List</a>
+                                    <li data-menu=""><a class="dropdown-item" href="{{route('admin.pendingProducts.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Pending</a>
+                                    </li>
+                                    <li data-menu=""><a class="dropdown-item" href="{{route('admin.disabledProducts.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Disabled</a>
+                                    </li>
+                                    <li data-menu=""><a class="dropdown-item" href="{{route('admin.allProducts.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>All</a>
                                     </li>
                                 </ul>
                             </li>

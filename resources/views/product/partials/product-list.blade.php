@@ -21,7 +21,7 @@
     </td>
     <td>
         @if($get_image)
-        <img src="{{ $get_image->image }}">
+        <img src="{{ $get_image->image }}" width="80px" height="50px">
         @endif
     </td>
     <td>{{ $content->made_by }}</td>
@@ -30,7 +30,15 @@
           {{ $content->created_at->format('d/m/Y') }}
     </td>
     <td>
-        <span class="badge badge-danger">Pending</span>
+        @if(intval($content->approved) === 0)
+            <span class="badge badge-danger">Pending</span>
+        @elseif(intval($content->approved) === 1)
+            <span class="badge badge-success">Approved</span>
+        @elseif(intval($content->rejected) === 1)
+            <span class="badge badge-warning">Rejected</span>
+        @elseif(intval($content->disable) === 1)
+            <span class="badge badge-danger">Disabled</span>
+        @endif
     </td>
     <td>
         <div class="btn-group">
