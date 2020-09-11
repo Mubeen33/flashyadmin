@@ -35,7 +35,9 @@
         </td>
     </tr>
     @endforeach
-       
+        <tr>
+            <td colspan="7">{!! $categories->links() !!}</td>
+        </tr>
 
      @else  
      <tr colspan="7">
@@ -43,6 +45,3 @@
         <td>No Record found </td>
      </tr>
 @endif
-<tr>
-    <td colspan="7">{!! $categories->links() !!}</td>
-</tr>
