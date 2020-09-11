@@ -21,7 +21,7 @@
                     Actions
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                    <a class="dropdown-item" href="{{ route('admin.vendors.show', Crypt::encrypt($content->id)) }}">Show</a>
+                    <a class="dropdown-item" href="{{ route('admin.vendors.show', Crypt::encrypt($content->id)) }}">View Details</a>
                     <a class="dropdown-item" href="">Selles Report</a>
                     <a class="dropdown-item" href="">Transaction Report</a>
                 </div>
