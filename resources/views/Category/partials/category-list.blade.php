@@ -3,6 +3,7 @@
        <tr>
         <td>{{ ($key+1) }}</td>   
         <td><b>{{ $item->getParentsNames() }}</b></td>
+        <td><img src="{{$item->image}}" width="70"></td>
         <td>{{$item->commission}}%</td>
         <td>{{$item->category_order}}</td>
         <td>
