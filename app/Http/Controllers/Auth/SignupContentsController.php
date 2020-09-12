@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileUploader;
 use Illuminate\Http\Request;
 use App\SignupContent;
+use Auth;
 use Carbon\Carbon;
 
 class SignupContentsController extends Controller
@@ -48,6 +49,7 @@ class SignupContentsController extends Controller
             'text_line_one_icon'=>'nullable|image|mimes:jpeg,jpg,png,gif|dimensions:width=40,height=40|max:1000',
             'text_line_two_icon'=>'nullable|image|mimes:jpeg,jpg,png,gif|dimensions:width=40,height=40|max:1000',
             'text_line_three_icon'=>'nullable|image|mimes:jpeg,jpg,png,gif|dimensions:width=40,height=40|max:1000',
+            'banner'=>'nullable|image|mimes:jpeg,jpg,png,gif|dimensions:width=662,height=185|max:1000',
         ]);
 
 
@@ -81,6 +83,12 @@ class SignupContentsController extends Controller
             $text_line_three_icon = $this->uploadIcon($location, $request->file('text_line_three_icon'), $oldFile);
         }
 
+        $banner = NULL;
+        if ($request->hasFile('banner')) {
+            $oldFile = ($oldData ? $oldData->banner : NULL);
+            $banner = $this->uploadIcon($location, $request->file('banner'), $oldFile);
+        }
+
         if ($oldData) {
             $result = $oldData->update([
                 'heading'=>$request->heading,
@@ -91,6 +99,7 @@ class SignupContentsController extends Controller
                 'text_line_one_icon'=>($text_line_one_icon === NULL ? $oldData->text_line_one_icon : $url."/".$location.$text_line_one_icon),
                 'text_line_two_icon'=>($text_line_two_icon === NULL ? $oldData->text_line_two_icon : $url."/".$location.$text_line_two_icon),
                 'text_line_three_icon'=>($text_line_three_icon === NULL ? $oldData->text_line_three_icon : $url."/".$location.$text_line_three_icon),
+                'banner'=>($banner === NULL ? $oldData->banner : $url."/".$location.$banner),
                 'updated_at'=>Carbon::now()
             ]);
         }else{
@@ -104,6 +113,7 @@ class SignupContentsController extends Controller
                 'text_line_one_icon'=>$url."/".$location.$text_line_one_icon,
                 'text_line_two_icon'=>($text_line_two_icon === NULL ? NULL : $url."/".$location.$text_line_two_icon),
                 'text_line_three_icon'=>($text_line_three_icon === NULL ? NULL : $url."/".$location.$text_line_three_icon),
+                'banner'=>($banner === NULL ? NULL : $url."/".$location.$banner),
                 'created_at'=>Carbon::now()
             ]);
         }
@@ -124,7 +134,7 @@ class SignupContentsController extends Controller
             $file_name = str_replace($url."/".$location, "", $oldFile);
             $obj_fu->deleteFile($file_name, $location);
         }
-        $fileName ='icon-'.uniqid();
+        $fileName ='icon-'.uniqid().Auth::user()->id;
         return $obj_fu->fileUploader($newFile, $fileName, $location);
     }
     /**

@@ -91,12 +91,15 @@ class VendorController extends Controller
             ]);
             return $this->updateSellerDetails($request, $id);
         
-        }elseif ($request->type === "UpdateContactDetails") {
+        }elseif ($request->type === "UpdateBusinessDetails") {
             $this->validate($request, [
                 'company_name' => ['required', 'string', 'max:250'],
-                'business_information' => ['nullable', 'string', 'max:300']
+                'business_information' => ['nullable', 'string', 'max:300'],
+                'website_url' => ['nullable', 'string', 'url', 'max:250'],
+                'vat_register' => ['nullable', 'string', 'in:Yes,No'],
+                'product_type' => ['required', 'string', 'in:Physical Products,Digital Products,Grouped Products,Services']
             ]);
-            return $this->updateContactDetails($request, $id);
+            return $this->updateBusinessDetails($request, $id);
         
         }elseif ($request->type === "UpdateBankDetails") {
             $this->validate($request, [
@@ -114,10 +117,7 @@ class VendorController extends Controller
                 'director_last_name' => ['nullable', 'string', 'max:250'],
                 'director_email' => ['nullable', 'string', 'email', 'max:250'],
                 'director_details' => ['nullable', 'string', 'max:300'],
-                'website_url' => ['nullable', 'string', 'url', 'max:250'],
-                'vat_register' => ['nullable', 'string', 'in:Yes,No'],
                 'additional_info' => ['nullable', 'string', 'max:300'],
-                'product_type' => ['nullable', 'string', 'in:Physical Products,Digital Products,Grouped Products,Services'],
             ]);
             return $this->updateDirectorDetails($request, $id);
         
@@ -171,17 +171,20 @@ class VendorController extends Controller
         return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
     }
 
-    private function updateContactDetails($request, $id){
+    private function updateBusinessDetails($request, $id){
         Vendor::findOrFail($id);
         //if validation pass
         $updated = Vendor::where('id', $id)->update([
            'company_name'=> $request->company_name,
            'business_information'=> $request->business_information,
+           'website_url' => $request->website_url,
+           'vat_register' => $request->vat_register,
+           'product_type' => $request->product_type,
            'updated_at'=> Carbon::now()
         ]);
         
         if($updated == true){
-            return redirect()->back()->with('success', 'Contact Details Updated');
+            return redirect()->back()->with('success', 'Business Details Updated');
         }
         return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
     }
@@ -208,14 +211,11 @@ class VendorController extends Controller
         Vendor::findOrFail($id);
         //if validation pass
         $updated = Vendor::where('id', $id)->update([
-           'website_url'=> $request->website_url,
            'director_first_name'=> $request->director_first_name,
            'director_last_name'=> $request->director_last_name,
            'director_email'=> $request->director_email,
            'director_details'=> $request->director_details,
-           'vat_register'=> $request->vat_register,
            'additional_info'=> $request->additional_info,
-           'product_type'=> $request->product_type,
            'updated_at'=> Carbon::now()
         ]);
         
