@@ -11,14 +11,11 @@
                 @endif
                 <div class="row" id="basic-table">
                     <div class="col-12">
-                        <div class="row">
-                            <div class="col offset-10">
-                                <a class="btn btn-warning" href="{{route('admin.addCustomField.get')}}">Add new</a>
-                            </div>
-                        </div>
+                        
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Custom Fields List</h4>
+                                <h4 class="card-title">Custom Fields List<a class="btn btn-warning btn-sm" href="{{route('admin.addCustomField.get')}}">Add new</a></h4>
+                                
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
