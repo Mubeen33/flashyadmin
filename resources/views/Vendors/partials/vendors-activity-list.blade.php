@@ -20,7 +20,7 @@
             </td>
             <td>{{ $content->created_at->format('d/m/Y H:i') }}</td>
             <td>
-                <a class="btn btn-primary btn-sm" title="View All Activity of {{ $content->get_vendor->first_name }}" href="{{ route('admin.vendor.activity.get', Crypt::encrypt($content->vendor_id)) }}"><i class="feather icon-eye"></i></a>
+                <a class="btn btn-warning btn-sm" title="View All Activity of {{ $content->get_vendor->first_name }}" href="{{ route('admin.vendor.activity.get', Crypt::encrypt($content->vendor_id)) }}"><i class="feather icon-eye"></i></a>
             </td>
         </tr>
         @endif

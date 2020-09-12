@@ -34,7 +34,7 @@
                         	<input type="email" name="email" value="{{ $data->email }}" class="form-control" required="1">
                         </div>
 	                    
-                        <button class="btn btn-primary" type="submit" name="update">UPDATE</button>
+                        <button class="btn btn-warning" type="submit" name="update">UPDATE</button>
                         <button id="cancel-seller-edit--btn" class="btn btn-danger" type="button">CANCEL</button>
 	            </div>
 	            

@@ -27,7 +27,7 @@
                                             <h4 class="card-title"><b>Add Brands</b></h4>
                                         </div>
                                         <div>
-                                            <a class="btn btn-primary btn-sm" href="{{Route('admin.brands.brandslist')}}">Brands</a>
+                                            <a class="btn btn-warning btn-sm" href="{{Route('admin.brands.brandslist')}}">Brands</a>
                                         </div>
                                     </div>
                                     <div class="card-content">
@@ -74,7 +74,7 @@
                                                         </div>
                                                         <div class="col-11"></div>
                                                         
-                                                            <button class="btn btn-primary" type="submit">Submit</button>
+                                                            <button class="btn btn-warning" type="submit">Submit</button>
                                                         
                                                     </div>
                                                 </div>

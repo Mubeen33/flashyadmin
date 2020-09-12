@@ -14,7 +14,7 @@
             {{ $data->password }}
         @endif
     </p>
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal">
         Update Password
     </button>
     <button class="btn btn-danger btn-sm"

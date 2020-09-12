@@ -14,7 +14,7 @@
                             <div class="card-header">
                                 <h4 class="card-title">Edit {{ $data->type }}</h4>
                                 <div>
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#bannerIntroModal">Banner Intro.</button>
+                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#bannerIntroModal">Banner Intro.</button>
                                 </div>
                             </div>
                             <div class="card-content">
@@ -98,7 +98,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <button class="btn btn-primary" type="submit">Update</button>
+                                            <button class="btn btn-warning" type="submit">Update</button>
                                         </div>
                                     </form>
 

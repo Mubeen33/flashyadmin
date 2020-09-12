@@ -19,7 +19,7 @@
                                     <div class="card-body text-center">
                                         <img src="../../../app-assets/images/elements/decore-left.png" class="img-left" alt="">
                                         <img src="../../../app-assets/images/elements/decore-right.png" class="img-right" alt="">
-                                        <div class="avatar avatar-xl bg-primary shadow mt-0">
+                                        <div class="avatar avatar-xl bg-warning shadow mt-0">
                                             <div class="avatar-content">
                                                 <i class="feather icon-award white font-large-1"></i>
                                             </div>
@@ -35,9 +35,9 @@
                         <div class="col-lg-3 col-md-6 col-12">
                             <div class="card">
                                 <div class="card-header d-flex flex-column align-items-start pb-0">
-                                    <div class="avatar bg-rgba-primary p-50 m-0">
+                                    <div class="avatar bg-rgba-warning p-50 m-0">
                                         <div class="avatar-content">
-                                            <i class="feather icon-users text-primary font-medium-5"></i>
+                                            <i class="feather icon-users text-warning font-medium-5"></i>
                                         </div>
                                     </div>
                                     <h2 class="text-bold-700 mt-1 mb-25">92.6k</h2>
@@ -80,7 +80,7 @@
                                                         <span>vs last 7 days</span>
                                                     </h5>
                                                 </div>
-                                                <a href="#" class="btn btn-primary shadow">View Details <i class="feather icon-chevrons-right"></i></a>
+                                                <a href="#" class="btn btn-warning shadow">View Details <i class="feather icon-chevrons-right"></i></a>
                                             </div>
                                             <div class="col-lg-6 col-12 d-flex justify-content-between flex-column text-right order-lg-2 order-1">
                                                 <div class="dropdown chart-dropdown">
@@ -100,7 +100,7 @@
                                         <div class="row avg-sessions pt-50">
                                             <div class="col-6">
                                                 <p class="mb-0">Goal: $100000</p>
-                                                <div class="progress progress-bar-primary mt-25">
+                                                <div class="progress progress-bar-warning mt-25">
                                                     <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width:50%"></div>
                                                 </div>
                                             </div>
@@ -193,7 +193,7 @@
                                         <div id="product-order-chart" class="mb-3"></div>
                                         <div class="chart-info d-flex justify-content-between mb-1">
                                             <div class="series-info d-flex align-items-center">
-                                                <i class="fa fa-circle-o text-bold-700 text-primary"></i>
+                                                <i class="fa fa-circle-o text-bold-700 text-warning"></i>
                                                 <span class="text-bold-600 ml-50">Finished</span>
                                             </div>
                                             <div class="product-result">
@@ -247,7 +247,7 @@
                                     <div class="card-body">
                                         <ul class="activity-timeline timeline-left list-unstyled">
                                             <li>
-                                                <div class="timeline-icon bg-primary">
+                                                <div class="timeline-icon bg-warning">
                                                     <i class="feather icon-plus font-medium-2 align-middle"></i>
                                                 </div>
                                                 <div class="timeline-info">
@@ -287,7 +287,7 @@
                                                 <small class="text-muted">25 days ago</small>
                                             </li>
                                             <li>
-                                                <div class="timeline-icon bg-primary">
+                                                <div class="timeline-icon bg-warning">
                                                     <i class="feather icon-check font-medium-2 align-middle"></i>
                                                 </div>
                                                 <div class="timeline-info">

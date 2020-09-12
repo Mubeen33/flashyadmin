@@ -27,7 +27,7 @@
                             <div class="card-header justify-content-between">
                                 <div class="d-flex">
                                     <h4 class="card-title mr-1">Variatons Options List</h4>
-                                    <a class="btn btn-primary btn-sm" href="{{Route('admin.variations.addvariationsoption')}}">Add new</a>
+                                    <a class="btn btn-warning btn-sm" href="{{Route('admin.variations.addvariationsoption')}}">Add new</a>
                                 </div>
                             </div>
                             <div class="card-content">
@@ -71,7 +71,7 @@
                                                         <td>
                                                             <div class="btn-group">
                                                                 <div class="dropdown">
-                                                                    <button class="btn btn-primary btn-sm dropdown-toggle mr-1" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <button class="btn btn-warning btn-sm dropdown-toggle mr-1" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                         Actions
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">

@@ -36,7 +36,7 @@
             @include('Vendors.partials.add-vendor.add-wirehouse-details')
          </div>
 
-         <div class="col-lg-12 col-md-12 col-sm-12">
+         <div class="col-lg-12 col-md-12 col-sm-12 text-right">
             <button class="btn btn-warning" type="submit">Add</button>
          </div>
       </div>

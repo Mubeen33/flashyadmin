@@ -421,7 +421,7 @@
                               @endif
 
                               @if(intval($product->approved) === 1)
-                              <button type="submit" class="btn btn-primary ml-1">UPDATE</button>
+                              <button type="submit" class="btn btn-warning ml-1">UPDATE</button>
                               @endif
                           </div>
           					</div>

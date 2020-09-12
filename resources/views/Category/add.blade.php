@@ -114,7 +114,7 @@
 
                                         
                                         <div class="form-group text-right">
-                                            <button class="btn btn-primary" type="submit">Add Category</button>
+                                            <button class="btn btn-warning" type="submit">Add Category</button>
                                         </div>
                                     </form>
 

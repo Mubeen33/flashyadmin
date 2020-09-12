@@ -20,6 +20,8 @@
                     <form id="addCustomFields_from" action="{{route('admin.addCustomField.post')}}" method="post" enctype="multipart/form-data">
                         @csrf
                             <div class="row match-height">
+                                <div class="col-10"></div>
+                                <button type="button" class="btn btn-warning"><a href="" style="text-decoration: none;color: #fff">Variations</a></button>    
                                    
                             </div>
                             <div class="col-12">
@@ -60,6 +62,8 @@
                                                                 <li class="list-group-item btn" style="text-align: left;" onclick="appenddToForm('file')">{{__('File')}}</li>
                                                             </ul>
                                                         </div>
+                                                        <div class="col-11"></div>
+                                                            <button class="btn btn-warning" type="submit">Submit</button>
                                                         <div class="col-md-10">
                                                             
                                                         </div>

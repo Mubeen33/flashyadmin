@@ -1,5 +1,15 @@
 @extends('layouts.master')
 @section('page-title','Vendors')
+
+@push('styles')
+<style type="text/css">
+  .vendors--details-tabs .active{
+    background: #FF7E03 !important;
+    border: 1px solid #FF7E03;
+  }
+</style>
+@endpush
+
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Vendors Details</li>
@@ -19,7 +29,7 @@
                                       <div class="col-4">
 
                                         <!-- List group -->
-                                        <div class="list-group" id="myList" role="tablist">
+                                        <div class="list-group vendors--details-tabs" id="myList" role="tablist">
                                           <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" role="tab">Seller Details</a>
                                           <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" role="tab">Business Details</a>
                                           <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" role="tab">Bank Details</a>

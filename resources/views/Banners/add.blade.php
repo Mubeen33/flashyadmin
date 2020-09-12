@@ -26,7 +26,7 @@
                                     <h4 class="card-title">Add New @if(Request::is('banners/create')) {{ 'Banner' }} @else {{ 'Ads Banner' }} @endif</h4>
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#bannerIntroModal">Banner Intro.</button>
+                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#bannerIntroModal">Banner Intro.</button>
                                 </div>
                             </div>
                             <div class="card-content">
@@ -104,7 +104,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <button class="btn btn-primary" type="submit">Add</button>
+                                            <button class="btn btn-warning" type="submit">Add</button>
                                         </div>
                                     </form>
 

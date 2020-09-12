@@ -188,7 +188,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-primary" type="submit">Add</button>
+                                    <button class="btn btn-warning" type="submit">Add</button>
                                 </div>
                             </form>
 
