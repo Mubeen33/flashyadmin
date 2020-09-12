@@ -1,132 +1,56 @@
-@extends('layouts.master')
-@section('page-title','Products')
 
-@push('styles')
-<style type="text/css">
-    #searchKey__,
-    #selected_row_per_page,
-    #hidden__id,
-    #hidden__status{
-        border: 1px solid #ddd;
-        padding: 2px 10px;
-        outline: none;
-    }
-</style>
-@endpush
-
-@section('breadcrumbs')
-    <li class="breadcrumb-item"><a href="">Home</a></li>
-    <li class="breadcrumb-item active">Vendors Products</li>
-@endsection 
-@section('content')
-
-    @php
-        $title = NULL;
-        if(Request::is('admin/products/pending-products')){
-            $title = 'Pending';
-        }else{
-            $title = 'All';
-        }
-    @endphp
-
-            <div class="content-body">
-                @include('msg.msg')
-                <div class="row" id="basic-table">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header justify-content-between">
-                                <div><h4 class="card-title">{{$title}} Products</h4></div>
-                                <div>
-                                    <select class="@if($title === 'Pending') d-none @endif" id="hidden__status" title="Select Status">
-                                        <option value="">Select Status</option>
-                                        @if($title === 'All')
-                                        <option value="all" selected>All</option>
-                                        <option value="rejected">Rejected</option>
-                                        <option value="disabled">Disabled</option>
-                                        <option value="approved">Approved</option>
-                                        @endif
-                                        <option value="pending" @if($title === 'Pending') selected @endif>Pending</option>
-                                    </select>
-
-                                    <select id="hidden__id" title="Select Vendor">
-                                        <option value="">Select Vendor</option>
-                                        @foreach($vendors as $vendor)
-                                        <option value="{{ $vendor->id }}">{{ $vendor->first_name." ".$vendor->last_name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <input type="text" id="searchKey__" placeholder="Search">
-                                    <select id="selected_row_per_page" title="Display row per page">
-                                        <option value="5" selected="1">Show 5</option>
-                                        <option value="10">Show 10</option>
-                                        <option value="15">Show 15</option>
-                                        <option value="20">Show 20</option>
-                                        <option value="25">Show 25</option>
-                                        <option value="30">Show 30</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="card-content">
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th class="sortAble" sorting-column='id' sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg> 
-                                                        ID
-                                                    </th>
-                                                    <th>Vendor</th>
-                                                    <th class="sortAble" sorting-column='title' sorting-order=''>
-                                                        Title
-                                                    </th>
-                                                    <th>Category</th>
-                                                    <th>Image</th>
-                                                    <th>Made by</th>
-                                                    <th class="sortAble" sorting-column='product_type' sorting-order=''>
-                                                        Product Type
-                                                    </th>
-                                                    <th class="sortAble" sorting-column='created_at' sorting-order=''>
-                                                        Date
-                                                    </th>
-                                                    <th>Status</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody id="render__data">
-                                                @include('product.partials.product-list')
-                                            </tbody>
-                                            
-                                        </table>
-                                        <input type="hidden" id="hidden__action_url" value="{{ route('admin.products.ajaxPgination') }}">
-                                        <input type="hidden" id="hidden__page_number" value="1">
-                                        <input type="hidden" id="hidden__sort_by" value="id">
-                                        <input type="hidden" id="hidden__sorting_order" value="DESC">
-                                    </div>
-                                </div>
-                            </div>
+                          <div class="card">
+   <div class="card-content">
+      <div class="card-body">
+         <div class="row">
+            <div class="col-12">
+               <div class="card-body pr-0 pl-0">
+                  <h4>Bank Details</h4>
+                  <div class="row">
+                     <div class="col-12">
+                        <div class="form-group">
+                           <label>Account Holder</label>
+                           <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="account_holder" class="form-control" placeholder="Account Holder">
+                           <small class="place-error--msg"></small>
                         </div>
-                    </div>
-                </div>
+
+                        <div class="form-group">
+                           <label>Bank</label>
+                           <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="bank_name" class="form-control" placeholder="Bank">
+                           <small class="place-error--msg"></small>
+                        </div>
+
+                        <div class="form-group">
+                           <label>Bank Account</label>
+                           <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="bank_account" class="form-control" placeholder="Bank Account">
+                           <small class="place-error--msg"></small>
+
+                           <div class="row">
+                              <div class="col-lg-4 col-md-6">
+                                 
+                              </div>
+                              <div class="col-lg-4 col-md-6">
+                                 
+                              </div>
+                              <div class="col-lg-4 col-md-6">
+                                 <label>Branch Code</label>
+                                 <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="branch_code" class="form-control" placeholder="Branch Code">
+                                 <small class="place-error--msg"></small>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div class="form-group">
+                           <label>Branch Name</label>
+                           <input onclick="removeErrorLevels($(this), 'input')"  type="text" name="branch_name" class="form-control" placeholder="Branch Name">
+                           <small class="place-error--msg"></small>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-@endsection
-
-@push('scripts')
-
-<script type="text/javascript">
-    $(document).on('change', '#hidden__id', function(e){
-        e.preventDefault()
-        let action_url = $("#hidden__action_url").val()
-        let pageNumber = 1;
-        let searchKey = $("#searchKey__").val()
-        $("#hidden__page_number").val(pageNumber)
-        let sort_by = $("#hidden__sort_by").val()
-        let sorting_order = $("#hidden__sorting_order").val()
-        let hidden__status = $("#hidden__status").val()
-        let row_per_page = $("#selected_row_per_page").val()
-        let hidden__id = $("#hidden__id").val()
-        fetch_paginate_data(action_url, pageNumber, searchKey, sort_by, sorting_order, hidden__status, row_per_page, hidden__id);
-    })
-</script>
-
-<script type="text/javascript" src="{{ asset('js/ajax-pagination.js') }}"></script>
-@endpush
+         </div>
+      </div>
+      <!-- card-body end here -->
+   </div>
+</div>
