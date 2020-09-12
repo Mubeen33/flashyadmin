@@ -83,7 +83,7 @@
                         <ul class="nav navbar-nav">
                             <li class="nav-item d-none d-lg-block"><a class="nav-link bookmark-star"><i class="ficon feather icon-star warning"></i></a>
                                 <div class="bookmark-input search-input">
-                                    <div class="bookmark-input-icon"><i class="feather icon-search primary"></i></div>
+                                    <div class="bookmark-input-icon"><i class="feather icon-search warning"></i></div>
                                     <input class="form-control input" type="text" placeholder="Explore Vuexy..." tabindex="0" data-search="template-list">
                                     <ul class="search-list search-list-bookmark"></ul>
                                 </div>
@@ -97,13 +97,13 @@
                         <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i class="ficon feather icon-maximize"></i></a></li>
                         <li class="nav-item nav-search"><a class="nav-link nav-link-search"><i class="ficon feather icon-search"></i></a>
                             <div class="search-input">
-                                <div class="search-input-icon"><i class="feather icon-search primary"></i></div>
+                                <div class="search-input-icon"><i class="feather icon-search warning"></i></div>
                                 <input class="input" type="text" placeholder="Explore Vuexy..." tabindex="-1" data-search="template-list">
                                 <div class="search-input-close"><i class="feather icon-x"></i></div>
                                 <ul class="search-list search-list-main"></ul>
                             </div>
                         </li>
-                        <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon feather icon-bell"></i><span class="badge badge-pill badge-primary badge-up">5</span></a>
+                        <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon feather icon-bell"></i><span class="badge badge-pill badge-warning badge-up">5</span></a>
                             <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                                 <li class="dropdown-menu-header">
                                     <div class="dropdown-header m-0 p-2">
@@ -112,9 +112,9 @@
                                 </li>
                                 <li class="scrollable-container media-list"><a class="d-flex justify-content-between" href="javascript:void(0)">
                                         <div class="media d-flex align-items-start">
-                                            <div class="media-left"><i class="feather icon-plus-square font-medium-5 primary"></i></div>
+                                            <div class="media-left"><i class="feather icon-plus-square font-medium-5 warning"></i></div>
                                             <div class="media-body">
-                                                <h6 class="primary media-heading">You have new order!</h6><small class="notification-text"> Are your going to meet me tonight?</small>
+                                                <h6 class="warning media-heading">You have new order!</h6><small class="notification-text"> Are your going to meet me tonight?</small>
                                             </div><small>
                                                 <time class="media-meta" datetime="2015-06-11T18:29:20+08:00">9 hours ago</time></small>
                                         </div>
@@ -173,7 +173,7 @@
     </nav>
     <ul class="main-search-list-defaultlist d-none">
         <li class="d-flex align-items-center"><a class="pb-25" href="#">
-                <h6 class="text-primary mb-0">Files</h6>
+                <h6 class="text-warning mb-0">Files</h6>
             </a></li>
         <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between w-100" href="#">
                 <div class="d-flex">
@@ -208,7 +208,7 @@
                 </div><small class="search-data-size mr-50 text-muted">&apos;256kb</small>
             </a></li>
         <li class="d-flex align-items-center"><a class="pb-25" href="#">
-                <h6 class="text-primary mb-0">Members</h6>
+                <h6 class="text-warning mb-0">Members</h6>
             </a></li>
         <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="#">
                 <div class="d-flex align-items-center">

@@ -13,7 +13,7 @@
                     <div class="col-12">
                         <div class="row">
                             <div class="col offset-10">
-                                <a class="btn btn-primary" href="{{route('admin.addCustomField.get')}}">Add new</a>
+                                <a class="btn btn-warning" href="{{route('admin.addCustomField.get')}}">Add new</a>
                             </div>
                         </div>
                         <div class="card">

@@ -27,7 +27,7 @@
                             <div class="card-header justify-content-between">
                                 <div class="d-flex">
                                     <h4 class="card-title mr-1">Disabled Variations List</h4>
-                                    <a class="btn btn-primary btn-sm" href="{{Route('admin.variations.addvariation')}}">Add new</a>
+                                    <a class="btn btn-warning btn-sm" href="{{Route('admin.variations.addvariation')}}">Add new</a>
                                 </div>
                                 <div>
                                     <input type="text" id="searchKey__" placeholder="Search">

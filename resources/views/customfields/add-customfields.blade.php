@@ -21,7 +21,7 @@
                         @csrf
                             <div class="row match-height">
                                 <div class="col-10"></div>
-                                <button type="button" class="btn btn-primary"><a href="" style="text-decoration: none;color: #fff">Variations</a></button>    
+                                <button type="button" class="btn btn-warning"><a href="" style="text-decoration: none;color: #fff">Variations</a></button>    
                             </div>
                             <div class="col-12">
                                 <div class="card">
@@ -62,7 +62,7 @@
                                                             </ul>
                                                         </div>
                                                         <div class="col-11"></div>
-                                                            <button class="btn btn-primary" type="submit">Submit</button>
+                                                            <button class="btn btn-warning" type="submit">Submit</button>
                                                         
                                                     </div>
                                                 </div>

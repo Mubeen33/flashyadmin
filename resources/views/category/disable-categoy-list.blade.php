@@ -31,7 +31,7 @@
                             <div class="card-header">
                                 <div class="d-flex">
                                     <h4 class="card-title mr-1">Disabled Categories List</h4>
-                                    <a class="btn btn-primary btn-sm" href="{{url('admin/add-category')}}"><i class="fa fa-plus">Add Category</i></a>
+                                    <a class="btn btn-warning btn-sm" href="{{url('admin/add-category')}}"><i class="fa fa-plus">Add Category</i></a>
                                 </div>
                                 <div>
                                     <input type="text" id="searchKey__" placeholder="Search">

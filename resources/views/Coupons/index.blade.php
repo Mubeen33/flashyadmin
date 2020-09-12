@@ -54,7 +54,7 @@
                                                             @endif    
                                                         </td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#updateModal-{{$content->id}}">
+                                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#updateModal-{{$content->id}}">
                                                                 <i class="feather icon-edit"></i>
                                                             </button>
                                                             <!-- Modal -->
@@ -87,7 +87,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <button type="submit" class="btn btn-primary">Update</button>
+                                                                            <button type="submit" class="btn btn-warning">Update</button>
                                                                         </div>
                                                                      </form>
                                                                   </div>

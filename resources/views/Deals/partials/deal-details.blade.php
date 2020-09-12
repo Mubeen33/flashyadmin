@@ -113,7 +113,7 @@
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
-            <a class="btn btn-primary" onclick="return confirm('Are you sure?')" href="{{ route('admin.vendor.deal.approve', Crypt::encrypt($content->id)) }}">Approve</a>
+            <a class="btn btn-warning" onclick="return confirm('Are you sure?')" href="{{ route('admin.vendor.deal.approve', Crypt::encrypt($content->id)) }}">Approve</a>
         </div>
     </div>
 </div>

@@ -40,7 +40,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <button class="btn btn-primary" type="submit">Setup</button>
+                                            <button class="btn btn-warning" type="submit">Setup</button>
                                         </div>
                                     </form>
 

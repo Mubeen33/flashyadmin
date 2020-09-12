@@ -46,7 +46,7 @@
                         	<textarea name="business_information" class="form-control" rows="6" cols="10">{{ $data->business_information }}</textarea>
                         </div>
 	                    
-                        <button class="btn btn-primary" type="submit" name="update">UPDATE</button>
+                        <button class="btn btn-warning" type="submit" name="update">UPDATE</button>
                         <button id="cancel-contact-edit--btn" class="btn btn-danger" type="button">CANCEL</button>
 	            </div>
 	            

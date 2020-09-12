@@ -205,7 +205,7 @@
                                         </div>
                                         
                                         <div class="form-group">
-                                            <button class="btn btn-primary" type="submit">UPDATE</button>
+                                            <button class="btn btn-warning" type="submit">UPDATE</button>
                                         </div>
                                     </form>
 

@@ -11,7 +11,7 @@
                 <div class="d-flex justify-content-end">
                     @if($data->active == 0)
                     <h3 title="Approve Account" onclick="if(confirm('Are you sure to approve this account?')) document.getElementById('approveVendorAccountForm').submit();" style="cursor:pointer;margin-right: 15px">
-                        <i class="feather text-primary icon-check"></i>
+                        <i class="feather text-warning icon-check"></i>
                     </h3>
                     @endif
                     
@@ -22,7 +22,7 @@
             </div>
         </div>
     </div> <!-- row end here-->
-    <div class="col-md-12 border border-primary"></div>
+    <div class="col-md-12 border border-warning"></div>
 
 
     <div class="col-md-12">

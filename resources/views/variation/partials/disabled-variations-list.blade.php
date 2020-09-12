@@ -6,7 +6,7 @@
             
             <td>
                 @if($variation->image_approval==1)
-                    <div class="badge badge-primary">Yes</div>
+                    <div class="badge badge-warning">Yes</div>
                 @else
                     <div class="badge badge-dark">No</div>
                 @endif    

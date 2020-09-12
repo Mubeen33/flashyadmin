@@ -38,7 +38,7 @@
 
                         
 	                    
-                        <button class="btn btn-primary" type="submit" name="update">UPDATE</button>
+                        <button class="btn btn-warning" type="submit" name="update">UPDATE</button>
                         <button id="cancel-bank-edit--btn" class="btn btn-danger" type="button">CANCEL</button>
 	            </div>
 	            

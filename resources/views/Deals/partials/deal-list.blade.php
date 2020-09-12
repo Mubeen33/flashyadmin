@@ -3,7 +3,7 @@
         <th scope="row">{{ $key+1 }}</th>
         <td>{{ $content->get_vendor->first_name }}</td>                                          
         <td>{{ $content->get_vendor->email }}</td>
-        <td>{{ (\Str::words($content->get_product->title, 4)." ...") }}</td>
+        <td>{{ (\Str::words($content->get_product->title, 4)) }}</td>
         <td>{{ $content->price }}</td>
         <td>{{ $content->quantity }}</td>
         <td>{{ $content->start_time }}</td>

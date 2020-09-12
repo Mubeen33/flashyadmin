@@ -8,7 +8,7 @@
       <td>{{ $content->created_at->format('d/m/Y H:i') }}</td>
       <td>
 
-          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" 
+          <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" 
               data-target="#viewDetails-{{$content->id}}">
             <i class="feather icon-eye"></i>
           </button>

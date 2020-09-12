@@ -34,7 +34,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-11"></div>
-                                                            <button class="btn btn-primary" type="submit">Submit</button>
+                                                            <button class="btn btn-warning" type="submit">Submit</button>
                                                     </div>
                                                 </div>
                                         </div>
