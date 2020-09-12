@@ -22,11 +22,12 @@
                             <div class="row match-height">
                                 <div class="col-10"></div>
                                 <button type="button" class="btn btn-warning"><a href="" style="text-decoration: none;color: #fff">Variations</a></button>    
+                                   
                             </div>
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title"><b>Add Custom Fields</b></h4>
+                                        <h4 class="card-title"><b>Add Custom Fields</b><button type="button" class="btn btn-sm btn-warning" style="left: 15px;position: relative;"><a href="" style="text-decoration: none;color: #fff">Variations</a></button> </h4>
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
@@ -63,6 +64,12 @@
                                                         </div>
                                                         <div class="col-11"></div>
                                                             <button class="btn btn-warning" type="submit">Submit</button>
+                                                        <div class="col-md-10">
+                                                            
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <button class="btn btn-warning" type="submit">Submit</button>
+                                                        </div>   
                                                         
                                                     </div>
                                                 </div>
