@@ -1,7 +1,8 @@
 @foreach($brands as $brand)
     <tr>
         <th scope="row">{{$brand->id}}</th>
-        <td>{{$brand->name}}</td>                                          
+        <td>{{$brand->name}}</td>
+        <td><img src="{{$brand->image}}" width="80"></td>                                          
         <td>{{$brand->description}}</td>
         <td>
             @if($brand->active=='Y')

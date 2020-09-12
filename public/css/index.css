@@ -161,6 +161,10 @@ input[type=number] {
 	font-size:15px;
 	text-align:left !important;
 }
+.card {
+	
+    min-height: 500px !important;
+}
 .card-subtitle {
 	text-align: justify;
 	margin-top:1%;
