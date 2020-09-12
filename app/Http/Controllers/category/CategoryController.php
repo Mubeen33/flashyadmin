@@ -36,13 +36,15 @@ class CategoryController extends Controller
 
 
     public function createcategory(Request $request){
+
         $this->validate($request,[
             'name'=>'required|string|max:100',
             'slug'=>'required|string',
             'title'=>'required|string',
             'order'=>'required|numeric',
             'commission'=>'required',
-            'image'=>'nullable|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000'
+            'image'=>'nullable|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000',
+            'icon' =>'nullable|image|mimes:png,jpg,jpeg,gif|dimensions:width=18,height=18|max:1000'
         ]);
         
         $image = NULL;
@@ -52,6 +54,14 @@ class CategoryController extends Controller
             $fileName ='category-'.uniqid().mt_rand(10, 9999).Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
             $image = $fileName__;
+        }
+        $icon = NULL;
+        $location = "upload-images/category/";
+        if($request->hasFile('icon')){
+            $obj_fu = new FileUploader();
+            $fileName ='category-'.uniqid().mt_rand(10, 9999).Auth::user()->id;
+            $fileName__ = $obj_fu->fileUploader($request->file('icon'), $fileName, $location);
+            $icon = $fileName__;
         }
 
     	$Category = new Category();
@@ -94,6 +104,7 @@ class CategoryController extends Controller
         $Category->show_image_nav       = $request->image_visiblity;
         $Category->commission           = $request->commission;
         $Category->image                = ($image === NULL ? NULL : url('/')."/".$location.$image);
+        $Category->icon                 = ($icon === NULL ? NULL : url('/')."/".$location.$icon);
 
         
         

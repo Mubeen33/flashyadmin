@@ -3431,7 +3431,7 @@ _:-ms-lang(x), .toast-bs-container {
 .pagination .page-item.active .page-link {
   z-index : 3;
   border-radius : 5rem;
-  background-color : #7367F0;
+  background-color : #FF9F43;
   color : #FFFFFF;
   -webkit-transform : scale(1.05);
       -ms-transform : scale(1.05);

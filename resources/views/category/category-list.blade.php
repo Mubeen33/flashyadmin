@@ -31,7 +31,7 @@
                             <div class="card-header justify-content-between">
                                 <div class="d-flex">
                                     <h4 class="card-title mr-1">Categories List</h4>
-                                    <a class="btn btn-primary btn-sm" href="{{route('admin.addCategory.get')}}"><i class="fa fa-plus">Add Category</i></a>
+                                    <a class="btn btn-warning btn-sm" href="{{route('admin.addCategory.get')}}">Add Category</a>
                                 </div>
                                 <div>
                                     <input type="text" id="searchKey__" placeholder="Search">
