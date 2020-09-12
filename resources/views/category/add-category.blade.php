@@ -244,11 +244,11 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                        <div class="col-md-11"></div>
-                                                        {{-- <div class="col-md-2"> --}}
+                                                        <br>
+                                                        <div class="col-md-10"></div>
+                                                        <div class="col-md-2">
                                                             <button class="btn btn-warning" type="submit">Submit</button>
-                                                        {{-- </div> --}}
+                                                        </div>
                                                     </div>
                                                 </div>
                                         </div>
