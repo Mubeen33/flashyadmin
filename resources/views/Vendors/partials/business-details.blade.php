@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-9 pl-0">
                 <h3 class="pl-1">
-                       <i class="feather icon-user"></i> Contact Details
+                       <i class="feather icon-user"></i> Business Details
                 </h3>
             </div>
             <div class="col-md-3 text-right">
@@ -36,7 +36,7 @@
                                 <div class="col-md-12">
                                     <div class="row pt-0">
                                         <div class="col-md-3 col-3 ">
-                                            <strong>Store/Company Name</strong>
+                                            <strong>Company Name</strong>
                                         </div>
                                         <div class="col-md-9 col-9 p-0">
                                             {{$data->company_name}}
@@ -44,48 +44,33 @@
                                     </div>
 
                                     <div class="row pt-1">
-                                        <div class="col-md-3 col-3 ">
-                                            <strong>First Name</strong>
+                                        <div class="col-md-3 col-3">
+                                            <strong>Website URL</strong>
                                         </div>
                                         <div class="col-md-9 col-9 p-0">
-                                            {{$data->first_name}}
+                                            {{$data->website_url}}
                                         </div>
                                     </div>
 
                                     <div class="row pt-1">
-                                        <div class="col-md-3 col-3 ">
-                                            <strong>Last Name</strong>
+                                        <div class="col-md-3 col-3">
+                                            <strong>Vat Register?</strong>
                                         </div>
                                         <div class="col-md-9 col-9 p-0">
-                                            {{$data->last_name}}
+                                            {{$data->vat_register}}
                                         </div>
                                     </div>
                                     
-                                    <div class="row pt-1">
-                                        <div class="col-md-3 col-3 ">
-                                            <strong>Mobile Number</strong>
-                                        </div>
-                                        <div class="col-md-9 col-9 p-0">
-                                            {{$data->mobile}}
-                                        </div>
-                                    </div>
-
-                                    <div class="row pt-1">
-                                        <div class="col-md-3 col-3">
-                                            <strong>Phone Number</strong>
-                                        </div>
-                                        <div class="col-md-9 col-9 p-0">
-                                            {{$data->phone}}
-                                        </div>
-                                    </div>
+                                    
                                 </div>
+
                                 <div class="col-md-12 pt-1">
                                     <div class="row">
                                         <div class="col-md-3 col-3">
-                                            <strong>Email</strong>
+                                            <strong>Product Type</strong>
                                         </div>
-                                        <div class="col-md-9 col-9 pl-0">
-                                            {{$data->email}}
+                                        <div class="col-md-9 col-9 p-0">
+                                            {{$data->product_type}}
                                         </div>
                                     </div>
                                 </div>
@@ -95,7 +80,7 @@
                                         <div class="col-md-3 col-3">
                                             <strong>Business Informations</strong>
                                         </div>
-                                        <div class="col-md-9 col-9 pl-0">
+                                        <div class="col-md-9 col-9 p-0">
                                             {{$data->business_information}}
                                         </div>
                                     </div>
@@ -112,7 +97,7 @@
 
     <div class="col-md-12">
         <div id="edit--contact-details" class="d-none">
-            @include('Vendors.partials.update-contact-details')
+            @include('Vendors.partials.update-business-details')
         </div>
     </div> <!-- row end here-->
     

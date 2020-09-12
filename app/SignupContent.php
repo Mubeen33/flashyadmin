@@ -14,6 +14,7 @@ class SignupContent extends Model
     	'text_line_three',
     	'text_line_one_icon',
     	'text_line_two_icon',
-    	'text_line_three_icon'
+    	'text_line_three_icon',
+        'banner'
     ];
 }

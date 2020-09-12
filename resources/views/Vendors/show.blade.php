@@ -21,7 +21,7 @@
                                         <!-- List group -->
                                         <div class="list-group" id="myList" role="tablist">
                                           <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" role="tab">Seller Details</a>
-                                          <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" role="tab">Contact Details</a>
+                                          <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" role="tab">Business Details</a>
                                           <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" role="tab">Bank Details</a>
                                           <a class="list-group-item list-group-item-action" data-toggle="list" href="#settings" role="tab">Director Details</a>
                                           <a class="list-group-item list-group-item-action" data-toggle="list" href="#business-address" role="tab">Business Address</a>
@@ -35,7 +35,7 @@
                                               @include('Vendors.partials.seller-details')
                                           </div>
                                           <div class="tab-pane" id="profile" role="tabpanel">
-                                              @include('Vendors.partials.contact-details')
+                                              @include('Vendors.partials.business-details')
                                           </div>
                                           <div class="tab-pane" id="messages" role="tabpanel">
                                               @include('Vendors.partials.bank-details')

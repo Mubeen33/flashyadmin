@@ -11,7 +11,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Coupons List <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addNewCouponModal">Add New</button></h4>
+                                <h4 class="card-title">Coupons List</h4>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
@@ -113,30 +113,6 @@
 
 
 
-            <!-- coupon add modal -->
-            <div class="modal fade" id="addNewCouponModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New Coupon</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form action="{{ route('admin.coupons.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-group">
-                            <label>Coupon Image</label>
-                            <input type="file" name="coupon_image" class="form-control" required="1" accept="image/*">
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-primary btn-sm" type="submit">Add</button>
-                        </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
 
 @endsection

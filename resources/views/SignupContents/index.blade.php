@@ -26,66 +26,82 @@
                                 <div class="card-body">
                                     @if($data)
                                     <div>
-                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#updateData">
+                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#updateData">
                                             Update
                                         </button>
-                                        <table class="table" style="text-align: left !important;">
-                                            <tr>
-                                                <th>Heading</th>
-                                                <td>{{ $data->heading }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Description</th>
-                                                <td>{{ $data->description }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Text Line One</th>
-                                                <td>
-                                                    {{ $data->text_line_one }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>Text Line One Icon</th>
-                                                <td>
-                                                    <img src="{{$data->text_line_one_icon}}" width="70px" height="70px">
-                                                </td>
-                                            </tr>
 
-                                            <tr>
-                                                <th>Text Line Two</th>
-                                                <td>
-                                                    {{ $data->text_line_two }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>Text Line Two Icon</th>
-                                                <td>
-                                                    @if($data->text_line_two_icon != NULL)
-                                                    <img src="{{$data->text_line_two_icon}}" width="70px" height="70px">
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        <div class="row">
+                                            <div class="col-lg-7">
+                                                <table class="table" style="text-align: left !important;">
+                                                    <tr>
+                                                        <th>Heading</th>
+                                                        <td>{{ $data->heading }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Description</th>
+                                                        <td>{{ $data->description }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Text Line One</th>
+                                                        <td>
+                                                            {{ $data->text_line_one }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Text Line One Icon</th>
+                                                        <td>
+                                                            <img src="{{$data->text_line_one_icon}}" width="70px" height="70px">
+                                                        </td>
+                                                    </tr>
 
-                                            <tr>
-                                                <th>Text Line Three</th>
-                                                <td>
-                                                    {{ $data->text_line_three }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>Text Line Three Icon</th>
-                                                <td>
-                                                    @if($data->text_line_three_icon != NULL)
-                                                    <img src="{{$data->text_line_three_icon}}" width="70px" height="70px">
+                                                    <tr>
+                                                        <th>Text Line Two</th>
+                                                        <td>
+                                                            {{ $data->text_line_two }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Text Line Two Icon</th>
+                                                        <td>
+                                                            @if($data->text_line_two_icon != NULL)
+                                                            <img src="{{$data->text_line_two_icon}}" width="70px" height="70px">
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th>Text Line Three</th>
+                                                        <td>
+                                                            {{ $data->text_line_three }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Text Line Three Icon</th>
+                                                        <td>
+                                                            @if($data->text_line_three_icon != NULL)
+                                                            <img src="{{$data->text_line_three_icon}}" width="70px" height="70px">
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <div class="col-lg-5">
+                                                <div class="text-center">
+                                                    <h6>Signup Page Banner</h6>
+                                                    @if($data->banner == NULL)
+                                                        <small>No Banner</small>
+                                                    @else
+                                                        <img src="{{$data->banner}}" width="250px" height="80px">
                                                     @endif
-                                                </td>
-                                            </tr>
-                                        </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     @else
                                         <p><small>You have not set signup contents</small></p>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateData">
+                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateData">
                                             Set Content
                                         </button>
                                     @endif
@@ -146,14 +162,21 @@
                             <label>Text Line Three Icon  (Width 40px & height 40px)</label>
                             <input type="file" name="text_line_three_icon" class="form-control" accept="image/*">
                         </div>
+
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Update</button>
+                            <label>Signup Page Banner (Width:662px & Height:185px)</label>
+                            <input type="file" name="banner" class="form-control" accept="image/*">
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-warning">Update</button>
                         </div>
                      </form>
                   </div>
                 </div>
               </div>
             </div>
+
 @endsection
 
 @push('scripts')

@@ -71,27 +71,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-12 pt-1">
-                                    <div class="row">
-                                        <div class="col-md-3 col-3">
-                                            <strong>Website URL</strong>
-                                        </div>
-                                        <div class="col-md-9 col-9 pl-0">
-                                            {{$data->website_url}}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12 pt-1">
-                                    <div class="row">
-                                        <div class="col-md-3 col-3">
-                                            <strong>Vat Register?</strong>
-                                        </div>
-                                        <div class="col-md-9 col-9 pl-0">
-                                            {{$data->vat_register}}
-                                        </div>
-                                    </div>
-                                </div>
+                     
 
                                 <div class="col-md-12 pt-1">
                                     <div class="row">
@@ -104,16 +84,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12 pt-1">
-                                    <div class="row">
-                                        <div class="col-md-3 col-3">
-                                            <strong>Product Type</strong>
-                                        </div>
-                                        <div class="col-md-9 col-9 pl-0">
-                                            {{$data->product_type}}
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                         
