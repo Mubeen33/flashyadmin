@@ -99,7 +99,7 @@
                  'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
                  },
             method  : 'POST',
-            url     : "{{url('get_subcategories')}}/"+category_id,
+            url     : "{{url('admin/get_subcategories')}}/"+category_id,
             data    : {"_token": "{{ csrf_token() }}","category_id":category_id},
             success : function(subcategories){
 
