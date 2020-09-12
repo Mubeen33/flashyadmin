@@ -44,7 +44,7 @@ class CategoryController extends Controller
             'order'=>'required|numeric',
             'commission'=>'required',
             'image'=>'nullable|image|mimes:png,jpg,jpeg,gif|dimensions:width=170,height=170|max:1000',
-            'icon' =>'nullable|image|mimes:png,jpg,jpeg,gif|dimensions:width=18,height=18|max:1000'
+            'icon' =>'nullable|image|mimes:png,jpg,jpeg,gif|dimensions:width=16,height=16|max:1000'
         ]);
         
         $image = NULL;
