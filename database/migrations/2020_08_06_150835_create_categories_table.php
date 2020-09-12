@@ -28,6 +28,7 @@ class CreateCategoriesTable extends Migration
             $table->tinyInteger('show_on_homepage')->default(1);
             $table->tinyInteger('show_image_nav')->default(1);
             $table->string('image')->nullable();
+            $table->string('icon')->nullable();
             $table->boolean('deleted')->default(0);
             $table->timestamps();
         });

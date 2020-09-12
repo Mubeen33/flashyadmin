@@ -3591,8 +3591,8 @@ input[type='submit'].btn-block, input[type='reset'].btn-block, input[type='butto
 }
 .custom-control-input:checked ~ .custom-control-label::before {
   color : #FFFFFF;
-  border-color : #7367F0;
-  background-color : #7367F0;
+  border-color : #FF8510;
+  background-color : #FF9F43;
 }
 .custom-control-input:focus ~ .custom-control-label::before {
   box-shadow : 0 3px 10px 0 rgba(0, 0, 0, 0.15);

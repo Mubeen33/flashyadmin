@@ -228,11 +228,27 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                        <div class="col-md-9"></div>
-                                                        <div class="col-md-3">
-                                                            <button class="btn btn-primary" type="submit">Submit</button>
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4">
+                                                                    <span>Category Icon</span>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <div class="custom-file">
+                                                                        <input type="file" onchange="previewIcon(this);" name="icon" class="custom-file-input" id="inputGroupFile01">
+                                                                        <label id="custom--img-input" onclick="removeErrorLevels($(this), 'id__')" class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                                        <small>Image Size 18px * 18px</small>
+                                                                        <br>
+                                                                    </div>
+                                                                    <span><img class="preview--file" id="previewIcon" width="100" src=""></span>
+                                                                </div>
+                                                            </div>
                                                         </div>
+
+                                                        <div class="col-md-11"></div>
+                                                        {{-- <div class="col-md-2"> --}}
+                                                            <button class="btn btn-warning" type="submit">Submit</button>
+                                                        {{-- </div> --}}
                                                     </div>
                                                 </div>
                                         </div>
@@ -245,10 +261,39 @@
                 </section>
 
             </div>
+@endsection       
 
+
+@push('scripts')
 <script>
-
-// function for subcategories 
+    function previewFile(input){
+        var file = $("input[type=file]").get(0).files[0];
+ 
+        if(file){
+            var reader = new FileReader();
+ 
+            reader.onload = function(){
+                $("#previewImg").attr("src", reader.result);
+            }
+ 
+            reader.readAsDataURL(file);
+        }
+    }
+    // preview icon
+    function previewIcon(input){
+        var file = $("input[type=file]").get(0).files[0];
+ 
+        if(file){
+            var reader = new FileReader();
+ 
+            reader.onload = function(){
+                $("#previewIcon").attr("src", reader.result);
+            }
+ 
+            reader.readAsDataURL(file);
+        }
+    }
+    // function for subcategories 
 
     function get_subcategories(category_id,data_select_id){
 
@@ -323,25 +368,6 @@
             }
         });
     } 
-</script>
-@endsection       
-
-
-@push('scripts')
-<script>
-    function previewFile(input){
-        var file = $("input[type=file]").get(0).files[0];
- 
-        if(file){
-            var reader = new FileReader();
- 
-            reader.onload = function(){
-                $("#previewImg").attr("src", reader.result);
-            }
- 
-            reader.readAsDataURL(file);
-        }
-    }
 </script>
 
 

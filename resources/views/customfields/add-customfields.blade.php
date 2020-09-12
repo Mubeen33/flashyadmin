@@ -74,6 +74,13 @@
                     </form>    
                 </section>
             </div>
+
+        
+@endsection
+
+
+
+@push('scripts')
 <script>
 
     function get_subcategories(category_id, data_select_id) {
@@ -92,7 +99,7 @@
                  'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content')
                  },
             method  : 'POST',
-            url     : "{{url('get_subcategories')}}/"+category_id,
+            url     : "{{url('admin/get_subcategories')}}/"+category_id,
             data    : {"_token": "{{ csrf_token() }}","category_id":category_id},
             success : function(subcategories){
 
@@ -224,12 +231,7 @@
                 $('#form').append(str);
             }
         }
-</script>          
-@endsection
-
-
-
-@push('scripts')
+</script>  
 <script type="text/javascript">
     $("#addCustomFields_from").on('submit', function(e){
         formClientSideValidation(e, "addCustomFields_from", 'no');
