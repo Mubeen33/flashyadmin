@@ -20,10 +20,51 @@ class BannerController extends Controller
     public function index()
     {
         $pageTitle = "Banners";
-        $data = Banner::where('type', 'Banner')
-                        ->orderBy('order_no', 'ASC')
-                        ->paginate(20);
-        return view('Banners.index', compact('data', 'pageTitle'));
+        $top_right_banner_1 = Banner::where([
+                            'type'=>'Banners_Top_Right',
+                            'order_no'=>1
+                        ])->first();
+        $top_right_banner_2 = Banner::where([
+                            'type'=>'Banners_Top_Right',
+                            'order_no'=>2
+                        ])->first();
+        $top_right_banner_3 = Banner::where([
+                            'type'=>'Banners_Top_Right',
+                            'order_no'=>3
+                        ])->first();
+
+        $banner_group_1 = Banner::where([
+                            'type'=>'Banner-Groups',
+                            'order_no'=>1
+                        ])->first();
+        $banner_group_2 = Banner::where([
+                            'type'=>'Banner-Groups',
+                            'order_no'=>2
+                        ])->first();
+        $banner_group_3 = Banner::where([
+                            'type'=>'Banner-Groups',
+                            'order_no'=>3
+                        ])->first();
+
+        $banner_long = Banner::where('type', 'Banner-Long')
+                        ->first();
+        $banner_short = Banner::where('type', 'Banner-Short')
+                        ->first();
+        $banner_box = Banner::where('type', 'Banner-Box')
+                        ->first();
+
+        return view('Banners.index', compact(
+            'pageTitle', 
+            'top_right_banner_1',
+            'top_right_banner_2',
+            'top_right_banner_3',
+            'banner_group_1',
+            'banner_group_2',
+            'banner_group_3',
+            'banner_long', 
+            'banner_short', 
+            'banner_box'
+        ));
     }
     public function ads_banner_index(){
         $pageTitle = "Ads-Banners";
@@ -59,11 +100,10 @@ class BannerController extends Controller
     public function store(Request $request)
     {
         //store banners
-        $validation = Validator::make($request->all(), [
-            'type'=>'required|string|in:Banner,Ads-Banner',
+        $this->validate($request, [
+            'type'=>'required|string|in:Banners_Top_Right,Ads-Banner',
             'title'=>'nullable|string|max:100',
             'link'=>'nullable|string|url',
-            'order_no'=>'required|numeric',
             'start_time'=>'required|date',
             'end_time'=>'required|date'
         ]);
@@ -79,63 +119,42 @@ class BannerController extends Controller
         }
         
 
-        $fileName = "";
-        if ($request->type === "Banner") {
+        if ($request->type === "Banners_Top_Right") {
             $this->validate($request, [
-                'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193'
-            ]);
-            $fileName = 'banner-'.uniqid().Auth::user()->id;
-        }else{
-
-            $this->validate($request, [
-                'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
+                'order_no'=>'required|numeric|in:1,2,3',
+                'image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193'
             ]);
 
-            if ($request->ads_banner_position === "Banner-Groups") {
-                $this->validate($request, [
-                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
-                ]);
+            $data = Banner::where([
+                'type'=>"Banners_Top_Right",
+                'order_no'=>$request->order_no
+            ])->first();
+            if ($data) {
+                return redirect()->back()->with('error', $request->order_no." order no banner is already exists.");
             }
-            if ($request->ads_banner_position === "Banner-Long") {
-                $this->validate($request, [
-                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
-                ]);
-            }
-            if ($request->ads_banner_position === "Banner-Short") {
-                $this->validate($request, [
-                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
-                ]);
-            }
-            if ($request->ads_banner_position === "Banner-Box") {
-                $this->validate($request, [
-                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
-                ]);
-            }
-
-            $fileName = 'ads-banner-'.uniqid().Auth::user()->id;
         }
 
         //insert image
         $obj_fu = new FileUploader();
-        $lgImage = "";
+        $image = NULL;
         $location = "upload-images/banners/";
-        if($request->hasFile('image_lg')){
-            $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
-            $lgImage = $fileName__;
+        if($request->hasFile('image')){
+            $fileName = "banner-".uniqid().Auth::user()->id.mt_rand(10, 9999);
+            $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
+            $image = $fileName__;
         }else{
             return redirect()->back()->with('error', 'Please Upload Image');
         }
 
-        $url = $this->getURL();
+        $url = url('/');
         $inserted = Banner::insert([
             'type'=>$request->type,
             'title'=>$request->title,
             'link'=>$request->link,
             'order_no'=>$request->order_no,
-            'image_lg'=>$url."/".$location.$lgImage,
+            'image'=>$url."/".$location.$image,
             'start_time'=>$request->start_time,
             'end_time'=>$request->end_time,
-            'ads_banner_position'=>$request->ads_banner_position,
             'created_at'=>Carbon::now()
         ]);
 
@@ -144,18 +163,6 @@ class BannerController extends Controller
         }else{
             return redirect()->back()->with('error', 'Something went wrong.');
         }
-    }
-
-
-    private function getURL(){
-        if(isset($_SERVER['HTTPS'])){
-            $protocol = ($_SERVER['HTTPS'] && $_SERVER['HTTPS'] != "off") ? "https" : "http";
-        }
-        else{
-            $protocol = 'http';
-        }
-        $http_port = $protocol . "://" . parse_url($_SERVER['REQUEST_URI'], PHP_URL_HOST);
-        return $http_port.$_SERVER['HTTP_HOST'];
     }
 
     /**
@@ -168,6 +175,37 @@ class BannerController extends Controller
     {
         //
     }
+
+
+    // else{
+
+    //         $this->validate($request, [
+    //             'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
+    //         ]);
+
+    //         if ($request->ads_banner_position === "Banner-Groups") {
+    //             $this->validate($request, [
+    //                 'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
+    //             ]);
+    //         }
+    //         if ($request->ads_banner_position === "Banner-Long") {
+    //             $this->validate($request, [
+    //                 'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
+    //             ]);
+    //         }
+    //         if ($request->ads_banner_position === "Banner-Short") {
+    //             $this->validate($request, [
+    //                 'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
+    //             ]);
+    //         }
+    //         if ($request->ads_banner_position === "Banner-Box") {
+    //             $this->validate($request, [
+    //                 'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
+    //             ]);
+    //         }
+
+    //         $fileName = 'ads-banner-'.uniqid().Auth::user()->id;
+    //     }
 
     /**
      * Show the form for editing the specified resource.

@@ -129,17 +129,7 @@
 
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Content"><i class="feather icon-layout"></i>Banners</a>
                                 <ul class="dropdown-menu">
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.banners.create')}}" data-toggle="dropdown" data-i18n="Grid"><i class="feather icon-circle"></i>Add New</a>
-                                    </li>
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('admin.banners.index')}}" data-toggle="dropdown" data-i18n="Typography"><i class="feather icon-circle"></i>All Banners</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Cards"><i class="feather icon-credit-card"></i>Ads Banners</a>
-                                <ul class="dropdown-menu">
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.ads-banner.create')}}" data-toggle="dropdown" data-i18n="Basic"><i class="feather icon-circle"></i>Add New</a>
-                                    </li>
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.ads-banner.index')}}" data-toggle="dropdown" data-i18n="Advance"><i class="feather icon-circle"></i>All Ads Banners</a>
                                     </li>
                                 </ul>
                             </li>
