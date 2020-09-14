@@ -2,7 +2,7 @@
    <div class="card">
       <div class="card-header">
          <h4 class="card-title">
-            Banners Top Right
+            Banners Group
          </h4>
       </div>
       <div class="card-content">
@@ -23,8 +23,8 @@
                   <tr>
                     <td width="5%">1</td>
                     <td width="20%">
-                      @if($top_right_banner_1 && $top_right_banner_1->primary_image != NULL)
-                        <img src="{{ $top_right_banner_1->primary_image }}" width="196px" height="97px">
+                      @if($banner_group_1 && $banner_group_1->primary_image != NULL)
+                        <img src="{{ $banner_group_1->primary_image }}" width="196px" height="97px">
                         @else
                           <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
                       @endif
@@ -34,8 +34,8 @@
                       <small class="d-block">URL : https://www.facebook.com</small>
                     </td>
                     <td width="20%">
-                      @if($top_right_banner_1 && $top_right_banner_1->secondary_image != NULL)
-                        <img src="{{ $top_right_banner_1->secondary_image }}" width="196px" height="97px">
+                      @if($banner_group_1 && $banner_group_1->secondary_image != NULL)
+                        <img src="{{ $banner_group_1->secondary_image }}" width="196px" height="97px">
                         @else
                           <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
                       @endif
@@ -45,11 +45,11 @@
                       <small class="d-block">URL : https://www.facebook.com</small>
                     </td>
                     <td width="5%">
-                      @if($top_right_banner_1)
-                      <a id="add" href="{{route('admin.editBannerWithID.get', encrypt($top_right_banner_1->id))}}" class="btn btn-warning btn-sm">Edit</a>
+                      @if($banner_group_1)
+                      <a id="add" href="{{route('admin.editBannerWithID.get', encrypt($banner_group_1->id))}}" class="btn btn-warning btn-sm">Edit</a>
                       @else
                         {{--add banner--}}
-                      <a href="{{route('admin.editBanner.get', ['Banners_Top_Right', 1])}}" class="btn btn-warning btn-sm">Edit</a>
+                      <a href="{{route('admin.editBanner.get', ['Banners_Group', 1])}}" class="btn btn-warning btn-sm">Edit</a>
                       @endif
                     </td>
                   </tr>
@@ -57,8 +57,8 @@
                   <tr>
                     <td width="5%">2</td>
                     <td width="20%">
-                      @if($top_right_banner_2 && $top_right_banner_2->primary_image != NULL)
-                        <img src="{{ $top_right_banner_2->primary_image }}" width="196px" height="97px">
+                      @if($banner_group_2 && $banner_group_2->primary_image != NULL)
+                        <img src="{{ $banner_group_2->primary_image }}" width="196px" height="97px">
                         @else
                           <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
                       @endif
@@ -68,8 +68,8 @@
                       <small class="d-block">URL : https://www.facebook.com</small>
                     </td>
                     <td width="20%">
-                      @if($top_right_banner_2 && $top_right_banner_2->secondary_image != NULL)
-                        <img src="{{ $top_right_banner_2->secondary_image }}" width="196px" height="97px">
+                      @if($banner_group_2 && $banner_group_2->secondary_image != NULL)
+                        <img src="{{ $banner_group_2->secondary_image }}" width="196px" height="97px">
                         @else
                           <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
                       @endif
@@ -79,11 +79,11 @@
                       <small class="d-block">URL : https://www.facebook.com</small>
                     </td>
                     <td width="5%">
-                      @if($top_right_banner_2)
-                      <a id="add" href="{{route('admin.editBannerWithID.get', encrypt($top_right_banner_2->id))}}" class="btn btn-warning btn-sm">Edit</a>
+                      @if($banner_group_2)
+                      <a id="add" href="{{route('admin.editBannerWithID.get', encrypt($banner_group_2->id))}}" class="btn btn-warning btn-sm">Edit</a>
                       @else
                         {{--add banner--}}
-                      <a href="{{route('admin.editBanner.get', ['Banners_Top_Right', 2])}}" class="btn btn-warning btn-sm">Edit</a>
+                      <a href="{{route('admin.editBanner.get', ['Banners_Group', 2])}}" class="btn btn-warning btn-sm">Edit</a>
                       @endif
                     </td>
                   </tr>
@@ -91,8 +91,8 @@
                   <tr>
                     <td width="5%">3</td>
                     <td width="20%">
-                      @if($top_right_banner_3 && $top_right_banner_3->primary_image != NULL)
-                        <img src="{{ $top_right_banner_3->primary_image }}" width="196px" height="97px">
+                      @if($banner_group_3 && $banner_group_3->primary_image != NULL)
+                        <img src="{{ $banner_group_3->primary_image }}" width="196px" height="97px">
                         @else
                           <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
                       @endif
@@ -102,8 +102,8 @@
                       <small class="d-block">URL : https://www.facebook.com</small>
                     </td>
                     <td width="20%">
-                      @if($top_right_banner_3 && $top_right_banner_3->secondary_image != NULL)
-                        <img src="{{ $top_right_banner_3->secondary_image }}" width="196px" height="97px">
+                      @if($banner_group_3 && $banner_group_3->secondary_image != NULL)
+                        <img src="{{ $banner_group_3->secondary_image }}" width="100%">
                         @else
                           <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
                       @endif
@@ -113,19 +113,19 @@
                       <small class="d-block">URL : https://www.facebook.com</small>
                     </td>
                     <td width="5%">
-                      @if($top_right_banner_3)
-                      <a id="add" href="{{route('admin.editBannerWithID.get', encrypt($top_right_banner_3->id))}}" class="btn btn-warning btn-sm">Edit</a>
+                      @if($banner_group_3)
+                      <a id="add" href="{{route('admin.editBannerWithID.get', encrypt($banner_group_3->id))}}" class="btn btn-warning btn-sm">Edit</a>
                       @else
                         {{--add banner--}}
-                      <a href="{{route('admin.editBanner.get', ['Banners_Top_Right', 3])}}" class="btn btn-warning btn-sm">Edit</a>
+                      <a href="{{route('admin.editBanner.get', ['Banners_Group', 3])}}" class="btn btn-warning btn-sm">Edit</a>
                       @endif
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-
          </div>
+
       </div>
    </div>
 </div>

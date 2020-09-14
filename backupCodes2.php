@@ -69,7 +69,7 @@
                     </td>
                     <td width="20%">
                       @if($top_right_banner_2 && $top_right_banner_2->secondary_image != NULL)
-                        <img src="{{ $top_right_banner_2->secondary_image }}" width="196px" height="97px">
+                        <img src="{{ $top_right_banner_2->secondary_image }}" width="100%">
                         @else
                           <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
                       @endif
@@ -92,7 +92,7 @@
                     <td width="5%">3</td>
                     <td width="20%">
                       @if($top_right_banner_3 && $top_right_banner_3->primary_image != NULL)
-                        <img src="{{ $top_right_banner_3->primary_image }}" width="196px" height="97px">
+                        <img src="{{ $top_right_banner_3->primary_image }}" width="100%">
                         @else
                           <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
                       @endif
@@ -103,7 +103,7 @@
                     </td>
                     <td width="20%">
                       @if($top_right_banner_3 && $top_right_banner_3->secondary_image != NULL)
-                        <img src="{{ $top_right_banner_3->secondary_image }}" width="196px" height="97px">
+                        <img src="{{ $top_right_banner_3->secondary_image }}" width="100%">
                         @else
                           <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
                       @endif

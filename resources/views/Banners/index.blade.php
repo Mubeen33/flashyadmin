@@ -11,8 +11,11 @@
 
                     
                                     
-                                    @include('Banners.partials.top-right-banners')
-                                    @include('Banners.partials.top-right-banners')
+                    @include('Banners.partials.top-right-banners')
+                    @include('Banners.partials.banners-group')
+                    @include('Banners.partials.banner-long')
+                    @include('Banners.partials.banner-short')
+                    @include('Banners.partials.banner-box')
                                 
 
                 </div>
