@@ -1,11 +1,55 @@
 @extends('layouts.master')
 @section('page-title','Banner Edit')
+
+@push('styles')
+<style type="text/css">
+    .border-danger-alert{
+        border: 1px solid red
+    }
+</style>
+@endpush
+
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Edit Banner</li>
 @endsection    
 @section('content')
-    @include('msg.msg')  
+    @include('msg.msg')
+
+        @php
+            $image_w = NULL;
+            $image_h = NULL;
+
+            $bannerSize = "";
+            if(isset($type)){
+                if($type === "Banners_Top_Right"){
+                    $bannerSize = "Size : 390*193";
+                    $image_w = 390;
+                    $image_h = 193;
+                }elseif($type === "Banners_Group"){
+                    $bannerSize = "Size : 530*285";
+                    $image_w = 530;
+                    $image_h = 285;
+                }elseif($type === "Banner_Long"){
+                    $bannerSize = "Size : 1090*245";
+                    $image_w = 1090;
+                    $image_h = 245;
+                }elseif($type === "Banner_Short"){
+                    $bannerSize = "Size : 530*245";
+                    $image_w = 530;
+                    $image_h = 245;
+
+                }elseif($type === "Banner_Box"){
+                    $bannerSize = "Size : 487*379";
+                    $image_w = 487;
+                    $image_h = 379;
+
+                }else{
+                    $bannerSize = "Invalid Access";
+                }
+            }
+        @endphp
+
 
             <div class="content-body">
                 <div class="row" id="basic-table">
@@ -20,8 +64,10 @@
                             <div class="card-content">
                                 <div class="card-body">
                                     
-                                    <form action="{{ route('admin.banners.store') }}" method="POST" enctype="multipart/form-data">
+                                    <form id="banner__form" action="{{ route('admin.banners.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
+                                        <input type="hidden" id="imageWidth" value="{{$image_w}}">
+                                        <input type="hidden" id="imageHeight" value="{{$image_h}}">
                                         <input type="hidden" name="type" value="{{$type}}">
                                         <input type="hidden" name="order_no" value="{{$orderNo}}">
                                         
@@ -41,12 +87,17 @@
                                                         <input type="text" name="title" placeholder="Title" class="form-control" value="{{old('title')}}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>link</label>
+                                                        <label>Link</label>
                                                         <input type="url" name="link" placeholder="Link" value="{{old('link')}}" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Primary Image</label>
-                                                        <input type="file" name="primary_image" class="form-control">
+                                                        <label>Primary Image ({{$bannerSize}})</label>
+                                                        <input onchange="previewFile('primary_image_input', 'primary_image_preview')" id="primary_image_input" type="file" name="primary_image" class="form-control" accept="image/*">
+                                                        <div id="primary_image_preview" class="d-none mt-1">
+                                                            <img src="" width="" width="180px" height="90px">
+                                                            <button type="button" title="Remove this image" onclick="removePreviewFile('primary_image_preview', 'primary_image_input')" class="btn btn-sm btn-danger">X</button>
+                                                        </div>
+                                                        <small class="place-error--msg text-danger"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -77,21 +128,22 @@
                                                             <div class="form-group">
                                                                 <label>Start time</label>
                                                                <input class="form-control" type="datetime-local" id="start_time"
-                                                                   name="start_time" placeholder="2018-06-12T19:30"> 
+                                                                   name="start_time" placeholder="2018-06-12T19:30" value="{{old('start_time')}}"> 
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-12">
                                                             <div class="form-group">
                                                                 <label>End time</label>
                                                                <input class="form-control" type="datetime-local" id="end_time"
-                                                                   name="end_time" placeholder="2018-06-12T19:30"> 
+                                                                   name="end_time" placeholder="2018-06-12T19:30" value="{{old('end_time')}}"> 
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label>Secondary Image</label>
-                                                        <input type="file" name="secondary_image" class="form-control">
+                                                        <label>Secondary Image ({{$bannerSize}})</label>
+                                                        <input type="file" name="secondary_image" class="form-control" accept="image/*">
+                                                        <small class="place-error--msg text-danger"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -99,7 +151,7 @@
                                         
 
                                         <div class="form-group text-right">
-                                            <button class="btn btn-warning" type="submit">Update</button>
+                                            <button class="submit-btn btn btn-warning" type="submit">Update</button>
                                         </div>
                                     </form>
 
@@ -132,28 +184,70 @@
 
 @push('scripts')
 <script type="text/javascript">
+    $(document).ready(function(){
+        $('.submit-btn').attr('disabled', true);
+    })
 
-    function previewFile(inputID, previewID, currentID){
+    $("#banner__form").on("change", function(){
+        if($("input[name='primary_image']").val()){
+           $('.submit-btn').attr('disabled', false); 
+       }else{
+        $('.submit-btn').attr('disabled', true);
+       }
+    })
+
+    //Image Preview
+    function previewFile(inputID, previewID){
+        $("#"+inputID).siblings('.place-error--msg').html("")
+        var imageWidth = $("#imageWidth").val()
+        var imageHeight = $("#imageHeight").val()
+        
+        var _URL = window.URL || window.webkitURL;
+        //var file = $("inputID[type=file]").get(0).files[0];
         var file = $("#"+inputID).get(0).files[0];
- 
-        if(file){
-            var reader = new FileReader();
- 
-            reader.onload = function(){
-                $("#"+previewID+' img').attr("src", reader.result);
-                $("#"+previewID).removeClass("d-none");
-                $("#"+currentID).addClass("d-none");
+           img = new Image();
+           var imgwidth = 0;
+           var imgheight = 0;
+           var requiredWidth = imageWidth;
+           var requiredHeight = imageHeight;
+           img.src = _URL.createObjectURL(file);
+              img.onload = function() {
+               imgwidth = this.width;
+               imgheight = this.height;
+           
+        if(parseInt(imgwidth) === parseInt(requiredWidth) && parseInt(imgheight) === parseInt(requiredHeight)){
+            $('.submit-btn').attr('disabled', false);
+            $("#"+inputID).removeClass("border-danger-alert")
+            
+            if(file){
+                var reader = new FileReader();
+     
+                reader.onload = function(){
+                    $("#"+previewID+' img').attr("src", reader.result);
+                    $("#"+previewID).removeClass("d-none");
+                }
+     
+                reader.readAsDataURL(file);
             }
- 
-            reader.readAsDataURL(file);
         }
-    }
+        else{
 
-    function removePreviewFile(imageID, show, input){
-        $("#"+imageID).addClass('d-none')
-        $("#"+imageID+" img").attr('src', '')
-        $("#"+show).removeClass('d-none')
-        $("#"+input).val('')
+            $("#"+inputID).val("")
+            $("#"+inputID).addClass("border-danger-alert")
+            $("#"+inputID).siblings('.place-error--msg').html("SORRY - Image Size must be "+requiredWidth+"*"+requiredHeight)
+            $('.submit-btn').attr('disabled', true);
+        }
+      }  
+    }
+// End Image Preview
+
+
+    function removePreviewFile(previewID, inputID){
+        $("#"+previewID).addClass('d-none')
+        $("#"+previewID+" img").attr('src', '')
+        $("#"+inputID).val('')
+        $("#"+inputID).removeClass("border-danger-alert")
+        $("#"+inputID).siblings('.place-error--msg').html("")
     }
 </script>
 
