@@ -26,7 +26,7 @@
                       @if($banner_short && $banner_short->primary_image != NULL)
                         <img src="{{ $banner_short->primary_image }}" width="196px" height="97px">
                         @else
-                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                          <img src="/upload-images/banners/default/banner_short_530_245.png" width="196px" height="97px">
                       @endif
                     </td>
                     <td width="20%">
@@ -37,7 +37,7 @@
                       @if($banner_short && $banner_short->secondary_image != NULL)
                         <img src="{{ $banner_short->secondary_image }}" width="196px" height="97px">
                         @else
-                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                          <img src="/upload-images/banners/default/banner_short_530_245.png" width="196px" height="97px">
                       @endif
                     </td>
                     <td width="20%">

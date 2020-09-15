@@ -24,9 +24,9 @@
                     <td width="5%">#</td>
                     <td width="20%">
                       @if($banner_long && $banner_long->primary_image != NULL)
-                        <img src="{{ $banner_long->primary_image }}" width="196px" height="97px">
+                        <img src="{{ $banner_long->primary_image }}" width="196px" height="75px">
                         @else
-                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                          <img src="/upload-images/banners/default/banner_long_1090_245.png" width="196px" height="75px">
                       @endif
                     </td>
                     <td width="20%">
@@ -35,9 +35,9 @@
                     </td>
                     <td width="20%">
                       @if($banner_long && $banner_long->secondary_image != NULL)
-                        <img src="{{ $banner_long->secondary_image }}" width="196px" height="97px">
+                        <img src="{{ $banner_long->secondary_image }}" width="196px" height="75px">
                         @else
-                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                          <img src="/upload-images/banners/default/banner_long_1090_245.png" width="196px" height="75px">
                       @endif
                     </td>
                     <td width="20%">

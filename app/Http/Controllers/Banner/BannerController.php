@@ -81,14 +81,7 @@ class BannerController extends Controller
      */
     public function create()
     {
-        $pageTitle = "Banner";
-        return view('Banners.add', compact('pageTitle'));
-    }
-
-    public function create_ads_banner()
-    {
-        $pageTitle = "Ads-Banner";
-        return view('Banners.add', compact('pageTitle'));
+        
     }
 
     /**
@@ -128,7 +121,7 @@ class BannerController extends Controller
                 ]);
                 $result = $this->validateDateTime($request->start_time, $request->end_time);
                 if ($result !== true) {
-                    return redirect()->back()->with('error', $result);
+                    return redirect()->back()->withInput()->with('error', $result);
                 }
             }
 
@@ -137,7 +130,7 @@ class BannerController extends Controller
                 'order_no'=>$request->order_no
             ])->first();
             if ($data) {
-                return redirect()->back()->with('error', $request->order_no." order no banner is already exists.");
+                return redirect()->back()->withInput()->with('error', $request->order_no." order no banner is already exists.");
             }
         }
 
@@ -156,7 +149,7 @@ class BannerController extends Controller
                 ]);
                 $result = $this->validateDateTime($request->start_time, $request->end_time);
                 if ($result !== true) {
-                    return redirect()->back()->with('error', $result);
+                    return redirect()->back()->withInput()->with('error', $result);
                 }
             }
 
@@ -165,7 +158,7 @@ class BannerController extends Controller
                 'order_no'=>$request->order_no
             ])->first();
             if ($data) {
-                return redirect()->back()->with('error', $request->order_no." order no banner is already exists.");
+                return redirect()->back()->withInput()->with('error', $request->order_no." order no banner is already exists.");
             }
         }
 
@@ -184,7 +177,7 @@ class BannerController extends Controller
                 ]);
                 $result = $this->validateDateTime($request->start_time, $request->end_time);
                 if ($result !== true) {
-                    return redirect()->back()->with('error', $result);
+                    return redirect()->back()->withInput()->with('error', $result);
                 }
             }
 
@@ -192,7 +185,7 @@ class BannerController extends Controller
                 'type'=>"Banner_Long",
             ])->first();
             if ($data) {
-                return redirect()->back()->with('error', "Long banner is already exists.");
+                return redirect()->back()->withInput()->with('error', "Long banner is already exists.");
             }
         }
 
@@ -211,7 +204,7 @@ class BannerController extends Controller
                 ]);
                 $result = $this->validateDateTime($request->start_time, $request->end_time);
                 if ($result !== true) {
-                    return redirect()->back()->with('error', $result);
+                    return redirect()->back()->withInput()->with('error', $result);
                 }
             }
 
@@ -219,7 +212,7 @@ class BannerController extends Controller
                 'type'=>"Banner_Short",
             ])->first();
             if ($data) {
-                return redirect()->back()->with('error', "Short banner is already exists.");
+                return redirect()->back()->withInput()->with('error', "Short banner is already exists.");
             }
         }
 
@@ -238,7 +231,7 @@ class BannerController extends Controller
                 ]);
                 $result = $this->validateDateTime($request->start_time, $request->end_time);
                 if ($result !== true) {
-                    return redirect()->back()->with('error', $result);
+                    return redirect()->back()->withInput()->with('error', $result);
                 }
             }
 
@@ -246,7 +239,7 @@ class BannerController extends Controller
                 'type'=>"Banner_Box",
             ])->first();
             if ($data) {
-                return redirect()->back()->with('error', "Box banner is already exists.");
+                return redirect()->back()->withInput()->with('error', "Box banner is already exists.");
             }
         }
 
@@ -262,7 +255,7 @@ class BannerController extends Controller
             $fileName__ = $obj_fu->fileUploader($request->file('primary_image'), $fileName, $location);
             $primay_banner = $fileName__;
         }else{
-            return redirect()->back()->with('error', 'Please Upload Primary Banner Image');
+            return redirect()->back()->withInput()->with('error', 'Please Upload Primary Banner Image');
         }
 
         if($request->hasFile('secondary_image')){
@@ -290,7 +283,7 @@ class BannerController extends Controller
         if ($inserted == true) {
             return redirect()->route('admin.banners.index')->with('success', 'Banner Added');
         }else{
-            return redirect()->back()->with('error', 'Something went wrong.');
+            return redirect()->back()->withInput()->with('error', 'Something went wrong.');
         }
     }
 

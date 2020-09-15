@@ -26,7 +26,7 @@
                       @if($banner_group_1 && $banner_group_1->primary_image != NULL)
                         <img src="{{ $banner_group_1->primary_image }}" width="196px" height="97px">
                         @else
-                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                          <img src="/upload-images/banners/default/banner_groups_530_285.png" width="196px" height="97px">
                       @endif
                     </td>
                     <td width="20%">
@@ -37,7 +37,7 @@
                       @if($banner_group_1 && $banner_group_1->secondary_image != NULL)
                         <img src="{{ $banner_group_1->secondary_image }}" width="196px" height="97px">
                         @else
-                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                          <img src="/upload-images/banners/default/banner_groups_530_285.png" width="196px" height="97px">
                       @endif
                     </td>
                     <td width="20%">
@@ -60,7 +60,7 @@
                       @if($banner_group_2 && $banner_group_2->primary_image != NULL)
                         <img src="{{ $banner_group_2->primary_image }}" width="196px" height="97px">
                         @else
-                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                          <img src="/upload-images/banners/default/banner_groups_530_285.png" width="196px" height="97px">
                       @endif
                     </td>
                     <td width="20%">
@@ -71,7 +71,7 @@
                       @if($banner_group_2 && $banner_group_2->secondary_image != NULL)
                         <img src="{{ $banner_group_2->secondary_image }}" width="196px" height="97px">
                         @else
-                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                          <img src="/upload-images/banners/default/banner_groups_530_285.png" width="196px" height="97px">
                       @endif
                     </td>
                     <td width="20%">
@@ -94,7 +94,7 @@
                       @if($banner_group_3 && $banner_group_3->primary_image != NULL)
                         <img src="{{ $banner_group_3->primary_image }}" width="196px" height="97px">
                         @else
-                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                          <img src="/upload-images/banners/default/banner_groups_530_285.png" width="196px" height="97px">
                       @endif
                     </td>
                     <td width="20%">
@@ -105,7 +105,7 @@
                       @if($banner_group_3 && $banner_group_3->secondary_image != NULL)
                         <img src="{{ $banner_group_3->secondary_image }}" width="100%">
                         @else
-                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                          <img src="/upload-images/banners/default/banner_groups_530_285.png" width="196px" height="97px">
                       @endif
                     </td>
                     <td width="20%">

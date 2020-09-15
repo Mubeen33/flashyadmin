@@ -19,6 +19,7 @@
         @php
             $image_w = NULL;
             $image_h = NULL;
+            $defaultImage = NULL;
 
             $bannerSize = "";
             if(isset($type)){
@@ -26,24 +27,27 @@
                     $bannerSize = "Size : 390*193";
                     $image_w = 390;
                     $image_h = 193;
+                    $defaultImage = "<img src='/upload-images/banners/default/top_right_banner_390_193.jpg' width='197px' height='97px'>";
                 }elseif($type === "Banners_Group"){
                     $bannerSize = "Size : 530*285";
                     $image_w = 530;
                     $image_h = 285;
+                    $defaultImage = "<img src='/upload-images/banners/default/banner_groups_530_285.png' width='197px' height='110px'>";
                 }elseif($type === "Banner_Long"){
                     $bannerSize = "Size : 1090*245";
                     $image_w = 1090;
                     $image_h = 245;
+                    $defaultImage = "<img src='/upload-images/banners/default/banner_long_1090_245.png' width='197px' height='75px'>";
                 }elseif($type === "Banner_Short"){
                     $bannerSize = "Size : 530*245";
                     $image_w = 530;
                     $image_h = 245;
-
+                    $defaultImage = "<img src='/upload-images/banners/default/banner_short_530_245.png' width='197px' height='97px'>";
                 }elseif($type === "Banner_Box"){
                     $bannerSize = "Size : 487*379";
                     $image_w = 487;
                     $image_h = 379;
-
+                    $defaultImage = "<img src='/upload-images/banners/default/banner_box_487_379.png' width='197px' height='160px'>";
                 }else{
                     $bannerSize = "Invalid Access";
                 }
@@ -77,7 +81,7 @@
                                                     <div class="primary_banner mb-1">
                                                         <label class="d-block">* Primary Banner Image</label>
                                                         <br>
-                                                        <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="180px" height="90px">
+                                                        <?php echo $defaultImage;?>
                                                     </div>
                                                 </div>
 
@@ -92,7 +96,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Primary Image ({{$bannerSize}})</label>
-                                                        <input onchange="previewFile('primary_image_input', 'primary_image_preview')" id="primary_image_input" type="file" name="primary_image" class="form-control" accept="image/*">
+                                                        <input is-required='true' onclick="removeErrorLevels($(this), 'input')" onchange="previewFile('primary_image_input', 'primary_image_preview')" id="primary_image_input" type="file" name="primary_image" class="form-control" accept="image/*">
                                                         <div id="primary_image_preview" class="d-none mt-1">
                                                             <img src="" width="" width="180px" height="90px">
                                                             <button type="button" title="Remove this image" onclick="removePreviewFile('primary_image_preview', 'primary_image_input')" class="btn btn-sm btn-danger">X</button>
@@ -109,7 +113,7 @@
                                                     <div class="secondary_banner mb-1">
                                                         <label class="d-block">Secondary Banner Image (Optional)</label>
                                                         <br>
-                                                        <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="180px" height="90px"> 
+                                                        <?php echo $defaultImage;?>
                                                     </div>
                                                 </div>
 
@@ -127,22 +131,28 @@
                                                         <div class="col-lg-6 col-md-12">
                                                             <div class="form-group">
                                                                 <label>Start time</label>
-                                                               <input class="form-control" type="datetime-local" id="start_time"
+                                                               <input onclick="removeErrorLevels($(this), 'input')" class="form-control" type="datetime-local" id="start_time"
                                                                    name="start_time" placeholder="2018-06-12T19:30" value="{{old('start_time')}}"> 
+                                                                <small class="place-error--msg text-danger"></small>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-12">
                                                             <div class="form-group">
                                                                 <label>End time</label>
-                                                               <input class="form-control" type="datetime-local" id="end_time"
+                                                               <input onclick="removeErrorLevels($(this), 'input')" class="form-control" type="datetime-local" id="end_time"
                                                                    name="end_time" placeholder="2018-06-12T19:30" value="{{old('end_time')}}"> 
+                                                                <small class="place-error--msg text-danger"></small>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label>Secondary Image ({{$bannerSize}})</label>
-                                                        <input type="file" name="secondary_image" class="form-control" accept="image/*">
+                                                        <input onclick="removeErrorLevels($(this), 'input')" onchange="previewFile('secondary_image_input', 'secondary_image_preview')" id="secondary_image_input" type="file" name="secondary_image" class="form-control" accept="image/*">
+                                                        <div id="secondary_image_preview" class="d-none mt-1">
+                                                            <img src="" width="" width="180px" height="90px">
+                                                            <button type="button" title="Remove this image" onclick="removePreviewFile('secondary_image_preview', 'secondary_image_input')" class="btn btn-sm btn-danger">X</button>
+                                                        </div>
                                                         <small class="place-error--msg text-danger"></small>
                                                     </div>
                                                 </div>
@@ -184,18 +194,6 @@
 
 @push('scripts')
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('.submit-btn').attr('disabled', true);
-    })
-
-    $("#banner__form").on("change", function(){
-        if($("input[name='primary_image']").val()){
-           $('.submit-btn').attr('disabled', false); 
-       }else{
-        $('.submit-btn').attr('disabled', true);
-       }
-    })
-
     //Image Preview
     function previewFile(inputID, previewID){
         $("#"+inputID).siblings('.place-error--msg').html("")
@@ -216,7 +214,6 @@
                imgheight = this.height;
            
         if(parseInt(imgwidth) === parseInt(requiredWidth) && parseInt(imgheight) === parseInt(requiredHeight)){
-            $('.submit-btn').attr('disabled', false);
             $("#"+inputID).removeClass("border-danger-alert")
             
             if(file){
@@ -235,7 +232,6 @@
             $("#"+inputID).val("")
             $("#"+inputID).addClass("border-danger-alert")
             $("#"+inputID).siblings('.place-error--msg').html("SORRY - Image Size must be "+requiredWidth+"*"+requiredHeight)
-            $('.submit-btn').attr('disabled', true);
         }
       }  
     }
@@ -253,8 +249,22 @@
 
 
 <script type="text/javascript">
-    $("#banner--form-").on('submit', function(e){
-        formClientSideValidation(e, "banner--form-", 'no');
+    $("#banner__form").on('submit', function(e){
+        //extra
+        if ($("input[name=secondary_image]").val() != "") {
+            if (!$("input[name=start_time]").val()) {
+                e.preventDefault()
+                $("input[name=start_time]").addClass('border-danger-alert');
+                $("input[name=start_time]").siblings('.place-error--msg').html("This filed is required.");
+            }
+
+            if (!$("input[name=end_time]").val()) {
+                e.preventDefault()
+                $("input[name=end_time]").addClass('border-danger-alert');
+                $("input[name=end_time]").siblings('.place-error--msg').html("This filed is required.");
+            }
+        }
+        formClientSideValidation(e, "banner__form", 'yes');
     })
 </script>
 <script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>
