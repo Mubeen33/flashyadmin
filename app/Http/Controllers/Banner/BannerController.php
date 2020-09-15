@@ -274,9 +274,8 @@ class BannerController extends Controller
             'secondary_image'=>($secondary_banner === NULL ? NULL : $url."/".$location.$secondary_banner),
             'secondary_title'=>$request->secondary_title,
             'secondary_link'=>$request->secondary_link,
-            'secondary_link'=>$request->secondary_link,
-            'secondary_start_time'=>$request->start_time,
-            'secondary_end_time'=>$request->end_time,
+            'secondary_start_time'=>($secondary_banner === NULL ? NULL : $request->start_time),
+            'secondary_end_time'=>($secondary_banner === NULL ? NULL : $request->end_time),
             'created_at'=>Carbon::now()
         ]);
 
@@ -300,6 +299,24 @@ class BannerController extends Controller
         return true;
     }
 
+
+    private function validateDateTimeForUpdate($start_time, $end_time, $oldData){
+        $current = Carbon::now();
+        $today = $current->format('Y-m-d H:m');
+        if (date('Y-m-d H:m', strtotime($oldData->secondary_start_time)) != date('Y-m-d H:m', strtotime($start_time))) {
+            if ($today > (date('Y-m-d H:m', strtotime($start_time)))) {
+                return "SORRY - Start Time can not be backdate";
+            }
+        }
+
+        if (date('Y-m-d H:m', strtotime($oldData->secondary_end_time)) != date('Y-m-d H:m', strtotime($end_time))) {
+            if (date('Y-m-d H:m', strtotime($start_time)) >= date('Y-m-d H:m', strtotime($end_time))) {
+                return "SORRY - End Time can not be equal or less of Start Time";
+            }
+        }
+        return true;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -308,39 +325,8 @@ class BannerController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
-
-
-    // else{
-
-    //         $this->validate($request, [
-    //             'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
-    //         ]);
-
-    //         if ($request->ads_banner_position === "Banner-Groups") {
-    //             $this->validate($request, [
-    //                 'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
-    //             ]);
-    //         }
-    //         if ($request->ads_banner_position === "Banner-Long") {
-    //             $this->validate($request, [
-    //                 'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
-    //             ]);
-    //         }
-    //         if ($request->ads_banner_position === "Banner-Short") {
-    //             $this->validate($request, [
-    //                 'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
-    //             ]);
-    //         }
-    //         if ($request->ads_banner_position === "Banner-Box") {
-    //             $this->validate($request, [
-    //                 'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
-    //             ]);
-    //         }
-
-    //         $fileName = 'ads-banner-'.uniqid().Auth::user()->id;
-    //     }
 
     /**
      * Show the form for editing the specified resource.
@@ -378,109 +364,192 @@ class BannerController extends Controller
     {
         //store banners
         $this->validate($request, [
-            'type'=>'required|string|in:Banners_Top_Right,Banners_Group,Banner_Long,Banner_Short,Banner_Box',
-            'title'=>'nullable|string|max:100',
+            'title'=>'nullable|string|max:60',
             'link'=>'nullable|string|url',
-            'order_no'=>'required|numeric',
-            'start_time'=>'required|date',
-            'end_time'=>'required|date',
+            'primary_image'=>'nullable|image|mimes:jpg,jpeg,png,gif|max:1000',
+            'secondary_title'=>'nullable|string|max:60',
+            'secondary_link'=>'nullable|string|url',
+            'start_time'=>'nullable|date',
+            'end_time'=>'nullable|date',
+            'secondary_image'=>'nullable|image|mimes:jpg,jpeg,png,gif|max:1000'
         ]);
-        $oldData = Banner::where([
-            'id'=>$id,
-            'type'=>$request->type,
-        ])->first();
+
+        $oldData = Banner::where('id', $id)->first();
         if (!$oldData) {
-            return redirect()->back()->with('error', 'Sorry - Requested Data not Found!');
+            return abort(404);
         }
 
-        $fileName = "";
-        $obj_fu = new FileUploader();
-        $lgImage = NULL;
-        $url = $this->getURL();
-        $location = "upload-images/banners/";
-
-        if($request->hasFile('image_lg')){
-            if ($request->type === "Banner") {
+        //if Banners_Top_Right
+        if ($oldData->type === "Banners_Top_Right") {
+            if ($request->hasFile('primary_image')) {
                 $this->validate($request, [
-                    'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193'
+                    'primary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193'
                 ]);
-                $fileName = 'banner-'.uniqid().Auth::user()->id;
+            }
             
-            }else{
+            if ($request->hasFile('secondary_image')) {
                 $this->validate($request, [
-                    'ads_banner_position'=>'required|string|in:Banner-Groups,Banner-Long,Banner-Short,Banner-Box'
+                    'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193',
+                    'start_time'=>'required|date',
+                    'end_time'=>'required|date'
                 ]);
+                $result = $this->validateDateTimeForUpdate($request->start_time, $request->end_time, $oldData);
+                if ($result !== true) {
+                    return redirect()->back()->withInput()->with('error', $result);
+                }
+            }
+        }
 
-                if ($request->ads_banner_position === "Banner-Groups") {
-                    $this->validate($request, [
-                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
-                    ]);
+        //if  Banners_Group
+        if ($oldData->type === "Banners_Group") {
+            if ($request->hasFile('primary_image')) {
+                $this->validate($request, [
+                    'primary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285'
+                ]);
+            }
+            
+
+            if ($request->hasFile('secondary_image')) {
+                $this->validate($request, [
+                    'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285',
+                    'start_time'=>'required|date',
+                    'end_time'=>'required|date'
+                ]);
+                $result = $this->validateDateTimeForUpdate($request->start_time, $request->end_time, $oldData);
+                if ($result !== true) {
+                    return redirect()->back()->withInput()->with('error', $result);
                 }
-                if ($request->ads_banner_position === "Banner-Long") {
-                    $this->validate($request, [
-                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
-                    ]);
+            }
+        }
+
+        //if  Banner_Long
+        if ($oldData->type === "Banner_Long") {
+            if ($request->hasFile('primary_image')) {
+                $this->validate($request, [
+                    'primary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245'
+                ]);
+            }
+            
+
+            if ($request->hasFile('secondary_image')) {
+                $this->validate($request, [
+                    'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245',
+                    'start_time'=>'required|date',
+                    'end_time'=>'required|date'
+                ]);
+                $result = $this->validateDateTimeForUpdate($request->start_time, $request->end_time, $oldData);
+                if ($result !== true) {
+                    return redirect()->back()->withInput()->with('error', $result);
                 }
-                if ($request->ads_banner_position === "Banner-Short") {
-                    $this->validate($request, [
-                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
-                    ]);
+            }
+        }
+
+        //if  Banner_Short
+        if ($oldData->type === "Banner_Short") {
+            if ($request->hasFile('primary_image')) {
+                $this->validate($request, [
+                    'primary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245'
+                ]);
+            }
+           
+            if ($request->hasFile('secondary_image')) {
+                $this->validate($request, [
+                    'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245',
+                    'start_time'=>'required|date',
+                    'end_time'=>'required|date'
+                ]);
+                $result = $this->validateDateTimeForUpdate($request->start_time, $request->end_time, $oldData);
+                if ($result !== true) {
+                    return redirect()->back()->withInput()->with('error', $result);
                 }
-                if ($request->ads_banner_position === "Banner-Box") {
-                    $this->validate($request, [
-                        'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
-                    ]);
-                }
-                $fileName = 'ads-banner-'.uniqid().Auth::user()->id;
+            }
+        }
+
+        //if  Banner_Box
+        if ($oldData->type === "Banner_Box") {
+            if ($request->hasFile('primary_image')) {
+                $this->validate($request, [
+                    'primary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379'
+                ]);
             }
 
-            //upload new image
+            if ($request->hasFile('secondary_image')) {
+                $this->validate($request, [
+                    'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379',
+                    'start_time'=>'required|date',
+                    'end_time'=>'required|date'
+                ]);
+                $result = $this->validateDateTimeForUpdate($request->start_time, $request->end_time, $oldData);
+                if ($result !== true) {
+                    return redirect()->back()->withInput()->with('error', $result);
+                }
+            }
+        }
+
+
+        //if only update time then
+        if ($oldData->secondary_image != NULL) {
+            if (!empty($request->start_time) || !empty($start_time->end_time)) {
+                $result = $this->validateDateTimeForUpdate($request->start_time, $request->end_time, $oldData);
+                if ($result !== true) {
+                    return redirect()->back()->withInput()->with('error', $result);
+                }
+            }
+        }
+
+
+        //insert image
+        $obj_fu = new FileUploader();
+        $primay_banner = NULL;
+        $secondary_banner = NULL;
+        $url = url('/');
+        $location = "upload-images/banners/";
+        
+
+        if($request->hasFile('primary_image')){
             //delete
-            if ($oldData->image_lg != NULL) {
-                $file_name = str_replace($url."/".$location, "", $oldData->image_lg);
+            if ($oldData->primary_image != NULL) {
+                $file_name = str_replace($url."/".$location, "", $oldData->primary_image);
                 $obj_fu->deleteFile($file_name, $location);
             }
-            //upload
-            $fileName__ = $obj_fu->fileUploader($request->file('image_lg'), $fileName, $location);
-            $lgImage = $fileName__;
-            
-        
+
+            $fileName = "primary-banner-".uniqid().Auth::user()->id.mt_rand(10, 9999);
+            $fileName__ = $obj_fu->fileUploader($request->file('primary_image'), $fileName, $location);
+            $primay_banner = $fileName__;
         }
 
-        $url = $this->getURL();
-        $updated = Banner::where([
-            'id'=>$id,
-            'type'=>$request->type
-        ])->update([
+        if($request->hasFile('secondary_image')){
+            //delete
+            if ($oldData->secondary_image != NULL) {
+                $file_name = str_replace($url."/".$location, "", $oldData->secondary_image);
+                $obj_fu->deleteFile($file_name, $location);
+            }
+
+            $fileName = "secondary-banner-".uniqid().Auth::user()->id.mt_rand(10, 9999);
+            $fileName__ = $obj_fu->fileUploader($request->file('secondary_image'), $fileName, $location);
+            $secondary_banner = $fileName__;
+        }
+
+        $url = url('/');
+        $updated = Banner::where('id', $id)->update([
             'title'=>$request->title,
             'link'=>$request->link,
-            'order_no'=>$request->order_no,
-            'image_lg'=>($lgImage === NULL ? $oldData->image_lg : $url."/".$location.$lgImage),
-            'start_time'=>$request->start_time,
-            'end_time'=>$request->end_time,
-            'ads_banner_position'=>$request->ads_banner_position,
+            'primary_image'=>($primay_banner === NULL ? $oldData->primary_image : $url."/".$location.$primay_banner),
+            'secondary_image'=>($secondary_banner === NULL ? $oldData->secondary_image : $url."/".$location.$secondary_banner),
+            'secondary_title'=>$request->secondary_title,
+            'secondary_link'=>$request->secondary_link,
+            'secondary_start_time'=>$request->start_time,
+            'secondary_end_time'=>$request->end_time,
             'updated_at'=>Carbon::now()
         ]);
 
         if ($updated == true) {
-            return redirect()->back()->with('success', 'Banner Updated');
+            return redirect()->route('admin.banners.index')->with('success', 'Banner Updated');
         }else{
-            return redirect()->back()->with('error', "Something went wrong, please try again later");
+            return redirect()->back()->withInput()->with('error', 'Something went wrong.');
         }
     }
 
-
-    public function update_banner(Request $request){
-        //validate banners
-        $this->validate($request, [
-            'type'=>'required|string|in:Banner,Ads-Banner',
-            'title'=>'nullable|string|max:100',
-            'link'=>'nullable|string|url',
-            'order_no'=>'required|numeric',
-            'start_time'=>'required|date',
-            'end_time'=>'required|date',
-        ]);
-    }
 
     /**
      * Remove the specified resource from storage.
