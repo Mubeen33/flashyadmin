@@ -244,7 +244,12 @@ class ProductController extends Controller
 
     }
 
+    // Get Products Vendors 
+    public function get_all_products_vendors($id){
 
+        echo decrypt($id);
+    }
+    // 
     public function fetch__data(Request $request){
     	if ($request->ajax()) {
             $searchKey = $request->search_key;

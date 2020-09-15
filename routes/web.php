@@ -86,6 +86,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    //products
    Route::get('products/pending-products', 'Products\ProductController@get_pending_products')->name('pendingProducts.get');
    Route::get('products/all', 'Products\ProductController@get_all_products')->name('allProducts.get');
+   Route::get('products/vendors/{id}', 'Products\ProductController@get_all_products_vendors')->name('productVendor.get');
    Route::get('product/show/{id}', 'Products\ProductController@product_details_show')->name('productDetails.get');
    Route::post('product/update/{id}', 'Products\ProductController@product__update')->name('productUpdate.post');
    Route::get('product-approval/show/{id}', 'Products\ProductController@getProductApproval')->name('productControl.post');
