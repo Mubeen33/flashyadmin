@@ -16,6 +16,7 @@ use App\Variation;
 use App\ProductCustomfield;
 use App\VariantOptionOptions;
 use App\VariationOption;
+use Illuminate\Support\Collection;
 
 class ProductController extends Controller
 {
@@ -33,7 +34,7 @@ class ProductController extends Controller
                     ->orderBy('first_name', 'ASC')
                     ->get();
 
-        return view('product.products', compact('data', 'vendors'));
+        return view('product.pending-products', compact('data', 'vendors'));
     }
 
     //show details
@@ -139,12 +140,7 @@ class ProductController extends Controller
         $data = Product::where([
                     'approved'=>1,
                     'rejected'=>0,
-                    'disable'=>0,
-                ])
-                ->orWhere([
-                    'approved'=>1,
-                    'rejected'=>1,
-                    'disable'=>1,
+                    'disable'=>0
                 ])
                 ->orderBy('id', 'DESC')
                 ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
@@ -279,138 +275,171 @@ class ProductController extends Controller
             if ($sorting_order == "") {
                 $sorting_order = "DESC";
             }
-
-
-            //check status
-            $field = NULL;
-            $approved = "approved";
-            $value_approved = NULL;
-
-            $rejected = "rejected";
-            $value_rejected = NULL;
-
-            $disable = "disable";
-            $value_disable = NULL;
-
-            if ($status === "pending") {
-                $field = 'pending';
-                $value_approved = 0;
-                $value_rejected = 0;
-                $value_disable = 0;
-
-            }elseif ($status === "rejected") {
-                $field = 'rejected';
-                $value_approved = 0;
-                $value_rejected = 1;
-                $value_disable = 0;
-            }elseif ($status === "disabled") {
-                $field = 'disabled';
-                $value_approved = 0;
-                $value_rejected = 0;
-                $value_disable = 1;
-            }elseif ($status === "approved") {
-                $field = 'approved';
-                $value_approved = 1;
-                $value_rejected = 0;
-                $value_disable = 0;
-            }else{
-                $field = "all";
-            }
+            
 
             if (!empty($request->search_key)) {
                 //if have specific vendor ID
                 if (!empty($id) && is_numeric($id)) {
-                    if ($field !== "all") {
-                        $data = Product::where('vendor_id', $id)
-                        ->orderBy($sort_by, $sorting_order)
-                        ->where([
-                            $approved => $value_approved,
-                            $rejected => $value_rejected,
-                            $disable => $value_disable
-                        ])
-                        ->where("title", "LIKE", "%$searchKey%")
-                        ->orWhere("created_at", "LIKE", "%$searchKey%")
-                        ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
-                        ->paginate($row_per_page );
-                        return view('product.partials.product-list', compact('data', 'id'))->render();
-                    }else{
-                        $data = Product::where('vendor_id', $id)
-                        ->orderBy($sort_by, $sorting_order)
-                        ->where("title", "LIKE", "%$searchKey%")
-                        ->orWhere("created_at", "LIKE", "%$searchKey%")
-                        ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
-                        ->paginate($row_per_page );
-                        return view('product.partials.product-list', compact('data', 'id'))->render();
-                    }
-                    
-                }
+                    $data1 = Product::where([
+                                ['vendor_id', '=', $id],
+                                ['approved', '=', 1],
+                                ['rejected', '=', 0],
+                                ['disable', '=', 0],
+                            ])
+                            ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
+                            ->whereHas('get_product_variations', function($q) use ($searchKey)
+                            {
+                                $q->where('active', '=', 1);
+                                $q->where('first_variation_value', 'LIKE', '%'.$searchKey.'%');
+                                $q->orWhere('second_variation_value', 'LIKE', '%'.$searchKey.'%');
+                            })
+                            ->orderBy($sort_by, $sorting_order)
+                            ->get();
 
-                //if not have specific vendor ID
-                if ($field !== "all") {
-                    $data = Product::where([
-                        $approved => $value_approved,
-                        $rejected => $value_rejected,
-                        $disable => $value_disable
-                    ])
-                    ->where("title", "LIKE", "%$searchKey%")
-                    ->orWhere("created_at", "LIKE", "%$searchKey%")
-                    ->orderBy($sort_by, $sorting_order )
-                    ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
-                    ->paginate($row_per_page );
-                    return view('product.partials.product-list', compact('data'))->render();
-                }
+                    $data2 = Product::where([
+                                ['vendor_id', '=', $id],
+                                ['approved', '=', 1],
+                                ['rejected', '=', 0],
+                                ['disable', '=', 0],
+                            ])
+                            ->where("title", "LIKE", "%$searchKey%")
+                            ->orWhere("created_at", "LIKE", "%$searchKey%")
+                            ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
+                            ->orderBy($sort_by, $sorting_order)
+                            ->get();
+                    $data = $data1->merge($data2);
+                    $data = (new Collection($data))->paginate_build_by_developer_rijan($row_per_page);
 
-                $data = Product::where("title", "LIKE", "%$searchKey%")
-                    ->orWhere("created_at", "LIKE", "%$searchKey%")
-                    ->orderBy($sort_by, $sorting_order )
-                    ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
-                    ->paginate($row_per_page );
-                    return view('product.partials.product-list', compact('data'))->render();
+                    return view('product.partials.product-list', compact('data', 'id'))->render();
+                }
+                $data1 = Product::where([
+                                ['approved', '=', 1],
+                                ['rejected', '=', 0],
+                                ['disable', '=', 0]
+                            ])
+                            ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
+                            ->whereHas('get_product_variations', function($q) use ($searchKey)
+                            {
+                                $q->where('active', '=', 1);
+                                $q->where('first_variation_value', 'like', '%'.$searchKey.'%');
+                                $q->orWhere('second_variation_value', 'like', '%'.$searchKey.'%');
+                            })
+                            ->orderBy($sort_by, $sorting_order)
+                            ->get();
+                $data2 = Product::where([
+                                ['approved', '=', 1],
+                                ['rejected', '=', 0],
+                                ['disable', '=', 0]
+                            ])
+                            ->where("title", "LIKE", "%$searchKey%")
+                            ->orWhere("created_at", "LIKE", "%$searchKey%")
+                            ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
+                            ->orderBy($sort_by, $sorting_order)
+                            ->get();
+
+                $data = $data1->merge($data2);
+                $data = (new Collection($data))->paginate_build_by_developer_rijan($row_per_page);
+                return view('product.partials.product-list', compact('data', 'id'))->render();
                 
             }
 
             //without search
                 //if have specific vendor id
             if (!empty($id) && is_numeric($id)) {
-                if ($field !== 'all') {
-                    $data = Product::where([
-                            'vendor_id'=>$id,
-                            $approved => $value_approved,
-                            $rejected => $value_rejected,
-                            $disable => $value_disable
+                $data = Product::where([
+                            ['vendor_id', '=', $id],
+                            ['approved', '=', 1],
+                            ['rejected', '=', 0],
+                            ['disable', '=', 0]
                         ])
                         ->orderBy($sort_by, $sorting_order)
                         ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                         ->paginate($row_per_page );
                     return view('product.partials.product-list', compact('data'))->render();
-                }else{
-                    $data = Product::where([
-                            'vendor_id'=>$id,
-                        ])
-                        ->orderBy($sort_by, $sorting_order)
-                        ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
-                        ->paginate($row_per_page );
-                    return view('product.partials.product-list', compact('data'))->render();
-                }
             }
 
-            //if not have specific vendor id
-            if ($field !== 'all') {
-                $data = Product::where([
-                        $approved => $value_approved,
-                        $rejected => $value_rejected,
-                        $disable => $value_disable
+            $data = Product::where([
+                        ['approved', '=', 1],
+                        ['rejected', '=', 0],
+                        ['disable', '=', 0]
                     ])
                     ->orderBy($sort_by, $sorting_order)
                     ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                     ->paginate($row_per_page );
                 return view('product.partials.product-list', compact('data'))->render();
-            }else{
-               $data = Product::orderBy($sort_by, $sorting_order)
+            
+        }
+        return abort(404);
+    }
+
+    public function pending_fetch__data(Request $request){
+        if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+            $status = $request->status;
+            $row_per_page = $request->row_per_page;
+            $id = $request->id;
+
+            if ($sort_by == "") {
+                $sort_by = "id";
+            }
+            if ($sorting_order == "") {
+                $sorting_order = "DESC";
+            }
+
+            if (!empty($request->search_key)) {
+                if (!empty($id) && is_numeric($id)) {
+                    $data = Product::where([
+                            ['vendor_id', '=', $id],
+                            ['approved', '=', 0],
+                            ['rejected', '=', 0],
+                            ['disable', '=', 0]
+                        ])
+                        ->orderBy($sort_by, $sorting_order)
+                        ->where("title", "LIKE", "%$searchKey%")
+                        ->orWhere("created_at", "LIKE", "%$searchKey%")
+                        ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
+                        ->paginate($row_per_page );
+                        return view('product.partials.pending-product-list', compact('data', 'id'))->render();
+                }
+                $data = Product::where([
+                            ['approved', '=', 0],
+                            ['rejected', '=', 0],
+                            ['disable', '=', 0]
+                        ])
+                        ->orderBy($sort_by, $sorting_order)
+                        ->where("title", "LIKE", "%$searchKey%")
+                        ->orWhere("created_at", "LIKE", "%$searchKey%")
+                        ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
+                        ->paginate($row_per_page );
+                        return view('product.partials.pending-product-list', compact('data', 'id'))->render();
+                
+                    
+            }
+
+
+            if (!empty($id) && is_numeric($id)) {
+                $data = Product::where([
+                        ['vendor_id', '=', $id],
+                        ['approved', '=', 0],
+                        ['rejected', '=', 0],
+                        ['disable', '=', 0]
+                    ])
+                    ->orderBy($sort_by, $sorting_order)
                     ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                     ->paginate($row_per_page );
-                return view('product.partials.product-list', compact('data'))->render(); 
+                return view('product.partials.pending-product-list', compact('data'))->render(); 
             }
+            $data = Product::where([
+                        ['approved', '=', 0],
+                        ['rejected', '=', 0],
+                        ['disable', '=', 0]
+                    ])
+                    ->orderBy($sort_by, $sorting_order)
+                    ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
+                    ->paginate($row_per_page );
+                return view('product.partials.pending-product-list', compact('data'))->render(); 
             
         }
         return abort(404);

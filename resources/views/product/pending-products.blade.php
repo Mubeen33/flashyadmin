@@ -26,9 +26,9 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header justify-content-between">
-                                <div><h4 class="card-title">Products</h4></div>
+                                <div><h4 class="card-title">Pending Products</h4></div>
                                 <div>
-                                    <select class="d-none" id="hidden__id" title="Select Vendor">
+                                    <select id="hidden__id" title="Select Vendor">
                                         <option value="">Select Vendor</option>
                                         @foreach($vendors as $vendor)
                                         <option value="{{ $vendor->id }}">{{ $vendor->first_name." ".$vendor->last_name }}</option>
@@ -54,7 +54,7 @@
                                                     <th class="sortAble" sorting-column='id' sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg> 
                                                         ID
                                                     </th>
-                                                    <th class="d-none">Vendor</th>
+                                                    <th>Vendor</th>
                                                     <th class="sortAble" sorting-column='title' sorting-order=''>
                                                         Title
                                                     </th>
@@ -72,15 +72,15 @@
                                             </thead>
 
                                             <tbody id="render__data">
-                                                @include('product.partials.product-list')
+                                                @include('product.partials.pending-product-list')
                                             </tbody>
                                             
                                         </table>
-                                        <input type="hidden" id="hidden__action_url" value="{{ route('admin.products.ajaxPgination') }}">
+                                        <input type="hidden" id="hidden__action_url" value="{{ route('admin.pendingProducts.ajaxPgination') }}">
                                         <input type="hidden" id="hidden__page_number" value="1">
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">
-                                        <input type="hidden" id="hidden__status" value="1">
+                                        <input type="hidden" id="hidden__status" value="0">
                                     </div>
                                 </div>
                             </div>

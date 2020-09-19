@@ -1,33 +1,37 @@
 @foreach($data as $key=>$content)
-@if($content->get_vendor->active == 1)
+
+@if(intval($content->get_vendor->active) === 1 && intval($content->approved) === 1)
 
     @if(!$content->get_product_variations->isEmpty())
         
         @foreach($content->get_product_variations as $v_key=>$variation)
             <tr>
                 <th scope="row">@if($v_key == 0){{ $key+1 }}@endif</th>
-                <td>
+                <td class="d-none">
                     {{ $content->get_vendor->first_name }} {{ $content->get_vendor->last_name }}
                 </td>                                          
                 <td>
-                    {{ $content->title }} {{", ".$variation->first_variation_name}}
-                    @if($variation->second_variation_name !== NULL)
-                    {{", ".$variation->second_variation_name}}
+                    {{ $content->title }} {{", ".$variation->first_variation_value}}
+                    @if($variation->second_variation_value !== NULL)
+                    {{", ".$variation->second_variation_value}}
                     @endif
                 </td>
                 <td>
                     {{ $content->get_category->name }}
                 </td>
                 <td>
-                    @if(!$content->get_images->isEmpty())
-                    @foreach($content->get_images as $key=>$image)
-                        @if($key == 0)
-                        <img src="{{ $image }}" width="80px" height="50px">
-                        @endif
-                    @endforeach
-                    @endif
+                	@if($variation->variant_image === NULL)
+	                    @if(!$content->get_images->isEmpty())
+	                    @foreach($content->get_images as $key=>$image)
+	                        @if($key == 0)
+	                        <img src="{{ $image->image }}" width="80px" height="50px">
+	                        @endif
+	                    @endforeach
+	                    @endif
+	                @else
+	                	<img src="{{ $variation->variant_image }}" width="80px" height="50px">
+	                @endif
                 </td>
-                <td>{{ $content->made_by }}</td>
                 <td>{{ $content->product_type }}</td>
                 <td>
                       {{ $content->created_at->format('d/m/Y') }}
@@ -61,9 +65,10 @@
         @endforeach
 
     @else
+    
     <tr>
         <th scope="row">{{ $key+1 }}</th>
-        <td>
+        <td class="d-none">
             {{ $content->get_vendor->first_name }} {{ $content->get_vendor->last_name }}
         </td>                                          
         <td>{{ $content->title }}</td>
@@ -74,12 +79,11 @@
             @if(!$content->get_images->isEmpty())
             @foreach($content->get_images as $key=>$image)
                 @if($key == 0)
-                <img src="{{ $image }}" width="80px" height="50px">
+                <img src="{{ $image->image }}" width="80px" height="50px">
                 @endif
             @endforeach
             @endif
         </td>
-        <td>{{ $content->made_by }}</td>
         <td>{{ $content->product_type }}</td>
         <td>
               {{ $content->created_at->format('d/m/Y') }}
@@ -116,7 +120,11 @@
 
 
 @endif
+
+
+
 @endforeach
 <tr>
     <td colspan="9">{!! $data->links() !!}</td>
 </tr>
+
