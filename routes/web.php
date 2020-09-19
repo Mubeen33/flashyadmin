@@ -88,13 +88,16 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::get('products/all', 'Products\ProductController@get_all_products')->name('allProducts.get');
    Route::get('products/vendors/{id}', 'Products\ProductController@get_all_products_vendors')->name('productVendor.get');
    Route::get('product/show/{id}', 'Products\ProductController@product_details_show')->name('productDetails.get');
-   Route::post('product/update/{id}', 'Products\ProductController@product__update')->name('productUpdate.post');
+   Route::post('product/update/{id}', 'Products\ProductController@approve_product')->name('productUpdate.post');
    Route::get('product-approval/show/{id}', 'Products\ProductController@getProductApproval')->name('productControl.post');
+   Route::get('product-edit/show/{id}', 'Products\ProductController@getProductEdit')->name('productEdit.post');
    Route::get('make-approved-product/{id}', 'Products\ProductController@approve_product')->name('approveProduct.post');
    Route::get('make-rejected-product/{id}', 'Products\ProductController@reject_product')->name('rejectProduct.post');
    Route::get('make-disable-product/{id}', 'Products\ProductController@disable_product')->name('disableProduct.post');
    Route::get('ajax-get-category/fetch','Products\ProductController@getCategories');
    Route::get('ajax-get-category-customfields/fetch','Products\ProductController@getCustomFields');
+
+   Route::post('products/sku_combination','Products\ProductController@skuCombinations')->name('products.sku_combination');
 
    Route::post('add-product-images/{product_image_id}','Products\ProductController@addProductImages');
    Route::post('delete-product-image','Products\ProductController@removeProductImage');

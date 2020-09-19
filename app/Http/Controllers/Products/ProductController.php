@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Products;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
+use DB;
 use App\Product;
 use App\Category;
 use App\Vendor;
@@ -16,6 +17,7 @@ use App\Variation;
 use App\ProductCustomfield;
 use App\VariantOptionOptions;
 use App\VariationOption;
+use App\ProductVariation;
 
 class ProductController extends Controller
 {
@@ -47,53 +49,206 @@ class ProductController extends Controller
 
     public function getProductApproval($id){
 
-        $id      = decrypt($id);
+        $Id      = decrypt($id);
         $product = Product::where([
-                            ['id','=',$id],
+                            ['id','=',$Id],
                             ['approved','=',0]
                         ])
                         ->first();
         if (!$product) {
             return abort(404);
         }
-        $currentCategory = Category::where('id', $product->category_id)->first();
-        $currentImages = ProductMedia::where('image_id', $product->image_id)
+        $currentCategory        = Category::where('id', $product->category_id)->first();
+        $currentImages          = ProductMedia::where('image_id', $product->image_id)
                                     ->orderBy('created_at', 'ASC')
                                     ->get();
         //return $currentImages;
-        $productCustomField = ProductCustomfield::where('product_id',$id)->first();
+        $productCustomField     = ProductCustomfield::where('product_id',$Id)->first();
+        $productVariations      = DB::table('product_variations')->where('product_id',$Id)->get();
+        $first_variation_name   = ProductVariation::where('product_id',$Id)->value('first_variation_name');
+        $first_variation_value  = DB::table('product_variations')->where('product_id',$Id)->select('first_variation_value')->distinct()->get();
+        $second_variation_name  = ProductVariation::where('product_id',$Id)->value('second_variation_name');
+        $second_variation_value  = DB::table('product_variations')->where('product_id',$Id)->select('second_variation_value')->distinct()->get();
+        $variationList          = Variation::where('active',1)->get();
+
+        $categories             = Category::where('deleted',0)->get();
+      
        
-        return view('product.approval-product', compact('product','productCustomField', 'currentCategory', 'currentImages'));
+        return view('product.approval-product', compact('product','productCustomField', 'currentCategory', 'currentImages','variationList','productVariations','second_variation_name','first_variation_name','first_variation_value','second_variation_value','categories'));
     }
 
+    //
+    public function getProductEdit($id){
 
-
-    //approve_product
-    public function approve_product($id){
-        $product = Product::where('id', decrypt($id))->first();
+        $id      = decrypt($id);
+        $product = Product::where([
+                            ['id','=',$id],
+                            ['approved','=',1]
+                        ])
+                        ->first();
         if (!$product) {
             return abort(404);
         }
+        $currentCategory        = Category::where('id', $product->category_id)->first();
+        $currentImages          = ProductMedia::where('image_id', $product->image_id)
+                                    ->orderBy('created_at', 'ASC')
+                                    ->get();
+        //return $currentImages;
+        $productCustomField     = ProductCustomfield::where('product_id',$id)->first();
+        $productVariations      = ProductVariation::where('product_id',$id)->get();
+        $first_variation_name   = ProductVariation::where('product_id',$id)->value('first_variation_name');
+        $first_variation_value  = DB::table('product_variations')->where('product_id',$id)->select('first_variation_value')->distinct()->get();
+        $second_variation_name  = ProductVariation::where('product_id',$id)->value('second_variation_name');
+        $second_variation_value = DB::table('product_variations')->where('product_id',$id)->select('second_variation_value')->distinct()->get();
+        $variationList          = Variation::where('active',1)->get();
+        $categories             = Category::where('deleted',0)->get();
 
-        $updated = $product->update([
-            'approved'=>1,
-            'rejected'=>0,
-            'disable'=>0,
-            'updated_at'=>Carbon::now()
-        ]);
-        if ($updated == true) {
-            //update to vendor_products tbl
-            VendorProduct::insert([
-                'ven_id'=>$product->vendor_id,
-                'prod_id'=>$product->id,
-                'quantity'=>0,
-                'mk_price'=>0,
-                'price'=>0
-            ]);
-            return redirect()->route('admin.pendingProducts.get')->with('success', 'Product Approved');
-        }else{
-            return redirect()->route('admin.pendingProducts.get')->with('error', 'Something went wrong.');
+       
+        return view('product.edit-product', compact('product','productCustomField', 'currentCategory', 'currentImages','variationList','productVariations','second_variation_name','first_variation_name','first_variation_value','second_variation_value','categories'));
+    }
+
+    // 
+    public function skuCombinations(Request $request){
+
+        $options = Array();
+        $variations = Array();
+        $variantOne;
+        $variantTwo;
+        $count;
+        if($request->has('choice_no')){
+            foreach ($request->choice_no as $key => $no) {
+                $name = 'choice_options_'.$no;
+                $my_str = implode('|', $request[$name]);
+
+                array_push($options, explode(',', $my_str));
+            }
         }
+        if ($request->has('variation_name')) {
+            
+            $count        = count($request->variation_name);
+            if ($count == 1) {
+                
+                    $variantOne   = $request->variation_name[0];
+                    $variationOne = Variation::where('variation_name',$variantOne)->first();
+            }
+            else{
+
+                $variantOne   = $request->variation_name[0];
+                $variationOne = Variation::where('variation_name',$variantOne)->first();
+                $variantTwo   = $request->variation_name[1];
+                $variationTwo = Variation::where('variation_name',$variantTwo)->first();
+
+            }
+            
+
+        }
+
+        $combinations = combinations($options);
+        if ($count == 1) {
+            return view('product.partials.sku_combinations', compact('combinations','variationOne','count'));
+        }else{
+
+            return view('product.partials.sku_combinations', compact('combinations','variationOne','variationTwo','count'));
+        }    
+    } 
+
+
+    //approve_product
+    public function approve_product(Request $request,$id){
+
+        $product = Product::find(decrypt($id));
+
+        $isNewImageUploaded = ProductMedia::where([
+            'image_id'=>$request->image_id
+        ])->get();
+
+        $isImagesUpdated = NULL;
+        if (!$isNewImageUploaded->isEmpty()) {
+            $isImagesUpdated = "Yes";
+        }else{
+            $isImagesUpdated = NULL;
+        }
+        // 
+        $oldData = Product::where('id', decrypt($id))->first();
+        if (!$oldData) {
+            return redirect()->back()->with('error', 'SORRY - Requested Product Not Found.');
+        }
+
+        //update
+        $updated = $oldData->update([
+            'title'=>$request->title,
+            'category_id'=>($request->category_id == null ? $oldData->category_id : $request->category_id),
+            'description'=>$request->description,
+            'image_id'=>($isImagesUpdated === "Yes" ? $request->image_id : $oldData->image_id),
+            'product_type'=>$request->product_type,
+            'sku'=>$request->sku,
+            'video_link'=>$request->video_link,
+            // 'approved'=> 1,
+            'updated_at'=>Carbon::now()
+            
+        ]);
+        // 
+        $Id = decrypt($id);
+        if ($request->has('variant_combinations')) {
+
+            foreach ($request->variant_combinations as $key => $variantUpdate) {
+                
+                $productVariationsUpdate = ProductVariation::find($request->variant_id[$key]);
+
+                $productVariationsUpdate->sku = $request->variant_sku[$key];
+                if ($request->has('variant_image')) {
+                    
+                     $image = $request->file('variant_image')[$key];
+        
+                        $file_name=uniqid().(Auth::guard('vendor')->user()->id)."_300_".$image->getClientOriginalName();
+                        //resize image
+                        $image_resize = Image::make($image->getRealPath());              
+                        $image_300 = $image_resize->resize(300, 300);
+                        $image_300->save('product_images/'.$file_name);
+
+                        $productVariationsUpdate->variant_image = url('/')."/product_images/".$file_name;
+                }
+
+                if ($request->has('active')) {
+                    $productVariationsUpdate->active = $request->active[$key];
+                }else{
+
+                    $productVariationsUpdate->active = 0;
+                }
+
+                $productVariationsUpdate->save();       
+
+            }
+           $productVariants = ProductVariation::where('product_id',$Id)->get(); 
+           foreach ($productVariants as $key => $vari) {
+                
+                VendorProduct::insert([
+                    'ven_id'=>$product->vendor_id,
+                    'prod_id'=>$product->id,
+                    'variation_id'=>$vari->id,
+                    'quantity'=>0,
+                    'mk_price'=>0,
+                    'price'=>0
+                ]);
+            }
+            return redirect()->route('admin.pendingProducts.get')->with('success', 'Product Approved'); 
+        }else{
+
+            if ($updated == true) {
+            //update to vendor_products tbl
+                VendorProduct::insert([
+                    'ven_id'=>$product->vendor_id,
+                    'prod_id'=>$product->id,
+                    'quantity'=>0,
+                    'mk_price'=>0,
+                    'price'=>0
+                ]);
+                return redirect()->route('admin.pendingProducts.get')->with('success', 'Product Approved');
+            }
+            else{
+                return redirect()->route('admin.pendingProducts.get')->with('error', 'Something went wrong.');
+            }
+        } 
     }
 
     //reject_product

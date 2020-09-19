@@ -265,33 +265,8 @@
                                 <div id="render__customfields__data">
                                     @include('product.partials.auto-customfields')
                                 </div>
-                     			<div class="row">
-                            <div class="col-lg-3">
-                            <div class="mb-xs-2 strong">Category Commission 
-                              <span class="text-gray-lightest"></span> 
-                            </div>
-                          </div>
-                          <div class="col-lg-9"> <br />
-                            <input type="text" name="" class="form-control" value="{{$currentCategory->commission}}" readonly="">
-                          </div>
-                          </div>
-                     			<div class="row">
-                            <div class="col-lg-3">
-                            <div class="mb-xs-2 strong"> Select Other Categories 
-                              <span class="text-gray-lightest">*</span> 
-                            </div>
-                            <p class="text-smaller text-gray-lighter">
-                              Type a two- or three-word description of your item to get category suggestions that will help more shoppers find it.
-                            </p>
-                          </div>
-                          <div class="col-lg-9"> <br />
-                            <select class="form-control select2" name="categories[]"  multiple="multiple" >
-                              @foreach($categories as $category)
-                                 <option value="{{$category->id}}">{{$category->name}}</option>
-                              @endforeach
-                            </select>
-                          </div>
-                          </div>
+                     			
+                     			
                      			<div class="row">
                      				<div class="col-lg-3">
                  						<div class="mb-xs-2 strong"> Description
@@ -345,11 +320,51 @@
           			</div>
           		</div>
 
-           
-             
-       
+      @if(count($productVariations) > 0)      
+              <div style="display: ;" id="variant-card">
+          <div class="card" style="min-height: unset !important;">
+            <div class="card-body">
+              <h5 class="modal-title">Add variations</h5><br>
+
+                <div class="col-md-12 mx-0 px-0" id="loadSecondVariationOptionsData"></div>
+            
+              <div class="row" id="render__variations__data">
+                <div class="col-lg-4">
+                  <select class="form-control select2" name="variation_name[]" onchange="add_more_customer_choice_option()" id="variation" multiple="multiple" >
+                    <option>Choose Variation Type</option>
+                    <optgroup label="Variation Type">
+                      @foreach($variationList as $variation)
+                          
+                            @if($variation->variation_name == $first_variation_name)
+                            <option value="{{$variation->variation_name}}" selected="">{{$variation->variation_name}}</option>
+                            @endif
+                            @if(!empty($second_variation_name)) 
+                            @if($variation->variation_name == $second_variation_name)
+                            <option value="{{$variation->variation_name}}" selected="">{{$variation->variation_name}}</option>
+                            @endif
+                            @endif
+                            <option value="{{$variation->variation_name}}">{{$variation->variation_name}}</option> 
+                            
+                      @endforeach
+                    </optgroup>
+                  </select>
+                </div>
+              </div> 
+            </div>
+          </div>
+        </div>
+      @endif 
             <div class="card" id="customer_options">
-          @if(count($productVariations) > 0)     
+              <div class="card-body" id="customer_choices">
+                @if(!empty($first_variation_name))
+                  <div class="row mb-3"><div class="col-8 col-md-3 order-1 order-md-0"><input type="hidden" name="choice_no[]" value="0"><input type="text" class="form-control" name="choice_no_0" value="{{$first_variation_name}}" readonly=""></div><div class="col-12 col-md-7 col-xl-8 order-3 order-md-0 mt-2 mt-md-0"><input type="text" class="form-control tagsInput"  value="@foreach ($first_variation_value as $key => $value) {{$loop->first ? '' : ','}}{{$value->first_variation_value}} 
+                  @endforeach" data-role="tagsinput" name="choice_options_0[]" placeholder="Enter choice values"></div><div class="col-4 col-xl-1 col-md-2 order-2 order-md-0 text-right"><button type="button" onclick="delete_row(this)" class="btn btn-link btn-icon text-danger"><i class="fa fa-trash-o"></i></button></div></div>
+                @endif
+                @if(!empty($second_variation_name))
+                  <div class="row mb-3"><div class="col-8 col-md-3 order-1 order-md-0"><input type="hidden" name="choice_no[]" value="1"><input type="text" class="form-control" name="choice_no_1" value="{{$second_variation_name}}" readonly=""></div><div class="col-12 col-md-7 col-xl-8 order-3 order-md-0 mt-2 mt-md-0"><input type="text" class="form-control tagsInput"  value="@foreach ($second_variation_value as $key => $value) {{$loop->first ? '' : ','}}{{$value->second_variation_value}} 
+                  @endforeach" data-role="tagsinput" name="choice_options_1[]" placeholder="Enter choice values"></div><div class="col-4 col-xl-1 col-md-2 order-2 order-md-0 text-right"><button type="button" onclick="delete_row(this)" class="btn btn-link btn-icon text-danger"><i class="fa fa-trash-o"></i></button></div></div>
+                @endif  
+              </div>
               <div class="card-body" id="customer_choice_options">
                 <table class="table table-bordered">
                   <thead>
@@ -363,9 +378,6 @@
                       <td class="text-center">
                         <label for="" class="control-label">{{__('Variant Image')}}</label>
                       </td>
-                      <td class="text-center">
-                        <label for="" class="control-label">{{__('Active')}}</label>
-                      </td>
                     </tr>
                   </thead>
                 <tbody>
@@ -374,30 +386,22 @@
                     <td>
                       <label for="" class="control-label">{{ $variants->first_variation_value }}-{{ $variants->second_variation_value }}</label>
                       <input type="hidden" name="variant_combinations[]" value="{{ $variants->first_variation_value }}-{{ $variants->second_variation_value }}">
-                      <input type="hidden" name="variant_id[]" value="{{$variants->id}}">
+                      <input type="hidden" name="variant_id" value="{{$variants->id}}">
                     </td>
                     <td>
                       <input type="text" name="variant_sku[]" value="{{$variants->sku}}" class="form-control" required>
                     </td>
-                      @if( !empty($variants->variant_image))
+                      @if( !empty($variants->image))
                         <td>
                           <input type="file" name="variant_image[]" class="form-control" required>
-                          <span><img width="80" src="{{$variants->variant_image}}"></span>
                         </td>
-                      @else
-                        <td>
-                          No Image Available.
-                        </td>
-                      @endif
-                        <td>
-                          <input type="checkbox" name="active[]" value="1" class="form-control">
-                        </td>    
+                      @endif    
                   </tr>
                 @endforeach  
                 </tbody>
               </table>  
               </div>
-            @endif  
+              
                   <div class="col-lg-4 d-flex">
                       @if(intval($product->rejected) === 0)
                       <a onclick="return confirm('Are you sure to reject?')" href="{{ route('admin.rejectProduct.post', encrypt($product->id)) }}" class="btn btn-warning">Reject</a>
@@ -411,8 +415,7 @@
                       <button type="submit" class="btn btn-warning ml-1">UPDATE</button>
                       @endif
                   </div>
-            </div> 
-
+            </div>          
       		<!-- End Inventory and pricing  -->
         </form>    
 	    </div>
