@@ -97,8 +97,6 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::get('ajax-get-category/fetch','Products\ProductController@getCategories');
    Route::get('ajax-get-category-customfields/fetch','Products\ProductController@getCustomFields');
 
-   Route::get('ajax-get-category-warranty/fetch','Products\ProductController@getWarranty');
-
    Route::post('products/sku_combination','Products\ProductController@skuCombinations')->name('products.sku_combination');
 
    Route::post('add-product-images/{product_image_id}','Products\ProductController@addProductImages');
