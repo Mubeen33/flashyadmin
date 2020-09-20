@@ -102,6 +102,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::post('add-product-images/{product_image_id}','Products\ProductController@addProductImages');
    Route::post('delete-product-image','Products\ProductController@removeProductImage');
    Route::get('products/ajax-pagination/fetch', 'Products\ProductController@fetch__data')->name('products.ajaxPgination');
+   Route::get('pending-products/ajax-pagination/fetch', 'Products\ProductController@pending_fetch__data')->name('pendingProducts.ajaxPgination');
 
   
 

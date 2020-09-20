@@ -96,7 +96,7 @@ class SliderController extends Controller
         }
 
         if($request->hasFile('image_sm')){
-            $fileName ='slider-'.uniqid();
+            $fileName ='slider-'.uniqid().Auth::user()->id;
             $fileName__ = $obj_fu->fileUploader($request->file('image_sm'), $fileName, $location);
             $smImage = $fileName__;
         }else{
@@ -123,7 +123,7 @@ class SliderController extends Controller
 
         //dd($finalDate1);
 
-        $url = $this->getURL();
+        $url = url('/');
         $inserted = Slider::insert([
             'title'=>$request->title,
             'description'=>$request->description,
@@ -245,7 +245,7 @@ class SliderController extends Controller
         $obj_fu = new FileUploader();
         $lgImage = NULL;
         $smImage = NULL;
-        $url = $this->getURL();
+        $url = url('/');
         $location = "upload-images/sliders/";
         if($request->hasFile('image_lg')){
             //delete
@@ -319,7 +319,7 @@ class SliderController extends Controller
         }
 
         //delete slider images
-        $url = $this->getURL();
+        $url = url('/');
         $location = "upload-images/sliders/";
         $obj_fu = new FileUploader();
         if ($data->image_lg != NULL) {
