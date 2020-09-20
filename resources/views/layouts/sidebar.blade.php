@@ -59,6 +59,12 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Ecommerce"><i class="feather icon-circle"></i>Products Warranty</a>
+                                <ul class="dropdown-menu">
+                                    <li data-menu=""><a class="dropdown-item" href="{{ route('admin.productWarranty.get')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Products Warranty</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
 

@@ -188,8 +188,12 @@ class ProductController extends Controller
             'image_id'=>($isImagesUpdated === "Yes" ? $request->image_id : $oldData->image_id),
             'product_type'=>$request->product_type,
             'sku'=>$request->sku,
+            'width'=>$request->width,
+            'hieght'=>$request->hieght,
+            'length'=>$request->length,
+            'warranty'=>$request->warranty,
             'video_link'=>$request->video_link,
-            // 'approved'=> 1,
+            'approved'=> 1,
             'updated_at'=>Carbon::now()
             
         ]);
@@ -228,14 +232,16 @@ class ProductController extends Controller
            $productVariants = ProductVariation::where('product_id',$Id)->get(); 
            foreach ($productVariants as $key => $vari) {
                 
-                VendorProduct::insert([
-                    'ven_id'=>$product->vendor_id,
-                    'prod_id'=>$product->id,
-                    'variation_id'=>$vari->id,
-                    'quantity'=>0,
-                    'mk_price'=>0,
-                    'price'=>0
-                ]);
+                if($vari->active == 1){
+                    VendorProduct::insert([
+                        'ven_id'=>$product->vendor_id,
+                        'prod_id'=>$product->id,
+                        'variation_id'=>$vari->id,
+                        'quantity'=>0,
+                        'mk_price'=>0,
+                        'price'=>0
+                    ]);
+                }
             }
             return redirect()->route('admin.pendingProducts.get')->with('success', 'Product Approved'); 
         }else{

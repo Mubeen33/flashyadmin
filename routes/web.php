@@ -172,7 +172,12 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::get('categories-ajax-pagination/fetch','category\CategoryController@fetch_paginate_data')->name('categories.ajaxPgination');
   // End Categories
 
-
+  // Products Warranty
+  Route::get('get-products-warranties','warranty\WarrantyController@index')->name('productWarranty.get');
+  Route::get('add-product-warranty','warranty\WarrantyController@addProductsWarranty')->name('addProductsWarranty.get');
+  Route::post('submit-product-warranty','warranty\WarrantyController@addNew')->name('addProductWarranty.post');
+  // Products Warranty
+  
   Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
   Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
   // files added by asad ..

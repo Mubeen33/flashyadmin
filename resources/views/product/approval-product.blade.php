@@ -312,7 +312,7 @@
           		<!-- Inventory and pricing  -->
           		<div class="card" style="min-height: unset !important;">
           			<div class="card-body">
-          				<div class="mb-xs-1 strong"> Inventory and pricing
+          				<div class="mb-xs-1 strong"> Inventory and Dimensions
           			</div> <br />
           			
           			<div class="row">
@@ -327,13 +327,53 @@
           					<input type="text" class="form-control" name="sku" value="{{ $product->sku }}" />
           				</div>
           			</div>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="mb-xs-2 strong"> Width </div>
+                    
+                  </div>
+                  <div class="col-lg-3">
+                    <br />
+                    <input type="text" class="form-control" name="width" value="{{ $product->width }}" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="mb-xs-2 strong"> Hieght  </div>
+                    
+                  </div>
+                  <div class="col-lg-3">
+                    <br />
+                    <input type="text" class="form-control" name="hieght" value="{{ $product->hieght }}" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="mb-xs-2 strong"> Length  </div>
+                    
+                  </div>
+                  <div class="col-lg-3">
+                    <br />
+                    <input type="text" class="form-control" name="length" value="{{ $product->length }}" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="mb-xs-2 strong"> Warranty  </div>
+                    
+                  </div>
+                  <div class="col-lg-3">
+                    <br />
+                    <input type="text" class="form-control" name="warranty" value="{{ $product->warranty }}" />
+                  </div>
+                </div>
           			<hr />
-          			<div class="row">
+          			<!-- <div class="row">
         					<div class="col-lg-9">
         						<label class="mb-xs-2 strong">Variations</label> <br/>
            					<p class="text-gray-lighter">Add available options like color or size. Buyers will choose from these during checkout.</p>
         					</div>
-          			</div>
+          			</div> 
           			<div class="row">
           				 
                       <div class="col-lg-10">
@@ -341,7 +381,7 @@
                 							Add Variations
                 						</button>
                         </div>
-          					</div>
+          					</div>-->
           			</div>
           		</div>
 
