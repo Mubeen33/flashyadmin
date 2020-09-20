@@ -2,7 +2,7 @@
 
 @if(intval($content->get_vendor->active) === 1 && intval($content->approved) === 1)
 
-<<<<<<< HEAD
+
 @if($get_vendor->active == 1)
 <tr>
     <th scope="row">{{ $key+1 }}</th>
@@ -53,7 +53,7 @@
                         <a  class="dropdown-item" href="{{route('admin.productControl.post', encrypt($content->id))}}">Approve</a>
                     @endif    
                     <a onclick="return confirm('Are you sure to disable?')" class="dropdown-item" href="{{ route('admin.disableProduct.post', encrypt($content->id)) }}">Disable</a>
-=======
+
     @if(!$content->get_product_variations->isEmpty())
         
         @foreach($content->get_product_variations as $v_key=>$variation)
@@ -161,7 +161,7 @@
                         <a  class="dropdown-item" href="{{route('admin.productVendor.get', encrypt($content->id))}}">Product Vendor</a>
                         <a onclick="return confirm('Are you sure to disable?')" class="dropdown-item" href="{{ route('admin.disableProduct.post', encrypt($content->id)) }}">Disable</a>
                     </div>
->>>>>>> 282ab9dd93c8b8d9cbd9f36aab0ced90396f227a
+
                 </div>
             </div>
             
