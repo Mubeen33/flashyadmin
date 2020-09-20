@@ -175,7 +175,7 @@
 @endif
 
 
-
+@endif
 @endforeach
 <tr>
     <td colspan="9">{!! $data->links() !!}</td>
