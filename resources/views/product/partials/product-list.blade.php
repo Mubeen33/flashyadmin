@@ -20,17 +20,17 @@
                     {{ $content->get_category->name }}
                 </td>
                 <td>
-                	@if($variation->variant_image === NULL)
-	                    @if(!$content->get_images->isEmpty())
-	                    @foreach($content->get_images as $key=>$image)
-	                        @if($key == 0)
-	                        <img src="{{ $image->image }}" width="80px" height="50px">
-	                        @endif
-	                    @endforeach
-	                    @endif
-	                @else
-	                	<img src="{{ $variation->variant_image }}" width="80px" height="50px">
-	                @endif
+                    @if($variation->variant_image === NULL)
+                        @if(!$content->get_images->isEmpty())
+                        @foreach($content->get_images as $key=>$image)
+                            @if($key == 0)
+                            <img src="{{ $image->image }}" width="80px" height="50px">
+                            @endif
+                        @endforeach
+                        @endif
+                    @else
+                        <img src="{{ $variation->variant_image }}" width="80px" height="50px">
+                    @endif
                 </td>
                 <td>{{ $content->product_type }}</td>
                 <td>
