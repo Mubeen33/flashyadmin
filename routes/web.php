@@ -176,6 +176,9 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::get('get-products-warranties','warranty\WarrantyController@index')->name('productWarranty.get');
   Route::get('add-product-warranty','warranty\WarrantyController@addProductsWarranty')->name('addProductsWarranty.get');
   Route::post('submit-product-warranty','warranty\WarrantyController@addNew')->name('addProductWarranty.post');
+  Route::get('edit-warranty/{id}','warranty\WarrantyController@edit_warranty_get')->name('warranty.edit.get');
+  Route::post('edit-warranty/{id}','warranty\WarrantyController@update_warranty_post')->name('warranty.edit.post');
+  Route::get('delete-warranty/{id}','warranty\WarrantyController@delete_warranty')->name('warranty.delete');
   // Products Warranty
   
   Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');

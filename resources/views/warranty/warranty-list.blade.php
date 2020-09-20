@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('page-title','Custom Fields List')
+@section('page-title','Warranty List')
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Warranty List</li>
@@ -27,7 +27,7 @@
                                                     <th>Warranty</th>
                                                     <th>Category Name</th>
                                                     {{--<th>Status</th> --}}
-                                                    {{-- <th>Actions</th> --}}
+                                                    <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -43,6 +43,19 @@
                                                                     $categoryName = \App\Category::where('id',$productWarranty->category_id)->value('name');
                                                                 @endphp
                                                                 {{ $categoryName }}
+                                                           </td>
+                                                           <td>
+                                                               <div class="btn-group mb-1">
+                                                                    <div class="dropdown">
+                                                                        <button class="btn btn-dark btn-sm dropdown-toggle mr-1" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            Actions
+                                                                        </button>
+                                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
+                                                                            <a class="dropdown-item" href="{{ route('admin.warranty.edit.get', Crypt::encrypt($productWarranty->id)) }}">Edit</a>
+                                                                            <a class="dropdown-item" onclick="return confirm('Are you sure?')" href="{{ route('admin.warranty.delete', Crypt::encrypt($productWarranty->id)) }}">Delete</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                            </td>
                                                        </tr>
                                                     @endforeach
