@@ -23,9 +23,12 @@ class ProductController extends Controller
 {
     public function get_pending_products(){
         $data = Product::where([
-        			'approved'=>0
+        			'approved'=>0,
+                    'rejected'=>0,
+                    'disable'=>0
         		])
         		->orderBy('id', 'DESC')
+                ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                 ->paginate(5);
         
         $vendors = Vendor::where('active', 1)
@@ -287,13 +290,24 @@ class ProductController extends Controller
 
     //get all products
     public function get_all_products(){
-        $data = Product::orderBy('id', 'DESC')
+        //except pending
+        $data = Product::where([
+                    'approved'=>1,
+                    'rejected'=>0,
+                    'disable'=>0,
+                ])
+                ->orWhere([
+                    'approved'=>1,
+                    'rejected'=>1,
+                    'disable'=>1,
+                ])
+                ->orderBy('id', 'DESC')
+                ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                 ->paginate(5);
         
         $vendors = Vendor::where('active', 1)
                     ->orderBy('first_name', 'ASC')
                     ->get();
-
         return view('product.products', compact('data', 'vendors'));
     }
 
@@ -471,6 +485,7 @@ class ProductController extends Controller
                         ])
                         ->where("title", "LIKE", "%$searchKey%")
                         ->orWhere("created_at", "LIKE", "%$searchKey%")
+                        ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                         ->paginate($row_per_page );
                         return view('product.partials.product-list', compact('data', 'id'))->render();
                     }else{
@@ -478,6 +493,7 @@ class ProductController extends Controller
                         ->orderBy($sort_by, $sorting_order)
                         ->where("title", "LIKE", "%$searchKey%")
                         ->orWhere("created_at", "LIKE", "%$searchKey%")
+                        ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                         ->paginate($row_per_page );
                         return view('product.partials.product-list', compact('data', 'id'))->render();
                     }
@@ -494,6 +510,7 @@ class ProductController extends Controller
                     ->where("title", "LIKE", "%$searchKey%")
                     ->orWhere("created_at", "LIKE", "%$searchKey%")
                     ->orderBy($sort_by, $sorting_order )
+                    ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                     ->paginate($row_per_page );
                     return view('product.partials.product-list', compact('data'))->render();
                 }
@@ -501,6 +518,7 @@ class ProductController extends Controller
                 $data = Product::where("title", "LIKE", "%$searchKey%")
                     ->orWhere("created_at", "LIKE", "%$searchKey%")
                     ->orderBy($sort_by, $sorting_order )
+                    ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                     ->paginate($row_per_page );
                     return view('product.partials.product-list', compact('data'))->render();
                 
@@ -517,6 +535,7 @@ class ProductController extends Controller
                             $disable => $value_disable
                         ])
                         ->orderBy($sort_by, $sorting_order)
+                        ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                         ->paginate($row_per_page );
                     return view('product.partials.product-list', compact('data'))->render();
                 }else{
@@ -524,6 +543,7 @@ class ProductController extends Controller
                             'vendor_id'=>$id,
                         ])
                         ->orderBy($sort_by, $sorting_order)
+                        ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                         ->paginate($row_per_page );
                     return view('product.partials.product-list', compact('data'))->render();
                 }
@@ -537,10 +557,12 @@ class ProductController extends Controller
                         $disable => $value_disable
                     ])
                     ->orderBy($sort_by, $sorting_order)
+                    ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                     ->paginate($row_per_page );
                 return view('product.partials.product-list', compact('data'))->render();
             }else{
                $data = Product::orderBy($sort_by, $sorting_order)
+                    ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                     ->paginate($row_per_page );
                 return view('product.partials.product-list', compact('data'))->render(); 
             }

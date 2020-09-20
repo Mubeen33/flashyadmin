@@ -44,8 +44,10 @@
                                         <option value="rejected">Rejected</option>
                                         <option value="disabled">Disabled</option>
                                         <option value="approved">Approved</option>
-                                        @endif
+                                        @else
                                         <option value="pending" @if($title === 'Pending') selected @endif>Pending</option>
+                                        @endif
+                                        
                                     </select>
 
                                     <select id="hidden__id" title="Select Vendor">
