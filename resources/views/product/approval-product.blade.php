@@ -6,13 +6,7 @@
 @endsection
 @section('content')
     
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/css/plugins/file-uploaders/dropzone.css')}}">
-
-    <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/forms/select/select2.min.css')}}">
-    <link href="{{ asset('app-assets/vendors/css/jquery.tagsinput-revisited.css')}}" rel="stylesheet" type="text/css">
 
 <style type="text/css">
   .p-graph {
@@ -182,7 +176,7 @@
             <input type="hidden" name="image_id" value="{{$prod_img_id}}">      
           		<!-- end Photos -->
           		<!-- Card video -->
-          		<div class="card" style="min-height: unset !important;">
+          		<div class="card">
           			<div class="card-body pad-video" style="padding-top:1%; !important;">
           				    <div class="row">
           						<div class="col-lg-2">
@@ -209,29 +203,6 @@
                      					</p>
                  					</div>	
                      			</div>
-                          <div class="row">
-                            <div class="col-lg-3">
-                            <div class="mb-xs-2 strong"> Type
-                              <span class="text-gray-lightest">*</span> 
-                            </div>
-                          </div>
-                          <div class="col-lg-3"> <br />
-                              <label class="radio-custom">
-                                <input type="radio" name="product_type" value="physical" @if($product->product_type === "physical") checked @endif> <span class="radio-label">  Physical </span>
-                                <p class="text-smaller text-gray-lighter" style="margin-left:15px;">
-                                  A tangible item that you will deliver to buyers.
-                                </p>
-                            </label>
-                          </div>
-                          <div class="col-lg-3"> <br />
-                            <label class="radio-custom">
-                                <input type="radio" name="product_type" value="digital" @if($product->product_type === "digital") checked @endif> <span class="radio-label">  Digital </span>
-                                <p class="text-smaller text-gray-lighter" style="margin-left:15px;">
-                                  A digital file that buyers will download.
-                                </p>
-                            </label>
-                          </div>
-                          </div>
                      			<div class="row">
                      				<div class="col-lg-3">
                  						<div class="mb-xs-2 strong"> Title <span class="text-gray-lightest">*</span> </div>
@@ -242,6 +213,59 @@
                  					</div>
                  					<div class="col-lg-9"> <br />
                  						<input type="text" class="form-control" name="title" required="" value="{{ $product->title }}" />
+                 					</div>
+                     			</div>
+                     			<div class="row">
+                     				<div class="col-lg-3">
+                 						<div class="mb-xs-2 strong"> About this listing <span class="text-gray-lightest">*</span> </div>
+                 						<p class="text-smaller text-gray-lighter">
+                 							Learn more about what types of items are allowed on Etsy.
+                 						</p>
+                 					</div>
+                 					<div class="col-lg-3">
+                 						<br />
+                 						<select class="form-control" name="made_by">>
+                 							<option value="">Who made it?</option>
+                 							<optgroup label="Select a maker"> 
+          						      <option value="I did" @if($product->made_by === "I did") selected @endif>I did</option>
+          						      <option value="A member of my shop" @if($product->made_by === "A member of my shop") selected @endif>A member of my shop</option>
+          						      <option value="Another company or person" @if($product->made_by === "Another company or person") selected @endif>Another company or person</option>
+          						    </optgroup>
+                 						</select>
+                 					</div>
+                 					<div class="col-lg-3">
+                 						<br />
+                 						<select class="form-control" name="what_is_it">
+                 							<option value="">What is it?</option>
+                 							<optgroup label="Select a use">
+          						      <option value="A finished product" @if($product->what_is_it === "A finished product") selected @endif>A finished product</option>
+          						      <option value="Another company or person" @if($product->what_is_it === "Another company or person") selected @endif>
+          						      	A supply or tool to make things
+          						      </option>
+          						    </optgroup>
+                 						</select>
+                 					</div>
+                 					<div class="col-lg-3">
+                 						<br />
+                 						<select class="form-control" name="made_date">
+                 							<option value="">When was it made?</option>
+                   						<optgroup label="Not yet Made">
+            						          <option value="Made to order" @if($product->made_date === "Made to order") selected @endif>Made to order</option>
+            						      </optgroup>
+
+              						    <optgroup label="Recently">
+              						      <option value="2020 - 2020" @if($product->made_date === "2020 - 2020") selected @endif>2020 - 2020</option>
+              						      <option value="2010 - 2019" @if($product->made_date === "2010 - 2019") selected @endif>2010 - 2019</option>
+              						      <option value="2001 - 2009" @if($product->made_date === "2001 - 2009") selected @endif>2001 - 2009</option>
+              						    </optgroup>
+
+              						    <optgroup label="Vintage">
+              						      <option value="Before 2001" @if($product->made_date === "Before 2001") selected @endif>Before 2001</option>
+              						      <option value="1990s" @if($product->made_date === "1990s") selected @endif>1990s</option>
+              						       <option value="1980s" @if($product->made_date === "1980s") selected @endif>1980s</option>
+              						       <option value="1970s" @if($product->made_date === "1970s") selected @endif>1970s</option>
+              						    </optgroup>
+                 						</select>
                  					</div>
                      			</div>
                      			<div class="row">
@@ -266,32 +290,54 @@
                                     @include('product.partials.auto-customfields')
                                 </div>
                      			<div class="row">
-                            <div class="col-lg-3">
-                            <div class="mb-xs-2 strong">Category Commission 
-                              <span class="text-gray-lightest"></span> 
-                            </div>
-                          </div>
-                          <div class="col-lg-9"> <br />
-                            <input type="text" name="" class="form-control" value="{{$currentCategory->commission}}" readonly="">
-                          </div>
-                          </div>
+                     				<div class="col-lg-3">
+                 						<div class="mb-xs-2 strong"> Renewal options 
+                 							<span class="text-gray-lightest">*</span> 
+                 						</div>
+                 						<p class="text-smaller text-gray-lighter">
+                 							Each renewal lasts for four months or until the listing sells out. Get more details on auto-renewing here.
+                 						</p>
+                 					</div>
+                 					<div class="col-lg-3"> <br />
+                     					<label class="radio-custom">
+                     						<input type="radio" name="renewal" value="auto" @if($product->renewal === "auto") checked @endif> <span class="radio-label">  Automatic </span>
+                     						<p class="text-smaller text-gray-lighter" style="margin-left:15px;">
+                     							This listing will renew as it expires for USD 0.20 USD each time (recommended).
+                     						</p>
+                 						</label>
+                 					</div>
+                 					<div class="col-lg-3"> <br />
+                 						<label class="radio-custom">
+                     						<input type="radio" name="renewal" value="mannual" @if($product->renewal === "mannual") checked @endif> <span class="radio-label">  Mannual </span>
+                     						<p class="text-smaller text-gray-lighter" style="margin-left:15px;">
+                     							I'll renew expired listings myself.
+                     						</p>
+                 						</label>
+                 					</div>
+                     			</div>
                      			<div class="row">
-                            <div class="col-lg-3">
-                            <div class="mb-xs-2 strong"> Select Other Categories 
-                              <span class="text-gray-lightest">*</span> 
-                            </div>
-                            <p class="text-smaller text-gray-lighter">
-                              Type a two- or three-word description of your item to get category suggestions that will help more shoppers find it.
-                            </p>
-                          </div>
-                          <div class="col-lg-9"> <br />
-                            <select class="form-control select2" name="categories[]"  multiple="multiple" >
-                              @foreach($categories as $category)
-                                 <option value="{{$category->id}}">{{$category->name}}</option>
-                              @endforeach
-                            </select>
-                          </div>
-                          </div>
+                     				<div class="col-lg-3">
+                 						<div class="mb-xs-2 strong"> Type
+                 							<span class="text-gray-lightest">*</span> 
+                 						</div>
+                 					</div>
+                 					<div class="col-lg-3"> <br />
+                     					<label class="radio-custom">
+                     						<input type="radio" name="product_type" value="physical" @if($product->product_type === "physical") checked @endif> <span class="radio-label">  Physical </span>
+                     						<p class="text-smaller text-gray-lighter" style="margin-left:15px;">
+                     							A tangible item that you will deliver to buyers.
+                     						</p>
+                 						</label>
+                 					</div>
+                 					<div class="col-lg-3"> <br />
+                 						<label class="radio-custom">
+                     						<input type="radio" name="product_type" value="digital" @if($product->product_type === "digital") checked @endif> <span class="radio-label">  Digital </span>
+                     						<p class="text-smaller text-gray-lighter" style="margin-left:15px;">
+                     							A digital file that buyers will download.
+                     						</p>
+                 						</label>
+                 					</div>
+                     			</div>
                      			<div class="row">
                      				<div class="col-lg-3">
                  						<div class="mb-xs-2 strong"> Description
@@ -310,11 +356,34 @@
           		</div>
           		<!-- End Listing Details -->
           		<!-- Inventory and pricing  -->
-          		<div class="card" style="min-height: unset !important;">
+          		<div class="card">
           			<div class="card-body">
           				<div class="mb-xs-1 strong"> Inventory and Dimensions
           			</div> <br />
-          			
+          			{{-- <div class="row">
+          				<div class="col-lg-3">
+          					<div class="mb-xs-2 strong"> Price <span class="text-gray-lightest">*</span> </div>
+          					<p class="text-smaller text-gray-lighter">
+          						Remember to factor in the costs of materials, labour, and other business expenses. If you offer free delivery, make sure to include the cost of postage so it doesn't eat into your profits.
+          					</p>
+          				</div>
+          				<div class="col-lg-3">
+          					<br />
+          					<input type="text" class="form-control" name="price" />
+          				</div>
+          			</div>
+          			<div class="row">
+          				<div class="col-lg-3">
+          					<div class="mb-xs-2 strong"> Quantity <span class="text-gray-lightest">*</span> </div>
+          					<p class="text-smaller text-gray-lighter">
+          						For quantities greater than one, this listing will renew automatically until it sells out. You’ll be charged a USD 0.20 USD listing fee each time.
+          					</p>
+          				</div>
+          				<div class="col-lg-3">
+          					<br />
+          					<input type="text" class="form-control" name="price" />
+          				</div>
+          			</div> --}}
           			<div class="row">
           				<div class="col-lg-3">
           					<div class="mb-xs-2 strong"> SKU <span class="text-gray-lightest">Optional</span> </div>
@@ -375,84 +444,73 @@
         					</div>
           			</div> 
           			<div class="row">
-          				 
+          					{{-- 
                       <div class="col-lg-10">
                 						<button type="button" onclick="openVariant()" class="btn btn-light mr-1 mb-1 waves-effect waves-light">
                 							Add Variations
                 						</button>
+
                         </div>
           					</div>-->
+
+                        </div> 
+                    
+                          <div class="col-lg-4 d-flex">
+                              @if(intval($product->rejected) === 0)
+                              <a onclick="return confirm('Are you sure to reject?')" href="{{ route('admin.rejectProduct.post', encrypt($product->id)) }}" class="btn btn-warning">Reject</a>
+                              @endif
+
+                              @if(intval($product->approved) === 0)
+                              <a onclick="return confirm('Are you sure to approve?')" href="{{ route('admin.approveProduct.post', encrypt($product->id)) }}" class="btn btn-success ml-1">Approve</a>
+                              @endif
+
+                              @if(intval($product->approved) === 1)
+                              <button type="submit" class="btn btn-warning ml-1">UPDATE</button>
+                              @endif
+                          </div>
+          					</div>
           			</div>
-          		</div>
-
-           
-             
-       
-            <div class="card" id="customer_options">
-          @if(count($productVariations) > 0)     
-              <div class="card-body" id="customer_choice_options">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <td class="text-center">
-                        <label for="" class="control-label">{{__('Variant')}}</label>
-                      </td>
-                      <td class="text-center">
-                        <label for="" class="control-label">{{__('SKU')}}</label>
-                      </td>
-                      <td class="text-center">
-                        <label for="" class="control-label">{{__('Variant Image')}}</label>
-                      </td>
-                      <td class="text-center">
-                        <label for="" class="control-label">{{__('Active')}}</label>
-                      </td>
-                    </tr>
-                  </thead>
-                <tbody>
-                @foreach($productVariations as $variants)  
-                  <tr>
-                    <td>
-                      <label for="" class="control-label">{{ $variants->first_variation_value }}-{{ $variants->second_variation_value }}</label>
-                      <input type="hidden" name="variant_combinations[]" value="{{ $variants->first_variation_value }}-{{ $variants->second_variation_value }}">
-                      <input type="hidden" name="variant_id[]" value="{{$variants->id}}">
-                    </td>
-                    <td>
-                      <input type="text" name="variant_sku[]" value="{{$variants->sku}}" class="form-control" required>
-                    </td>
-                      @if( !empty($variants->variant_image))
-                        <td>
-                          <input type="file" name="variant_image[]" class="form-control" required>
-                          <span><img width="80" src="{{$variants->variant_image}}"></span>
-                        </td>
-                      @else
-                        <td>
-                          No Image Available.
-                        </td>
-                      @endif
-                        <td>
-                          <input type="checkbox" name="active[]" value="1" class="form-control">
-                        </td>    
-                  </tr>
-                @endforeach  
-                </tbody>
-              </table>  
-              </div>
-            @endif  
-                  <div class="col-lg-4 d-flex">
-                      @if(intval($product->rejected) === 0)
-                      <a onclick="return confirm('Are you sure to reject?')" href="{{ route('admin.rejectProduct.post', encrypt($product->id)) }}" class="btn btn-warning">Reject</a>
-                      @endif
-
-                      @if(intval($product->approved) === 0)
-                      <button type="submit" class="btn btn-success ml-1">Approve</button>
-                      @endif
-
-                      @if(intval($product->approved) === 1)
-                      <button type="submit" class="btn btn-warning ml-1">UPDATE</button>
-                      @endif
+          		</div><div class="card" id="variant-card" style="display: none;">
+                    <div class="card-body">
+                        <h5 class="modal-title">Add variations</h5><br>
+                    <div class="row" id="render__variations__data">
+                        <div class="col-lg-6">
+                            <select class="form-control" name="variation" onchange="getVariantOption(this.value)">
+                                <option>Choose Variation Type</option>
+                                <optgroup label="Variation Type">
+                                    @foreach($variationList as $variation)
+                                      <option value="{{$variation->id}}">
+                                        {{$variation->variation_name}}
+                                      </option>
+                                    @endforeach
+                                </optgroup>
+                            </select>
+                        </div>
+                        @include('product.partials.auto-variantOptions')
+                        
+                    </div>
+                    <table class="table table-bordered">
+                      <thead id="first_variant">
+                        <tr></tr>
+                      </thead>
+                    </table>
+                    </div>
+                    
+                </div>
+                <div class="card">
+                  <div class="card-body" style="display: none" id="combine">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <td class="text-center"><label for="" class="control-label">{{__('Variant')}}</label></td>
+                          <td class="text-center"><label for="" class="control-label">{{__('SKU')}}</label></td>
+                        </tr>
+                      </thead>
+                      <tbody  id="sku_combination">
+                      </tbody>
+                    </table>  
                   </div>
-            </div> 
-
+                </div> --}}
       		<!-- End Inventory and pricing  -->
         </form>    
 	    </div>
@@ -461,14 +519,10 @@
 {{-- <input type="hidden"  id="nmbr" name="" value="0"> --}}
 @endsection
 @push('scripts')
-  <script src="{{ asset('app-assets/vendors/js/jquery.tagsinput-revisited.js')}}"></script>
   <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js')}}"></script>
   <script src="{{ asset('app-assets/js/scripts/extensions/custom-dropzone.js')}}"></script>
-  <!-- <script src="{{ asset('app-assets/js/scripts/extensions/variants.js')}}"></script> -->
-  <!-- <script src="{{ asset('app-assets/js/scripts/extensions/getVariantOptions.js')}}"></script> -->
   <script src="{{ asset('app-assets/vendors/js/forms/select/select2.full.min.js')}}"></script>
   <script src="{{ asset('app-assets/js/scripts/forms/select/form-select2.js')}}"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="{{ asset('js/index.js') }}"></script>
 
   <script type="text/javascript">
@@ -487,7 +541,7 @@ $.ajaxSetup({
 });
 </script>
   <script type="text/javascript">
-    $('.tagsInput').tagsInput('items');
+
   $("#render__data").hide();
 
         //search category
@@ -555,44 +609,6 @@ $.ajaxSetup({
             return false;
         }
     }
-
-    // 
-    var i = 0;
-      function add_more_customer_choice_option(){
-
-        $('#customer_options').css('display','');
-        $('#customer_choices').html(null);
-
-        $("select#variation :selected").each(function() {
-
-          vari = $(this).val();
-
-            $('#customer_choices').append('<div class="row mb-3"><div class="col-8 col-md-3 order-1 order-md-0"><input type="hidden" name="choice_no[]" value="'+i+'"><input type="text" class="form-control" name="choice_no_'+i+'" value="'+vari+'" readonly=""></div><div class="col-12 col-md-7 col-xl-8 order-3 order-md-0 mt-2 mt-md-0"><input type="text" class="form-control tagsInput" data-role="tagsinput" name="choice_options_'+i+'[]" placeholder="Enter choice values"></div><div class="col-4 col-xl-1 col-md-2 order-2 order-md-0 text-right"><button type="button" onclick="delete_row(this)" class="btn btn-link btn-icon text-danger"><i class="fa fa-trash-o"></i></button></div></div>');
-             i++;
-            $('.tagsInput').tagsInput('items');
-        });    
-      }
-      function update_sku(){
-            $.ajax({
-           type:"POST",
-           url:'{{ route('admin.products.sku_combination') }}',
-           data:$('#choice_form').serialize(),
-           success: function(data){
-
-             $('#customer_choice_options').html(data);
-             
-           }
-         });
-      }
-
-      function delete_row(em){
-        $(em).closest('.row').remove();
-        update_sku();
-      }
-      // 
-      $("#variation").select2({
-          maximumSelectionLength: 2
-      });
   </script>
 @endpush
     
