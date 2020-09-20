@@ -418,9 +418,54 @@ class ProductController extends Controller
     }
 
     // Get Products Vendors 
-    public function get_all_products_vendors($id){
+    public function get_product_all_vendors($id){
+        //referer id is product id of products tbl
+        //get product
+        $ven_product = NULL;
+        $ven_product = VendorProduct::where([
+                ['prod_id', '=', decrypt($id)],
+                ['variation_id', '!=', NULL]
+            ])
+            ->with('get_product', 'get_variation')
+            ->first();
 
-        echo decrypt($id);
+        if (!$ven_product) {
+            $ven_product = VendorProduct::where([
+                ['prod_id', '=', decrypt($id)],
+            ])
+            ->with('get_product', 'get_variation')
+            ->first();
+        }
+
+        if (!$ven_product) {
+            return abort(404);
+        }
+        //get vendors
+        $product_vendors = VendorProduct::where('prod_id', decrypt($id))
+                        ->with(['get_vendor', 'get_variation'])
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(5);
+
+        $product_vendors_all = VendorProduct::where('prod_id', decrypt($id))
+                        ->with(['get_vendor', 'get_variation'])
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+
+        
+        $total_vendors = [];
+        $total_active_vendors = [];
+
+        foreach ($product_vendors_all as $key => $value) {
+            $total_vendors[] = $value->ven_id;
+            if ($value->active == 1) {
+                $total_active_vendors[] = $value->ven_id;
+            }
+        }
+        $total_vendors = array_unique($total_vendors);
+        $total_active_vendors = array_unique($total_active_vendors);
+        
+        $vendors = Vendor::where('active', 1)->orderBy('first_name', 'ASC')->paginate(5);
+        return view('product.show-product-vendors', compact('ven_product', 'product_vendors', 'total_vendors', 'total_active_vendors', 'vendors'));
     }
     // 
     public function fetch__data(Request $request){
@@ -579,6 +624,60 @@ class ProductController extends Controller
                         return view('product.partials.pending-product-list', compact('data', 'id'))->render();
                 
                     
+            }
+
+
+            if (!empty($id) && is_numeric($id)) {
+                $data = Product::where([
+                        ['vendor_id', '=', $id],
+                        ['approved', '=', 0],
+                        ['rejected', '=', 0],
+                        ['disable', '=', 0]
+                    ])
+                    ->orderBy($sort_by, $sorting_order)
+                    ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
+                    ->paginate($row_per_page );
+                return view('product.partials.pending-product-list', compact('data'))->render(); 
+            }
+            $data = Product::where([
+                        ['approved', '=', 0],
+                        ['rejected', '=', 0],
+                        ['disable', '=', 0]
+                    ])
+                    ->orderBy($sort_by, $sorting_order)
+                    ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
+                    ->paginate($row_per_page );
+                return view('product.partials.pending-product-list', compact('data'))->render(); 
+            
+        }
+        return abort(404);
+    }
+
+
+    public function product_vendors_fetch(Request $request){
+
+    }
+
+    public function product_vendor_assign_fetch(Request $request){
+        if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+            $status = $request->status;
+            $row_per_page = $request->row_per_page;
+            $id = $request->id;
+
+            if ($sort_by == "") {
+                $sort_by = "id";
+            }
+            if ($sorting_order == "") {
+                $sorting_order = "DESC";
+            }
+
+            if (!empty($request->search_key)) {
+                $vendors = Vendor::where('active', 1)
+                            ->orderBy('first_name', 'ASC')
+                            ->paginate(5);
             }
 
 

@@ -54,7 +54,7 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
                                 <a class="dropdown-item" href="{{ route('admin.productDetails.get', encrypt($content->id)) }}">Show</a>
                                 <!-- <a  class="dropdown-item" href="{{route('admin.productControl.post', encrypt($content->id))}}">Approve</a> -->
-                                <a  class="dropdown-item" href="{{route('admin.productVendor.get', encrypt($content->id))}}">Product Vendor</a>
+                                <a  class="dropdown-item" href="{{route('admin.productVendors.get', encrypt($content->id))}}">Product Vendors</a>
                                 <a onclick="return confirm('Are you sure to disable?')" class="dropdown-item" href="{{ route('admin.disableProduct.post', encrypt($content->id)) }}">Disable</a>
                             </div>
                         </div>
@@ -106,7 +106,7 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
                         <a class="dropdown-item" href="{{ route('admin.productDetails.get', encrypt($content->id)) }}">Show</a>
                         <!-- <a  class="dropdown-item" href="{{route('admin.productControl.post', encrypt($content->id))}}">Approve</a> -->
-                        <a  class="dropdown-item" href="{{route('admin.productVendor.get', encrypt($content->id))}}">Product Vendor</a>
+                        <a  class="dropdown-item" href="{{route('admin.productVendors.get', encrypt($content->id))}}">Product Vendors</a>
                         <a onclick="return confirm('Are you sure to disable?')" class="dropdown-item" href="{{ route('admin.disableProduct.post', encrypt($content->id)) }}">Disable</a>
                     </div>
                 </div>
