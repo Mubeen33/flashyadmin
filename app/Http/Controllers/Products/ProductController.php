@@ -163,7 +163,7 @@ class ProductController extends Controller
     public function approve_product(Request $request,$id){
 
         $product = Product::find(decrypt($id));
-
+      
         $isNewImageUploaded = ProductMedia::where([
             'image_id'=>$request->image_id
         ])->get();
