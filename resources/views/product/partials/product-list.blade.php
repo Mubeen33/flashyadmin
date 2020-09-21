@@ -3,7 +3,6 @@
 @if(intval($content->get_vendor->active) === 1 && intval($content->approved) === 1)
 
     @if(!$content->get_product_variations->isEmpty())
-        
         @foreach($content->get_product_variations as $v_key=>$variation)
             @if(intval($variation->active) === 1)
             <tr>
@@ -35,7 +34,7 @@
                 </td>
                 <td>{{ $content->product_type }}</td>
                 <td>
-                      {{ $content->created_at->format('d/m/Y') }}
+                    {{ $content->created_at->format('d/m/Y') }}
                 </td>
                 <td>
                     @if(intval($content->approved) === 1 && intval($content->rejected) === 0 && intval($content->disable) === 0)
@@ -55,24 +54,25 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
                                 <a class="dropdown-item" href="{{ route('admin.productDetails.get', encrypt($content->id)) }}">Show</a>
                                 <!-- <a  class="dropdown-item" href="{{route('admin.productControl.post', encrypt($content->id))}}">Approve</a> -->
-                                <?php
-                                    $getRealVariatnID = NULL;
-                                    $variatnID = NULL;
-                                    if (!$content->get_vendor_products->isEmpty()) {
-                                        foreach ($content->get_vendor_products as $key__5 => $ven_prod) {
-                                            if ($ven_prod->variation_id != NULL) {
-                                                $variatnID = $ven_prod->variation_id;
-                                            }
+                                @if(!$content->get_vendor_products->isEmpty())
+                                  <?php 
+                                    $get_variation_id = NULL;
+                                    foreach ($content->get_vendor_products as $key5 => $ven_prod) {
+                                        if ($ven_prod->variation_id != NULL) {
+                                            $get_variation_id  = $ven_prod->variation_id;
                                         }
                                     }
+                                  ?>
+                                @endif
 
-                                    if ($variatnID !== NULL) {
-                                        $getRealVariatnID = $variatnID;
-                                    }else{
-                                        $getRealVariatnID = $variation->id;
-                                    }
-                                ?>
-                                <a  class="dropdown-item" href="{{route('admin.productVendors.get', [encrypt($content->id), $getRealVariatnID])}}">Product Vendors</a>
+                                @if($get_variation_id !== NULL)
+                                    <a  class="dropdown-item" href="{{route('admin.productVendors.get', [encrypt($content->id), $get_variation_id])}}">Product Vendors</a>
+                                @else
+                                    {{-- "No_Vendor_Products_Found_With_This_Variation_ID" --}}
+                                    <a  class="dropdown-item" href="{{route('admin.productVendors.get', [encrypt($content->id), 'NO'])}}">Product Vendors</a>
+                                    
+                                @endif
+                                
                                 <a onclick="return confirm('Are you sure to disable?')" class="dropdown-item" href="{{ route('admin.disableProduct.post', encrypt($content->id)) }}">Disable</a>
                             </div>
                         </div>

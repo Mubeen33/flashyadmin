@@ -27,7 +27,7 @@
                     
                     @include('product.partials.product_vendors.row_1')
 
-                    @if($variationID)
+                    @if($variationID !== NULL)
                         @include('product.partials.product_vendors.row_2_for_variants')
                         @else
                         @include('product.partials.product_vendors.row_2')

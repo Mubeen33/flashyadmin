@@ -422,7 +422,6 @@ class ProductController extends Controller
 
     // Get Products Vendors 
     public function get_product_all_vendors($product_id, $variationID=NULL){
-        return decrypt($product_id).$variationID;
         //referer id is product id of products tbl
         //get product
         $ven_product = NULL;
@@ -442,7 +441,7 @@ class ProductController extends Controller
         }
 
         if (!$ven_product) {
-            return abort(404);
+            return "No Vendor Selling This Product - Means Product is not found in vendor_products tbl";
         }
         //get vendors
         $product_vendors = VendorProduct::where('prod_id', decrypt($product_id))

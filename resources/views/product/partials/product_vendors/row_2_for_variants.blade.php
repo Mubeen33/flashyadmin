@@ -13,9 +13,16 @@
 @endpush
 
 <?php
-   $product_variation = (\App\ProductVariation::where('id', $variationID))->first();
-   $active_variation_uses = (\App\VendorProduct::where(['variation_id'=>$variationID, 'active'=>1]))->count();
-   $inactive_variation_uses = (\App\VendorProduct::where(['variation_id'=>$variationID, 'active'=>0]))->count();
+    $product_variation = NULL;
+    $active_variation_uses = 0;
+    $inactive_variation_uses = 0;
+
+    if ($variationID !== "NO") {
+        $product_variation = (\App\ProductVariation::where('id', $variationID))->first();
+        $active_variation_uses = (\App\VendorProduct::where(['variation_id'=>$variationID, 'active'=>1]))->count();
+        $inactive_variation_uses = (\App\VendorProduct::where(['variation_id'=>$variationID, 'active'=>0]))->count();
+    }
+   
 ?>
 
 <div class="col-12">
@@ -28,12 +35,20 @@
                     <div class="col-lg-12 col-md-12">
                         <table class="table no_border_tbl" style="text-align: left !important">
                             <tr>
-                                <td width="30%" title="This number represents how many vendors uses this variaton actively.">Active Vendors {{$variationID}}</td>
+                                <td width="30%" title="This number represents how many vendor products uses this variaton actively.">Variations Uses Active</td>
                                 <td>{{$active_variation_uses}}</td>
                             </tr>
                             <tr>
-                                <td width="30%" title="This number represents how many vendors are not using this variaton.">Inactive Vendors</td>
+                                <td width="30%" title="This number represents how many vendor products are not using this variaton but not active.">Variations Uses Inactive</td>
                                 <td>{{$inactive_variation_uses}}</td>
+                            </tr>
+                            <tr>
+                                <td width="30%" title="This number represents how many vendors was sold this product">Total Vendors</td>
+                                <td>{{count($total_vendors)}}</td>
+                            </tr>
+                            <tr>
+                                <td width="30%" title="This number represents how many vendors are selling this product actively still.">Active Vendors</td>
+                                <td>{{count($total_active_vendors)}}</td>
                             </tr>
                         </table>
                     </div>
