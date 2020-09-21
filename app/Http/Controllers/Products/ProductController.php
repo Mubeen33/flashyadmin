@@ -309,9 +309,9 @@ class ProductController extends Controller
                     'disable'=>0
                 ])
                 ->orderBy('id', 'DESC')
-                ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
+                ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations', 'get_vendor_products'])
                 ->paginate(5);
-        
+
         $vendors = Vendor::where('active', 1)
                     ->orderBy('first_name', 'ASC')
                     ->get();
@@ -422,6 +422,7 @@ class ProductController extends Controller
 
     // Get Products Vendors 
     public function get_product_all_vendors($product_id, $variationID=NULL){
+        return decrypt($product_id).$variationID;
         //referer id is product id of products tbl
         //get product
         $ven_product = NULL;

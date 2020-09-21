@@ -55,7 +55,24 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
                                 <a class="dropdown-item" href="{{ route('admin.productDetails.get', encrypt($content->id)) }}">Show</a>
                                 <!-- <a  class="dropdown-item" href="{{route('admin.productControl.post', encrypt($content->id))}}">Approve</a> -->
-                                <a  class="dropdown-item" href="{{route('admin.productVendors.get', [encrypt($content->id), $variation->id])}}">Product Vendors</a>
+                                <?php
+                                    $getRealVariatnID = NULL;
+                                    $variatnID = NULL;
+                                    if (!$content->get_vendor_products->isEmpty()) {
+                                        foreach ($content->get_vendor_products as $key__5 => $ven_prod) {
+                                            if ($ven_prod->variation_id != NULL) {
+                                                $variatnID = $ven_prod->variation_id;
+                                            }
+                                        }
+                                    }
+
+                                    if ($variatnID !== NULL) {
+                                        $getRealVariatnID = $variatnID;
+                                    }else{
+                                        $getRealVariatnID = $variation->id;
+                                    }
+                                ?>
+                                <a  class="dropdown-item" href="{{route('admin.productVendors.get', [encrypt($content->id), $getRealVariatnID])}}">Product Vendors</a>
                                 <a onclick="return confirm('Are you sure to disable?')" class="dropdown-item" href="{{ route('admin.disableProduct.post', encrypt($content->id)) }}">Disable</a>
                             </div>
                         </div>

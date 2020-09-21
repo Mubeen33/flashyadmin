@@ -36,4 +36,7 @@ class Product extends Model
     public function get_product_variations(){
     	return $this->hasMany('App\ProductVariation', 'product_id')->where('active', 1);
     }
+    public function get_vendor_products(){
+    	return $this->hasMany('App\VendorProduct', 'prod_id');
+    }
 }

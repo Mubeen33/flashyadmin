@@ -28,7 +28,7 @@
                     <div class="col-lg-12 col-md-12">
                         <table class="table no_border_tbl" style="text-align: left !important">
                             <tr>
-                                <td width="30%" title="This number represents how many vendors uses this variaton actively.">Active Vendors</td>
+                                <td width="30%" title="This number represents how many vendors uses this variaton actively.">Active Vendors {{$variationID}}</td>
                                 <td>{{$active_variation_uses}}</td>
                             </tr>
                             <tr>
