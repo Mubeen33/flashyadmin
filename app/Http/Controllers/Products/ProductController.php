@@ -193,7 +193,7 @@ class ProductController extends Controller
             'length'=>$request->length,
             'warranty'=>$request->warranty,
             'video_link'=>$request->video_link,
-            'approved'=> 1,
+            // 'approved'=> 1,
             'updated_at'=>Carbon::now()
             
         ]);
@@ -220,10 +220,13 @@ class ProductController extends Controller
                 }
 
                 if ($request->has('active')) {
-                    $productVariationsUpdate->active = $request->active[$key];
-                }else{
+                    if(isset($request->active[$key])){
+                        
+                        $productVariationsUpdate->active = $request->active[$key];
+                    }else{
 
-                    $productVariationsUpdate->active = 0;
+                        $productVariationsUpdate->active = 0;
+                    }
                 }
 
                 $productVariationsUpdate->save();       

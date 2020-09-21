@@ -421,7 +421,7 @@
                     </td>
                       @if( !empty($variants->variant_image))
                         <td>
-                          <input type="file" name="variant_image[]" class="form-control" required>
+                          <input type="file" name="variant_image[]" class="form-control">
                           <span><img width="80" src="{{$variants->variant_image}}"></span>
                         </td>
                       @else
