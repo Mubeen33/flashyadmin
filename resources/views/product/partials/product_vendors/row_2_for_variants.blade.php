@@ -13,9 +13,9 @@
 @endpush
 
 <?php
-
-   $total_product_variants = (\App\ProductVariation::where('product_id', decrypt($product_id)))->get();
-   $total_active_product_variants = (\App\ProductVariation::where(['product_id'=>decrypt($product_id), 'active'=>1]))->get();
+   $product_variation = (\App\ProductVariation::where('id', $variationID))->first();
+   $active_variation_uses = (\App\VendorProduct::where(['variation_id'=>$variationID, 'active'=>1]))->count();
+   $inactive_variation_uses = (\App\VendorProduct::where(['variation_id'=>$variationID, 'active'=>0]))->count();
 ?>
 
 <div class="col-12">
@@ -28,50 +28,13 @@
                     <div class="col-lg-12 col-md-12">
                         <table class="table no_border_tbl" style="text-align: left !important">
                             <tr>
-                                <td width="30%">Total Variations</td>
-                                <td>{{count($total_product_variants)}}</td>
+                                <td width="30%" title="This number represents how many vendors uses this variaton actively.">Active Vendors</td>
+                                <td>{{$active_variation_uses}}</td>
                             </tr>
                             <tr>
-                                <td width="30%">Active Variations</td>
-                                <td>{{count($total_active_product_variants)}}</td>
+                                <td width="30%" title="This number represents how many vendors are not using this variaton.">Inactive Vendors</td>
+                                <td>{{$inactive_variation_uses}}</td>
                             </tr>
-                        </table>
-
-                        <table class="table no_border_tbl tbl_center">
-                            <thead>
-                                <tr>
-                                    <th>Variation ID</th>
-                                    <th>Variation Status</th>
-                                    <th>First Variantion Value</th>
-                                    <th>Second Variantion  Value</th>
-                                    <th>Active Vendors</th>
-                                    <th>Inactive Vendors</th>
-                                    <th>Total Vendors</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                    foreach ($total_product_variants as $key => $variant) {
-                                        $vendor_products_total = (\App\VendorProduct::where('variation_id', $variant->id)->count());
-                                        $vendor_products_active = (\App\VendorProduct::where(['variation_id'=>$variant->id, 'active'=>1])->count());
-                                        $vendor_products_inactive = (\App\VendorProduct::where(['variation_id'=>$variant->id, 'active'=>0])->count());
-                                        echo "<tr>";
-                                            echo "<td>".$variant->id."</td>";
-                                            
-                                            if ($variant->active == 1) {
-                                                echo "<td>Active</td>";
-                                            }else{
-                                                echo "<td>Inactive</td>";
-                                            }
-                                            echo "<td>".$variant->first_variation_value."</td>";
-                                            echo "<td>".$variant->second_variation_value."</td>";
-                                            echo "<td>".$vendor_products_active."</td>";
-                                            echo "<td>".$vendor_products_inactive."</td>";
-                                            echo "<td>".$vendor_products_total."</td>";
-                                        echo "</tr>";
-                                    }
-                                ?>
-                            </tbody>
                         </table>
                     </div>
 

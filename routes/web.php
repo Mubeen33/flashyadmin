@@ -86,7 +86,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    //products
    Route::get('products/pending-products', 'Products\ProductController@get_pending_products')->name('pendingProducts.get');
    Route::get('products/all', 'Products\ProductController@get_all_products')->name('allProducts.get');
-   Route::get('product/vendors/{id}', 'Products\ProductController@get_product_all_vendors')->name('productVendors.get');
+   Route::get('product/vendors/{productID}/{product_variationID?}', 'Products\ProductController@get_product_all_vendors')->name('productVendors.get');
    Route::get('ajax-product-vendors', 'Products\ProductController@product_vendors_fetch')->name('searchProductVendorsURL.ajaxPgination');
    Route::get('ajax-product-vendor-assign', 'Products\ProductController@product_vendor_assign_fetch')->name('searchVendorsAssignURL.ajaxPgination');
    

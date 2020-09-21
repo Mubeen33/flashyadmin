@@ -27,7 +27,7 @@
                     
                     @include('product.partials.product_vendors.row_1')
 
-                    @if(\App\ProductVariation::where(['product_id'=>decrypt($product_id), 'active'=>1])->exists())
+                    @if($variationID)
                         @include('product.partials.product_vendors.row_2_for_variants')
                         @else
                         @include('product.partials.product_vendors.row_2')

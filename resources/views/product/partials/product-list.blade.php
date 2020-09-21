@@ -5,15 +5,16 @@
     @if(!$content->get_product_variations->isEmpty())
         
         @foreach($content->get_product_variations as $v_key=>$variation)
+            @if(intval($variation->active) === 1)
             <tr>
                 <th scope="row">@if($v_key == 0){{ $key+1 }}@endif</th>
                 <td class="d-none">
                     {{ $content->get_vendor->first_name }} {{ $content->get_vendor->last_name }}
                 </td>                                          
                 <td>
-                    {{ $content->title }} {{", ".$variation->first_variation_value}}
+                    {{ $content->title }} {{" | ".$variation->first_variation_value}}
                     @if($variation->second_variation_value !== NULL)
-                    {{", ".$variation->second_variation_value}}
+                    {{" - ".$variation->second_variation_value}}
                     @endif
                 </td>
                 <td>
@@ -54,7 +55,7 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
                                 <a class="dropdown-item" href="{{ route('admin.productDetails.get', encrypt($content->id)) }}">Show</a>
                                 <!-- <a  class="dropdown-item" href="{{route('admin.productControl.post', encrypt($content->id))}}">Approve</a> -->
-                                <a  class="dropdown-item" href="{{route('admin.productVendors.get', encrypt($content->id))}}">Product Vendors</a>
+                                <a  class="dropdown-item" href="{{route('admin.productVendors.get', [encrypt($content->id), $variation->id])}}">Product Vendors</a>
                                 <a onclick="return confirm('Are you sure to disable?')" class="dropdown-item" href="{{ route('admin.disableProduct.post', encrypt($content->id)) }}">Disable</a>
                             </div>
                         </div>
@@ -62,6 +63,7 @@
                     
                 </td>
             </tr>
+            @endif
         @endforeach
 
     @else

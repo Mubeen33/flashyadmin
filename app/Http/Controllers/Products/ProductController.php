@@ -421,12 +421,12 @@ class ProductController extends Controller
     }
 
     // Get Products Vendors 
-    public function get_product_all_vendors($id){
+    public function get_product_all_vendors($product_id, $variationID=NULL){
         //referer id is product id of products tbl
         //get product
         $ven_product = NULL;
         $ven_product = VendorProduct::where([
-                ['prod_id', '=', decrypt($id)],
+                ['prod_id', '=', decrypt($product_id)],
                 ['variation_id', '!=', NULL]
             ])
             ->with('get_product', 'get_variation')
@@ -434,7 +434,7 @@ class ProductController extends Controller
 
         if (!$ven_product) {
             $ven_product = VendorProduct::where([
-                ['prod_id', '=', decrypt($id)],
+                ['prod_id', '=', decrypt($product_id)],
             ])
             ->with('get_product', 'get_variation')
             ->first();
@@ -444,12 +444,12 @@ class ProductController extends Controller
             return abort(404);
         }
         //get vendors
-        $product_vendors = VendorProduct::where('prod_id', decrypt($id))
+        $product_vendors = VendorProduct::where('prod_id', decrypt($product_id))
                         ->with(['get_vendor', 'get_variation'])
                         ->orderBy('created_at', 'desc')
                         ->paginate(5);
 
-        $product_vendors_all = VendorProduct::where('prod_id', decrypt($id))
+        $product_vendors_all = VendorProduct::where('prod_id', decrypt($product_id))
                         ->with(['get_vendor', 'get_variation'])
                         ->orderBy('created_at', 'desc')
                         ->get();
@@ -468,8 +468,7 @@ class ProductController extends Controller
         $total_active_vendors = array_unique($total_active_vendors);
         
         $vendors = Vendor::where('active', 1)->orderBy('first_name', 'ASC')->paginate(5);
-        $product_id = $id;
-        return view('product.show-product-vendors', compact('ven_product', 'product_vendors', 'total_vendors', 'total_active_vendors', 'vendors', 'product_id'));
+        return view('product.show-product-vendors', compact('ven_product', 'product_vendors', 'total_vendors', 'total_active_vendors', 'vendors', 'product_id', 'variationID'));
     }
     // 
     public function fetch__data(Request $request){
