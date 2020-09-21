@@ -26,7 +26,13 @@
                 <div class="row" id="basic-table">
                     
                     @include('product.partials.product_vendors.row_1')
-                    @include('product.partials.product_vendors.row_2')
+
+                    @if(\App\ProductVariation::where(['product_id'=>decrypt($product_id), 'active'=>1])->exists())
+                        @include('product.partials.product_vendors.row_2_for_variants')
+                        @else
+                        @include('product.partials.product_vendors.row_2')
+                    @endif
+
                     @include('product.partials.product_vendors.row_3')
                     @include('product.partials.product_vendors.row_4')
 

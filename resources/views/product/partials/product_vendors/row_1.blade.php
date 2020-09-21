@@ -34,8 +34,23 @@
                     </div>
 
                     <div class="col-lg-8 col-md-7">
+                        <?php
+                           $active_product_variations = (\App\ProductVariation::where(['product_id'=>decrypt($product_id), 'active'=>1]))->get();
+                        ?>
                         <div>
                             <h4>{{$ven_product->get_product->title}}</h4>
+                            @if(!$active_product_variations->isEmpty())
+                            <div>
+                                @foreach($active_product_variations as $key=>$variation)
+                                <span>
+                                        {{$variation->first_variation_value." - "}}
+                                    @if($variation->second_variation_value !== NULL)
+                                        {{$variation->second_variation_value." - "}}
+                                    @endif
+                                </span>
+                                @endforeach
+                            </div>
+                            @endif
                             <p class="text-justify">{{$ven_product->get_product->description}}</p>
                         </div>
                     </div>

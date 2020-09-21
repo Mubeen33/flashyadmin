@@ -468,7 +468,8 @@ class ProductController extends Controller
         $total_active_vendors = array_unique($total_active_vendors);
         
         $vendors = Vendor::where('active', 1)->orderBy('first_name', 'ASC')->paginate(5);
-        return view('product.show-product-vendors', compact('ven_product', 'product_vendors', 'total_vendors', 'total_active_vendors', 'vendors'));
+        $product_id = $id;
+        return view('product.show-product-vendors', compact('ven_product', 'product_vendors', 'total_vendors', 'total_active_vendors', 'vendors', 'product_id'));
     }
     // 
     public function fetch__data(Request $request){
