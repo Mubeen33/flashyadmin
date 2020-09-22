@@ -160,6 +160,8 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::get('add-customfields','customfields\CustomfieldController@addCustomFieldsView')->name('addCustomField.get');
   Route::post('submit-customfield','customfields\CustomfieldController@createCustomFields')->name('addCustomField.post');
   Route::get('customfield-list','customfields\CustomfieldController@customFieldList')->name('customFieldList.get');
+  Route::get('customfield-edit/{id}','customfields\CustomfieldController@edit_custom_field')->name('customFields.edit.get');
+  Route::post('customfield-update/{id}','customfields\CustomfieldController@update_custom_field')->name('customFields.update.post');
   
   // categories
   Route::get('add-category','category\CategoryController@index')->name('addCategory.get');

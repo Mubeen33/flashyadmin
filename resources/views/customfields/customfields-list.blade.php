@@ -27,7 +27,7 @@
                                                     <th>Name</th>
                                                     <th>Category Name</th>
                                                     <th>Status</th>
-                                                    {{-- <th>Actions</th> --}}
+                                                    <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -50,6 +50,20 @@
                                                                @if($customfield->active==1)
                                                                     <div class="badge badge-success">Active</div>
                                                                 @endif
+                                                           </td>
+                                                           <td>
+                                                               <div class="btn-group">
+                                                                  <div class="dropdown">
+                                                                      <button class="btn btn-dark btn-sm dropdown-toggle mr-1" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                          Actions
+                                                                      </button>
+                                                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
+                                                                          <a class="dropdown-item" href="{{ route('admin.customFields.edit.get', Crypt::encrypt($customfield->id)) }}">Edit</a>
+                                                                          <a class="dropdown-item" href="">Selles Report</a>
+                                                                          <a class="dropdown-item" href="">Transaction Report</a>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
                                                            </td>
                                                        </tr>
                                                     @endforeach

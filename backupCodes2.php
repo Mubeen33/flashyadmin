@@ -1,131 +1,273 @@
-@foreach($data as $key=>$content)
+<?php
 
-@if(intval($content->get_vendor->active) === 1 && intval($content->approved) === 1)
+namespace App\Http\Controllers\customfields;
 
-    @if(!$content->get_product_variations->isEmpty())
-        @foreach($content->get_product_variations as $v_key=>$variation)
-            @if(intval($variation->active) === 1)
-            <tr>
-                <th scope="row">@if($v_key == 0){{ $key+1 }}@endif</th>
-                <td class="d-none">
-                    {{ $content->get_vendor->first_name }} {{ $content->get_vendor->last_name }}
-                </td>                                          
-                <td>
-                    {{ $content->title }} {{" | ".$variation->first_variation_value}}
-                    @if($variation->second_variation_value !== NULL)
-                    {{" - ".$variation->second_variation_value}}
-                    @endif
-                </td>
-                <td>
-                    {{ $content->get_category->name }}
-                </td>
-                <td>
-                    @if($variation->variant_image === NULL)
-                        @if(!$content->get_images->isEmpty())
-                        @foreach($content->get_images as $key=>$image)
-                            @if($key == 0)
-                            <img src="{{ $image->image }}" width="80px" height="50px">
-                            @endif
-                        @endforeach
-                        @endif
-                    @else
-                        <img src="{{ $variation->variant_image }}" width="80px" height="50px">
-                    @endif
-                </td>
-                <td>{{ $content->product_type }}</td>
-                <td>
-                    {{ $content->created_at->format('d/m/Y') }}
-                </td>
-                <td>
-                    @if(intval($content->approved) === 1 && intval($content->rejected) === 0 && intval($content->disable) === 0)
-                        <span class="badge badge-success">Approved</span>
-                    @elseif(intval($content->rejected) === 1 && intval($content->approved) === 0 && intval($content->disable) === 0)
-                        <span class="badge badge-warning">Rejected</span>
-                    @elseif(intval($content->disable) === 1 && intval($content->approved) === 0 && intval($content->rejected) === 0)
-                        <span class="badge badge-danger">Disabled</span>
-                    @endif
-                </td>
-                <td>
-                    <div class="btn-group">
-                        <div class="dropdown">
-                            <button class="btn btn-dark btn-sm dropdown-toggle mr-1" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Actions
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                                <a class="dropdown-item" href="{{ route('admin.productDetails.get', encrypt($content->id)) }}">Show</a>
-                                <!-- <a  class="dropdown-item" href="{{route('admin.productControl.post', encrypt($content->id))}}">Approve</a> -->
-                                <a  class="dropdown-item" href="{{route('admin.productVendors.get', [encrypt($content->id), $variation->id])}}">Product Vendors</a>
-                                <a onclick="return confirm('Are you sure to disable?')" class="dropdown-item" href="{{ route('admin.disableProduct.post', encrypt($content->id)) }}">Disable</a>
-                            </div>
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\CustomField;
+use App\Category;
+use Carbon\Carbon;
+
+class CustomfieldController extends Controller
+{
+    //addCustomFieldsView
+
+    public function addCustomFieldsView(){
+
+        $parentCategory = Category::where('parent_id',0)->get();
+        return view('customfields.add-customfields',compact('parentCategory'));
+    }
+    public function createCustomFields(Request $request){
+
+        $customfield = new CustomField();
+
+        $form = array();
+        $select_types = ['select', 'multi_select', 'radio'];
+        $j = 0;
+        for ($i=0; $i < count($request->type); $i++) {
+            $item['type'] = $request->type[$i];
+            $item['label'] = $request->label[$i];
+            if(in_array($request->type[$i], $select_types)){
+                $item['options'] = json_encode($request['options_'.$request->option[$j]]);
+                $j++;
+            }
+            array_push($form, $item);
+        }
+        $data["parent_id"] = 0;
+        $category_ids_array = $request->input('parent_id');
+        if (!empty($category_ids_array)) {
+            foreach ($category_ids_array as $key => $value) {
+                if (!empty($value)) {
+                    $data["parent_id"] = $value;
+                }
+            }
+        }
+
+        $customfield->category_id  = $data["parent_id"];
+        $customfield->options      = json_encode($form);
+        $customfield->created_at      = Carbon::now();
+
+        if ($customfield->save()) {
+
+            return redirect()->route('admin.customFieldList.get')->with('msg','<div class="alert alert-success" id="msg">Custom Fields added Successfully!</div>');
+        }
+        
+    }
+
+
+    // customFieldList
+
+    public function customFieldList(){
+        $customfields = CustomField::where('active',1)->get();
+        return view('customfields.customfields-list',compact('customfields'));
+    }
+
+
+    //edit
+    public function edit_custom_field($id){
+        $data = CustomField::where([
+            'id'=>decrypt($id)
+        ])
+        ->with('get_category')
+        ->first();
+        if (!$data) {
+            return abort(404);
+        }
+        $current_data = $this->buildHTMLView($data);
+
+        $parentCategory = Category::where('parent_id',0)->get();
+        return view('customfields.customfields-edit',compact('data', 'parentCategory', 'current_data'));
+    }
+
+    //update
+    public function update_custom_field(Request $request, $id){
+        if (!CustomField::where('id', $id)->exists()) {
+            return redirect()->back()->with('msg','<div class="alert alert-error" id="msg">Custom Fields Not Found!</div>');
+        }
+
+        $form = array();
+        $select_types = ['select', 'multi_select', 'radio'];
+        $j = 0;
+        for ($i=0; $i < count($request->type); $i++) {
+            $item['type'] = $request->type[$i];
+            $item['label'] = $request->label[$i];
+            if(in_array($request->type[$i], $select_types)){
+                $item['options'] = json_encode($request['options_'.$request->option[$j]]);
+                $j++;
+            }
+            array_push($form, $item);
+        }
+        $data["parent_id"] = 0;
+        $category_ids_array = $request->input('parent_id');
+        if (!empty($category_ids_array)) {
+            foreach ($category_ids_array as $key => $value) {
+                if (!empty($value)) {
+                    $data["parent_id"] = $value;
+                }
+            }
+        }
+
+        
+        $updated = CustomField::where('id', $id)->update([
+            'category_id'=>$data["parent_id"],
+            'options'=>json_encode($form),
+            'updated_at'=>Carbon::now()
+        ]);
+
+        if ($updated == true) {
+            return redirect()->route('admin.customFieldList.get')->with('msg','<div class="alert alert-success" id="msg">Custom Fields updated successfully!</div>');
+        }
+        return redirect()->back()->with('msg','<div class="alert alert-error" id="msg">SORRY - Someting wrong to update!</div>');
+    }
+
+
+
+    private function buildHTMLView($data){
+        $html_content = "";
+        $key = 0;
+
+    if ($data->options !== NULL) {
+        $data_array = json_decode($data->options, true);
+        
+        $html_content .= "<table>";
+            foreach ($data_array as $key => $value) {
+                //if type text
+                if ($value['type'] === "text") {
+                    $html_content .= "<div class='row form-group' style='background:rgba(0,0,0,0.1);padding:10px 0;'>
+                        <input type='hidden' name='type[]' value='text'>
+                        <div class='col-lg-3'>
+                            <label class='control-label'>Text</label>
                         </div>
-                    </div>
-                    
-                </td>
-            </tr>
-            @endif
-        @endforeach
+                        <div class='col-lg-7'>
+                            <input class='form-control' type='text' name='label[]' value='".$value['label']."'>
+                        </div>
+                        <div class='col-lg-2'>
+                            <span class='btn btn-icon btn-circle icon-lg fa fa-times' onclick='delete_choice_clearfix(this)'></span>'
+                        </div>
+                    </div>";
+                }
 
-    @else
-    
-    <tr>
-        <th scope="row">{{ $key+1 }}</th>
-        <td class="d-none">
-            {{ $content->get_vendor->first_name }} {{ $content->get_vendor->last_name }}
-        </td>                                          
-        <td>{{ $content->title }}</td>
-        <td>
-            {{ $content->get_category->name }}
-        </td>
-        <td>
-            @if(!$content->get_images->isEmpty())
-            @foreach($content->get_images as $key=>$image)
-                @if($key == 0)
-                <img src="{{ $image->image }}" width="80px" height="50px">
-                @endif
-            @endforeach
-            @endif
-        </td>
-        <td>{{ $content->product_type }}</td>
-        <td>
-              {{ $content->created_at->format('d/m/Y') }}
-        </td>
-        <td>
-            @if(intval($content->approved) === 1 && intval($content->rejected) === 0 && intval($content->disable) === 0)
-                <span class="badge badge-success">Approved</span>
-            @elseif(intval($content->rejected) === 1 && intval($content->approved) === 0 && intval($content->disable) === 0)
-                <span class="badge badge-warning">Rejected</span>
-            @elseif(intval($content->disable) === 1 && intval($content->approved) === 0 && intval($content->rejected) === 0)
-                <span class="badge badge-danger">Disabled</span>
-            @endif
-        </td>
-        <td>
-            <div class="btn-group">
-                <div class="dropdown">
-                    <button class="btn btn-dark btn-sm dropdown-toggle mr-1" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Actions
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                        <a class="dropdown-item" href="{{ route('admin.productDetails.get', encrypt($content->id)) }}">Show</a>
-                        <!-- <a  class="dropdown-item" href="{{route('admin.productControl.post', encrypt($content->id))}}">Approve</a> -->
-                        <a  class="dropdown-item" href="{{route('admin.productVendors.get', encrypt($content->id))}}">Product Vendors</a>
-                        <a onclick="return confirm('Are you sure to disable?')" class="dropdown-item" href="{{ route('admin.disableProduct.post', encrypt($content->id)) }}">Disable</a>
-                    </div>
-                </div>
-            </div>
-            
-        </td>
-    </tr>
-    @endif
+                //if type select
+                if ($value['type'] === "select") {
+                    $key = $key+1;
+                    $html_content .= "<div class='row form-group' style='background:rgba(0,0,0,0.1);padding:10px 0;'>
+                                        <input type='hidden' name='type[]' value='select'>
+                                            <input type='hidden' name='option[]' class='option' value='".($key+1)."'>
+                                    <div class='col-lg-3'>
+                                        <label class='control-label'>Select</label>
+                                    </div>
+                                    <div class='col-lg-7'>
+                                        <input class='form-control' type='text' name='label[]' value='".$value['label']."' style='margin-bottom:10px'>
+                                            <div class='customer_choice_options_types_wrap_child'>
+                                                ";
+
+                                            foreach (json_decode($value['options'], true) as $option_key => $option_value) {
+                                                $html_content .= "<div class='row form-group'>
+                                                    <div class='col-sm-6 col-sm-offset-4'>
+                                                        <input class='form-control' type='text' name='options_".($key+1)."[]' value='".$option_value."' required>
+                                                    </div>
+                                                    <div class='col-sm-2'> <span class='btn btn-icon btn-circle icon-lg fa fa-times' onclick='delete_choice_clearfix(this)'></span></div>
+                                                </div>";
+                                            }
+
+                                            $html_content .= "</div>
+                                        <button class='btn btn-success pull-right' type='button' onclick='add_customer_choice_options(this)'><i class='glyphicon glyphicon-plus'></i> Add option</button>
+                                    </div>
+                                    <div class='col-lg-2'>
+                                        <span class='btn btn-icon btn-circle icon-lg fa fa-times' onclick='delete_choice_clearfix(this)'></span>
+                                    </div>
+                                </div>";
+                }
 
 
+                //if type multi_select
+                if ($value['type'] === "multi_select") {
+                    $key = $key+1;
+                    $html_content .= "<div class='row form-group' style='background:rgba(0,0,0,0.1);padding:10px 0;'>
+                                        <input type='hidden' name='type[]' value='multi_select'>
+                                            <input type='hidden' name='option[]' class='option' value='".($key+1)."'>
+                                    <div class='col-lg-3'>
+                                        <label class='control-label'>Multiple select</label>
+                                    </div>
+                                    <div class='col-lg-7'>
+                                        <input class='form-control' type='text' name='label[]' value='".$value['label']."' style='margin-bottom:10px'>
+                                            <div class='customer_choice_options_types_wrap_child'>
+                                                ";
+
+                                            foreach (json_decode($value['options'], true) as $option_key => $option_value) {
+                                                $html_content .= "<div class='row form-group'>
+                                                    <div class='col-sm-6 col-sm-offset-4'>
+                                                        <input class='form-control' type='text' name='options_".($key+1)."[]' value='".$option_value."' required>
+                                                    </div>
+                                                    <div class='col-sm-2'> <span class='btn btn-icon btn-circle icon-lg fa fa-times' onclick='delete_choice_clearfix(this)'></span></div>
+                                                </div>";
+                                            }
+
+                                            $html_content .= "</div>
+                                        <button class='btn btn-success pull-right' type='button' onclick='add_customer_choice_options(this)'><i class='glyphicon glyphicon-plus'></i> Add option</button>
+                                    </div>
+                                    <div class='col-lg-2'>
+                                        <span class='btn btn-icon btn-circle icon-lg fa fa-times' onclick='delete_choice_clearfix(this)'></span>
+                                    </div>
+                                </div>";
+                }
 
 
-@endif
+                //if type radio
+                if ($value['type'] === "radio") {
+                    $key = $key+1;
+                    $html_content .= "<div class='row form-group' style='background:rgba(0,0,0,0.1);padding:10px 0;'>
+                                        <input type='hidden' name='type[]' value='radio'>
+                                            <input type='hidden' name='option[]' class='option' value='".($key+1)."'>
+                                    <div class='col-lg-3'>
+                                        <label class='control-label'>Radio</label>
+                                    </div>
+                                    <div class='col-lg-7'>
+                                        <input class='form-control' type='text' name='label[]' value='".$value['label']."' style='margin-bottom:10px'>
+                                            <div class='customer_choice_options_types_wrap_child'>
+                                                ";
 
+                                            foreach (json_decode($value['options'], true) as $option_key => $option_value) {
+                                                $html_content .= "<div class='row form-group'>
+                                                    <div class='col-sm-6 col-sm-offset-4'>
+                                                        <input class='form-control' type='text' name='options_".($key+1)."[]' value='".$option_value."' required>
+                                                    </div>
+                                                    <div class='col-sm-2'> <span class='btn btn-icon btn-circle icon-lg fa fa-times' onclick='delete_choice_clearfix(this)'></span></div>
+                                                </div>";
+                                            }
 
+                                            $html_content .= "</div>
+                                        <button class='btn btn-success pull-right' type='button' onclick='add_customer_choice_options(this)'><i class='glyphicon glyphicon-plus'></i> Add option</button>
+                                    </div>
+                                    <div class='col-lg-2'>
+                                        <span class='btn btn-icon btn-circle icon-lg fa fa-times' onclick='delete_choice_clearfix(this)'></span>
+                                    </div>
+                                </div>";
+                }
 
-@endforeach
-<tr>
-    <td colspan="9">{!! $data->links() !!}</td>
-</tr>
+                //if type file
+                if ($value['type'] === "file") {
+                    $key = $key+1;
+                    $html_content .= "<div class='row form-group' style='background:rgba(0,0,0,0.1);padding:10px 0;'>
+                                        <input type='hidden' name='type[]' value='file'>
+                                    <div class='col-lg-3'>
+                                        <label class='control-label'>File</label>
+                                    </div>
+                                    <div class='col-lg-7'>
+                                        <input class='form-control' type='text' name='label[]' value='".$value['label']."'>
+                                    </div>
+                                    <div class='col-lg-2'>
+                                        <span class='btn btn-icon btn-circle icon-lg fa fa-times' onclick='delete_choice_clearfix(this)'></span>
+                                    </div>
+                                </div>";
+                }
+            }
 
+            $html_content .= "</table>";
+        }
+
+        $result = [];
+        $result = [$html_content, $key];
+        return $result;
+    }
+}
