@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('page-title','Add Product')
+@section('page-title','Product Aprroval')
 @section('breadcrumbs')                            
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active">Add Product</li>
@@ -275,6 +275,7 @@
                             <input type="text" name="" class="form-control" value="{{$currentCategory->commission}}" readonly="">
                           </div>
                           </div>
+
                      			<div class="row">
                             <div class="col-lg-3">
                             <div class="mb-xs-2 strong"> Select Other Categories 
@@ -283,15 +284,29 @@
                             <p class="text-smaller text-gray-lighter">
                               Type a two- or three-word description of your item to get category suggestions that will help more shoppers find it.
                             </p>
+                            </div>
+                            <div class="col-lg-9"> <br />
+                              @include('product.partials.product_approval.other-categories', ['other_categories'=>$product_other_categories])
+                            </div>
                           </div>
-                          <div class="col-lg-9"> <br />
-                            <select class="form-control select2" name="categories[]"  multiple="multiple" >
-                              @foreach($categories as $category)
-                                 <option value="{{$category->id}}">{{$category->name}}</option>
-                              @endforeach
-                            </select>
+
+
+                          <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                <div class="mb-xs-2 strong"> Product Custom Fields
+                                  <span class="text-gray-lightest"></span> 
+                                </div>
+                                <p class="text-smaller text-gray-lighter">
+                                  Product Custom Fields
+                                </p>
+                              </div>
+                              <div class="col-lg-9"> <br />
+                                @include('product.partials.product_approval.product-custom-fields', ['productCustomField'=>$productCustomField])
+                              </div>
+                            </div>
                           </div>
-                          </div>
+
                      			<div class="row">
                      				<div class="col-lg-3">
                  						<div class="mb-xs-2 strong"> Description

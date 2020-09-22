@@ -16,6 +16,7 @@ use App\VendorProduct;
 use App\Variation;
 use App\ProductCustomfield;
 use App\VariantOptionOptions;
+use App\ProductOtherCategory;
 use App\VariationOption;
 use App\ProductVariation;
 
@@ -58,7 +59,9 @@ class ProductController extends Controller
         $Id      = decrypt($id);
         $product = Product::where([
                             ['id','=',$Id],
-                            ['approved','=',0]
+                            ['approved','=',0],
+                            ['rejected','=',0],
+                            ['disable','=',0]
                         ])
                         ->first();
         if (!$product) {
@@ -70,6 +73,7 @@ class ProductController extends Controller
                                     ->get();
         //return $currentImages;
         $productCustomField     = ProductCustomfield::where('product_id',$Id)->first();
+        $product_other_categories     = ProductOtherCategory::where('product_id',$Id)->first();
         $productVariations      = DB::table('product_variations')->where('product_id',$Id)->get();
         $first_variation_name   = ProductVariation::where('product_id',$Id)->value('first_variation_name');
         $first_variation_value  = DB::table('product_variations')->where('product_id',$Id)->select('first_variation_value')->distinct()->get();
@@ -78,9 +82,8 @@ class ProductController extends Controller
         $variationList          = Variation::where('active',1)->get();
 
         $categories             = Category::where('deleted',0)->get();
-      
-       
-        return view('product.approval-product', compact('product','productCustomField', 'currentCategory', 'currentImages','variationList','productVariations','second_variation_name','first_variation_name','first_variation_value','second_variation_value','categories'));
+        
+        return view('product.approval-product', compact('product','productCustomField', 'currentCategory', 'currentImages','variationList','productVariations','second_variation_name','first_variation_name','first_variation_value','second_variation_value','categories', 'product_other_categories'));
     }
 
     //
@@ -161,7 +164,7 @@ class ProductController extends Controller
 
     //approve_product
     public function approve_product(Request $request,$id){
-
+        
         $product = Product::find(decrypt($id));
       
         $isNewImageUploaded = ProductMedia::where([
@@ -178,6 +181,35 @@ class ProductController extends Controller
         $oldData = Product::where('id', decrypt($id))->first();
         if (!$oldData) {
             return redirect()->back()->with('error', 'SORRY - Requested Product Not Found.');
+        }
+
+        //manage other categories
+        if (!empty($request->categories)) {
+            if (is_array($request->categories)) {
+                if (ProductOtherCategory::where('product_id', decrypt($id))->exists()) {
+                    //update
+                    ProductOtherCategory::where('product_id', decrypt($id))->update([
+                        'other_categories'=>json_encode($request->categories)
+                    ]);
+                }else{
+                    //insert
+                    ProductOtherCategory::insert([
+                        'product_id'=>decrypt($id),
+                        'other_categories'=>json_encode($request->categories),
+                        'created_at'=>Carbon::now()
+                    ]);
+                }
+            }else{
+                return redirect()->back()->with('error', 'Invalid Product Other Categories Data.');
+            }
+            
+        }else{
+            if (ProductOtherCategory::where('product_id', decrypt($id))->exists()) {
+                //update
+                ProductOtherCategory::where('product_id', decrypt($id))->update([
+                    'other_categories'=>NULL
+                ]);
+            }
         }
 
         //update
