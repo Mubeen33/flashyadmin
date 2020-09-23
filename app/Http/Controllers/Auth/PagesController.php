@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileUploader;
 use Illuminate\Http\Request;
 use App\AuthPage;
+use Carbon\Carbon;
+use Auth;
 
 class PagesController extends Controller
 {
@@ -58,7 +60,7 @@ class PagesController extends Controller
         if($request->hasFile('image')){
             $fileName = $request->type."-".uniqid().Auth::user()->id.mt_rand(10, 9999);
             $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
-            $primay_banner = $fileName__;
+            $image = $fileName__;
         }else{
             return redirect()->back()->withInput()->with('error', 'Please Upload Image');
         }
@@ -67,9 +69,10 @@ class PagesController extends Controller
             'type'=>$request->type,
             'title'=>$request->title,
             'description'=>$request->description,
-            'image'=>$image,
+            'image'=>url('/')."/".$location.$image,
             'created_at'=>Carbon::now()
         ]);
+        return redirect()->back()->with('success', 'Contetent Added');
 
     }
 

@@ -692,4 +692,5 @@ class VendorController extends Controller
             return redirect()->back()->with('error', "SORRY - Something went wrong.");
         }
     }
+
 }

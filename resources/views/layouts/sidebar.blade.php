@@ -196,6 +196,12 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Auth Pages</a>
+                                <ul class="dropdown-menu">
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.auth-pages.index')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Auth Pages</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
 
