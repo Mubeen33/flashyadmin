@@ -15,6 +15,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], function(){
+  //application
+  Route::resource('site-maintenance', 'Application\SiteMaintenanceController');
+
 
 	//vendors controller
 	Route::resource('vendors', 'Vendors\VendorController');
@@ -109,6 +112,10 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::post('delete-product-image','Products\ProductController@removeProductImage');
    Route::get('products/ajax-pagination/fetch', 'Products\ProductController@fetch__data')->name('products.ajaxPgination');
    Route::get('pending-products/ajax-pagination/fetch', 'Products\ProductController@pending_fetch__data')->name('pendingProducts.ajaxPgination');
+   
+   //export products
+   Route::get('export-products', function(){return abort(404);});
+   Route::post('export-products', 'Products\ProductController@export_products_post')->name('productsExport.post');
 
   
 

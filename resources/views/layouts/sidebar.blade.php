@@ -206,6 +206,24 @@
                     </li>
 
 
+                    <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">Application</span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Site Maintenance</a>
+                                <ul class="dropdown-menu">
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.site-maintenance.index')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Maintenance</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>More</a>
+                                <ul class="dropdown-menu">
+                                    <li data-menu=""><a class="dropdown-item" href="" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>More</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+
 
                    {{--  <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">UI Elements</span></a>
                         <ul class="dropdown-menu">

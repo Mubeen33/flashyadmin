@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Application;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Application;
+use Carbon\Carbon;
 
 class SiteMaintenanceController extends Controller
 {
@@ -37,7 +38,25 @@ class SiteMaintenanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'application_mood'=>'required|numeric|in:1,0'
+        ]);
+
+        $data = Application::where('type', 'site')->first();
+        if ($data) {
+            //update
+            $data->update([
+                'active_mood'=>$request->application_mood,
+                'updated_at'=>Carbon::now()
+            ]);
+            return redirect()->back()->with('success', 'Application Mood Updated Successfully');
+        }else{
+            Application::insert([
+                'active_mood'=>$request->application_mood,
+                'updated_at'=>Carbon::now()
+            ]);
+            return redirect()->back()->with('success', 'Application Mood Setup Successfully');
+        }
     }
 
     /**

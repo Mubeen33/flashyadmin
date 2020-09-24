@@ -28,6 +28,19 @@
                             <div class="card-header justify-content-between">
                                 <div><h4 class="card-title">Products</h4></div>
                                 <div>
+                                    <span class="export--error d-none text-danger"></span>
+                                    <select id="selectExportType" onchange="productsExport(this.value)" class="btn btn-warning btn-sm" style="padding: 6px; margin-top: -1px;">
+                                        <option value="">Export</option>
+                                        <option value="PDF">PDF</option>
+                                        <option value="CSV">CSV</option>
+                                    </select>
+                                    {{-- exports form --}}
+                                    <form id="expertForm" class="d-none" action="{{ route('admin.productsExport.post') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" id="setExportType" name="expert_as" value="">
+                                        <input type="hidden" id="setProductID" name="product_id" value="">
+                                    </form>
+
                                     <select class="d-none" id="hidden__id" title="Select Vendor">
                                         <option value="">Select Vendor</option>
                                         @foreach($vendors as $vendor)
@@ -60,6 +73,9 @@
                                                     </th>
                                                     <th>Category</th>
                                                     <th>Image</th>
+                                                    <th>
+                                                        Google Feed
+                                                    </th>
                                                     <th class="sortAble" sorting-column='product_type' sorting-order=''>
                                                         Product Type
                                                     </th>
@@ -123,4 +139,30 @@
 </script>
 
 <script type="text/javascript" src="{{ asset('js/ajax-pagination.js') }}"></script>
+
+
+
+<script type="text/javascript">
+    //export
+    function productsExport(type){
+        if (type === "PDF" || type === "CSV") {
+            $("#expertForm #setExportType").val(type)
+
+            if (!$("#expertForm #setProductID").val()) {
+                $(".export--error").html("<i class='feather icon-info'></i> Please Select Products")
+                $(".export--error").removeClass('d-none')
+                $("#selectExportType").val('')
+                setTimeout(function(){ 
+                    $(".export--error").addClass('d-none')
+                }, 1500);
+            }else{
+                $("#expertForm").submit()
+            }
+
+        }else{
+            $("#selectExportType").val('')
+            return false;
+        }
+    }
+</script>
 @endpush

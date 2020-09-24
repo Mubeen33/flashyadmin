@@ -32,6 +32,7 @@
                         <img src="{{ $variation->variant_image }}" width="80px" height="50px">
                     @endif
                 </td>
+                <td><input type="checkbox" class="export_chk" value="{{$content->id}}"></td>
                 <td>{{ $content->product_type }}</td>
                 <td>
                     {{ $content->created_at->format('d/m/Y') }}
@@ -103,6 +104,7 @@
             @endforeach
             @endif
         </td>
+        <td><input type="checkbox" class="export_chk" value="{{$content->id}}"></td>
         <td>{{ $content->product_type }}</td>
         <td>
               {{ $content->created_at->format('d/m/Y') }}
@@ -146,4 +148,55 @@
 <tr>
     <td colspan="9">{!! $data->links() !!}</td>
 </tr>
+
+
+
+@push('scripts')
+<script type="text/javascript">
+    $(".export_chk").on("click", function(){
+        if ($(this).prop('checked') === true) {
+              let productID = $(this).val()
+
+              if (isNaN(productID)) {
+                alert("SORRY - Invalid Access")
+              }else{
+                //check value is exists or not
+                let getVal = $("#expertForm #setProductID").val()
+                if (getVal !== "") {
+                  var arryval = getVal.split(',');
+                  if ($.inArray(productID, arryval) != -1)
+                  {
+                    //exist
+                    return false;
+                  }
+                }
+
+                //set value
+                if (!$("#expertForm #setProductID").val()) {
+                  $("#expertForm #setProductID").val(productID)
+                }else{
+                  let currentValue = $("#expertForm #setProductID").val()
+                  $("#expertForm #setProductID").val(currentValue+","+productID)
+                }
+                
+              }
+        }else{
+            //remove
+           let productID = $(this).val()
+          if (isNaN(productID)) {
+            alert('SORRY - Invalid Request.')
+          }else{
+              let getVal = $("#expertForm #setProductID").val()
+              var arryval = getVal.split(',');
+
+              let newArray = arryval.filter(function(elem){
+                 return elem != productID; 
+              });
+              //console.log(newArray)
+              $("#expertForm #setProductID").val(newArray.toString())
+          } 
+        }
+    })
+</script>
+@endpush
 
