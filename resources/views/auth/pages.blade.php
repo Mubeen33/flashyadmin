@@ -40,22 +40,87 @@
                                                     <th>Description</th>
                                                     <th>Image</th>
                                                     <th>Created at</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
 
                                             <tbody>
                                             @if(!$data->isEmpty())
                                                    @foreach($data as $key=>$content)
-                                                       <td>{{$key+1}}</td>
-                                                       <td>{{$content->type}}</td>
-                                                       <td>{{$content->title}}</td>
-                                                       <td>{{$content->description}}</td>
-                                                       <td><img src="{{$content->image}}" width="150px" height="80px"></td>
-                                                       <td>{{$content->created_at->format(env('GENERAL_DATE_FORMAT'))}}</td>
+                                                       <tr>
+                                                         <td>{{$key+1}}</td>
+                                                         <td>{{$content->type}}</td>
+                                                         <td>{{$content->title}}</td>
+                                                         <td>{{$content->description}}</td>
+                                                         <td><img src="{{$content->image}}" width="150px" height="80px"></td>
+                                                         <td>{{$content->created_at->format(env('GENERAL_DATE_FORMAT'))}}</td>
+                                                         <td>
+                                                           <!-- Button trigger modal -->
+                                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ModalEdit-{{$content->id}}">
+                                                              Edit
+                                                            </button>
+
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="ModalEdit-{{$content->id}}" tabindex="-1" aria-labelledby="ModalEditlabel-{{$content->id}}" aria-hidden="true">
+                                                              <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                    <h5 class="modal-title" id="ModalEditlabel-{{$content->id}}">Edit</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                      <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                  </div>
+                                                                  <div class="modal-body" style="text-align: left !important;">
+                                                                    <form class="form--edit" id="myForm___{{$content->id}}" action="{{ route('admin.auth-pages.update', $content->id) }}" method="POST" enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        @method('PUT')
+                                                                        <div class="form-group">
+                                                                            <label>Type</label>
+                                                                            <select is-required='true' onclick="removeErrorLevels($(this), 'input')" name="type" class="form-control">
+                                                                                  @if($content->type === "AdminAuth")
+                                                                                  <option value="AdminAuth"  selected>Admin Auth Page</option>
+                                                                                  @endif
+
+                                                                                  @if($content->type === "VendorAuth")
+                                                                                  <option value="VendorAuth"  selected >Vendor Auth Page</option>
+                                                                                  @endif
+                                                                            </select>
+                                                                            <small class="place-error--msg text-danger"></small>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Title</label>
+                                                                            <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="text" name="title" placeholder="Title" class="form-control" value="{{ $content->title }}">
+                                                                            <small class="place-error--msg text-danger"></small>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Description</label>
+                                                                            <input type="text" name="description" placeholder="Description" class="form-control" value="{{ $content->description }}" maxlength="100">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Image <small>(Size: Width=400px and Height=230px)</small></label>
+                                                                            <input id="image_input-{{$content->id}}" onchange="previewFile('image_input-{{$content->id}}', 'image_preview-{{$content->id}}')"  type="file" name="image" class="form-control" accept="image/*">
+                                                                            <div id="image_preview-{{$content->id}}" class="d-none mt-1">
+                                                                                <img src="" width="" width="180px" height="90px">
+                                                                                <button type="button" title="Remove this image" onclick="removePreviewFile('image_preview-{{$content->id}}', 'image_input-{{$content->id}}')" class="btn btn-sm btn-danger">X</button>
+                                                                            </div>
+                                                                            <small class="place-error--msg text-danger"></small>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <button class="btn btn-warning btn-sm" type="submit">Update</button>
+                                                                        </div>
+                                                                    </form>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                         </td>
+                                                       </tr>
                                                    @endforeach
 
                                                @else
-                                                <td colspan="6">No Data Found</td>
+                                                <tr>
+                                                  <td colspan="6">No Data Found</td>
+                                                </tr>
                                             @endif
                                             </tbody>
                                         </table>
@@ -176,6 +241,11 @@
 <script type="text/javascript">
    $("#add__form").on('submit', function(e){
        formClientSideValidation(e, "add__form", 'no');
+   })
+
+   //form validate for multiple 
+   $(".form--edit").on('submit', function(e){
+       formClientSideValidation(e, $(this).attr('id'), 'no');
    })
 </script>
 <script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>

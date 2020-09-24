@@ -48,10 +48,9 @@ class PagesController extends Controller
             'image'=>'required|image|mimes:jpg,jpeg,png,gif|max:1000',
         ]);
 
-        $data = AuthPage::where('type', $request->type)->first();
-        if ($data) {
-            //edit
-            return "Need to edit under construction";
+        $oldData = AuthPage::where('type', $request->type)->first();
+        if ($oldData) {
+            return redirect()->back()->with('error', 'Data already exists.');
         }
 
         $obj_fu = new FileUploader();
@@ -107,7 +106,44 @@ class PagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //store
+        $this->validate($request, [
+            'type'=>'required|string|in:AdminAuth,VendorAuth',
+            'title'=>'required|string|max:30',
+            'description'=>'nullable|string|max:100',
+            'image'=>'nullable|image|mimes:jpg,jpeg,png,gif|max:1000',
+        ]);
+
+        $oldData = AuthPage::where([
+            'id'=>$id,
+            'type'=>$request->type
+        ])->first();
+
+        if (!$oldData) {
+            return redirect()->back()->with('error', 'Data Not Found');
+        }
+
+        $obj_fu = new FileUploader();
+        $image = NULL;
+        $location = "upload-images/auth-pages/";
+        $url = url('/');
+        if($request->hasFile('image')){
+            if ($oldData->image != NULL) {
+                $file_name = str_replace($url."/".$location, "", $oldData->image);
+                $obj_fu->deleteFile($file_name, $location);
+            }
+            $fileName = $request->type."-".uniqid().Auth::user()->id.mt_rand(10, 9999);
+            $fileName__ = $obj_fu->fileUploader($request->file('image'), $fileName, $location);
+            $image = $fileName__;
+        }
+
+        AuthPage::where('id', $id)->update([
+            'title'=>$request->title,
+            'description'=>$request->description,
+            'image'=>($image === NULL ? $oldData->image : $url."/".$location.$image),
+            'updated_at'=>Carbon::now()
+        ]);
+        return redirect()->back()->with('success', 'Contetent Updated');
     }
 
     /**
