@@ -8,6 +8,7 @@ class Application extends Model
 {
     protected $fillable = [
     	'type',
-    	'active_mood'
+    	'active_mood',
+    	'live_at'
     ];
 }

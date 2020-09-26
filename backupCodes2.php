@@ -1,87 +1,155 @@
-<?php
+<div class="col-12">
+   <div class="card">
+      <div class="card-header">
+         <h4 class="card-title">
+            Banners Top Right
+         </h4>
+      </div>
+      <div class="card-content">
+         <div class="card-body">
+            <div class="table-responsive">
+              <table class="table" style="text-align: left !important;">
+                <thead>
+                  <tr>
+                    <th>Order No.</th>
+                    <th>Primary</th>
+                    <th></th>
+                    <th>Secondary</th>
+                    <th></th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td width="5%">1</td>
+                    <td width="20%">
+                      @if($top_right_banner_1 && $top_right_banner_1->primary_image != NULL)
+                        <img src="{{ $top_right_banner_1->primary_image }}" width="196px" height="97px">
+                        @else
+                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                      @endif
+                    </td>
+                    <td width="20%">
+                      @if($top_right_banner_1 && $top_right_banner_1->title !== NULL)
+                      <small class="d-block">Title : {{$top_right_banner_1->title}}</small>
+                      @endif
+                      @if($top_right_banner_1 && $top_right_banner_1->title !== NULL)
+                      <small class="d-block">URL : {{$top_right_banner_1->link}}</small>
+                      @endif
+                    </td>
+                    <td width="20%">
+                      @if($top_right_banner_1 && $top_right_banner_1->secondary_image !== NULL)
+                        <img src="{{ $top_right_banner_1->secondary_image }}" width="196px" height="97px">
+                      @endif
+                    </td>
+                    <td width="20%">
+                      @if($top_right_banner_1 && $top_right_banner_1->secondary_title !== NULL)
+                      <small class="d-block">Title : {{$top_right_banner_1->secondary_title}}</small>
+                      @endif
 
-namespace App\Http\Controllers\Application;
+                      @if($top_right_banner_1 && $top_right_banner_1->secondary_link !== NULL)
+                      <small class="d-block">URL : {{$top_right_banner_1->secondary_link}}</small>
+                      @endif
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Application;
+                      @if($top_right_banner_1 && $top_right_banner_1->secondary_start_time !== NULL && $top_right_banner_1->secondary_end_time)
+                      <small class="d-block">Start Time : {{$top_right_banner_1->secondary_start_time}}</small>
+                      <small class="d-block">End Time : {{$top_right_banner_1->secondary_end_time}}</small>
+                      @endif
+                    </td>
+                    <td width="5%">
+                      @if($top_right_banner_1)
+                      <a id="add" href="{{route('admin.editBannerWithID.get', encrypt($top_right_banner_1->id))}}" class="btn btn-warning btn-sm">Edit</a>
+                      @else
+                        {{--add banner--}}
+                      <a href="{{route('admin.editBanner.get', ['Banners_Top_Right', 1])}}" class="btn btn-warning btn-sm">Edit</a>
+                      @endif
+                    </td>
+                  </tr>
 
-class SiteMaintenanceController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $data = Application::where('type', 'site')->first();
-        return view('Application.index', compact('data'));
-    }
+                  <tr>
+                    <td width="5%">2</td>
+                    <td width="20%">
+                      @if($top_right_banner_2 && $top_right_banner_2->primary_image != NULL)
+                        <img src="{{ $top_right_banner_2->primary_image }}" width="196px" height="97px">
+                        @else
+                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                      @endif
+                    </td>
+                    <td width="20%">
+                      @if($top_right_banner_2 && $top_right_banner_2->title !== NULL)
+                      <small class="d-block">Title : {{$top_right_banner_2->title}}</small>
+                      @endif
+                      @if($top_right_banner_2 && $top_right_banner_2->title !== NULL)
+                      <small class="d-block">URL : {{$top_right_banner_2->link}}</small>
+                      @endif
+                    </td>
+                    <td width="20%">
+                      @if($top_right_banner_2 && $top_right_banner_2->secondary_image !== NULL)
+                        <img src="{{ $top_right_banner_2->secondary_image }}" width="196px" height="97px">
+                      @endif
+                    </td>
+                    <td width="20%">
+                      @if($top_right_banner_2 && $top_right_banner_2->secondary_title !== NULL)
+                      <small class="d-block">Title : {{$top_right_banner_2->secondary_title}}</small>
+                      @endif
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+                      @if($top_right_banner_2 && $top_right_banner_2->secondary_link !== NULL)
+                      <small class="d-block">URL : {{$top_right_banner_2->secondary_link}}</small>
+                      @endif
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+                      @if($top_right_banner_2 && $top_right_banner_2->secondary_start_time !== NULL && $top_right_banner_2->secondary_end_time)
+                      <small class="d-block">Start Time : {{$top_right_banner_2->secondary_start_time}}</small>
+                      <small class="d-block">End Time : {{$top_right_banner_2->secondary_end_time}}</small>
+                      @endif
+                    </td>
+                    <td width="5%">
+                      @if($top_right_banner_2)
+                      <a id="add" href="{{route('admin.editBannerWithID.get', encrypt($top_right_banner_2->id))}}" class="btn btn-warning btn-sm">Edit</a>
+                      @else
+                        {{--add banner--}}
+                      <a href="{{route('admin.editBanner.get', ['Banners_Top_Right', 2])}}" class="btn btn-warning btn-sm">Edit</a>
+                      @endif
+                    </td>
+                  </tr>
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+                  <tr>
+                    <td width="5%">3</td>
+                    <td width="20%">
+                      @if($top_right_banner_3 && $top_right_banner_3->primary_image != NULL)
+                        <img src="{{ $top_right_banner_3->primary_image }}" width="196px" height="97px">
+                        @else
+                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                      @endif
+                    </td>
+                    <td width="20%">
+                      <small class="d-block">Title : This is test title</small>
+                      <small class="d-block">URL : https://www.facebook.com</small>
+                    </td>
+                    <td width="20%">
+                      @if($top_right_banner_3 && $top_right_banner_3->secondary_image != NULL)
+                        <img src="{{ $top_right_banner_3->secondary_image }}" width="196px" height="97px">
+                        @else
+                          <img src="/upload-images/banners/default/top_right_banner_390_193.jpg" width="196px" height="97px">
+                      @endif
+                    </td>
+                    <td width="20%">
+                      <small class="d-block">Title : This is test title</small>
+                      <small class="d-block">URL : https://www.facebook.com</small>
+                    </td>
+                    <td width="5%">
+                      @if($top_right_banner_3)
+                      <a id="add" href="{{route('admin.editBannerWithID.get', encrypt($top_right_banner_3->id))}}" class="btn btn-warning btn-sm">Edit</a>
+                      @else
+                        {{--add banner--}}
+                      <a href="{{route('admin.editBanner.get', ['Banners_Top_Right', 3])}}" class="btn btn-warning btn-sm">Edit</a>
+                      @endif
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-}
+         </div>
+      </div>
+   </div>
+</div>

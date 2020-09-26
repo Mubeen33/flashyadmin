@@ -140,11 +140,11 @@
                                                 <div class="col-lg-8 col-md-12">
                                                     <div class="form-group">
                                                         <label>Secondary Title</label>
-                                                        <input type="text" name="title" placeholder="Title" class="form-control" value="{{$data->secondary_title}}">
+                                                        <input type="text" name="secondary_title" placeholder="Title" class="form-control" value="{{$data->secondary_title}}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Secondary link</label>
-                                                        <input type="url" name="link" placeholder="Link" value="{{$data->secondary_link}}" class="form-control">
+                                                        <input type="url" name="secondary_link" placeholder="Link" value="{{$data->secondary_link}}" class="form-control">
                                                     </div>
                                                     
                                                     <div class="row">

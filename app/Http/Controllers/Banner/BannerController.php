@@ -100,8 +100,8 @@ class BannerController extends Controller
             'primary_image'=>'nullable|image|mimes:jpg,jpeg,png,gif|max:1000',
             'secondary_title'=>'nullable|string|max:60',
             'secondary_link'=>'nullable|string|url',
-            'start_time'=>'nullable|date',
-            'end_time'=>'nullable|date',
+            'start_time'=>'nullable|date_format:Y-m-d\TH:i',
+            'end_time'=>'nullable|date_format:Y-m-d\TH:i',
             'secondary_image'=>'nullable|image|mimes:jpg,jpeg,png,gif|max:1000'
         ]);
 
@@ -116,8 +116,8 @@ class BannerController extends Controller
             if ($request->hasFile('secondary_image')) {
                 $this->validate($request, [
                     'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=390,height=193',
-                    'start_time'=>'required|date',
-                    'end_time'=>'required|date'
+                    'start_time'=>'required|date_format:Y-m-d\TH:i',
+                    'end_time'=>'required|date_format:Y-m-d\TH:i'
                 ]);
                 $result = $this->validateDateTime($request->start_time, $request->end_time);
                 if ($result !== true) {
@@ -144,8 +144,8 @@ class BannerController extends Controller
             if ($request->hasFile('secondary_image')) {
                 $this->validate($request, [
                     'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285',
-                    'start_time'=>'required|date',
-                    'end_time'=>'required|date'
+                    'start_time'=>'required|date_format:Y-m-d\TH:i',
+                    'end_time'=>'required|date_format:Y-m-d\TH:i'
                 ]);
                 $result = $this->validateDateTime($request->start_time, $request->end_time);
                 if ($result !== true) {
@@ -172,8 +172,8 @@ class BannerController extends Controller
             if ($request->hasFile('secondary_image')) {
                 $this->validate($request, [
                     'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245',
-                    'start_time'=>'required|date',
-                    'end_time'=>'required|date'
+                    'start_time'=>'required|date_format:Y-m-d\TH:i',
+                    'end_time'=>'required|date_format:Y-m-d\TH:i'
                 ]);
                 $result = $this->validateDateTime($request->start_time, $request->end_time);
                 if ($result !== true) {
@@ -199,8 +199,8 @@ class BannerController extends Controller
             if ($request->hasFile('secondary_image')) {
                 $this->validate($request, [
                     'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245',
-                    'start_time'=>'required|date',
-                    'end_time'=>'required|date'
+                    'start_time'=>'required|date_format:Y-m-d\TH:i',
+                    'end_time'=>'required|date_format:Y-m-d\TH:i'
                 ]);
                 $result = $this->validateDateTime($request->start_time, $request->end_time);
                 if ($result !== true) {
@@ -226,8 +226,8 @@ class BannerController extends Controller
             if ($request->hasFile('secondary_image')) {
                 $this->validate($request, [
                     'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379',
-                    'start_time'=>'required|date',
-                    'end_time'=>'required|date'
+                    'start_time'=>'required|date_format:Y-m-d\TH:i',
+                    'end_time'=>'required|date_format:Y-m-d\TH:i'
                 ]);
                 $result = $this->validateDateTime($request->start_time, $request->end_time);
                 if ($result !== true) {
@@ -265,6 +265,9 @@ class BannerController extends Controller
         }
 
         $url = url('/');
+        $start_time = date('Y-m-d H:i', strtotime($request->start_time));
+        $end_time = date('Y-m-d H:i', strtotime($request->end_time));
+
         $inserted = Banner::insert([
             'type'=>$request->type,
             'title'=>$request->title,
@@ -272,10 +275,10 @@ class BannerController extends Controller
             'order_no'=>$request->order_no,
             'primary_image'=>$url."/".$location.$primay_banner,
             'secondary_image'=>($secondary_banner === NULL ? NULL : $url."/".$location.$secondary_banner),
-            'secondary_title'=>$request->secondary_title,
-            'secondary_link'=>$request->secondary_link,
-            'secondary_start_time'=>($secondary_banner === NULL ? NULL : $request->start_time),
-            'secondary_end_time'=>($secondary_banner === NULL ? NULL : $request->end_time),
+            'secondary_title'=>($secondary_banner === NULL ? NULL : $request->secondary_title),
+            'secondary_link'=>($secondary_banner === NULL ? NULL : $request->secondary_link),
+            'secondary_start_time'=>($secondary_banner === NULL ? NULL : $start_time),
+            'secondary_end_time'=>($secondary_banner === NULL ? NULL : $end_time),
             'created_at'=>Carbon::now()
         ]);
 
@@ -286,33 +289,19 @@ class BannerController extends Controller
         }
     }
 
-    private function validateDateTime($start_time, $end_time){
+    private function validateDateTime($start_time, $end_time, $type=NULL){
         $current = Carbon::now();
-        $today = $current->format('Y-m-d H:m');
-        if ($today > (date('Y-m-d H:m', strtotime($start_time)))) {
-            return "SORRY - Start Time can not be backdate";
-        }
+        $today = $current->format('Y-m-d H:i');
 
-        if (date('Y-m-d H:m', strtotime($start_time)) >= date('Y-m-d H:m', strtotime($end_time))) {
-            return "SORRY - End Time can not be equal or less of Start Time";
-        }
-        return true;
-    }
-
-
-    private function validateDateTimeForUpdate($start_time, $end_time, $oldData){
-        $current = Carbon::now();
-        $today = $current->format('Y-m-d H:m');
-        if (date('Y-m-d H:m', strtotime($oldData->secondary_start_time)) != date('Y-m-d H:m', strtotime($start_time))) {
-            if ($today > (date('Y-m-d H:m', strtotime($start_time)))) {
+        if ($type === NULL) {
+            if ($today > (date('Y-m-d H:i', strtotime($start_time)))) {
                 return "SORRY - Start Time can not be backdate";
             }
         }
+        
 
-        if (date('Y-m-d H:m', strtotime($oldData->secondary_end_time)) != date('Y-m-d H:m', strtotime($end_time))) {
-            if (date('Y-m-d H:m', strtotime($start_time)) >= date('Y-m-d H:m', strtotime($end_time))) {
-                return "SORRY - End Time can not be equal or less of Start Time";
-            }
+        if (date('Y-m-d H:i', strtotime($start_time)) >= date('Y-m-d H:i', strtotime($end_time))) {
+            return "SORRY - End Time can not be equal or less of Start Time";
         }
         return true;
     }
@@ -369,8 +358,8 @@ class BannerController extends Controller
             'primary_image'=>'nullable|image|mimes:jpg,jpeg,png,gif|max:1000',
             'secondary_title'=>'nullable|string|max:60',
             'secondary_link'=>'nullable|string|url',
-            'start_time'=>'nullable|date',
-            'end_time'=>'nullable|date',
+            'start_time'=>'nullable|date_format:Y-m-d\TH:i',
+            'end_time'=>'nullable|date_format:Y-m-d\TH:i',
             'secondary_image'=>'nullable|image|mimes:jpg,jpeg,png,gif|max:1000'
         ]);
 
@@ -393,7 +382,7 @@ class BannerController extends Controller
                     'start_time'=>'required|date',
                     'end_time'=>'required|date'
                 ]);
-                $result = $this->validateDateTimeForUpdate($request->start_time, $request->end_time, $oldData);
+                $result = $this->validateDateTime($request->start_time, $request->end_time, 'Update');
                 if ($result !== true) {
                     return redirect()->back()->withInput()->with('error', $result);
                 }
@@ -412,10 +401,10 @@ class BannerController extends Controller
             if ($request->hasFile('secondary_image')) {
                 $this->validate($request, [
                     'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=285',
-                    'start_time'=>'required|date',
-                    'end_time'=>'required|date'
+                    'start_time'=>'required|date_format:Y-m-d\TH:i',
+                    'end_time'=>'required|date_format:Y-m-d\TH:i'
                 ]);
-                $result = $this->validateDateTimeForUpdate($request->start_time, $request->end_time, $oldData);
+                $result = $this->validateDateTime($request->start_time, $request->end_time, 'Update');
                 if ($result !== true) {
                     return redirect()->back()->withInput()->with('error', $result);
                 }
@@ -434,10 +423,10 @@ class BannerController extends Controller
             if ($request->hasFile('secondary_image')) {
                 $this->validate($request, [
                     'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1090,height=245',
-                    'start_time'=>'required|date',
-                    'end_time'=>'required|date'
+                    'start_time'=>'required|date_format:Y-m-d\TH:i',
+                    'end_time'=>'required|date_format:Y-m-d\TH:i'
                 ]);
-                $result = $this->validateDateTimeForUpdate($request->start_time, $request->end_time, $oldData);
+                $result = $this->validateDateTime($request->start_time, $request->end_time, 'Update');
                 if ($result !== true) {
                     return redirect()->back()->withInput()->with('error', $result);
                 }
@@ -455,10 +444,10 @@ class BannerController extends Controller
             if ($request->hasFile('secondary_image')) {
                 $this->validate($request, [
                     'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=530,height=245',
-                    'start_time'=>'required|date',
-                    'end_time'=>'required|date'
+                    'start_time'=>'required|date_format:Y-m-d\TH:i',
+                    'end_time'=>'required|date_format:Y-m-d\TH:i'
                 ]);
-                $result = $this->validateDateTimeForUpdate($request->start_time, $request->end_time, $oldData);
+                $result = $this->validateDateTime($request->start_time, $request->end_time, 'Update');
                 if ($result !== true) {
                     return redirect()->back()->withInput()->with('error', $result);
                 }
@@ -476,10 +465,10 @@ class BannerController extends Controller
             if ($request->hasFile('secondary_image')) {
                 $this->validate($request, [
                     'secondary_image'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=487,height=379',
-                    'start_time'=>'required|date',
-                    'end_time'=>'required|date'
+                    'start_time'=>'required|date_format:Y-m-d\TH:i',
+                    'end_time'=>'required|date_format:Y-m-d\TH:i'
                 ]);
-                $result = $this->validateDateTimeForUpdate($request->start_time, $request->end_time, $oldData);
+                $result = $this->validateDateTime($request->start_time, $request->end_time, 'Update');
                 if ($result !== true) {
                     return redirect()->back()->withInput()->with('error', $result);
                 }
@@ -490,7 +479,7 @@ class BannerController extends Controller
         //if only update time then
         if ($oldData->secondary_image != NULL) {
             if (!empty($request->start_time) || !empty($start_time->end_time)) {
-                $result = $this->validateDateTimeForUpdate($request->start_time, $request->end_time, $oldData);
+                $result = $this->validateDateTime($request->start_time, $request->end_time, 'Update');
                 if ($result !== true) {
                     return redirect()->back()->withInput()->with('error', $result);
                 }
@@ -530,16 +519,49 @@ class BannerController extends Controller
             $secondary_banner = $fileName__;
         }
 
+        
+
+        $secondary_title = NULL;
+        $secondary_link = NULL;
+
+        $start_time = NULL;
+        $end_time = NULL;
+        if (!empty($request->start_time)) {
+            if ($oldData->secondary_image !== NULL || $secondary_banner !== NULL) {
+                $start_time = date('Y-m-d H:i', strtotime($request->start_time));
+            }
+        }
+
+        if (!empty($request->end_time)) {
+            if ($oldData->secondary_image !== NULL || $secondary_banner !== NULL) {
+                $end_time = date('Y-m-d H:i', strtotime($request->end_time));
+            }
+            
+        }
+
+        if (!empty($request->secondary_title)) {
+            if ($oldData->secondary_image !== NULL || $secondary_banner !== NULL) {
+                $secondary_title = $request->secondary_title;
+            }
+        }
+
+        if (!empty($request->secondary_link)) {
+            if ($oldData->secondary_image !== NULL || $secondary_banner !== NULL) {
+                $secondary_link = $request->secondary_link;
+            }
+            
+        }
+
         $url = url('/');
         $updated = Banner::where('id', $id)->update([
             'title'=>$request->title,
             'link'=>$request->link,
             'primary_image'=>($primay_banner === NULL ? $oldData->primary_image : $url."/".$location.$primay_banner),
             'secondary_image'=>($secondary_banner === NULL ? $oldData->secondary_image : $url."/".$location.$secondary_banner),
-            'secondary_title'=>$request->secondary_title,
-            'secondary_link'=>$request->secondary_link,
-            'secondary_start_time'=>$request->start_time,
-            'secondary_end_time'=>$request->end_time,
+            'secondary_title'=>($secondary_title === NULL ? $oldData->secondary_title : $secondary_title),
+            'secondary_link'=>($secondary_link === NULL ? $oldData->secondary_link : $secondary_link),
+            'secondary_start_time'=>($start_time === NULL ? $oldData->secondary_start_time : $start_time),
+            'secondary_end_time'=>($end_time === NULL ? $oldData->secondary_end_time : $end_time),
             'updated_at'=>Carbon::now()
         ]);
 

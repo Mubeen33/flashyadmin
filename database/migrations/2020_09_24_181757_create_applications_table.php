@@ -17,6 +17,7 @@ class CreateApplicationsTable extends Migration
             $table->id();
             $table->enum('type', ['site'])->default('site');
             $table->boolean('active_mood')->default(1);
+            $table->timestamp('live_at')->nullable();
             $table->timestamps();
         });
     }

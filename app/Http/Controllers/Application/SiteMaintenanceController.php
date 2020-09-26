@@ -39,24 +39,51 @@ class SiteMaintenanceController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'application_mood'=>'required|numeric|in:1,0'
+            'application_mood'=>'required|numeric|in:1,0',
         ]);
+
+        $live_at = NULL;
+        if (intval($request->application_mood) === 0) {
+            $this->validate($request, [
+                'live_time'=>'required|date_format:Y-m-d\TH:i'
+            ]);
+            $result = $this->validateDateTime($request->live_time);
+            if ($result !== true) {
+                return redirect()->back()->with('error', $result);
+            }
+            $live_at = date('Y-m-d H:i', strtotime($request->live_time));
+        }
+        
 
         $data = Application::where('type', 'site')->first();
         if ($data) {
             //update
             $data->update([
                 'active_mood'=>$request->application_mood,
+                'live_at'=>$live_at,
                 'updated_at'=>Carbon::now()
             ]);
             return redirect()->back()->with('success', 'Application Mood Updated Successfully');
         }else{
             Application::insert([
                 'active_mood'=>$request->application_mood,
-                'updated_at'=>Carbon::now()
+                'live_at'=>$live_at,
+                'created_at'=>Carbon::now()
             ]);
             return redirect()->back()->with('success', 'Application Mood Setup Successfully');
         }
+    }
+
+
+    private function validateDateTime($live_time){
+        $current = Carbon::now();
+        $current = $current->addMinutes(10);
+        $today = $current->format('Y-m-d H:i');
+        if ($today > (date('Y-m-d H:i', strtotime($live_time)))) {
+            return "SORRY - Live Time can not be backdate & at least 10 minutes difference from now.";
+        }
+        
+        return true;
     }
 
     /**

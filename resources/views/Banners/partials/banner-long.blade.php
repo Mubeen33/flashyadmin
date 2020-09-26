@@ -30,19 +30,33 @@
                       @endif
                     </td>
                     <td width="20%">
-                      <small class="d-block">Title : This is test title</small>
-                      <small class="d-block">URL : https://www.facebook.com</small>
+                      @if($banner_long && $banner_long->title !== NULL)
+                      <small class="d-block">Title : {{$banner_long->title}}</small>
+                      @endif
+
+                      @if($banner_long && $banner_long->link !== NULL)
+                      <small class="d-block">URL : {{$banner_long->link}}</small>
+                      @endif
                     </td>
+
                     <td width="20%">
                       @if($banner_long && $banner_long->secondary_image != NULL)
                         <img src="{{ $banner_long->secondary_image }}" width="196px" height="75px">
-                        @else
-                          <img src="/upload-images/banners/default/banner_long_1090_245.png" width="196px" height="75px">
                       @endif
                     </td>
                     <td width="20%">
-                      <small class="d-block">Title : This is test title</small>
-                      <small class="d-block">URL : https://www.facebook.com</small>
+                      @if($banner_long && $banner_long->secondary_title !== NULL)
+                      <small class="d-block">Title : {{$banner_long->secondary_title}}</small>
+                      @endif
+
+                      @if($banner_long && $banner_long->secondary_link !== NULL)
+                      <small class="d-block">URL : {{$banner_long->secondary_link}}</small>
+                      @endif
+
+                      @if($banner_long && $banner_long->secondary_start_time !== NULL && $banner_long->secondary_end_time)
+                      <small class="d-block">Start Time : {{$banner_long->secondary_start_time}}</small>
+                      <small class="d-block">End Time : {{$banner_long->secondary_end_time}}</small>
+                      @endif
                     </td>
                     <td width="5%">
                       @if($banner_long)
