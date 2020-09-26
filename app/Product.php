@@ -33,6 +33,7 @@ class Product extends Model
     public function get_images(){
     	return $this->hasMany('App\ProductMedia', 'image_id', 'image_id');
     }
+
     public function get_product_variations(){
     	return $this->hasMany('App\ProductVariation', 'product_id')->where('active', 1);
     }

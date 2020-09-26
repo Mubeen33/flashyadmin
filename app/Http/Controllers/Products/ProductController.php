@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use App\Exports\ProductsExport;
 use App\Product;
 use App\Category;
 use App\Vendor;
@@ -21,6 +22,7 @@ use App\VariationOption;
 use App\ProductVariation;
 use PDF;
 use Excel;
+use Response;
 
 use Illuminate\Support\Collection;
 
@@ -755,7 +757,6 @@ class ProductController extends Controller
                 ->with(['get_category', 'get_images'])
                 ->orderBy('title', 'ASC')
                 ->get();
-
         if ($data->isEmpty()) {
             return redirect()->back()->with('error', 'No Data Found');
         }
@@ -778,70 +779,8 @@ class ProductController extends Controller
     }
 
     public function Export_as_CSV($data){
-
-      $fileName = 'Product List CSV - '.date('d-m/Y');
-      $output = "";
-
-      $output .= "<!Doctype html>
-                  <html>
-                  <head>
-                    <title>Product List</title>
-                  </head>
-                  <body>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th style='border:1px solid #222; padding:0px 5px'>ID</th>
-                        <th style='border:1px solid #222; padding:0px 5px'>Title</th>
-                        <th style='border:1px solid #222; padding:0px 5px'>Category</th>
-                        <th style='border:1px solid #222; padding:0px 5px'>Description</th>
-                        <th style='border:1px solid #222; padding:0px 5px'>Image</th>
-                        <th style='border:1px solid #222; padding:0px 5px'>Product Type</th>
-                        <th style='border:1px solid #222; padding:0px 5px'>SKU</th>
-                      </tr>
-                    </thead>
-                  ";
-
-      foreach ($data as $key=>$content) {
-        $output .= "
-                    <tbody>
-                      <tr>
-                      <td style='border:1px dotted #222; padding:0px 5px'>".$content->id."</td>
-                      <td style='border:1px dotted #222; padding:0px 5px'>".$content->title."</td>
-                      <td style='border:1px dotted #222; padding:0px 5px'>".$content->get_category->name."</td>
-                      <td style='border:1px dotted #222; padding:0px 5px'>".$content->description."</td>
-                      ";
-            
-            if(!$content->get_images->isEmpty()){
-                foreach($content->get_images as $key_img=>$image){
-                  if($key_img == 0){
-                    $output .= $image->image;
-                    break;
-                  }
-                }
-            }else{
-                $output .= "No Image Found";
-            }
-                  
-
-        $output .= "
-                      <td style='border:1px dotted #222; padding:0px 5px'>".$content->product_type."</td>
-                      <td style='border:1px dotted #222; text-align:center; padding:0px 5px'>".$content->sku."</td>
-                    </tr>
-                    </tbody>
-                  ";
-      }
-      $output .="
-                </table>
-            </body>
-        </html>
-        ";
-
-      //headers
-      //header("Content-Type: application/xls");    
-      header("Content-Type:application/vnd.ms-excel");
-      header("Content-Disposition:attachment;filename=$fileName.xls");
-
-      echo $output;
+        return Excel::download(new ProductsExport($data), "products.xlsx");
+        //return Excel::download(new ProductsExport, 'products.xlsx');
     }
+
 }
