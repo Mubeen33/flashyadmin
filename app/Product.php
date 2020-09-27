@@ -3,8 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Feed\Feedable;
+use Spatie\Feed\FeedItem;
 
-class Product extends Model
+
+class Product extends Model implements Feedable
 {
 	protected $fillable = [
 		'title',
@@ -40,4 +43,23 @@ class Product extends Model
     public function get_vendor_products(){
     	return $this->hasMany('App\VendorProduct', 'prod_id');
     }
+
+
+    //feedable
+    public function toFeedItem(): FeedItem
+    {
+        return FeedItem::create([
+            'id' => $this->id,
+            'title' => $this->title,
+            'summary' => $this->description,
+            'updated' => $this->created_at,
+            'link' => route('admin.productDetails.get', encrypt($this->id)),
+            'author' => $this->get_vendor->first_name,
+        ]);
+    }
+    //get feeds
+    public static function getProductsFeed()
+	{
+	   return Product::all();
+	}
 }

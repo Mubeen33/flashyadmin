@@ -29,6 +29,7 @@ use Illuminate\Support\Collection;
 
 class ProductController extends Controller
 {
+
     public function get_pending_products(){
         $data = Product::where([
         			'approved'=>0,
