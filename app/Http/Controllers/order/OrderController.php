@@ -129,6 +129,18 @@ class OrderController extends Controller
                 }
 
 
+                if (!empty($vendor_id) && is_numeric($vendor_id)) {
+                    $data = Order::whereIn('vendor_product_id', $ven_product_id_list)
+                        ->where([
+                            'status'=>0,
+                            'vendor_id'=>$vendor_id
+                        ])
+                        ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
+                        ->orderBy($sort_by, $sorting_order)
+                        ->paginate($row_per_page);
+                    return view('orders.partials.orders-list', compact('data'))->render();
+                }
+
                 $data = Order::whereIn('vendor_product_id', $ven_product_id_list)
                         ->where([
                             'status'=>0,
@@ -136,11 +148,22 @@ class OrderController extends Controller
                         ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
                         ->orderBy($sort_by, $sorting_order)
                         ->paginate($row_per_page);
-
-                
                 return view('orders.partials.orders-list', compact('data'))->render();
             }
 
+
+            //without search key
+
+            if (!empty($vendor_id) && is_numeric($vendor_id)) {
+                $data = Order::where([
+                        'status'=>0,
+                        'vendor_id'=>$vendor_id
+                    ])
+                    ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
+                    ->orderBy($sort_by, $sorting_order)
+                    ->paginate($row_per_page);
+                return view('orders.partials.orders-list', compact('data'))->render();
+            }
             $data = Order::where([
                             'status'=>0,
                         ])

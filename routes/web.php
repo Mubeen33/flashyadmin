@@ -123,7 +123,11 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   
 
 
+   //orders
+   Route::resource('orders', 'order\OrderController');
+   Route::get('ajax-orders/fetch', 'order\OrderController@fetch_orders_list')->name('orders.ajaxPgination');
 
+  
   // General Route
   Route::post('get_subcategories/{id}','HomeController@getSubcategories')->name('subCategories.get');
   Route::post('get_categories_commission/{id}','HomeController@getCategoriesCommission')->name('subCategories.post');

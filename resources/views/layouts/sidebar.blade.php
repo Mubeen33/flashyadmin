@@ -165,6 +165,26 @@
                         </ul>
                     </li>
 
+                    <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">Orders</span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Orders</a>
+                                <ul class="dropdown-menu">
+                                    <li data-menu=""><a class="dropdown-item" href="{{route('admin.orders.index')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>All</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Content"><i class="feather icon-layout"></i>More</a>
+                                <ul class="dropdown-menu">
+                                    <li data-menu=""><a class="dropdown-item" href="#" data-toggle="dropdown" data-i18n="Grid"><i class="feather icon-circle"></i>Add New</a>
+                                    </li>
+                                    <li data-menu=""><a class="dropdown-item" href="#" data-toggle="dropdown" data-i18n="Typography"><i class="feather icon-circle"></i>All Banners</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
 
                     <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">Apps Features</span></a>
                         <ul class="dropdown-menu">
