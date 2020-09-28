@@ -43,9 +43,14 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::post('vendor/activity','Vendors\VendorController@delete_vendor_activity')->name('vendor.activityDelete.post');
   Route::get('signle-vendor-activity-ajax/fetch','Vendors\VendorController@ajax_single_vendor_actitvity')->name('signleVendorActivity.ajaxPgination');
   
-  //Vendor Inventory
+  //Vendor Inventory Report
   Route::get('vendor/inventory/{vendorID}', 'Vendors\InventoryController@get_vendor_products')->name('vendorProducts.get');
   Route::get('ajax-vendor/inventory/fetch', 'Vendors\InventoryController@ajax_fetch_data')->name('vendorProducts.ajaxPgination');
+
+
+  //Vendor Orders Report
+  Route::get('vendor/orders/{vendorID}', 'Vendors\OrderReportController@get_vendor_orders')->name('vendorOrders.get');
+  Route::get('ajax-vendor/orders/fetch', 'Vendors\OrderReportController@ajax_fetch_data')->name('vendorOrders.ajaxPgination');
 
 
 

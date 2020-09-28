@@ -21,7 +21,7 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
                     <a class="dropdown-item" href="{{ route('admin.vendors.show', encrypt($content->id)) }}">View Details</a>
                     <a class="dropdown-item" href="{{ route('admin.vendorProducts.get', encrypt($content->id)) }}">Inventory Report</a>
-                    <a class="dropdown-item" href="">Orders Report</a>
+                    <a class="dropdown-item" href="{{ route('admin.vendorOrders.get', encrypt($content->id)) }}">Orders Report</a>
                     <a class="dropdown-item" href="">Selles Report</a>
                     <a class="dropdown-item" href="">Transaction Report</a>
                 </div>

@@ -74,6 +74,7 @@ class InventoryController extends Controller
                 }
 
 
+                $vendor_products_id = array_unique($vendor_products_id);
                 if ($status != '' && is_numeric($status)) {
                     $data = VendorProduct::whereIn('id', $vendor_products_id)
                                     ->where('ven_id', $vendorID)
