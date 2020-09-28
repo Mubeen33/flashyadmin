@@ -7,7 +7,7 @@
     </td>
     <td>
         <?php
-            $vendor_product = (\App\VendorProduct::where('id', $content->get_vendor_product->id)->first());
+            $vendor_product = (\App\VendorProduct::where(['id'=>$content->get_vendor_product->id],['ven_id'=>$content->get_vendor_product->ven_id])->first());
             $product = (\App\Product::where('id', $content->get_vendor_product->prod_id)->with(['get_category', 'get_images'])->first());
             if ($product) {
                 //get product
@@ -49,9 +49,7 @@
         {{$content->created_at->format(env('GENERAL_DATE_FORMAT_WITH_HI'))}}
     </td>
     <td>
-        @if(intval($content->status) === 0)
-            <span class="badge badge-danger">New</span>
-        @endif
+        <span class="badge badge-info">{{ $content->status }}</span>
     </td>
     <td>
         <div class="btn-group">

@@ -19,10 +19,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $data = Order::where([
-                    'status'=>0,
-                ])
-                ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
+        $data = Order::with(['get_vendor', 'get_customer', 'get_vendor_product'])
                 ->orderBy('created_at', 'DESC')
                 ->paginate(5);
         return view('orders.index', compact('data'));
@@ -105,34 +102,68 @@ class OrderController extends Controller
             $row_per_page = $request->row_per_page;
             $vendor_id = $request->id;
 
-            if ($sort_by == "") {
+            if (empty($sort_by)) {
                 $sort_by = "created_at";
             }
-            if ($sorting_order == "") {
+            if (empty($sorting_order)) {
                 $sorting_order = "DESC";
             }
 
-            if (!empty($request->search_key)) {
-                $products = Product::where('title', 'LIKE', "%$searchKey%")->get('id');
+            if (!empty($searchKey)) {
+                $ven_product_id_list = [];
                 $productIDList = [];
+                //if search key only contain numeric
+                if (is_numeric($searchKey)) {
+                    //search order ID
+                    $order_id_list = Order::where('order_id', 'LIKE', "%$searchKey%")->get('vendor_product_id');
+                    foreach ($order_id_list as $key => $value) {
+                        $ven_product_id_list[] = $value->vendor_product_id;
+                    }
+                    $product_id_list = Product::where('id', 'LIKE', "%$searchKey%")->get('id');
+                    foreach ($product_id_list as $key => $value) {
+                        $productIDList[] = $value->id;
+                    }
+                }
+
+                //products
+                $products = Product::where('title', 'LIKE', "%$searchKey%")->get('id');
                 foreach ($products as $key => $value) {
                     $productIDList[] = $value->id;
                 }
+
+                //vendor products
+                $productIDList = array_unique($productIDList);
                 $vendor_products = VendorProduct::whereIn('prod_id', $productIDList)
                                             ->where([
                                                 'active'=>1,
                                             ])
                                             ->get('id');
-                $ven_product_id_list = [];
+                
                 foreach ($vendor_products as $key => $value) {
                     $ven_product_id_list[] = $value->id;
                 }
 
 
+                //unique the array - the id list of vendor_products tbl id
+                $ven_product_id_list = array_unique($ven_product_id_list);
+
+                //if have status and vendor_id
+                if (!empty($vendor_id) && is_numeric($vendor_id) && !empty($status)) {
+                    $data = Order::whereIn('vendor_product_id', $ven_product_id_list)
+                        ->where([
+                            'vendor_id'=>$vendor_id,
+                            'status'=>$status
+                        ])
+                        ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
+                        ->orderBy($sort_by, $sorting_order)
+                        ->paginate($row_per_page);
+                    return view('orders.partials.orders-list', compact('data'))->render();
+                }
+
+                //if have vendor_id only
                 if (!empty($vendor_id) && is_numeric($vendor_id)) {
                     $data = Order::whereIn('vendor_product_id', $ven_product_id_list)
                         ->where([
-                            'status'=>0,
                             'vendor_id'=>$vendor_id
                         ])
                         ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
@@ -141,10 +172,19 @@ class OrderController extends Controller
                     return view('orders.partials.orders-list', compact('data'))->render();
                 }
 
-                $data = Order::whereIn('vendor_product_id', $ven_product_id_list)
+                //if have status only
+                if (!empty($status)) {
+                    $data = Order::whereIn('vendor_product_id', $ven_product_id_list)
                         ->where([
-                            'status'=>0,
+                            'status'=>$status
                         ])
+                        ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
+                        ->orderBy($sort_by, $sorting_order)
+                        ->paginate($row_per_page);
+                    return view('orders.partials.orders-list', compact('data'))->render();
+                }
+
+                $data = Order::whereIn('vendor_product_id', $ven_product_id_list)
                         ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
                         ->orderBy($sort_by, $sorting_order)
                         ->paginate($row_per_page);
@@ -154,9 +194,21 @@ class OrderController extends Controller
 
             //without search key
 
+            //if have status and vendor_id
+            if (!empty($vendor_id) && is_numeric($vendor_id) && !empty($status)) {
+                $data = Order::where([
+                        'vendor_id'=>$vendor_id,
+                        'status'=>$status
+                    ])
+                    ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
+                    ->orderBy($sort_by, $sorting_order)
+                    ->paginate($row_per_page);
+                return view('orders.partials.orders-list', compact('data'))->render();
+            }
+
+            //if only have vendor id
             if (!empty($vendor_id) && is_numeric($vendor_id)) {
                 $data = Order::where([
-                        'status'=>0,
                         'vendor_id'=>$vendor_id
                     ])
                     ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
@@ -164,10 +216,19 @@ class OrderController extends Controller
                     ->paginate($row_per_page);
                 return view('orders.partials.orders-list', compact('data'))->render();
             }
-            $data = Order::where([
-                            'status'=>0,
-                        ])
-                        ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
+
+            //if only have status
+            if (!empty($status)) {
+                $data = Order::where([
+                        'status'=>$status
+                    ])
+                    ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
+                    ->orderBy($sort_by, $sorting_order)
+                    ->paginate($row_per_page);
+                return view('orders.partials.orders-list', compact('data'))->render();
+            }
+
+            $data = Order::with(['get_vendor', 'get_customer', 'get_vendor_product'])
                         ->orderBy($sort_by, $sorting_order)
                         ->paginate($row_per_page);
             return view('orders.partials.orders-list', compact('data'))->render();
