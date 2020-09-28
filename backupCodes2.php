@@ -1,155 +1,93 @@
 <?php
 
-namespace App\Http\Controllers\order;
+namespace App\Http\Controllers\Vendors;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Order;
 use App\Vendor;
 use App\Product;
+use App\ProductVariation;
 use App\VendorProduct;
-use Auth;
 
-class OrderController extends Controller
+class InventoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $data = Order::where([
-                    'status'=>0,
-                ])
-                ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
-                ->orderBy('created_at', 'DESC')
+   public function get_vendor_products($vendorID){
+       $vendor = Vendor::where(['id'=>decrypt($vendorID), 'active'=>1])->first();
+       if (!$vendor) {
+           return abort(404);
+       }
+
+       //get vendor products
+       $data = VendorProduct::where('ven_id', decrypt($vendorID))
+                ->with(['get_product', 'get_active_variation'])
+                ->orderBy('id', 'DESC')
                 ->paginate(5);
-        return view('orders.index', compact('data'));
-    }
+        return view('Vendors.inventory.index', compact('data', 'vendor'));
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+   }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-
-    //ajax fetch
-    public function fetch_orders_list(Request $request){
+   //fetch
+   public function ajax_fetch_data(Request $request){
         if ($request->ajax()) {
             $searchKey = $request->search_key;
             $sort_by = $request->sort_by;
             $sorting_order = $request->sorting_order;
             $status = $request->status;
+            $vendorID = decrypt($request->id);
             $row_per_page = $request->row_per_page;
-            $vendor_id = $request->id;
 
-            if ($sort_by == "") {
-                $sort_by = "created_at";
+            if (empty($sort_by)) {
+                $sort_by = "id";
             }
-            if ($sorting_order == "") {
+            if (empty($sorting_order)) {
                 $sorting_order = "DESC";
             }
 
-            if (!empty($request->search_key)) {
-                $products = Product::where('title', 'LIKE', "%$searchKey%")->get('id');
-                $productIDList = [];
-                foreach ($products as $key => $value) {
-                    $productIDList[] = $value->id;
+            $renderPage = "Vendors.inventory.partials.product-list";
+
+            if (!empty($searchKey)) {
+                $vendor_products_id = [];
+
+                //search products title
+                $product_id = Product::where("title", "LIKE", "%$searchKey%")
+                            ->get('id');
+
+                foreach ($product_id as $key => $value) {
+                    $data = VendorProduct::where(['ven_id'=>$vendorID, 'prod_id'=>$value->id])->first();
+                    if ($data) {
+                        $vendor_products_id[] = $data->id;
+                    }
                 }
-                $vendor_products = VendorProduct::whereIn('prod_id', $productIDList)
-                                            ->where([
-                                                'active'=>1,
-                                            ])
-                                            ->get('id');
-                $ven_product_id_list = [];
-                foreach ($vendor_products as $key => $value) {
-                    $ven_product_id_list[] = $value->id;
+
+                //search product variations
+                $product_variation_id = ProductVariation::where("first_variation_value", "LIKE", "%$searchKey%")
+                            ->orWhere("second_variation_value", "LIKE", "%$searchKey%")
+                            ->where('active', '=', 1)
+                            ->get('id');
+
+                foreach ($product_variation_id as $key => $value) {
+                    $data = VendorProduct::where(['ven_id'=>$vendorID, 'variation_id'=>$value->id])->first();
+                    if ($data) {
+                        $vendor_products_id[] = $data->id;
+                    }
                 }
 
-
-                $data = Order::whereIn('vendor_product_id', $ven_product_id_list)
-                        ->where([
-                            'status'=>0,
-                        ])
-                        ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
-                        ->orderBy($sort_by, $sorting_order)
-                        ->paginate($row_per_page);
-
-                
-                return view('orders.partials.orders-list', compact('data'))->render();
+                $data = VendorProduct::whereIn('id', $vendor_products_id)
+                                    ->where('ven_id', $vendorID)
+                                    ->orderBy($sort_by, $sorting_order)
+                                    ->with(['get_product', 'get_active_variation'])
+                                    ->paginate($row_per_page);
+                return view($renderPage, compact('data'))->render();
             }
 
-            $data = Order::where([
-                            'status'=>0,
-                        ])
-                        ->with(['get_vendor', 'get_customer', 'get_vendor_product'])
-                        ->orderBy($sort_by, $sorting_order)
-                        ->paginate($row_per_page);
-            return view('orders.partials.orders-list', compact('data'))->render();
-            
+
+            //without search key
+            $data = VendorProduct::where('ven_id', $vendorID)
+                                ->orderBy($sort_by, $sorting_order)
+                                ->with(['get_product', 'get_active_variation'])
+                                ->paginate($row_per_page);
+            return view($renderPage, compact('data'))->render();
         }
         return abort(404);
-    }
+   }
 }

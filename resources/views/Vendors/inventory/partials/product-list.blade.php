@@ -1,7 +1,15 @@
 @foreach($data as $key=>$content)
     <tr>
         <th scope="row">{{ $key+1 }}</th>                                          
-        <td>{{ $content->get_product->title }}</td>
+        <td>
+            {{ $content->get_product->title }}
+            @if($content->get_active_variation)
+                {{' | '.$content->get_active_variation->first_variation_value}}
+                @if($content->get_active_variation->second_variation_value !== NULL)
+                    {{' - '.$content->get_active_variation->second_variation_value}}
+                @endif
+            @endif
+        </td>
         <td>
             <?php
                 //get category
@@ -37,7 +45,7 @@
             @if(intval($content->active) === 1)
                 <span class="badge badge-success">Active</span>
             @else
-                <span class="badge badge-danger">Inactive</span>>
+                <span class="badge badge-danger">Inactive</span>
             @endif
         </td>
         <td>

@@ -26,6 +26,10 @@ class VendorProduct extends Model
     	return $this->belongsTo('App\ProductVariation', 'variation_id', 'id');
     }
 
+    public function get_active_variation(){
+    	return $this->belongsTo('App\ProductVariation', 'variation_id', 'id')->where('active', 1);
+    }
+
     public function get_vendor(){
     	return $this->belongsTo('App\Vendor', 'ven_id', 'id');
     }
