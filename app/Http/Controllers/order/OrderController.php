@@ -134,9 +134,7 @@ class OrderController extends Controller
                 //vendor products
                 $productIDList = array_unique($productIDList);
                 $vendor_products = VendorProduct::whereIn('prod_id', $productIDList)
-                                            ->where([
-                                                'active'=>1,
-                                            ])
+                                            ->where(['active'=>1])
                                             ->get('id');
                 
                 foreach ($vendor_products as $key => $value) {
