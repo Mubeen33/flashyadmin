@@ -8,6 +8,7 @@ use App\Vendor;
 use App\Product;
 use App\ProductVariation;
 use App\VendorProduct;
+use Illuminate\Support\Collection;
 
 class InventoryController extends Controller
 {
@@ -45,7 +46,7 @@ class InventoryController extends Controller
 
             $renderPage = "Vendors.inventory.partials.product-list";
 
-            if (!empty($searchKey)) {
+            if ($searchKey != '') {
                 $vendor_products_id = [];
 
                 //search products title
@@ -72,21 +73,51 @@ class InventoryController extends Controller
                     }
                 }
 
+
+                if ($status != '' && is_numeric($status)) {
+                    $data = VendorProduct::whereIn('id', $vendor_products_id)
+                                    ->where('ven_id', $vendorID)
+                                    ->where('active', $status)
+                                    ->orderBy($sort_by, $sorting_order)
+                                    ->with(['get_product', 'get_active_variation'])
+                                    ->paginate($row_per_page);
+                    return view($renderPage, compact('data'))->render();
+                }
+
                 $data = VendorProduct::whereIn('id', $vendor_products_id)
                                     ->where('ven_id', $vendorID)
                                     ->orderBy($sort_by, $sorting_order)
                                     ->with(['get_product', 'get_active_variation'])
                                     ->paginate($row_per_page);
                 return view($renderPage, compact('data'))->render();
+                
             }
 
 
             //without search key
-            $data = VendorProduct::where('ven_id', $vendorID)
+            if ($status != '' && is_numeric($status)) {
+                $data = VendorProduct::where('ven_id', $vendorID)
+                                ->where('active', $status)
                                 ->orderBy($sort_by, $sorting_order)
                                 ->with(['get_product', 'get_active_variation'])
                                 ->paginate($row_per_page);
+                return view($renderPage, compact('data'))->render();
+            }
+
+            $data = VendorProduct::where('ven_id', $vendorID)
+                                ->with(['get_product', 'get_active_variation'])
+                                ->paginate($row_per_page);
+            
+            if ($sorting_order === "DESC") {
+                $data = $data->sortByDesc($sort_by);
+                $data = (new Collection($data))->paginate_build_by_developer_rijan($row_per_page);
+                return view($renderPage, compact('data'))->render();
+            }
+            $data = $data->sortBy($sort_by);//asc
+            $data = (new Collection($data))->paginate_build_by_developer_rijan($row_per_page);
             return view($renderPage, compact('data'))->render();
+
+            
         }
         return abort(404);
    }

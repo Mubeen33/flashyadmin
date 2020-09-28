@@ -28,7 +28,7 @@
                                 <div><h4 class="card-title"><b>{{ $vendor->first_name }} {{ $vendor->last_name }}'s </b>Product List</h4></div>
                                 <div>
                                     <select id="hidden__status" title="Select Status">
-                                        <option value="">Status</option>
+                                        <option value="" selected>Status</option>
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
