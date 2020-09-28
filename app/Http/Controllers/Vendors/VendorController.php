@@ -21,9 +21,18 @@ class VendorController extends Controller
      */
     public function index()
     {
-        //return all vendors list
-        $data = Vendor::orderBy('id', 'DESC')->paginate(5);
+        //return all vendors active/approved list
+        $data = Vendor::where('active', 1)
+                    ->orderBy('id', 'DESC')
+                    ->paginate(5);
         return view('Vendors.index', compact('data'));
+    }
+
+    public function get_pending_vendors(){
+        $data = Vendor::where('active', 0)
+                    ->orderBy('id', 'DESC')
+                    ->paginate(5);
+        return view('Vendors.pending-vendors', compact('data'));
     }
 
     /**
@@ -559,27 +568,55 @@ class VendorController extends Controller
             $searchKey = $request->search_key;
             $sort_by = $request->sort_by;
             $sorting_order = $request->sorting_order;
+            $status = $request->status;
             $row_per_page = $request->row_per_page;
 
-            if ($sort_by == "") {
+            if (empty($sort_by)) {
                 $sort_by = "id";
             }
-            if ($sorting_order == "") {
+            if (empty($sorting_order)) {
                 $sorting_order = "DESC";
             }
 
-            if ($request->search_key != "") {
-                $data = Vendor::where("first_name", "LIKE", "%$searchKey%")
-                            ->orWhere("last_name", "LIKE", "%$searchKey%")
-                            ->orWhere("email", "LIKE", "%$searchKey%")
-                            ->orWhere("phone", "LIKE", "%$searchKey%")
-                            ->orderBy($sort_by, $sorting_order)
-                            ->paginate($row_per_page);
-                return view('Vendors.partials.vendors-list', compact('data'))->render();
+            $renderPage = "Vendors.partials.vendors-list";
+            if (intval($status) === 0) {
+                $renderPage = "Vendors.partials.vendors-pending-list";
             }
 
-            $data = Vendor::orderBy($sort_by, $sorting_order)->paginate($row_per_page);
-            return view('Vendors.partials.vendors-list', compact('data'))->render();
+            if (!empty($searchKey)) {
+                $vendors_data = Vendor::where("first_name", "LIKE", "%$searchKey%")
+                            ->orWhere("last_name", "LIKE", "%$searchKey%")
+                            ->orWhere("email", "LIKE", "%$searchKey%")
+                            ->orWhere("mobile", "LIKE", "%$searchKey%")
+                            ->get(['id', 'active']);
+
+                $idList = [];
+                if (intval($status) === 0) {
+                    foreach ($vendors_data as $key => $value) {
+                        if (intval($value->active) === 0) {
+                            $idList[] = $value->id;
+                        }
+                    }
+                    
+                }elseif (intval($status) === 1) {
+                    foreach ($vendors_data as $key => $value) {
+                        if (intval($value->active) === 1) {
+                            $idList[] = $value->id;
+                        }
+                    }
+                    
+                }else{
+                    return response()->json('Invalid Vendors Type', 422);
+                }
+
+                $data = Vendor::whereIn('id', $idList)
+                                    ->orderBy($sort_by, $sorting_order)
+                                    ->paginate($row_per_page);
+                return view($renderPage, compact('data'))->render();
+            }
+
+            $data = Vendor::where('active', $status)->orderBy($sort_by, $sorting_order)->paginate($row_per_page);
+            return view($renderPage, compact('data'))->render();
         }
         return abort(404);
         

@@ -73,7 +73,14 @@
                     <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-package"></i><span data-i18n="Apps">Vendors</span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
-                                <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendors.index')}}"><i class="feather icon-circle"></i>All Vendors</a></li>
+                                <a class="dropdown-item" href=""><i class="feather icon-circle"></i>Vendors</a>
+                                <ul class="dropdown-menu">
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.pendingVendors.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Pending</a>
+                                    </li>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendors.index')}}" data-toggle="dropdown" data-i18n="Thumb View"><i class="feather icon-circle"></i>All</a>
+                                    </li>
+                                </ul>
+                            </li>
                                 <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendor.activities.get')}}"><i class="feather icon-circle"></i>Vendors Activity</a></li>
                                 <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendor.bankUpdates.get')}}"><i class="feather icon-circle"></i>Bank Updates 
                                     @php

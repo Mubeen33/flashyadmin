@@ -6,10 +6,10 @@
     <td>{{ $content->email }}</td>
     <td>{{ $content->mobile }}</td>
     <td>{{ $content->company_name }}</td>
-    <td>{{ $content->created_at->format(env('GENERAL_DATE_FORMAT')) }}</td>
+    <td>{{ $content->created_at->format('d/m/Y') }}</td>
     <td>
-        @if(intval($content->active) === 1)
-            <div class="badge badge-success">Approved</div>
+        @if(intval($content->active) === 0)
+            <div class="badge badge-danger">Pending</div>
         @endif    
     </td>
     <td>
@@ -20,10 +20,6 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
                     <a class="dropdown-item" href="{{ route('admin.vendors.show', Crypt::encrypt($content->id)) }}">View Details</a>
-                    <a class="dropdown-item" href="">Inventory Report</a>
-                    <a class="dropdown-item" href="">Orders Report</a>
-                    <a class="dropdown-item" href="">Selles Report</a>
-                    <a class="dropdown-item" href="">Transaction Report</a>
                 </div>
             </div>
         </div>

@@ -27,6 +27,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
 	Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
   Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
   Route::post('new-vendor/update-pass','Vendors\VendorController@update_vendor_pass')->name("vendor.passUpdate.post");
+  Route::get('pending-vendors','Vendors\VendorController@get_pending_vendors')->name("pendingVendors.get");
   //ajax requests
   Route::get('vendors-ajax-pagination/fetch', 'Vendors\VendorController@fetch_paginate_data')->name('vendors.ajaxPgination');
   
@@ -42,6 +43,10 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::post('vendor/activity','Vendors\VendorController@delete_vendor_activity')->name('vendor.activityDelete.post');
   Route::get('signle-vendor-activity-ajax/fetch','Vendors\VendorController@ajax_single_vendor_actitvity')->name('signleVendorActivity.ajaxPgination');
   
+  //
+
+
+
   //auth pages
   Route::resource('auth-pages','Auth\PagesController');
     

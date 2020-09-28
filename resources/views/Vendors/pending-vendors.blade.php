@@ -59,7 +59,7 @@
                                             </thead>
 
                                             <tbody id="render__data">
-                                                @include('Vendors.partials.vendors-list')
+                                                @include('Vendors.partials.vendors-pending-list')
                                             </tbody>
                                             
                                         </table>
@@ -67,7 +67,7 @@
                                         <input type="hidden" id="hidden__page_number" value="1">
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">
-                                        <input type="hidden" id="hidden__status" value="1">
+                                        <input type="hidden" id="hidden__status" value="0">
                                         <input type="hidden" id="hidden__id" value="">
                                     </div>
                                 </div>
