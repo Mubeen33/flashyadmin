@@ -24,7 +24,14 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header justify-content-between">
-                                <div><h4 class="card-title">Show Product Reviews</h4></div>
+                                <div>
+                                    <h4 class="card-title"><b>{{ $review->get_product->title }}'s</b> Reviews ({{ $data->total() }})</h4>
+                                    <br>
+                                    <?php
+                                        $averateRatings = number_format(($data->sum('star')/$data->total()), 2);
+                                    ?>
+                                    @include('rating_stars.rating_stars', ['averateRatings'=>$averateRatings])
+                                </div>
                                 <div>
                                     <input type="text" id="searchKey__" placeholder="Search">
                                     <select id="selected_row_per_page" title="Display row per page">

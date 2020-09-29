@@ -34,6 +34,7 @@ class ProductReviewController extends Controller
     //show single product reivews
     public function show_single_product_reviews($review_tbl_id){
         $review = ProductReview::where('id', decrypt($review_tbl_id))
+                        ->with('get_product')
                         ->first();
         if (!$review) {
             return abort(404);

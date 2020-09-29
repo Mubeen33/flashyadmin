@@ -24,7 +24,11 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header justify-content-between">
-                                <div><h4 class="card-title">Show Product Reviews</h4></div>
+                                <div>
+                                    <h4 class="card-title"><b>{{ $review->get_product->title }}'s</b> Reviews</h4>
+                                    <br>
+                                    ({{ $data->total() }})
+                                </div>
                                 <div>
                                     <input type="text" id="searchKey__" placeholder="Search">
                                     <select id="selected_row_per_page" title="Display row per page">
