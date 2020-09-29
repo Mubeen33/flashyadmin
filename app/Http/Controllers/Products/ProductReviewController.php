@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
 use App\ProductReview;
+use App\Customer;
 use DB;
 
 class ProductReviewController extends Controller
@@ -27,6 +28,22 @@ class ProductReviewController extends Controller
                  ->paginate(5);
 
         return view('product.review.index', compact('data'));
+    }
+
+
+    //show single product reivews
+    public function show_single_product_reviews($review_tbl_id){
+        $review = ProductReview::where('id', decrypt($review_tbl_id))
+                        ->first();
+        if (!$review) {
+            return abort(404);
+        }
+        $data = ProductReview::where('product_id', $review->product_id)
+                ->with(['get_customer'])
+                ->orderBy('created_at', 'DESC')
+                ->paginate(5);
+
+        return view('product.review.show', compact('review', 'data'));
     }
 
     /**
@@ -153,6 +170,66 @@ class ProductReviewController extends Controller
                                     )
                                      ->groupBy('product_id')
                                      ->with(['get_product', 'get_customer'])
+                                     ->orderBy($sort_by, $sorting_order)
+                                     ->paginate($row_per_page);
+            return view($renderPage, compact('data'))->render();
+        }
+        return abort(404);
+    }
+
+
+
+    public function fetch_single_product_reviews(Request $request){
+        if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+            $status = $request->status;
+            $product_id = decrypt($request->id);
+            $row_per_page = $request->row_per_page;
+
+            if (empty($sort_by)) {
+                $sort_by = "id";
+            }
+            if (empty($sorting_order)) {
+                $sorting_order = "DESC";
+            }
+
+
+            $renderPage = "product.review.partials.review-list";
+            if ($searchKey != '') {
+
+                $get_reviews = ProductReview::where('product_id', $product_id)->get(['id', 'customer_id']);
+                $get_review_customers = [];
+                foreach ($get_reviews as $key => $value) {
+                    $get_review_customers[] = $value->customer_id;
+                }
+
+
+                //customer_id
+                $customer_id = Customer::where("first_name", "LIKE", "%$searchKey%")
+                            ->orWhere("last_name", "LIKE", "%$searchKey%")
+                            ->get('id');
+
+                //if review have certain customer
+                $cutomer_id_list = [];
+                foreach ($customer_id as $key => $customer) {
+                    if (in_array($customer->id, $get_review_customers)) {
+                        $cutomer_id_list[] = $customer->id;
+                    }
+                }
+
+                $data = ProductReview::whereIn('customer_id', $cutomer_id_list)
+                                    ->where('product_id', $product_id)
+                                     ->with('get_customer')
+                                     ->orderBy($sort_by, $sorting_order)
+                                     ->paginate($row_per_page);
+                return view($renderPage, compact('data'))->render();
+            }
+
+            //withour search
+            $data = ProductReview::where('product_id', $product_id)
+                                    ->with('get_customer')
                                      ->orderBy($sort_by, $sorting_order)
                                      ->paginate($row_per_page);
             return view($renderPage, compact('data'))->render();

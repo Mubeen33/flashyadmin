@@ -134,7 +134,9 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
 
    //product reviews
    Route::resource('product-reviews', 'Products\ProductReviewController');
+   Route::get('show-product-reviews/{reivew_tbl_id}', 'Products\ProductReviewController@show_single_product_reviews')->name('showProductReviews.get');
    Route::get('ajax-product-reviews/fetch', 'Products\ProductReviewController@fetch_product_reviews')->name('productReivews.ajaxPgination');
+   Route::get('single-product-reviews/fetch', 'Products\ProductReviewController@fetch_single_product_reviews')->name('reviews.ajaxPgination');
   
 
 

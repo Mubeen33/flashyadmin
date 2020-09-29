@@ -56,7 +56,7 @@
                         Actions
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                        <a class="dropdown-item" href="{{ route('admin.productDetails.get', encrypt($content->id)) }}">Show</a>
+                        <a class="dropdown-item" href="{{ route('admin.showProductReviews.get', encrypt($content->id)) }}">Show</a>
                     </div>
                 </div>
             </div>
