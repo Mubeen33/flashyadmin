@@ -132,6 +132,9 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::get('export-products', function(){return abort(404);});
    Route::post('export-products', 'Products\ProductController@export_products_post')->name('productsExport.post');
 
+   //product reviews
+   Route::resource('product-reviews', 'Products\ProductReviewController');
+   Route::get('ajax-product-reviews/fetch', 'Products\ProductReviewController@fetch_product_reviews')->name('productReivews.ajaxPgination');
   
 
 

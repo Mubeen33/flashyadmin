@@ -161,11 +161,9 @@
                                 </ul>
                             </li>
 
-                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Content"><i class="feather icon-layout"></i>More</a>
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Content"><i class="feather icon-layout"></i>Reviews</a>
                                 <ul class="dropdown-menu">
-                                    <li data-menu=""><a class="dropdown-item" href="#" data-toggle="dropdown" data-i18n="Grid"><i class="feather icon-circle"></i>Add New</a>
-                                    </li>
-                                    <li data-menu=""><a class="dropdown-item" href="#" data-toggle="dropdown" data-i18n="Typography"><i class="feather icon-circle"></i>All Banners</a>
+                                    <li data-menu=""><a class="dropdown-item" href="{{ route('admin.product-reviews.index') }}" data-toggle="dropdown" data-i18n="Grid"><i class="feather icon-circle"></i>All</a>
                                     </li>
                                 </ul>
                             </li>
