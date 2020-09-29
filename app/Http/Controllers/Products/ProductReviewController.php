@@ -23,7 +23,8 @@ class ProductReviewController extends Controller
                 )
                  ->groupBy('product_id')
                  ->with(['get_product', 'get_customer'])
-                 ->paginate();
+                 ->orderBy('id', 'DESC')
+                 ->paginate(5);
 
         return view('product.review.index', compact('data'));
     }
@@ -92,5 +93,70 @@ class ProductReviewController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+
+    public function fetch_product_reviews(Request $request){
+        if ($request->ajax()) {
+            $searchKey = $request->search_key;
+            $sort_by = $request->sort_by;
+            $sorting_order = $request->sorting_order;
+            $status = $request->status;
+            $row_per_page = $request->row_per_page;
+
+            if (empty($sort_by)) {
+                $sort_by = "id";
+            }
+            if (empty($sorting_order)) {
+                $sorting_order = "DESC";
+            }
+
+            $renderPage = "product.review.partials.list";
+
+            if ($searchKey != '') {
+                $review_product_id_list = [];
+
+                $product_reviews = ProductReview::get('product_id');
+                foreach ($product_reviews as $key => $value) {
+                    $review_product_id_list[] = $value->product_id;
+                }
+
+                //products
+                $products = Product::where("title", "LIKE", "%$searchKey%")
+                            ->get('id');
+                
+                //if product have review
+                $product_id_list = [];
+                foreach ($products as $key => $product) {
+                    if (in_array($product->id, $review_product_id_list)) {
+                        $product_id_list[] = $product->id;
+                    }
+                }
+
+                $data = ProductReview::whereIn('product_id', $product_id_list)
+                                    ->select('*', 
+                                        DB::raw("COUNT(product_id) as total_review"),
+                                        DB::raw("SUM(star) as total_star")
+                                    )
+                                     ->groupBy('product_id')
+                                     ->with(['get_product', 'get_customer'])
+                                     ->orderBy($sort_by, $sorting_order)
+                                     ->paginate($row_per_page);
+                return view($renderPage, compact('data'))->render();
+            }
+
+            //withour search
+            $data = ProductReview::select('*', 
+                                        DB::raw("COUNT(product_id) as total_review"),
+                                        DB::raw("SUM(star) as total_star")
+                                    )
+                                     ->groupBy('product_id')
+                                     ->with(['get_product', 'get_customer'])
+                                     ->orderBy($sort_by, $sorting_order)
+                                     ->paginate($row_per_page);
+            return view($renderPage, compact('data'))->render();
+        }
+        return abort(404);
     }
 }

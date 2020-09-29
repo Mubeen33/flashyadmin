@@ -29,7 +29,7 @@
                                 <div><h4 class="card-title">Product Reviews</h4></div>
                                 <div>
                                     <select class="d-none" id="hidden__id" title="Select Vendor">
-                                        <option value="">Status</option>
+                                        <option value="" selected>Status</option>
                                         <option value="disable">Disable</option>
                                     </select>
                                     <input type="text" id="searchKey__" placeholder="Search">
@@ -81,7 +81,7 @@
                                         <input type="hidden" id="hidden__page_number" value="1">
                                         <input type="hidden" id="hidden__sort_by" value="id">
                                         <input type="hidden" id="hidden__sorting_order" value="DESC">
-                                        <input type="hidden" id="hidden__status" value="1">
+                                        <input type="hidden" id="hidden__status" value="">
                                     </div>
                                 </div>
                             </div>
