@@ -234,4 +234,18 @@ class OrderController extends Controller
         }
         return abort(404);
     }
+
+
+
+    //order_status_update
+    public function order_status_update($orderID, $status){
+        if ($status === "Canceled") {
+            Order::findOrFail(decrypt($orderID));
+            Order::where('id', decrypt($orderID))->update([
+                'status'=>$status
+            ]);
+            return redirect()->back()->with('success', 'Order '.$status);
+        }
+        return redirect()->back()->with('error', 'Invalid Request');
+    }
 }

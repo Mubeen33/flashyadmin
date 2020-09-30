@@ -64,9 +64,11 @@
                     Actions
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-                    <a class="dropdown-item" href="#">Show</a>
                     <a class="dropdown-item" href="#">Accept</a>
-                    <a class="dropdown-item" href="#">Cancel</a>
+
+                    @if($content->status !== "Canceled")
+                        <a onclick="return confirm('Are you sure?')" class="dropdown-item" href="{{ route('admin.orderAction.post', [encrypt($content->id), 'Canceled']) }}">Cancel</a>
+                    @endif
                 </div>
             </div>
         </div>
