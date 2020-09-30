@@ -105,7 +105,7 @@ function formClientSideValidation(event, formID, needScrolling){
 	          		$(this).addClass('border-danger-alert');
 	          		$(this).siblings('.place-error--msg').html("This field is required.");
 				}
-		})
+			})
 
 		if (formPass === false) {
 			if (needScrolling === "yes") {
