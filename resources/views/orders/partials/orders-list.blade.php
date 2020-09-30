@@ -22,12 +22,12 @@
     </td>
     <td>
         @if($vendor_product)
-            {{$vendor_product->mk_price}}
+            {{env('PRICE_SYMBOL').$vendor_product->mk_price}}
         @endif
     </td>
     <td>
         @if($vendor_product)
-            {{$vendor_product->price}}
+            {{env('PRICE_SYMBOL').$vendor_product->price}}
         @endif
     </td>
     <td>
@@ -44,6 +44,12 @@
     </td>
     <td>
         {{$content->qty}}
+    </td>
+    <td>
+        {{env('PRICE_SYMBOL').$content->grand_total}}
+    </td>
+    <td>
+        {{$content->payment_option}}
     </td>
     <td>
         {{$content->created_at->format(env('GENERAL_DATE_FORMAT_WITH_HI'))}}
