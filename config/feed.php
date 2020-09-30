@@ -16,7 +16,7 @@ return [
             /*
              * The feed will be available on this url.
              */
-            'url' => '/admin/products/feed',
+            'url' => '/feed/products/feed',
 
             'title' => 'Products List',
             'description' => 'The products list feed.',
