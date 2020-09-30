@@ -77,5 +77,5 @@
 </tr>
 @endforeach
 <tr>
-    <td colspan="9">{!! $data->links() !!}</td>
+    <td colspan="14">{!! $data->links() !!}</td>
 </tr>
