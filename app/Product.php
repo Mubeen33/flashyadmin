@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Feed\Feedable;
-use Spatie\Feed\FeedItem;
+// use Spatie\Feed\Feedable;
+// use Spatie\Feed\FeedItem;
 
 
 class Product extends Model implements Feedable
