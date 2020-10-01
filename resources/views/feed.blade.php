@@ -1,1 +1,1 @@
-@include('feed::atom')
+<!-- @include('feed::atom') -->

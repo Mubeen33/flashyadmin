@@ -1,8 +1,8 @@
 <?php
 
-return [
-    'feeds' => [
-        'main' => [
+// return [
+//     'feeds' => [
+//         'main' => [
             /*
              * Here you can specify which class and method will return
              * the items that should appear in the feed. For example:
@@ -11,26 +11,26 @@ return [
              * You can also pass an argument to that method:
              * ['App\Model@getAllFeedItems', 'argument']
              */
-            'items' => 'App\Product@getProductsFeed',
+            // 'items' => 'App\Product@getProductsFeed',
 
             /*
              * The feed will be available on this url.
              */
-            'url' => '/feed/products/feed',
+            // 'url' => '/feed/products/feed',
 
-            'title' => 'Products List',
-            'description' => 'The products list feed.',
-            'language' => 'en-US',
+            // 'title' => 'Products List',
+            // 'description' => 'The products list feed.',
+            // 'language' => 'en-US',
 
             /*
              * The view that will render the feed.
              */
-            'view' => 'app_feeds.admin-products-feed',
+            // 'view' => 'app_feeds.admin-products-feed',
 
             /*
              * The type to be used in the <link> tag
              */
-            'type' => 'application/atom+xml',
-        ],
-    ],
-];
+//             'type' => 'application/atom+xml',
+//         ],
+//     ],
+// ];

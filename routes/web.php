@@ -13,7 +13,7 @@ Route::get('/', 'HomeController@checkLogin');
 Route::get('/home', 'HomeController@index')->name('home');
 
 //feed
-Route::feeds();
+// Route::feeds();
 
 
 Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], function(){
