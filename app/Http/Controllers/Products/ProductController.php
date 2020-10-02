@@ -230,7 +230,7 @@ class ProductController extends Controller
             'length'=>$request->length,
             'warranty'=>$request->warranty,
             'video_link'=>$request->video_link,
-            // 'approved'=> 1,
+            'approved'=> 1,
             'updated_at'=>Carbon::now()
             
         ]);
