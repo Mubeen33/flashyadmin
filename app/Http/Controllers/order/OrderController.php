@@ -9,7 +9,6 @@ use App\Vendor;
 use App\Product;
 use App\VendorProduct;
 use Auth;
-use DB;
 
 class OrderController extends Controller
 {
@@ -20,13 +19,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        // $data = Order::with(['get_vendor', 'get_customer', 'get_vendor_product'])
-        //         ->orderBy('created_at', 'DESC')
-        //         ->paginate(5)->groupBy('order_id');
-        $data = DB::table('orders')->with(['get_vendor', 'get_customer', 'get_vendor_product'])->paginate(5)->groupBy('order_id');
-        //  echo "<pre>";
-        // print_r($data);
-        // return;    
+        $data = Order::with(['get_vendor', 'get_customer', 'get_vendor_product'])
+                ->orderBy('created_at', 'DESC')
+                ->paginate(5);
         return view('orders.index', compact('data'));
     }
 
@@ -98,7 +93,6 @@ class OrderController extends Controller
 
 
     //ajax fetch
-    
     public function fetch_orders_list(Request $request){
         if ($request->ajax()) {
             $searchKey = $request->search_key;
@@ -118,13 +112,9 @@ class OrderController extends Controller
             if (!empty($searchKey)) {
                 $ven_product_id_list = [];
                 $productIDList = [];
-
                 //if search key only contain numeric
-
                 if (is_numeric($searchKey)) {
-
                     //search order ID
-
                     $order_id_list = Order::where('order_id', 'LIKE', "%$searchKey%")->get('vendor_product_id');
                     foreach ($order_id_list as $key => $value) {
                         $ven_product_id_list[] = $value->vendor_product_id;
@@ -136,14 +126,12 @@ class OrderController extends Controller
                 }
 
                 //products
-
                 $products = Product::where('title', 'LIKE', "%$searchKey%")->get('id');
                 foreach ($products as $key => $value) {
                     $productIDList[] = $value->id;
                 }
 
                 //vendor products
-
                 $productIDList = array_unique($productIDList);
                 $vendor_products = VendorProduct::whereIn('prod_id', $productIDList)
                                             ->where(['active'=>1])
@@ -155,11 +143,9 @@ class OrderController extends Controller
 
 
                 //unique the array - the id list of vendor_products tbl id
-
                 $ven_product_id_list = array_unique($ven_product_id_list);
 
                 //if have status and vendor_id
-
                 if (!empty($vendor_id) && is_numeric($vendor_id) && !empty($status)) {
                     $data = Order::whereIn('vendor_product_id', $ven_product_id_list)
                         ->where([
@@ -173,7 +159,6 @@ class OrderController extends Controller
                 }
 
                 //if have vendor_id only
-
                 if (!empty($vendor_id) && is_numeric($vendor_id)) {
                     $data = Order::whereIn('vendor_product_id', $ven_product_id_list)
                         ->where([
@@ -186,7 +171,6 @@ class OrderController extends Controller
                 }
 
                 //if have status only
-
                 if (!empty($status)) {
                     $data = Order::whereIn('vendor_product_id', $ven_product_id_list)
                         ->where([
@@ -206,10 +190,9 @@ class OrderController extends Controller
             }
 
 
-//without search key
+            //without search key
 
             //if have status and vendor_id
-
             if (!empty($vendor_id) && is_numeric($vendor_id) && !empty($status)) {
                 $data = Order::where([
                         'vendor_id'=>$vendor_id,
@@ -222,7 +205,6 @@ class OrderController extends Controller
             }
 
             //if only have vendor id
-
             if (!empty($vendor_id) && is_numeric($vendor_id)) {
                 $data = Order::where([
                         'vendor_id'=>$vendor_id
@@ -234,7 +216,6 @@ class OrderController extends Controller
             }
 
             //if only have status
-
             if (!empty($status)) {
                 $data = Order::where([
                         'status'=>$status
@@ -257,7 +238,6 @@ class OrderController extends Controller
 
 
     //order_status_update
-
     public function order_status_update($orderID, $status){
         if ($status === "Canceled") {
             Order::findOrFail(decrypt($orderID));
