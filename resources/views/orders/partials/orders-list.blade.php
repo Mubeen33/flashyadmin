@@ -1,4 +1,5 @@
-@foreach($data as $key=>$content)
+
+@foreach($data as $content)
 <tr>
     <td>{{ $content->order_id }}</td>
     <td>{{$content->get_vendor->first_name}} {{$content->get_vendor->last_name}}</td>
@@ -57,6 +58,15 @@
     <td>
         <span class="badge badge-info">{{ $content->status }}</span>
     </td>
+@if (!empty($content->shipped))   
+    <td>
+        <span class="badge badge-info">{{$content->shipped}}</span>
+    </td>
+@else
+    <td>
+        <span class="badge badge-info">No</span>
+    </td>
+@endif
     <td>
         <div class="btn-group">
             <div class="dropdown">
@@ -66,8 +76,8 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
                     <a class="dropdown-item" href="#">Accept</a>
 
-                    @if($content->status !== "Canceled")
-                        <a onclick="return confirm('Are you sure?')" class="dropdown-item" href="{{ route('admin.orderAction.post', [encrypt($content->id), 'Canceled']) }}">Cancel</a>
+                    @if($content->shipped !== "Yes")
+                        <a  class="dropdown-item" href="{{ route('admin.orderAction.post', [encrypt($content->id), 'Completed']) }}">Delivered</a>
                     @endif
                 </div>
             </div>
