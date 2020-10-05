@@ -12,9 +12,9 @@ use App\Customer;
 use App\User;
 use Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\OrderMail;
-use App\Mail\OrderAdminMail;
-use App\Mail\OrderSellerMail;
+use App\Mail\orderMail;
+use App\Mail\orderAdminMail;
+use App\Mail\orderSellerMail;
 
 class OrderController extends Controller
 {
