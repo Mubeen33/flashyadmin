@@ -18,7 +18,7 @@ class orderMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($subject,$order)
     {
         $this->subject = $subject;
         $this->data   = $order;
