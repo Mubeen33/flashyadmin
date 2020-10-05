@@ -8,7 +8,13 @@ use App\Order;
 use App\Vendor;
 use App\Product;
 use App\VendorProduct;
+use App\Customer;
+use App\User;
 use Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderMail;
+use App\Mail\OrderAdminMail;
+use App\Mail\OrderSellerMail;
 
 class OrderController extends Controller
 {
@@ -252,14 +258,34 @@ class OrderController extends Controller
 
                 foreach ($order as $key => $value) {
                     
-                    $customeremail = Customer::where('id',$value->customer_id)->value('email');
+                    
 
                     //customer mail
 
-                    $subject = 'Your order# ("'.$value->order_id.') has been delieverd';
-                    Mail::to($email)->send(new OrderMail(
-                         $subject,$order
-                    ));
+                        $customeremail = Customer::where('id',$value->customer_id)->value('email');
+                        $subject = 'Your order# ("'.$value->order_id.') has been delieverd';
+                        Mail::to($email)->send(new OrderMail(
+                             $subject,$order
+                        ));
+                    //
+
+                    //vendor mail
+
+                        $selleremail = Vendor::where('id',$value->vendor_id)->value('email');
+                        $subject = 'Your order# ("'.$value->order_id.') has been delieverd';
+                        Mail::to($selleremail)->send(new OrderSellerMail(
+                             $subject,$order
+                        ));
+
+                     //admin mail
+
+                     $adminemail = User::value('email');
+                        $subject = 'Order # ("'.$value->order_id.') has been delieverd';
+                        Mail::to($adminemail)->send(new OrderAdminMail(
+                             $subject,$order
+                        ));   
+
+
                 }
 
 

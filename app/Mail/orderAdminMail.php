@@ -10,15 +10,17 @@ use Illuminate\Queue\SerializesModels;
 class orderAdminMail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $subject;
+    public $data;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($subject,$order)
     {
-        //
+        $this->subject = $subject;
+        $this->data   = $order;
     }
 
     /**
@@ -28,6 +30,11 @@ class orderAdminMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        $emailSendNow = $this->subject($this->subject)->view('email-templates.adminOrder')
+        ->with([
+
+            'data' => $this->data,
+        ]);        
+        return $emailSendNow;
     }
 }
