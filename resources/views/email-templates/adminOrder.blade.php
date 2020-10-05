@@ -220,10 +220,10 @@ table[id=colaps-inhiret09]{
 
 @foreach ($data as $order)
 @php
-      $product_id = (App\Models\VendorProduct::where('id',$order->vendor_product_id)->value('prod_id'));
-      $name  = (App\Models\Product::where('id',$product_id)->value('title'));
-      $image_id  = (App\Models\Product::where('id',$product_id)->value('image_id'));
-      $image = (App\Models\ProductMedia::where('image_id',$image_id)->value('image'));
+      $product_id = (App\VendorProduct::where('id',$order->vendor_product_id)->value('prod_id'));
+      $name  = (App\Product::where('id',$product_id)->value('title'));
+      $image_id  = (App\Product::where('id',$product_id)->value('image_id'));
+      $image = (App\ProductMedia::where('image_id',$image_id)->value('image'));
 @endphp  
   <tr>
     <td><img src="{{ $image }}" width="190" height="193" alt="{{ $name }}"></td>
