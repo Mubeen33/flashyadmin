@@ -56,7 +56,7 @@ class SliderController extends Controller
             'title_animation'=>'nullable|string|max:100',
             'description_animation'=>'nullable|string|max:100',
             'button_animation'=>'nullable|string|max:100',
-            'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1230,height=445',
+            'image_lg'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=1230,height=425',
             'image_sm'=>'required|image:png,jpeg,jpg,gif|max:1000|dimensions:width=600,height=300',
             'slider_type'=>'required|string|in:Product,Deal',
             'daterange'=>'required',

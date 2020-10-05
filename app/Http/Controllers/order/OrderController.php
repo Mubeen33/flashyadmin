@@ -239,11 +239,32 @@ class OrderController extends Controller
 
     //order_status_update
     public function order_status_update($orderID, $status){
-        if ($status === "Canceled") {
+
+        if ($status === "Completed") {
+
             Order::findOrFail(decrypt($orderID));
+
             Order::where('id', decrypt($orderID))->update([
                 'status'=>$status
             ]);
+            // 
+                $order = Order::where('id',decrypt($orderID))->get();
+
+                foreach ($order as $key => $value) {
+                    
+                    $customeremail = Customer::where('id',$value->customer_id)->value('email');
+
+                    //customer mail
+
+                    $subject = 'Your order# ("'.$value->order_id.') has been delieverd';
+                    Mail::to($email)->send(new OrderMail(
+                         $subject,$order
+                    ));
+                }
+
+
+
+            // 
             return redirect()->back()->with('success', 'Order '.$status);
         }
         return redirect()->back()->with('error', 'Invalid Request');
