@@ -21,7 +21,7 @@ class orderMail extends Mailable
     public function __construct()
     {
         $this->subject = $subject;
-       `$this->data   = $order;
+        $this->data   = $order;
     }
 
     /**
