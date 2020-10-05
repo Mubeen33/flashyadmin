@@ -264,7 +264,7 @@ class OrderController extends Controller
 
                         $customeremail = Customer::where('id',$value->customer_id)->value('email');
                         $subject = 'Your order# ("'.$value->order_id.') has been delieverd';
-                        Mail::to($email)->send(new OrderMail(
+                        Mail::to($customeremail)->send(new OrderMail(
                              $subject,$order
                         ));
                     //
