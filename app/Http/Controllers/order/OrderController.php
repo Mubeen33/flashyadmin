@@ -269,7 +269,7 @@ class OrderController extends Controller
                     $vendor_name   = Vendor::where('id',$data->vendor_id)->value('company_name');
                     $customer      = Customer::where('id',$data->customer_id)->first();
 
-                    $productPrice = $data->product_price * $data->quantity;
+                    $productPrice = $data->product_price * $data->qty;
 
                     echo $productPrice;
                     return;
