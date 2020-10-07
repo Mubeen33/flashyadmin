@@ -70,7 +70,7 @@
                                                             }
                                                         @endphp
 
-                                                        <img src="{{ $image }}">
+                                                        <img src="{{ $image }}" width="80" height="80">
                                                     </td>
                                                     <td>
                                                         {{ $transaction->product_price }}
