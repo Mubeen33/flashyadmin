@@ -271,6 +271,9 @@ class OrderController extends Controller
 
                     $productPrice = $data->product_price * $data->quantity;
 
+                    echo $productPrice;
+                    return;
+
                     $vatcommission = $catcommission + $vat;
 
                     $vatamount     =  ($productPrice * $vat) / 100;
