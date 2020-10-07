@@ -289,7 +289,8 @@ class OrderController extends Controller
                         $transaction = new Transaction();
 
                         $transaction->product_id             = $data->product_id;
-                        $transaction->order_id               = decrypt($orderID);
+                        $transaction->order_id               = $data->order_id;
+                        $transaction->vendor_order_id        = decrypt($orderID);
                         $transaction->product_price          = $data->product_price;
                         $transaction->vendor_product_id      = $data->vendor_product_id;
                         $transaction->order_token            = $data->order_token;
@@ -318,7 +319,8 @@ class OrderController extends Controller
                         $transaction = new Transaction();
 
                         $transaction->product_id             = $data->product_id;
-                        $transaction->order_id               = decrypt($orderID);
+                        $transaction->order_id               = $data->order_id;
+                        $transaction->vendor_order_id        = decrypt($orderID);
                         $transaction->product_price          = $data->product_price;
                         $transaction->vendor_product_id      = $data->vendor_product_id;
                         $transaction->category_id            = $data->category_id;

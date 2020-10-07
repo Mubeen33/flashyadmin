@@ -223,6 +223,13 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   
   Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
   Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
+
+  // Transactions
+
+    Route::get('transaction','transaction\TransactionController@index')->name('transactions'); 
+
+
+  // 
   // files added by asad ..
   Route::get("/test/page",function(){
       return view("vendors");
