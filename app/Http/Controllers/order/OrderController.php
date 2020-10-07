@@ -8,13 +8,16 @@ use App\Order;
 use App\Vendor;
 use App\Product;
 use App\VendorProduct;
+use App\Category;
 use App\Customer;
 use App\User;
+use App\Transaction;
 use Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\orderMail;
 use App\Mail\orderAdminMail;
 use App\Mail\orderSellerMail;
+
 
 class OrderController extends Controller
 {
@@ -248,14 +251,93 @@ class OrderController extends Controller
 
         if ($status === "Completed") {
 
-            Order::findOrFail(decrypt($orderID));
+            // Order::findOrFail(decrypt($orderID));
 
-            Order::where('id', decrypt($orderID))->update([
-                'status'=>$status
-            ]);
+            // Order::where('id', decrypt($orderID))->update([
+            //     'status'=>$status
+            // ]);
 
             // 
                 $order = Order::where('id',decrypt($orderID))->get();
+
+                $vat   = User::value('vat');
+
+                foreach ($order as $key => $data) {
+                    
+                    $catcommission = Category::where('id',$data->category_id)->value('commission');
+                    $catname       = Category::where('id',$data->category_id)->value('name');
+                    $vendor_name   = Vendor::where('id',$data->vendor_id)->value('company_name');
+                    $customer      = Customer::where('id',$data->customer_id)->first();
+
+                    $vatcommission = $catcommission + $vat;
+
+                    $vatamount     =  ($data->product_price * $vat) / 100;
+
+                    $commission    = ($data->product_price * $vatcommission) / 100;
+
+                    $vendor_amount = $data->product_price - $vatcommission;
+
+                    $vendorTotalBalance = Transaction::where('vendor_id',$data->vendor_id)->orderBy('id','desc')->limit(1)->value('total_balance');
+                    if (empty($vendorTotalBalance)) {
+                        
+                        $vendorTotalBalance = 0;
+                    }
+                    
+
+                        $newBalance = $vendorTotalBalance - $commission;
+
+                        $transaction = new Transaction();
+
+                        $transaction->product_id             = $data->product_id;
+                        $transaction->order_id               = decrypt($orderID);
+                        $transaction->product_price          = $data->product_price;
+                        $transaction->vendor_product_id      = $data->vendor_product_id;
+                        $transaction->order_token            = $data->order_token;
+                        $transaction->category_id            = $data->category_id;
+                        $transaction->category_commission    = $catcommission;
+                        $transaction->deduct_amount          = $commission;
+                        $transaction->user_t_amount          = $commission;
+                        $transaction->transfer_amount        = '0';
+                        $transaction->vat_amount             = $vatamount;
+                        $transaction->total_balance          = $newBalance;
+                        $transaction->note                   = "Success payment For ".$catname."- ".$catcommission."% for vendorOrderId ".decrypt($orderID)." and Order Token is ".$data->order_token;
+                        $transaction->customer_id            = $data->customer_id;
+                        $transaction->vendor_id              = $data->vendor_id;
+                        $transaction->vendor_name            = $vendor_name;
+                        $transaction->transaction_type       = "Success payment For ".$catname."- ".$catcommission."% for vendorOrderId ".decrypt($orderID)." and Order Token is ".$data->order_token;
+                        $transaction->customer_name          = $customer->first_name." ".$customer->last_name;
+
+                        $transaction->save();
+
+                    // vendor Transaction
+
+                        $vendorTotalBalance = Transaction::where('vendor_id',$data->vendor_id)->orderBy('id','desc')->limit(1)->value('total_balance');
+
+                        $newBlance = $vendorTotalBalance + $data->product_price;
+
+                        $transaction = new Transaction();
+
+                        $transaction->product_id             = $data->product_id;
+                        $transaction->order_id               = decrypt($orderID);
+                        $transaction->product_price          = $data->product_price;
+                        $transaction->vendor_product_id      = $data->vendor_product_id;
+                        $transaction->category_id            = $data->category_id;
+                        $transaction->order_token            = $data->order_token;
+                        $transaction->user_t_amount          = $data->product_price;
+                        $transaction->transfer_amount        = $data->product_price;
+                        $transaction->total_balance          = $newBlance;
+                        $transaction->note                   = "vendor_payment";
+                        $transaction->customer_id            = $data->customer_id;
+                        $transaction->vendor_id              = $data->vendor_id;
+                        $transaction->vendor_name            = $vendor_name;
+                        $transaction->transaction_type       = "vendor_payment";
+                        $transaction->customer_name          = $customer->first_name." ".$customer->last_name; 
+
+                        $transaction->save();
+
+                    // vendor Transaction
+
+                }
 
                 foreach ($order as $key => $value) {
                     
