@@ -269,13 +269,15 @@ class OrderController extends Controller
                     $vendor_name   = Vendor::where('id',$data->vendor_id)->value('company_name');
                     $customer      = Customer::where('id',$data->customer_id)->first();
 
+                    $productPrice = $data->product_price * $data->quantity;
+
                     $vatcommission = $catcommission + $vat;
 
-                    $vatamount     =  ($data->product_price * $vat) / 100;
+                    $vatamount     =  ($productPrice * $vat) / 100;
 
-                    $commission    = ($data->product_price * $vatcommission) / 100;
+                    $commission    = ($productPrice * $vatcommission) / 100;
 
-                    $vendor_amount = $data->product_price - $vatcommission;
+                    $vendor_amount = $productPrice - $vatcommission;
 
                     $vendorTotalBalance = Transaction::where('vendor_id',$data->vendor_id)->orderBy('id','desc')->limit(1)->value('total_balance');
                     if (empty($vendorTotalBalance)) {
@@ -291,7 +293,7 @@ class OrderController extends Controller
                         $transaction->product_id             = $data->product_id;
                         $transaction->order_id               = $data->order_id;
                         $transaction->vendor_order_id        = decrypt($orderID);
-                        $transaction->product_price          = $data->product_price;
+                        $transaction->product_price          = $productPrice;
                         $transaction->vendor_product_id      = $data->vendor_product_id;
                         $transaction->order_token            = $data->order_token;
                         $transaction->category_id            = $data->category_id;
@@ -314,19 +316,19 @@ class OrderController extends Controller
 
                         $vendorTotalBalance = Transaction::where('vendor_id',$data->vendor_id)->orderBy('id','desc')->limit(1)->value('total_balance');
 
-                        $newBlance = $vendorTotalBalance + $data->product_price;
+                        $newBlance = $vendorTotalBalance + $productPrice;
 
                         $transaction = new Transaction();
 
                         $transaction->product_id             = $data->product_id;
                         $transaction->order_id               = $data->order_id;
                         $transaction->vendor_order_id        = decrypt($orderID);
-                        $transaction->product_price          = $data->product_price;
+                        $transaction->product_price          = $productPrice;
                         $transaction->vendor_product_id      = $data->vendor_product_id;
                         $transaction->category_id            = $data->category_id;
                         $transaction->order_token            = $data->order_token;
-                        $transaction->user_t_amount          = $data->product_price;
-                        $transaction->transfer_amount        = $data->product_price;
+                        $transaction->user_t_amount          = $productPrice;
+                        $transaction->transfer_amount        = $productPrice;
                         $transaction->total_balance          = $newBlance;
                         $transaction->note                   = "vendor_payment";
                         $transaction->customer_id            = $data->customer_id;
