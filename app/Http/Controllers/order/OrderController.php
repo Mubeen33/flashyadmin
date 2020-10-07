@@ -251,11 +251,11 @@ class OrderController extends Controller
 
         if ($status === "Completed") {
 
-            // Order::findOrFail(decrypt($orderID));
+            Order::findOrFail(decrypt($orderID));
 
-            // Order::where('id', decrypt($orderID))->update([
-            //     'status'=>$status
-            // ]);
+            Order::where('id', decrypt($orderID))->update([
+                'status'=>$status
+            ]);
 
             // 
                 $order = Order::where('id',decrypt($orderID))->get();
