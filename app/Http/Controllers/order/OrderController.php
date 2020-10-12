@@ -28,10 +28,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $data = Order::with(['get_vendor', 'get_customer', 'get_vendor_product'])
-                ->orderBy('created_at', 'DESC')
-                ->paginate(5);
-        return view('orders.index', compact('data'));
+        $data = Order::groupBy('order_id')
+                        ->orderBy('created_at', 'DESC')
+                        ->paginate(5);
+        return view('orders.order', compact('data'));
     }
 
     /**
@@ -381,5 +381,13 @@ class OrderController extends Controller
             return redirect()->back()->with('success', 'Order '.$status);
         }
         return redirect()->back()->with('error', 'Invalid Request');
+    }
+
+    // Order Detial
+
+    public function orderDetial($order_id){
+
+        $ordersData = Order::where('order_id',$order_id)->get();
+        return view('orders.orderdetialview',compact('ordersData'));
     }
 }
