@@ -219,20 +219,15 @@ table[id=colaps-inhiret09]{
 <table width="190" align="left" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" class="inner">
 
 @foreach ($data as $order)
-@php
-      $product_id = (App\VendorProduct::where('id',$order->vendor_product_id)->value('prod_id'));
-      $name  = (App\Product::where('id',$product_id)->value('title'));
-      $image_id  = (App\Product::where('id',$product_id)->value('image_id'));
-      $image = (App\ProductMedia::where('image_id',$image_id)->value('image'));
-@endphp  
+  
   <tr>
-    <td><img src="{{ $image }}" width="190" height="193" alt="{{ $name }}"></td>
+    <td><img src="{{ $order->product_image }}" width="190" height="193" alt="{{ $order->product_name }}"></td>
   </tr>
    <tr>
   	<td height="32">&nbsp;</td>
     </tr>
    <tr>
-  	<td style="font:20px Arial, Helvetica, sans-serif; color:#3a3a3a;"> {{ $name }} </td>
+  	<td style="font:20px Arial, Helvetica, sans-serif; color:#3a3a3a;"> {{ $order->product_name }} </td>
   </tr>
   <tr>
   	<td height="45">&nbsp;</td>
