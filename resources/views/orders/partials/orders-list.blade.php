@@ -1,6 +1,10 @@
 
 @foreach($data as $content)
 <tr>
+    
+    <td>
+        {{$content->created_at->format(env('GENERAL_DATE_FORMAT_WITH_HI'))}}
+    </td>
     <td>{{ $content->order_id }}</td>
     <td>{{$content->get_vendor->first_name}} {{$content->get_vendor->last_name}}</td>
     <td>
@@ -51,9 +55,6 @@
     </td>
     <td>
         {{$content->payment_option}}
-    </td>
-    <td>
-        {{$content->created_at->format(env('GENERAL_DATE_FORMAT_WITH_HI'))}}
     </td>
     <td>
         <span class="badge badge-info">{{ $content->status }}</span>
