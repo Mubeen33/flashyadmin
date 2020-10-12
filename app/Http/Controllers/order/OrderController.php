@@ -303,7 +303,7 @@ class OrderController extends Controller
                         $transaction->transfer_amount        = '0';
                         $transaction->vat_amount             = $vatamount;
                         $transaction->total_balance          = $newBalance;
-                        $transaction->note                   = "Success payment For ".$catname."- ".$catcommission."% for vendorOrderId ".decrypt($orderID)." and Order Token is ".$data->order_token;
+                        $transaction->note                   = "Success Commission";
                         $transaction->customer_id            = $data->customer_id;
                         $transaction->vendor_id              = $data->vendor_id;
                         $transaction->vendor_name            = $vendor_name;
@@ -334,7 +334,7 @@ class OrderController extends Controller
                         $transaction->customer_id            = $data->customer_id;
                         $transaction->vendor_id              = $data->vendor_id;
                         $transaction->vendor_name            = $vendor_name;
-                        $transaction->transaction_type       = "vendor_payment";
+                        $transaction->transaction_type       = "vendor payment added to your account";
                         $transaction->customer_name          = $customer->first_name." ".$customer->last_name; 
 
                         $transaction->save();
