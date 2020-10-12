@@ -82,20 +82,23 @@
                                                 <h5 class="text-muted">
                                                     <i class="fa fa-user"></i> Customer Name:
                                                 </h5>
-                                                <a href="#">Asad Mukhtar</a>
+                                                @php
+                                                    $customer = (App\Customer::where('id',$orders->customer_id)->first());
+                                                @endphp
+                                                <a href="#">{{ $customer->first_name }} {{ $customer->last_name }}</a>
                                             </div>
                                             <div class="form-group">
                                                 <h5 class="text-muted">
                                                     <i class="fa fa-envelope" aria-hidden="true"></i> Customer Email:
                                                 </h5>
-                                                <a href="#">axad03213@gmail.com</a>
+                                                <a href="#">{{ $customer->email }}</a>
                                             </div>
                                             <div class="form-group">
                                                 <h5 class="text-muted">
                                                     <i class="fa fa-phone" aria-hidden="true"></i>
                                                     Phone:
                                                 </h5>
-                                                <a href="#">03215489658</a>
+                                                <a href="#">{{ $customer->phone }}</a>
                                             </div>
                                             <div class="form-group">
                                                 <h5 class="order-title"> Shipping Address 
