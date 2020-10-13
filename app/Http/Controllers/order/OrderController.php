@@ -387,7 +387,8 @@ class OrderController extends Controller
 
     public function orderDetial($order_id){
 
-        $ordersData = Order::where('order_id',$order_id)->get();
-        return view('orders.orderdetialview',compact('ordersData'));
+        $ordersData = Order::where('order_id',$order_id)->groupby('vendor_id')->get();
+        $vendorOrdersData = Order::where('order_id',$order_id)->get()->groupby('vendor_id');
+        return view('orders.orderdetialview',compact('ordersData','vendorOrdersData'));
     }
 }

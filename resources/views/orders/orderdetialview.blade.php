@@ -1,6 +1,12 @@
 @extends('layouts.master')
 @section('content')
-@foreach($ordersData as $orders)
+<style type="text/css">
+    .card{
+
+            min-height: auto !important;
+    }
+</style>
+@foreach($ordersData as $index => $orders)
 @endforeach
                 <!-- dataTable starts -->
                 <div class="container-fluid">
@@ -39,7 +45,7 @@
                                                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                                                     Total amount: 
                                                 </h5>
-                                                <label>{{ $orders->grand_total }}</label>
+                                                <label><b><strong>R{{ $orders->grand_total }}</strong></b></label>
                                             </div>
                                         </div>
                                         {{-- <div class="col-lg-4">
@@ -87,7 +93,7 @@
                                                 @endphp
                                                 <a href="#">{{ $customer->first_name }} {{ $customer->last_name }}</a>
                                             </div>
-                                            <div class="form-group">
+                                            <div c0lass="form-group">
                                                 <h5 class="text-muted">
                                                     <i class="fa fa-envelope" aria-hidden="true"></i> Customer Email:
                                                 </h5>
@@ -107,7 +113,10 @@
                                                 <p class="text-muted">
                                                     <i class="fa fa-address-card" aria-hidden="true"></i> Address:
                                                 </p>
-                                                <p> Paolo Rossi via della liberate <br /> 00181 Roma , <br /> ROMA </p>
+                                                @php
+                                                    $address = (App\CustomerAddress::where('id',$orders->address_id)->first());
+                                                @endphp
+                                                <p> {{ $address->address }} <br /> {{ $address->city }} ,{{ $address->state }} ,{{ $address->zip_code }} <br /> {{ $address->country }} </p>
                                             </div>
                                              <div class="default-collapse collapse-bordered">
                                                 <div class="card collapse-header">
@@ -121,8 +130,7 @@
                                                     <div id="collapse1" style="border:1px solid #EEEEEE;" role="tabpanel" aria-labelledby="headingCollapse1" class="collapse">
                                                         <div class="card-content">
                                                             <div class="card-body">
-                                                                Pie dragée muffin. Donut cake liquorice marzipan carrot cake topping powder candy. Sugar plum
-                                                                brownie brownie cotton candy.
+                                                                {{ $orders->special_instructions }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -138,35 +146,37 @@
                         </div>
                         <div class="col-lg-3 col-sm-3 col-md-3">
                             <div class="card">
-                                <div class="card-header">
-                                    <label class="mb-xs-1 strong title-order">
-                                        <i class="fa fa-check-square" aria-hidden="true"></i>
-                                        Order Actions
-                                    </label>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <select name="" class="form-control">
-                                            <option selected>Actions</option>
-                                            <option>Hold On</option>
-                                            <option>Completed</option>
-                                        </select>
+                                <form method="post" action="" onsubmit="return validation()">
+                                    <div class="card-header">
+                                        <label class="mb-xs-1 strong title-order">
+                                            <i class="fa fa-check-square" aria-hidden="true"></i>
+                                            Order Actions
+                                        </label>
                                     </div>
-                                </div>
-                                <div class="card-footer">
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                    <button class="btn btn-primary btn-sm float-right">
-                                        <i class="fa fa-edit"></i> Update
-                                    </button>
-                                </div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <select name="" class="form-control">
+                                                <option selected>Actions</option>
+                                                <option>Hold On</option>
+                                                <option>Completed</option>
+                                            </select>
+                                        </div>
+                                    </div>    
+                                    <div class="card-footer">
+                                        {{-- <button class="btn btn-danger btn-sm">
+                                            <i class="fa fa-trash"></i>
+                                        </button> --}}
+                                        <button class="btn btn-primary btn-sm float-right">
+                                            <i class="fa fa-edit"></i> Update
+                                        </button>
+                                    </div><br>
+                                </form>    
                             </div>
-                            
                             </div>
                         </div>
                     </div>
                     <!-- End order details -->
+                @foreach($vendorOrdersData as $key =>$order )    
                     <div class="row">
                         <div class="col-lg-9 ">
                             <div class="card"> 
@@ -174,9 +184,16 @@
                                     <label class="mb-xs-1 strong title-order">
                                         <i class="fa fa-bars" aria-hidden="true"></i> Order Details
                                     </label>
+                                    <label>
+                                        @php
+                                            $vendor = (App\Vendor::where('id',$key)->value('company_name'));
+                                        @endphp
+                                        <h4>Vendor: <strong>{{ $vendor }}</strong></h4>
+                                    </label>
                                     <button class="btn btn-light mr-1 mb-1 waves-effect waves-light btn-sm">
                                         <i class="fa fa-print" aria-hidden="true"></i> Print Order
                                     </button>
+                                    
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped w-100 d-block d-md-table">
@@ -187,25 +204,52 @@
                                                         <td width="100px" ></td>
                                                         <td width="100px" > Quantity </td>
                                                         <td width="100px" >Total</td>
+                                                        <td width="100px">Shipped</td>
+                                                        <td width="100px">Status</td>
                                                         <td width="100px" > Action </td>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                        <tr>
+                                                @foreach($order as $vendorOrder)
+                                                    <tr>
                                                         <td align="left" width="300px" >
-                                                            <img src="app-assets/images/elements/apple-watch.png" width="40"  height="40" /> <font size="2">  Apple Watch series 4 Bold 5 Amazing  </font>
+                                                            <img src="{{ $vendorOrder->product_image }}" width="40"  height="40" /> <font size="2">  {{ $vendorOrder->product_name }}  </font>
                                                         </td>
                                                         <td width="100px">
-                                                            R 1500 
+                                                            {{ $vendorOrder->product_price }} 
                                                         </td>
                                                         <td width="100px">
                                                             x
                                                         </td>
                                                         <td width="100px">
-                                                            1
+                                                            {{ $vendorOrder->qty }}
                                                         </td>
                                                         <td width="100px">
-                                                            $1500
+                                                            {{ $vendorOrder->order_price }}
+                                                        </td>
+                                                        @if(!empty($vendorOrder->shipped))
+                                                            <td width="8%">
+                                                                <div class="chip chip-info">
+                                                                    <div class="chip-body">
+                                                                        <div class="chip-text">{{ $vendorOrder->shipped }}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        @else
+                                                            <td width="8%">
+                                                                <div class="chip chip-danger">
+                                                                    <div class="chip-body">
+                                                                        <div class="chip-text">No</div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        @endif 
+                                                        <td width="10">
+                                                            <div class="chip chip-success">
+                                                                <div class="chip-body">
+                                                                    <div class="chip-text">{{ $vendorOrder->status }}</div>
+                                                                </div>
+                                                            </div>
                                                         </td>
                                                         <td width="100px">
                                                             <div class="dropdown">
@@ -213,19 +257,23 @@
                                                                     Action
                                                                 </button>
                                                                 <div class="dropdown-menu">
-                                                                    <a class="dropdown-item" n="1" id="cancle-order" href="#">
+                                                                    {{-- <a class="dropdown-item" n="1" id="cancle-order" href="#">
                                                                         Cancle
-                                                                    </a>
-                                                                    <a class="dropdown-item" href="#">Proccess</a>
+                                                                    </a> --}}
+                                                                    @if($vendorOrder->shipped == "Yes" && $vendorOrder->status !== "Completed")
+                                                                        <a  class="dropdown-item" href="{{ route('admin.orderAction.post', [encrypt($vendorOrder->id), 'Completed']) }}">Delivered</a>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </td>
                                                     </tr>
+                                                @endforeach    
                                                 </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
+                @endforeach    
                 </div>
 @endsection
