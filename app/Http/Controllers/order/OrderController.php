@@ -30,7 +30,7 @@ class OrderController extends Controller
     {
         $data = Order::groupBy('order_id')
                         ->orderBy('created_at', 'DESC')
-                        ->paginate(5);
+                        ->paginate(15);
         return view('orders.order', compact('data'));
     }
 
