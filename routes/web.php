@@ -146,6 +146,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::get('order-status/{orderID}/{status}', 'order\OrderController@order_status_update')->name("orderAction.post");
    Route::get('ajax-orders/fetch', 'order\OrderController@fetch_orders_list')->name('orders.ajaxPgination');
    Route::get('order-detail/{id}','order\OrderController@orderDetial')->name('OrderDetail');
+   Route::post('attached-waybill','order\OrderController@attachedWayBill')->name('orders.attached-waybill');
 
    // 
   
@@ -234,9 +235,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
 
   // 
   // files added by asad ..
-  Route::get("/test/page",function(){
-      return view("vendors");
-  });
+  
   // order page ..
   Route::get("/test/order",function(){
     return view("order");

@@ -11,6 +11,7 @@
                 <!-- dataTable starts -->
                 <div class="container-fluid">
                     <!-- Order details -->
+                    @include('msg.msg')
                     <div class="row">
                         <div class="col-lg-9 ">
                             <div class="card">
@@ -206,7 +207,6 @@
                                                         <td width="100px" >Total</td>
                                                         <td width="100px">Shipped</td>
                                                         <td width="100px">Status</td>
-                                                        <td width="100px" > Action </td>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -244,6 +244,7 @@
                                                                 </div>
                                                             </td>
                                                         @endif 
+                                                        @if($vendorOrder->status == "Inprogress")
                                                         <td width="10">
                                                             <div class="chip chip-success">
                                                                 <div class="chip-body">
@@ -251,23 +252,54 @@
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td width="100px">
-                                                            <div class="dropdown">
-                                                                <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Action
-                                                                </button>
-                                                                <div class="dropdown-menu">
-                                                                    {{-- <a class="dropdown-item" n="1" id="cancle-order" href="#">
-                                                                        Cancle
-                                                                    </a> --}}
-                                                                    @if($vendorOrder->shipped == "Yes" && $vendorOrder->status !== "Completed")
-                                                                        <a  class="dropdown-item" href="{{ route('admin.orderAction.post', [encrypt($vendorOrder->id), 'Completed']) }}">Delivered</a>
-                                                                    @endif
+                                                        @else
+                                                            <td width="10">
+                                                                <div class="chip chip-dark">
+                                                                    <div class="chip-body">
+                                                                        <div class="chip-text">{{ $vendorOrder->status }}</div>
+                                                                    </div>
                                                                 </div>
+                                                            </td>
+                                                        @endif
+                                                    </tr>
+                                                @endforeach 
+
+                                                @if($orders->request_waybill == 'Yes' && $orders->order_ship_draft == 'Yes' && $orders->waybill_attached == 'No')
+                                                    <tr>
+                                                      <form id="order-waybill" method="post" action="{{ Route('admin.orders.attached-waybill') }}" enctype="multipart/form-data" onsubmit="return validate()" id="waybillform">  
+                                                        <td colspan="2">
+                                                           <div class="form-group">
+                                                               <label>Choose Courier</label>
+                                                            <select class="form-control">
+                                                                <option value="a">a</option>
+                                                                <option value="b">b</option>
+                                                                <option value="c">c</option>
+                                                            </select>
+                                                           </div> 
+                                                            <input type="hidden" name="order_id" value="{{ $orders->order_id }}">
+                                                         @csrf
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <div class="form-group">
+                                                                <label>attach waybill</label>
+                                                                <input type="file" name="waybill" id="waybillfile" required>
                                                             </div>
                                                         </td>
+                                                        <td colspan="3">
+                                                            <div class="form-group">
+                                                                <button class="btn btn-warning" id="btn-waybill" type="submit">Save</button>
+                                                            </div>
+                                                        </td>
+                                                      </form>  
+                                                    </tr> 
+                                                @endif 
+                                                @if($orders->waybill_attached == 'Yes')
+                                                    <tr>
+                                                        <td colspan="7">
+                                                            WayBill Attached
+                                                        </td>
                                                     </tr>
-                                                @endforeach    
+                                                @endif     
                                                 </tbody>
                                     </table>
                                 </div>
@@ -276,4 +308,20 @@
                     </div>
                 @endforeach    
                 </div>
+<script type="text/javascript">
+    function validate(){
+
+        // const file = file;
+        var name = document.getElementById("waybillfile").files[0].name;
+        var ext = name.split('.').pop().toLowerCase();
+        if(jQuery.inArray(ext, ['pdf']) == -1) 
+        {
+
+             alert("Invalid Image File");
+             return false;
+        }
+
+         return true;
+    }
+</script>                
 @endsection

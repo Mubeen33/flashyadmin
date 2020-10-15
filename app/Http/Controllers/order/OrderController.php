@@ -391,4 +391,21 @@ class OrderController extends Controller
         $vendorOrdersData = Order::where('order_id',$order_id)->get()->groupby('vendor_id');
         return view('orders.orderdetialview',compact('ordersData','vendorOrdersData'));
     }
+    // 
+
+    public function attachedWayBill(Request $request){
+
+        $order_id = $request->order_id;
+        if ($request->hasfile('waybill')) {
+             $uploadedImage = $request->file('waybill');
+             $imageName = time() . '.' . $uploadedImage->getClientOriginalExtension();
+             $destinationPath = public_path('/order-waybill/');
+             $uploadedImage->move($destinationPath, $imageName); 
+        }
+        $waybill = url('/')."/order-waybill/".$imageName;
+        Order::where('order_id',$order_id)->update([
+                'waybill'=>$waybill,'confirm_shippment'=>'Yes','waybill_attached'=>'Yes'
+            ]);
+        return redirect()->back()->with('success', 'Order waybill atteched successfully post.');
+    }
 }
