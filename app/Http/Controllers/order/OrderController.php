@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\orderMail;
 use App\Mail\orderAdminMail;
 use App\Mail\orderSellerMail;
+use DB;
 
 
 class OrderController extends Controller
@@ -396,6 +397,9 @@ class OrderController extends Controller
     public function attachedWayBill(Request $request){
 
         $order_id = $request->order_id;
+        $boxes    = $request->boxes;
+        $courier_price = $request->courier_price;
+        $box      = "Keep Products in ".$boxes." Boxes";
         if ($request->hasfile('waybill')) {
              $uploadedImage = $request->file('waybill');
              $imageName = time() . '.' . $uploadedImage->getClientOriginalExtension();
@@ -404,8 +408,42 @@ class OrderController extends Controller
         }
         $waybill = url('/')."/order-waybill/".$imageName;
         Order::where('order_id',$order_id)->update([
-                'waybill'=>$waybill,'confirm_shippment'=>'Yes','waybill_attached'=>'Yes'
+                'waybill'=>$waybill,'confirm_shippment'=>'Yes','waybill_attached'=>'Yes','order_box'=>$box,'courier_price'=>$courier_price
             ]);
         return redirect()->back()->with('success', 'Order waybill atteched successfully post.');
+    }
+    // 
+    public function wayBillOrder()
+    {
+        $data = Order::groupBy('order_id')
+                        ->orderBy('created_at', 'DESC')
+                        ->where('order_ship_draft','Yes')
+                        ->where('request_waybill','Yes')
+                        ->paginate(15);
+        return view('orders.waybill-requests', compact('data'));
+    }
+
+    // 
+    public function wayBillOrderDetial($order_id){
+
+        $ordersData = Order::where('order_id',$order_id)
+                            ->where('order_ship_draft','Yes')
+                            ->where('request_waybill','Yes')
+                            ->groupby('vendor_id')
+                            ->get();
+
+        $vendorOrdersData = Order::where('order_id',$order_id)
+                            ->where('order_ship_draft','Yes')
+                            ->where('request_waybill','Yes')
+                            ->get()->groupby('vendor_id');
+
+        $totalProduct     =  Order::where('order_id',$order_id)->where('order_ship_draft','Yes')
+                            ->where('request_waybill','Yes')->count('product_id');
+
+        $totalQuantity    =  Order::where('order_id',$order_id)->where('order_ship_draft','Yes')
+                            ->where('request_waybill','Yes')->sum('qty'); 
+        
+
+        return view('orders.waybillorderdetial',compact('ordersData','vendorOrdersData','totalProduct','totalQuantity'));
     }
 }

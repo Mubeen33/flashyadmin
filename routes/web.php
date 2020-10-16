@@ -146,6 +146,8 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::get('order-status/{orderID}/{status}', 'order\OrderController@order_status_update')->name("orderAction.post");
    Route::get('ajax-orders/fetch', 'order\OrderController@fetch_orders_list')->name('orders.ajaxPgination');
    Route::get('order-detail/{id}','order\OrderController@orderDetial')->name('OrderDetail');
+   Route::get('waybill-request-orders','order\OrderController@wayBillOrder')->name('orders.waybill-request');
+   Route::get('waybill-order-detail/{id}','order\OrderController@wayBillOrderDetial')->name('wayBillOrderDetail');
    Route::post('attached-waybill','order\OrderController@attachedWayBill')->name('orders.attached-waybill');
 
    // 

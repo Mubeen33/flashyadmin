@@ -173,6 +173,43 @@
                                     </div><br>
                                 </form>    
                             </div>
+                            <div class="card">
+                                    <form id="order-waybill" method="post" action="{{ Route('admin.orders.attached-waybill') }}" enctype="multipart/form-data" onsubmit="return validate()" id="waybillform" style="padding: 20px">
+                                        <h4>Total Products in Order {{ $totalProduct }}</h4>
+                                        <h4>Total Quantity in Order {{ $totalQuantity }}</h4><br>
+                                        <div class="form-group">
+                                            <label>Courier Price</label>
+                                            <input type="number" min="0" name="courier_price" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                           <label>Choose Courier</label>
+                                            <select class="form-control">
+                                                <option value="a">a</option>
+                                                <option value="b">b</option>
+                                                <option value="c">c</option>
+                                            </select>
+                                       </div> 
+                                            <input type="hidden" name="order_id" value="{{ $orders->order_id }}">
+                                         @csrf
+                                         <div class="form-group">
+                                            <label>attach waybill</label>
+                                            <input type="file" name="waybill" id="waybillfile" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>box</label>
+                                            <select class="form-control" name="boxes">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-warning" id="btn-waybill" type="submit">Save</button>
+                                        </div>
+                                    </form>    
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -262,7 +299,7 @@
                                                             </td>
                                                         @endif
                                                     </tr>
-                                                @endforeach     
+                                                @endforeach    
                                                 </tbody>
                                     </table>
                                 </div>

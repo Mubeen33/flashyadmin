@@ -183,6 +183,8 @@
                                 <ul class="dropdown-menu">
                                     <li data-menu=""><a class="dropdown-item" href="{{route('admin.orders.index')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>All</a>
                                     </li>
+                                    <li data-menu=""><a class="dropdown-item" href="{{route('admin.orders.waybill-request')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>WayBill Orders</a>
+                                    </li>
                                 </ul>
                             </li>
 
