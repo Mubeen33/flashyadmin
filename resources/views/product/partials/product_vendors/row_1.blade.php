@@ -28,7 +28,7 @@
                                 <?php
                                   $productImage = (\App\ProductMedia::where('image_id', $ven_product->get_product->image_id)->first());  
                                 ?>
-                                <img identity='product media' src="{{$productImage->image}}">
+                                <img identity='product media' class="xzoom" src="{{$productImage->image}}" xoriginal="{{$productImage->image}}"/>
                             @endif
                         </div>
                     </div>

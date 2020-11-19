@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('customfields.add-customfields');
 // });
 
+
 Auth::routes();
 Route::get('/', 'HomeController@checkLogin');
 Route::get('/home', 'HomeController@index')->name('home');

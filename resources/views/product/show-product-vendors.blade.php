@@ -22,6 +22,7 @@
 
 @section('content')                                
             <div class="content-body">
+                
                 @include('msg.msg')
                 <div class="row" id="basic-table">
                     
