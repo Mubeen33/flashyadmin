@@ -19,10 +19,10 @@
     <li class="breadcrumb-item active">Vendors Products</li>
 @endsection 
 @section('content')
-
-            <div class="content-body">
+              <div class="content-body">
                 @include('msg.msg')
                 <div class="row" id="basic-table">
+                
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header justify-content-between">
@@ -58,57 +58,224 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="card-content">
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th class="sortAble" sorting-column='id' sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg> 
-                                                        ID
-                                                    </th>
-                                                    <th class="d-none">Vendor</th>
-                                                    <th class="sortAble" sorting-column='title' sorting-order=''>
-                                                        Title
-                                                    </th>
-                                                    <th>Category</th>
-                                                    <th>Image</th>
-                                                    <th>
-                                                        Google Feed
-                                                    </th>
-                                                    <th class="sortAble" sorting-column='product_type' sorting-order=''>
-                                                        Product Type
-                                                    </th>
-                                                    <th class="sortAble" sorting-column='created_at' sorting-order=''>
-                                                        Date
-                                                    </th>
-                                                    <th>Status</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
+                            <section id="basic-tabs-components">
+                                <ul class="list-group list-group-horizontal-sm list-tab"  role="tablist" style="text-decoration:none; list-style:none; border-radius:5px;">
+                                    
+                                    <li>
+                                        <a class="list-group-item order-pill" id="about-tab" data-toggle="tab" href="#all" aria-controls="about" role="tab" aria-selected="false">All Products</a>
+                                    </li>
+                                    <li>
+                                        <a class="list-group-item order-pill" id="about-tab" data-toggle="tab" href="#approved" aria-controls="about" role="tab" aria-selected="false">Approved</a>
+                                    </li>
+                                    <li>
+                                        <a class="list-group-item order-pill" id="about-tab" data-toggle="tab" href="#pending" aria-controls="about" role="tab" aria-selected="false">Pending</a>
+                                    </li>
+                                    <li>
+                                        <a class="list-group-item order-pill" id="about-tab" data-toggle="tab" href="#disabled" aria-controls="about" role="tab" aria-selected="false">Disabled</a>
+                                    </li>
 
-                                            <tbody id="render__data">
-                                                @include('product.partials.product-list')
-                                            </tbody>
-                                            
-                                        </table>
-                                        <input type="hidden" id="hidden__action_url" value="{{ route('admin.products.ajaxPgination') }}">
-                                        <input type="hidden" id="hidden__page_number" value="1">
-                                        <input type="hidden" id="hidden__sort_by" value="id">
-                                        <input type="hidden" id="hidden__sorting_order" value="DESC">
-                                        <input type="hidden" id="hidden__status" value="1">
+                                </ul>
+                                <div class="tab-content">            
+                                    <div class="tab-pane" id="all" aria-labelledby="about-tab" role="tabpanel">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped mb-0 table-bg">
+                                                <thead>
+                                                <tr>
+                                                        <th class="sortAble" sorting-column='id' sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg> 
+                                                            ID
+                                                        </th>
+                                                        <th class="d-none">Vendor</th>
+                                                        <th class="sortAble" sorting-column='title' sorting-order=''>
+                                                            Title
+                                                        </th>
+                                                        <th>Category</th>
+                                                        <th>Image</th>
+                                                        <th>
+                                                            Google Feed
+                                                        </th>
+                                                        <th class="sortAble" sorting-column='product_type' sorting-order=''>
+                                                            Product Type
+                                                        </th>
+                                                        <th class="sortAble" sorting-column='created_at' sorting-order=''>
+                                                            Date
+                                                        </th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="table-body" id="ordershippmentconfirm">
+                                                        <!-- start List -->
+                                                        @include('product.partials.product-list')
+                                                        <!-- end list -->
+                                                    </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="approved" role="tabpanel" aria-labelledby="dropdown31-tab" aria-expanded="false">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped mb-0 table-bg">
+                                                <thead>
+                                                <tr>
+                                                        <th class="sortAble" sorting-column='id' sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg> 
+                                                            ID
+                                                        </th>
+                                                        <th class="d-none">Vendor</th>
+                                                        <th class="sortAble" sorting-column='title' sorting-order=''>
+                                                            Title
+                                                        </th>
+                                                        <th>Category</th>
+                                                        <th>Image</th>
+                                                        <th>
+                                                            Google Feed
+                                                        </th>
+                                                        <th class="sortAble" sorting-column='product_type' sorting-order=''>
+                                                            Product Type
+                                                        </th>
+                                                        <th class="sortAble" sorting-column='created_at' sorting-order=''>
+                                                            Date
+                                                        </th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="table-body" id="ordershipped">
+                                                        <!-- start List -->
+                                                        @include('product.partials.product-list')
+                                                        <!-- end list -->
+                                                    </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="pending" role="tabpanel" aria-labelledby="dropdown32-tab" aria-expanded="false">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped mb-0 table-bg">
+                                                <thead>
+                                                <tr>
+                                                        <th class="sortAble" sorting-column='id' sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg> 
+                                                            ID
+                                                        </th>
+                                                        <th class="d-none">Vendor</th>
+                                                        <th class="sortAble" sorting-column='title' sorting-order=''>
+                                                            Title
+                                                        </th>
+                                                        <th>Category</th>
+                                                        <th>Image</th>
+                                                        <th>
+                                                            Google Feed
+                                                        </th>
+                                                        <th class="sortAble" sorting-column='product_type' sorting-order=''>
+                                                            Product Type
+                                                        </th>
+                                                        <th class="sortAble" sorting-column='created_at' sorting-order=''>
+                                                            Date
+                                                        </th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="table-body" id="ordershipped">
+                                                        <!-- start List -->
+                                                        @include('product.partials.product-list')
+                                                        <!-- end list -->
+                                                    </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="disabled" role="tabpanel" aria-labelledby="dropdown33-tab" aria-expanded="false">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped mb-0 table-bg">
+                                                <thead>
+                                                <tr>
+                                                        <th class="sortAble" sorting-column='id' sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg> 
+                                                            ID
+                                                        </th>
+                                                        <th class="d-none">Vendor</th>
+                                                        <th class="sortAble" sorting-column='title' sorting-order=''>
+                                                            Title
+                                                        </th>
+                                                        <th>Category</th>
+                                                        <th>Image</th>
+                                                        <th>
+                                                            Google Feed
+                                                        </th>
+                                                        <th class="sortAble" sorting-column='product_type' sorting-order=''>
+                                                            Product Type
+                                                        </th>
+                                                        <th class="sortAble" sorting-column='created_at' sorting-order=''>
+                                                            Date
+                                                        </th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="table-body" id="ordershipped">
+                                                        <!-- start List -->
+                                                        @include('product.partials.product-list')
+                                                        <!-- end list -->
+                                                    </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </section>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+                                        <!-- <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="sortAble" sorting-column='id' sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg> 
+                                                            ID
+                                                        </th>
+                                                        <th class="d-none">Vendor</th>
+                                                        <th class="sortAble" sorting-column='title' sorting-order=''>
+                                                            Title
+                                                        </th>
+                                                        <th>Category</th>
+                                                        <th>Image</th>
+                                                        <th>
+                                                            Google Feed
+                                                        </th>
+                                                        <th class="sortAble" sorting-column='product_type' sorting-order=''>
+                                                            Product Type
+                                                        </th>
+                                                        <th class="sortAble" sorting-column='created_at' sorting-order=''>
+                                                            Date
+                                                        </th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody id="render__data">
+                                                    @include('product.partials.product-list')
+                                                </tbody>
+                                                
+                                            </table>
+                                            <input type="hidden" id="hidden__action_url" value="{{ route('admin.products.ajaxPgination') }}">
+                                            <input type="hidden" id="hidden__page_number" value="1">
+                                            <input type="hidden" id="hidden__sort_by" value="id">
+                                            <input type="hidden" id="hidden__sorting_order" value="DESC">
+                                            <input type="hidden" id="hidden__status" value="1">
+                                        </div> -->
+                                        
+                                    <!-- </div> -->
+                                <!-- </div> -->
+                        <!-- </div> -->
+                    <!-- </div> -->
+                <!-- </div> -->
+            <!-- </div>   -->
+            
 @endsection
 
 @push('scripts')
 
-<script type="text/javascript">
+ <script type="text/javascript">
     $(document).on('change', '#hidden__id', function(e){
         e.preventDefault()
         let action_url = $("#hidden__action_url").val()
@@ -164,5 +331,5 @@
             return false;
         }
     }
-</script>
+</script> 
 @endpush

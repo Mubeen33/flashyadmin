@@ -25,7 +25,8 @@
                   {!! session('msg') !!}
                 @endif
                 @include('msg.msg')
-                <div class="row" id="basic-table">
+              
+                 <div class="row" id="basic-table">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header justify-content-between">
@@ -49,7 +50,7 @@
                                 <div class="card-body">
                                     
                                     <div class="table-responsive ">
-                                        <table  class="table table-bordered zero-configuration">
+                                        <table id="catagoryTable" class="table table-bordered zero-configuration color-bordered-table ">
                                             <thead>
                                                 <tr>
                                                     <th class="sortAble" sorting-column='id' sorting-order='DESC'><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/> <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/> </svg> ID</th>
@@ -81,11 +82,9 @@
                         </div>
                     </div>
                 </div>
-            </div>   
-<script src="https://code.jquery.com/jquery-3.3.1.js" ></script>                      
-<script src="{{ asset('app-assets/vendors/js/tables/datatable/datatables.min.js')}}" defer></script>
-<script src="{{ asset('app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js')}}"></script> 
-           
+            </div>    
+
+</script>
 @endsection
   {{--  <script>
     $(document).ready(function(){

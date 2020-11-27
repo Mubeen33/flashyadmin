@@ -45,6 +45,11 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/css/plugins/tour/tour.css')}}">
     <!-- END: Page CSS-->
 
+    <!-- BEGIN: datatable-->
+    <link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet">
+    <!-- END: datatable-->
+
     <!-- BEGIN: Zommer CSS-->
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/xzoom/dist/xzoom.css" media="all" />
     <!-- END: Zommer CSS-->

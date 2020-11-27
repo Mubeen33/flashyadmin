@@ -339,6 +339,7 @@ class ProductController extends Controller
 
     //get all products
     public function get_all_products(){
+        
         //except pending
         $data = Product::where([
                     'approved'=>1,
@@ -352,6 +353,8 @@ class ProductController extends Controller
         $vendors = Vendor::where('active', 1)
                     ->orderBy('first_name', 'ASC')
                     ->get();
+                    // print_r(count($data));
+                    // dd("ok");
         return view('product.products', compact('data', 'vendors'));
     }
 

@@ -8,7 +8,7 @@
         <td>{{$item->category_order}}</td>
         <td>
         @if ($item->visibility == 1)
-        <div class="fonticon-wrap"> <div class="badge badge-success">&nbsp;&nbsp;<i class="fa fa-eye fa-x"></i>&nbsp;&nbsp;</div> </div>  
+        <div class="fonticon-wrap"> <div class="badge badge-dark">&nbsp;&nbsp;<i class="fa fa-eye fa-x"></i>&nbsp;&nbsp;</div> </div>  
         @else
         <div class="fonticon-wrap"> <div class="badge badge-danger">&nbsp;&nbsp;<i class="fa fa-eye-slash"></i>&nbsp;&nbsp;</div> </div>    
         @endif
@@ -17,7 +17,7 @@
         @if ($item->show_on_homepage == 0)
         <div class="badge badge-danger"><strong>NO</strong></div>  
         @else
-        <div class="badge badge-success"><strong>YES</strong></div> 
+        <div class="badge badge-dark"><strong>YES</strong></div> 
         @endif
     </td>
         <td> 
