@@ -10,7 +10,7 @@
 @endpush
 
 @section('breadcrumbs')
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
         <li class="breadcrumb-item"><a href="#">Add Category</a></li>
 @endsection    
 @section('content')         
@@ -30,7 +30,7 @@
                                         <div class="card-body">
                                                 <div class="form-body">
                                                     <div class="row">
-                                                        <div class="col-12">
+                                                        <div class="col-6">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Category Name</span>
@@ -43,7 +43,7 @@
                                                         </div>
 
 
-                                                        <div class="col-12">
+                                                        <div class="col-6">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Slug</span>
@@ -55,7 +55,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-12">
+                                                        <div class="col-6">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Title(meta tag)</span>
@@ -67,7 +67,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-12">
+                                                        <div class="col-6">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Descripation(meta tag)</span>
@@ -79,7 +79,7 @@
                                                         </div>
 
 
-                                                        <div class="col-12">
+                                                        <div class="col-6">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Keywords(meta tag)</span>
@@ -91,30 +91,30 @@
                                                         </div>
 
 
-                                                        <div class="col-12">
+                                                        <div class="col-6">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Order</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="number" min="1" value="1" id="order"  class="form-control" name="order" placeholder="Order"  value="{{ old('order') }}">
+                                                                    <input is-required='true' style="width: 100% !important;" onclick="removeErrorLevels($(this), 'input')" type="number" min="1" value="1" id="order"  class="form-control" name="order" placeholder="Order"  value="{{ old('order') }}">
                                                                     <small class="place-error--msg text-danger"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-12">
+                                                        <div class="col-6">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Homepage order</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="number" min="1" value="1" id="home_order"  class="form-control" name="home_order" placeholder="homepage order">
+                                                                    <input type="number" min="1" value="1" id="home_order" style="width: 100% !important;"  class="form-control" name="home_order" placeholder="homepage order">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                       
-                                                        <div class="col-12">
+                                                        <div class="col-6">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Parent Category</span>
@@ -133,86 +133,81 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-12" id="scommission">
+                                                        <div class="col-6" id="scommission">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span id="label_commission">Category Commission</span>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input onclick="removeErrorLevels($(this), 'input')" type="number" min="1" value="1" id="commission"  class="form-control required__true" name="commission" placeholder="Order">
+                                                                    <input style="width: 100% !important;" onclick="removeErrorLevels($(this), 'input')" type="number" min="1" value="1" id="commission"  class="form-control required__true" name="commission" placeholder="Order">
                                                                     <small class="place-error--msg text-danger"></small>
                                                                 </div>
                                                             </div>
                                                         </div>
 
-                                                       <div class="col-12">
+                                                       <div class="col-6">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Visibilty</span>
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-8" style="display: flex !important;">
                                                                     <div class="custom-control custom-radio">
                                                                         <input type="radio" class="custom-control-input" value="1"  name="visiblity" id="customRadio6" checked="1">
                                                                         <label class="custom-control-label" for="customRadio6">Yes</label>
                                                                     </div>
-                                                                </div>
-
-                                                                <div class="col-md-4">
-                                                                    <div class="custom-control custom-radio">
+                                                                    <div class="custom-control custom-radio" style="margin-left: 5% !important;">
                                                                         <input type="radio" class="custom-control-input" value="0"  name="visiblity" id="customRadio5">
                                                                         <label class="custom-control-label" for="customRadio5">No</label>
                                                                     </div>
                                                                 </div>
+
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-12">
+                                                        <div class="col-6">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
-                                                                    <span>show on Homepage</span>
+                                                                    <span>Show on Homepage</span>
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-8" style="display: flex !important;">
                                                                     <div class="custom-control custom-radio">
                                                                         <input type="radio" class="custom-control-input" value="1"  name="home_visiblity" id="customRadio4" checked="1">
                                                                         <label class="custom-control-label" for="customRadio4">Yes</label>
                                                                     </div>
-                                                                </div>
-
-                                                                <div class="col-md-4">
-                                                                    <div class="custom-control custom-radio">
+                                                                    <div class="custom-control custom-radio" style="margin-left: 5% !important;">
                                                                         <input type="radio" class="custom-control-input" value="0"  name="home_visiblity" id="customRadio9">
                                                                         <label class="custom-control-label" for="customRadio9">No</label>
                                                                     </div>
                                                                 </div>
+
                                                             </div>
                                                         </div>
 
 
 
-                                                        <div class="col-12">
+                                                        <div class="col-6">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Show Category on navigation</span>
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-8" style="display: flex !important;">
                                                                     <div class="custom-control custom-radio">
                                                                         <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="1"  name="image_visiblity" id="customRadio1" checked="1">
                                                                         <label class="custom-control-label" for="customRadio1">Yes</label>
                                                                         <small class="place-error--msg"></small>
                                                                     </div>
-                                                                </div>
-
-                                                                <div class="col-md-4">
-                                                                    <div class="custom-control custom-radio">
+                                                                    <div class="custom-control custom-radio" style="margin-left: 5% !important;">
                                                                         <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="0"  name="image_visiblity" id="customRadio2">
                                                                         <label class="custom-control-label" for="customRadio2">No</label>
                                                                         <small class="place-error--msg"></small>
                                                                     </div>
                                                                 </div>
+
+                                                                
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-12">
+                                                        <div class="col-6">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Category Image</span>
@@ -228,7 +223,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-12">
+                                                        <div class="col-6">
                                                             <div class="form-group row">
                                                                 <div class="col-md-4">
                                                                     <span>Category Icon</span>
@@ -244,11 +239,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <br>
-                                                        <div class="col-md-10"></div>
-                                                        <div class="col-md-2">
-                                                            <button class="btn btn-warning" type="submit">Submit</button>
+                                                       
+                                                        <div class="col-md-3">
+                                                            <button class="btn btn-warning float-right" type="submit">Submit</button>
                                                         </div>
+                                                       
+                                                        
                                                     </div>
                                                 </div>
                                         </div>

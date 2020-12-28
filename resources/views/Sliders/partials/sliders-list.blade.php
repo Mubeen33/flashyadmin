@@ -1,12 +1,8 @@
 @foreach($data as $key=>$content)
     <tr>
-        <th scope="row">{{ $key+1 }}</th>
-        <td>{{ $content->title }}</td>                                          
-        <td>{{ $content->description }}</td>
-        <td>{{ $content->order_no }}</td>
+        <th scope="row">{{ $key+1 }}</th>     
         <td>{{ $content->button_text }}</td>
-        <td><img width="50px" height="50px" src="{{ $content->image_lg }}"></td>
-        <td><img width="50px" height="50px" src="{{ $content->image_sm }}"></td>
+        <td><img width="50px" height="50px" style="object-fit: contain;" src="{{ $content->image_lg }}"></td>       
         <td>{{ $content->slider_type }}</td>
         <td>{{ $content->start_time }}</td>
         <td>{{ $content->end_time }}</td>
