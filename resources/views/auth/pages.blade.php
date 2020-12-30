@@ -31,8 +31,7 @@
                                 <div class="card-body">
 
                                     <div class="table-responsive">
-                                        <table class="table table-bordered">
-                                            <thead>
+                                        <table  class="table table-striped table-hover mb-0">                                            <thead>
                                                 <tr>
                                                     <th>SN.</th>
                                                     <th>Type</th>

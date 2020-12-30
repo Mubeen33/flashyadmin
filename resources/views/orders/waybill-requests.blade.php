@@ -13,8 +13,7 @@
                             </div>
                         </div> <br />
                         <div class="table-responsive">
-                            <table class="table table-striped">
-                                <tbody>
+                            <table  class="table table-striped table-hover mb-0">                                <tbody>
                                     <thead>
                                         <tr class="table-head">
                                             <td width="10%">

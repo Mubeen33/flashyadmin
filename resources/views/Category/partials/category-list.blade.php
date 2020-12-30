@@ -2,8 +2,8 @@
     @foreach ($categories as $key=>$item)
        <tr>
         <td>{{ ($key+1) }}</td>   
-        <td><b>{{ $item->getParentsNames() }}</b></td>
-        <td><img src="{{$item->image}}" width="70"></td>
+        <td style="text-align: left;"><b>{{ $item->getParentsNames() }}</b></td>
+        <td><img src="{{$item->image}}" style="width: 17%;" width="70"></td>
         <td>{{$item->commission}}%</td>
         <td>{{$item->category_order}}</td>
         <td>
@@ -36,7 +36,7 @@
     </tr>
     @endforeach
         <tr>
-            <td colspan="7">{!! $categories->links() !!}</td>
+            <td colspan="8">{!! $categories->links() !!}</td>
         </tr>
 
      @else  
