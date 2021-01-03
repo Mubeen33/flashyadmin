@@ -431,11 +431,24 @@ class OrderController extends Controller
                             ->where('request_waybill','Yes')
                             ->groupby('vendor_id')
                             ->get();
-
+        
         $vendorOrdersData = Order::where('order_id',$order_id)
                             ->where('order_ship_draft','Yes')
                             ->where('request_waybill','Yes')
                             ->get()->groupby('vendor_id');
+        $weight = 0;                    
+        foreach ($vendorOrdersData as $key => $mainOrder) {
+            
+            foreach ($mainOrder as $order) {
+                $product_id = $order->product_id;
+
+                $product   = Product::where('id',$product_id)->first();
+                $dimension = ($product->length)*($product->hieght)*($product->width);
+                $wg = $dimension/5000;
+                $weight = $weight+$wg;
+            }
+        }
+                            
 
         $totalProduct     =  Order::where('order_id',$order_id)->where('order_ship_draft','Yes')
                             ->where('request_waybill','Yes')->count('product_id');
@@ -444,6 +457,6 @@ class OrderController extends Controller
                             ->where('request_waybill','Yes')->sum('qty'); 
         
 
-        return view('orders.waybillorderdetial',compact('ordersData','vendorOrdersData','totalProduct','totalQuantity'));
+        return view('orders.waybillorderdetial',compact('ordersData','vendorOrdersData','totalProduct','totalQuantity','weight'));
     }
 }
