@@ -176,7 +176,8 @@
                             <div class="card">
                                     <form id="order-waybill" method="post" action="{{ Route('admin.orders.attached-waybill') }}" enctype="multipart/form-data" onsubmit="return validate()" id="waybillform" style="padding: 20px">
                                         <h4>Total Products in Order {{ $totalProduct }}</h4>
-                                        <h4>Total Quantity in Order {{ $totalQuantity }}</h4><br>
+                                        <h4>Total Quantity in Order {{ $totalQuantity }}</h4>
+                                        <h4>Total Weight : {{ $weight }}</h4><br>
                                         <div class="form-group">
                                             <label>Courier Price</label>
                                             <input type="number" min="0" name="courier_price" class="form-control">
