@@ -50,15 +50,14 @@
                                         <div class="col-lg-6 col-md-12">
                                             <div class="form-group">
                                                 <label>Order</label>
-                                                <input type="number" onclick="removeErrorLevels($(this), 'input')" name="order_no" placeholder="Order" class="form-control">
+                                                <input style=" width: 100%; padding: 8px !important; margin: 0px 0 !important;box-sizing: border-box; " style="" type="number" onclick="removeErrorLevels($(this), 'input')" name="order_no" placeholder="Order" class="form-control">
                                                 <small class="place-error--msg"></small>
                                             </div>
-                                        </div>   
-                                        
-                                        <div class="col-lg-6 col-md-12">
+                                        </div>
+                                         <div class="col-lg-6 col-md-12">
                                             <div class="form-group">
                                                 <label>Button Text</label>
-                                                <input type="text" onclick="removeErrorLevels($(this), 'input')" name="button_text" placeholder="Button Text" class="form-control">
+                                                <input  type="text" onclick="removeErrorLevels($(this), 'input')" name="button_text" placeholder="Button Text" class="form-control">
                                                 <small class="place-error--msg"></small>
                                             </div>
                                         </div>

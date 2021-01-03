@@ -20,8 +20,7 @@
                             <div class="card-content">
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered">
-                                            <thead>
+                                        <table  class="table table-striped table-hover mb-0">                                            <thead>
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Name</th>
@@ -35,12 +34,12 @@
                                                     @foreach($customfields as $key => $customfield)
                                                        <tr>
                                                            <td>{{$key+1}}</td>
-                                                           <td>
+                                                           <td style="text-align: left;">
                                                                @foreach(json_decode($customfield->options) as $element)
                                                                     {{ $element->label }}
                                                                @endforeach
                                                            </td>
-                                                           <td>
+                                                           <td >
                                                                @php
                                                                     $categoryName = \App\Category::where('id',$customfield->category_id)->value('name');
                                                                 @endphp

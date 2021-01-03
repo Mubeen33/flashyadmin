@@ -27,6 +27,7 @@
     <!-- END: Theme JS-->
     <script src="{{ asset('app-assets/vendors/js/extensions/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('app-assets/js/scripts/extensions/sweet-alerts.js') }}"></script>
+ 
     
 
 

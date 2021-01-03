@@ -33,10 +33,10 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-2">
                                                                     <span>Parent Category</span>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-10">
                                                                     <select onclick="removeErrorLevels($(this), 'input')" class="form-control" name="parent_id[]" onchange="get_subcategories(this.value, 0);">
                                                                         <option value="">none</option>
                                                                         @foreach($parentCategory as $category)
@@ -60,8 +60,8 @@
                                                                 <li class="list-group-item btn" style="text-align: left;" onclick="appenddToForm('file')">{{__('File')}}</li>
                                                             </ul>
                                                         </div>
-                                                        <div class="col-11"></div>
-                                                            <button class="btn btn-warning" type="submit">Submit</button>
+                                                        <div class="col-3" style="text-align: right; margin-left: 4%;">  <button class="btn btn-warning" type="submit">Submit</button></div>
+                                                          
                                                         
                                                     </div>
                                                 </div>

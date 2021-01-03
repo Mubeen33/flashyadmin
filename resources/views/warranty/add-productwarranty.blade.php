@@ -37,10 +37,10 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-2">
                                                                     <span>Parent Category</span>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-4">
                                                                     <select onclick="removeErrorLevels($(this), 'input')" class="form-control" name="parent_id[]" onchange="get_subcategories(this.value, 0);">
                                                                         <option value="">none</option>
                                                                         @foreach($parentCategory as $category)
@@ -50,20 +50,17 @@
                                                                     <small class="place-error--msg"></small>
                                                                     <div id="subcategories_container"></div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group row">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-2">
                                                                     <span>Parent Warranties</span>
                                                                 </div>
-                                                                <div class="col-md-8">    
+                                                                <div class="col-md-4">    
                                                                     <input type="text" class="form-control tagsInput" data-role="tagsinput" name="warranty" placeholder="Enter choice values">
                                                                 </div>
-                                                            </div>    
+                                                            </div>
                                                         </div>
-                                                        <div class="col-11"></div>
-                                                            <button class="btn btn-warning" type="submit">Submit</button>
+                                                        
+                                                        <div class="col-3" style="margin-left: 4%; text-align: right;"> <button class="btn btn-warning" type="submit">Submit</button></div>
+                                                           
                                                         
                                                     </div>
                                                 </div>

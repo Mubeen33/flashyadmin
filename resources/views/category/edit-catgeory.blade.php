@@ -8,8 +8,8 @@
 </style>
 @endpush
 @section('breadcrumbs')
-<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-<li class="breadcrumb-item"><a href="#">Edit Category</a></li>
+<li class="breadcrumb-item"><a href="/">Home</a></li>
+<li class="breadcrumb-item active"><a href="#">Edit Category</a></li>
 @endsection    
 @section('content')   
 
@@ -30,86 +30,78 @@
                            <div class="row">
                               <div class="col-12">
                                  <div class="form-group row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                        <span>Category Name</span>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                        <input type="hidden" id="name"  class="form-control" name="id" value="{{$categories->id}}">
                                        <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="text" id="name2"  class="form-control" name="name" value="{{$categories->name}}">
                                        <small class="place-error--msg text-danger"></small>
                                     </div>
-                                 </div>
-                              </div>
-                              <div class="col-12">
-                                 <div class="form-group row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                        <span>Slug</span>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                        <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="text" id="slug"  class="form-control" name="slug" value="{{$categories->slug}}" >
                                        <small class="place-error--msg text-danger"></small>
                                     </div>
                                  </div>
                               </div>
+                              
                               <div class="col-12">
                                  <div class="form-group row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                        <span>Title(meta tag)</span>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                        <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="text" id="title"  class="form-control" name="title" value="{{$categories->title_meta_tag}}" >
                                        <small class="place-error--msg text-danger"></small>
                                     </div>
-                                 </div>
-                              </div>
-                              <div class="col-12">
-                                 <div class="form-group row">
-                                    <div class="col-md-4">
-                                       <span>Descripation(meta tag)</span>
-                                    </div>
-                                    <div class="col-md-8">
-                                       <input type="text" id="desc"  class="form-control" name="desc" value="{{$categories->description}}" >
-                                       <small class="place-error--msg text-danger"></small>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="col-12">
-                                 <div class="form-group row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                        <span>Keywords(meta tag)</span>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                        <input type="text" id="keyword"  class="form-control" name="keyword" value="{{$categories->keywords}}" >
                                     </div>
+                                    
+                                 </div>
+                              </div>
+                              
+                              <div class="col-12">
+                                 <div class="form-group row">
+                                    <div class="col-md-2">
+                                       <span>Descripation(meta tag)</span>
+                                    </div>
+                                    <div class="col-md-10">
+                                       <input type="text" id="desc"  class="form-control" name="desc" value="{{$categories->description}}" >
+                                       <small class="place-error--msg text-danger"></small>
+                                    </div> 
                                  </div>
                               </div>
                               <div class="col-12">
                                  <div class="form-group row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                        <span>Order</span>
                                     </div>
-                                    <div class="col-md-8">
-                                       <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="number" min="1" id="order"  class="form-control" name="order" value="{{$categories->category_order}}"  value="1">
+                                    <div class="col-md-4">
+                                       <input style="width: 100%;" is-required='true' onclick="removeErrorLevels($(this), 'input')" type="number" min="1" id="order"  class="form-control" name="order" value="{{$categories->category_order}}"  value="1">
                                        <small class="place-error--msg text-danger"></small>
                                     </div>
-                                 </div>
-                              </div>
-                              <div class="col-12">
-                                 <div class="form-group row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                        <span>Homepage order</span>
                                     </div>
-                                    <div class="col-md-8">
-                                       <input type="number" min="1" id="home_order"  class="form-control" name="home_order" value="{{$categories->homepage_order}}" value="1">
+                                    <div class="col-md-4">
+                                       <input style="width: 100%;" type="number" min="1" id="home_order"  class="form-control" name="home_order" value="{{$categories->homepage_order}}" value="1">
                                     </div>
                                  </div>
                               </div>
+                              
                               <div class="col-12">
                                  <div class="form-group row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                        <span>Parent Category</span>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                        <select onclick="removeErrorLevels($(this), 'input')" class="form-control" name="parent_id[]" onchange="get_subcategories(this.value, 0);">
                                           >
                                           <option value="">None</option>
@@ -144,14 +136,22 @@
                                           @endif
                                        </div>
                                     </div>
+                                    <div class="col-md-2">
+                                       <span id="label_commission">Category Commission</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                       <input style="width: 100%;" is-required='true' type="number" min="1" value="1" id="commission"  class="form-control" name="commission" placeholder="Order" value="{{$categories->commission}}">
+                                       <small class="place-error--msg text-danger"></small>
+                                    </div>
                                  </div>
                               </div>
+                              
                               <div class="col-12">
                                  <div class="form-group row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                        <span>Category Image</span>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                        <div class="custom-file">
                                           <input type="file" onchange="previewFile(this);" name="image" class="custom-file-input" id="inputGroupFile01">
                                           <label id="custom-image-label" class="custom-file-label" for="inputGroupFile01">Choose file</label>
@@ -160,79 +160,55 @@
                                        <span><img class="preview--file" id="previewImg" width="100" src="{{ $categories->image }}"></span>
                                        <input type="hidden" id="image"  class="form-control" name="image" value="">
                                     </div>
-                                 </div>
-                              </div>
-                              <div class="col-12" id="scommission">
-                                 <div class="form-group row">
-                                    <div class="col-md-4">
-                                       <span id="label_commission">Category Commission</span>
-                                    </div>
-                                    <div class="col-md-8">
-                                       <input is-required='true' type="number" min="1" value="1" id="commission"  class="form-control" name="commission" placeholder="Order" value="{{$categories->commission}}">
-                                       <small class="place-error--msg text-danger"></small>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="col-12">
-                                 <div class="form-group row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                        <span>Visibilty</span>
                                     </div>
                                     <div class="col-md-4">
-                                       <div class="custom-control custom-radio">
+                                       <div class="custom-control custom-radio" style="display: inline; margin-right: 5%;">
                                           <input type="radio" class="custom-control-input" value="1" {{ $categories->visibility == 1 ? 'checked' : '' }} name="visiblity" id="customRadio6">
                                           <label class="custom-control-label" for="customRadio6">Yes</label>
                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                       <div class="custom-control custom-radio">
+                                       <div class="custom-control custom-radio" style="display: inline; margin-right: 5%;">
                                           <input type="radio" class="custom-control-input" value="0" {{ $categories->visibility == 0 ? 'checked' : '' }} name="visiblity" id="customRadio5">
                                           <label class="custom-control-label" for="customRadio5">No</label>
                                        </div>
                                     </div>
                                  </div>
                               </div>
+                              
                               <div class="col-12">
                                  <div class="form-group row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                        <span>show on Homepage</span>
                                     </div>
                                     <div class="col-md-4">
-                                       <div class="custom-control custom-radio">
+                                       <div class="custom-control custom-radio" style="display: inline; margin-right: 5%;">
                                           <input type="radio" class="custom-control-input" value="1" {{ $categories->show_on_homepage == 1 ? 'checked' : '' }} name="home_visiblity" id="customRadio4">
                                           <label class="custom-control-label" for="customRadio4">Yes</label>
                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                       <div class="custom-control custom-radio">
+                                       <div class="custom-control custom-radio" style="display: inline; margin-right: 5%;">
                                           <input type="radio" class="custom-control-input" value="0" {{ $categories->show_on_homepage == 0 ? 'checked' : '' }} name="home_visiblity" id="customRadio3">
                                           <label class="custom-control-label" for="customRadio3">No</label>
                                        </div>
                                     </div>
-                                 </div>
-                              </div>
-                              <div class="col-12">
-                                 <div class="form-group row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                        <span>Show Category on navigation</span>
                                     </div>
                                     <div class="col-md-4">
-                                       <div class="custom-control custom-radio">
+                                       <div class="custom-control custom-radio" style="display: inline; margin-right: 5%;">
                                           <input type="radio" class="custom-control-input" value="1" {{ $categories->show_image_nav == 1 ? 'checked' : '' }} name="image_visiblity" id="customRadio1">
                                           <label class="custom-control-label" for="customRadio1">Yes</label>
                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                       <div class="custom-control custom-radio">
+                                       <div class="custom-control custom-radio" style="display: inline; margin-right: 5%;">
                                           <input type="radio" class="custom-control-input" value="0" {{ $categories->show_image_nav == 0 ? 'checked' : '' }} name="image_visiblity" id="customRadio2">
                                           <label class="custom-control-label" for="customRadio2">No</label>
                                        </div>
                                     </div>
+                                    
                                  </div>
                               </div>
-                              <div class="col-md-9"></div>
-                              <div class="col-md-3">
-                                 <button class="btn btn-warning submit-btn"  type="submit">Submit</button>
+                               <div class="col-md-12" style="text-align: right;">
+                                 <button class="btn btn-warning submit-btn"  type="submit">Update</button>
                               </div>
                            </div>
                         </div>

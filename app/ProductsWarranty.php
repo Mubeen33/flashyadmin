@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductsWarranty extends Model
 {
+    protected $table = 'products_warranty';
     public function get_category(){
     	return $this->belongsTo('App\Category', 'category_id', 'id');
     }

@@ -7,6 +7,47 @@
         border:1px solid red;
     }
 </style>
+<style>
+    .btn-file {
+position: relative;
+overflow: hidden;
+}
+.btn-file input[type=file] {
+position: absolute;
+top: 0;
+right: 0;
+min-width: 100%;
+min-height: 100%;
+font-size: 100px;
+text-align: right;
+filter: alpha(opacity=0);
+opacity: 0;
+outline: none;
+background: white;
+cursor: inherit;
+display: block;
+}
+
+#img-upload{
+width: 100%;
+}
+</style>
+<style>
+    .cardimg {
+box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+transition: 0.3s;
+width: 40%;
+border-radius: 5px;
+}
+
+.cardimg:hover {
+box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+img {
+border-radius: 5px 5px 0 0;
+}
+</style>
 @endpush
 
 @section('breadcrumbs')
@@ -141,8 +182,23 @@
                         </div>
                         <div class="form-group">
                             <label>Text Line One Icon (Width 40px & height 40px)</label>
-                            <input onclick="removeErrorLevels($(this), 'input')" @if(!$data) is-required='true' @endif type="file" name="text_line_one_icon" class="form-control" accept="image/*">
+                           
                             <small class="place-error--msg text-danger"></small>
+                           
+                            <div class="form-group">
+                                
+                                <div id="input-group1" class="input-group ">
+                                    <span class="input-group-btn">
+                                        <span id="btn-file1" class="btn btn-warning  waves-effect waves-light btn-file">
+                                            Browse<input  id="imgInp1" onclick="removeErrorLevels($(this), 'input')" @if(!$data) is-required='true' @endif type="file" name="text_line_one_icon" class="form-control" accept="image/*">
+                                        </span>
+                                    </span>
+                                    <input type="text" class="form-control" style="margin-left: -2%;" readonly>
+                                </div>
+                                <div style="text-align: left;">
+                                 <img style="max-width: 14%; margin-top: 2%;" class="cardimg" id='img-upload1'/>
+                                 </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -151,7 +207,21 @@
                         </div>
                         <div class="form-group">
                             <label>Text Line Two Icon  (Width 40px & height 40px)</label>
-                            <input type="file" name="text_line_two_icon" class="form-control" accept="image/*">
+                         
+                            <div class="form-group">
+                                
+                                <div id="input-group2" class="input-group ">
+                                    <span class="input-group-btn">
+                                        <span id="btn-file2" class="btn btn-warning  waves-effect waves-light btn-file">
+                                            Browse<input  id="imgInp2"  type="file" name="text_line_two_icon" class="form-control" accept="image/*">
+                                        </span>
+                                    </span>
+                                    <input type="text" class="form-control" style="margin-left: -2%;" readonly>
+                                </div>
+                                <div style="text-align: left;">
+                                 <img style="max-width: 14%; margin-top: 2%;" class="cardimg" id='img-upload2'/>
+                                 </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -160,12 +230,40 @@
                         </div>
                         <div class="form-group">
                             <label>Text Line Three Icon  (Width 40px & height 40px)</label>
-                            <input type="file" name="text_line_three_icon" class="form-control" accept="image/*">
+                          
+                            <div class="form-group">
+                                
+                                <div id="input-group3" class="input-group ">
+                                    <span class="input-group-btn">
+                                        <span id="btn-file3" class="btn btn-warning  waves-effect waves-light btn-file">
+                                            Browse<input  id="imgInp3"  type="file" name="text_line_three_icon" class="form-control" accept="image/*">
+                                        </span>
+                                    </span>
+                                    <input type="text" class="form-control" style="margin-left: -2%;" readonly>
+                                </div>
+                                <div style="text-align: left;">
+                                 <img style="max-width: 14%; margin-top: 2%;" class="cardimg" id='img-upload3'/>
+                                 </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label>Signup Page Banner (Width:662px & Height:185px)</label>
-                            <input type="file" name="banner" class="form-control" accept="image/*">
+                           
+                            <div class="form-group">
+                                
+                                <div id="input-group4" class="input-group ">
+                                    <span class="input-group-btn">
+                                        <span id="btn-file4" class="btn btn-warning  waves-effect waves-light btn-file">
+                                            Browse<input  id="imgInp4"  type="file" name="banner" class="form-control" accept="image/*">
+                                        </span>
+                                    </span>
+                                    <input type="text" class="form-control" style="margin-left: -2%;" readonly>
+                                </div>
+                                <div style="text-align: left;">
+                                 <img style="max-width: 40%; margin-top: 2%;" class="cardimg" id='img-upload4'/>
+                                 </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -186,4 +284,6 @@
     })
 </script>
 <script type="text/javascript" src="{{ asset('js/general-form-submit.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bannerfileuploader.js') }}"></script>
+
 @endpush

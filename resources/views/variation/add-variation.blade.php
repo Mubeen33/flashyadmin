@@ -10,7 +10,7 @@
 @endpush
 
 @section('breadcrumbs')
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
         <li class="breadcrumb-item"><a href="#">Add Variation</a></li>
 @endsection    
 @section('content')
@@ -36,21 +36,17 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-2">
                                                                     <span>Name</span>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-4">
                                                                     <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="text" name="variation_name" class="form-control">
                                                                     <small class="place-error--msg text-danger"></small>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group row">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-2">
                                                                     <span>Parent Category</span>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-4">
                                                                     <select onclick="removeErrorLevels($(this), 'input')" class="form-control" name="parent_id[]" onchange="get_subcategories(this.value, 0);">
 >
                                                                       {{-- <option value="">None</option> --}}
@@ -63,107 +59,97 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        
                                                         <div class="col-12">
                                                             <div class="form-group row">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-2">
                                                                     <span>Image Approval</span>
                                                                 </div>
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-4" style="display: flex;">
                                                                     <div class="custom-control custom-radio">
                                                                         <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="1" name="image_approval" id="customRadio1" checked="1">
                                                                         <label class="custom-control-label" for="customRadio1">Yes</label>
                                                                         <br>
                                                                         <small class="place-error--msg text-danger"></small>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="custom-control custom-radio">
+                                                                
+                                                                    <div class="custom-control custom-radio" style="margin-left: 5%;">
                                                                         <input onclick="removeErrorLevels($(this), 'input')" type="radio" class="custom-control-input" value="0" name="image_approval" id="customRadio2">
                                                                         <label class="custom-control-label" for="customRadio2">No</label>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group row">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-2">
                                                                     <span>SKU Approval</span>
                                                                 </div>
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-4" style="display: flex;">
                                                                     <div class="custom-control custom-radio">
                                                                         <input type="radio" class="custom-control-input" value="1" name="sku_approval" id="customRadio3">
                                                                         <label class="custom-control-label" for="customRadio3">Yes</label>
                                                                         <small class="place-error--msg"></small>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="custom-control custom-radio">
+                                                                
+                                                                    <div class="custom-control custom-radio" style="margin-left: 5%;">
                                                                         <input type="radio" class="custom-control-input" value="0" name="sku_approval" id="customRadio4">
                                                                         <label class="custom-control-label" for="customRadio4">No</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                       
                                                         <div class="col-12">
                                                             <div class="form-group row">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-2">
                                                                     <span>Text Field</span>
                                                                 </div>
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-4"  style="display: flex;">
                                                                     <div class="custom-control custom-radio">
                                                                         <input type="radio" class="custom-control-input" value="1" name="is_text" id="customRadi10">
                                                                         <label class="custom-control-label" for="customRadi10">Yes</label>
                                                                         <small class="place-error--msg"></small>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="custom-control custom-radio">
+                                                                
+                                                                    <div class="custom-control custom-radio" style="margin-left: 5%;">
                                                                         <input type="radio" class="custom-control-input" value="0" name="is_text" id="customRadio5">
                                                                         <label class="custom-control-label" for="customRadio5">No</label>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group row">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-2">
                                                                     <span>Select</span>
                                                                 </div>
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-4" style="display: flex;">
                                                                     <div class="custom-control custom-radio">
                                                                         <input type="radio" class="custom-control-input" value="1" name="is_select" id="customRadio7">
                                                                         <label class="custom-control-label" for="customRadio7">Yes</label>
                                                                         <small class="place-error--msg"></small>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="custom-control custom-radio">
+                                                                
+                                                                    <div class="custom-control custom-radio" style="margin-left: 5%;">
                                                                         <input type="radio" class="custom-control-input" value="0" name="is_select" id="customRadio8">
                                                                         <label class="custom-control-label" for="customRadio8">No</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="card-header">
-                                                            <div>
-                                                                <h4 class="card-title"><b>Add Option in This variant (optional)</b></h4><br><br>
-                                                            </div>
-                                                        </div>        
+                                                       
+                                                       
+                                                        <div class="col-12">
+                                                          <h4 class="card-title"><b>Add Option in This variant (optional)</b></h4>
+                                                        </div>    
+                                                        <hr/>    
                                                         <div class="col-12" id="form">
-                                                            <div class="form-group row">
-                                                                <div class="col-md-4">
-                                                                    {{-- <span>Option Name</span> --}}
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    {{-- <input type="text" name="option_name[]" class="form-control"> --}}
-                                                                </div>
-                                                                <div class="col-md-2">
-                                                                    <button class="btn btn-warning" type="button" onclick="appenddToForm('text')">Add new Option</button>
-                                                                </div>
-                                                            </div>
+                                                          
                                                         </div>
-                                                        <div class="col-11"></div>
-                                                            <button class="btn btn-warning" type="submit">Submit</button>
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-4" style="text-align: right;margin-left: 10%;">
+                                                                    
+                                                                     <button class="btn btn-warning" type="button" onclick="appenddToForm('text')">Add new Option</button>
+                                                                     <button class="btn btn-warning" type="submit">Submit</button>
+                                                                    </div>
+                                                             </div>
+                                                        </div>
+                                                        <div class="col-3"></div>
+                                                          
                                                     </div>
                                                 </div>
                                         </div>
@@ -224,10 +210,10 @@
 
         if(type == 'text'){
                 var str = '<div class="form-group row">'
-                                +'<div class="col-md-4">'
+                                +'<div class="col-md-2">'
                                     +'<span>Option Name</span>'
                                 +'</div>'
-                                +'<div class="col-md-6">'
+                                +'<div class="col-md-4">'
                                     +'<input type="text" name="option_name[]" class="form-control" required="">'
                                 +'</div>'    
                                 +'<div class="col-md-1">'

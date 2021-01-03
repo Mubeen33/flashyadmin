@@ -10,7 +10,7 @@
 @endpush
 
 @section('breadcrumbs')
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
         <li class="breadcrumb-item"><a href="#">Add Brand</a></li>
 @endsection    
 @section('content')
@@ -36,32 +36,17 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-2">
                                                                     <span>Brand Name</span>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-4">
                                                                     <input is-required='true' onclick="removeErrorLevels($(this), 'input')" type="text" id="first-name"  class="form-control" name="name" placeholder="Brand Name">
                                                                     <small class="place-error--msg text-danger"></small>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group row">
-                                                                <div class="col-md-4">
-                                                                    <span>Description</span>
-                                                                </div>
-                                                                <div class="col-md-8">
-                                                                    <textarea class="form-control" name="description"></textarea>
-                                                                    
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group row">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-2">
                                                                     <span>Brand Image</span>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-4">
                                                                     <div class="custom-file">
                                                                         <input is-required='true' type="file" onchange="previewFile(this);" name="image" class="custom-file-input" id="inputGroupFile01">
                                                                         <label id="custom-image-upload" onclick="removeErrorLevels($(this), 'id__')" class="custom-file-label" for="inputGroupFile01">Choose file</label>
@@ -72,9 +57,23 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-11"></div>
-                                                        
+                                                        <div class="col-12">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-2">
+                                                                    <span>Description</span>
+                                                                </div>
+                                                                <div class="col-md-10">
+                                                                    <textarea class="form-control" name="description"></textarea>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3" style="text-align: right; margin-left: 4%;">
                                                             <button class="btn btn-warning" type="submit">Submit</button>
+                                                        </div>
+                                                        
+                                                        
+                                                          
                                                         
                                                     </div>
                                                 </div>
