@@ -21,6 +21,13 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   //application
   Route::resource('site-maintenance', 'Application\SiteMaintenanceController');
 
+    Route::get('home-page-settings' , function(){
+    return view('Appearance.home_settings');
+  })->name('home-page-settings');
+
+   Route::get('cetegory-settings' , function(){
+    return view('Appearance.categories_setting');
+  })->name('cetegory-settings');
 
 	//vendors controller
 	Route::resource('vendors', 'Vendors\VendorController');
