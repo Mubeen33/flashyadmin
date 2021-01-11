@@ -257,7 +257,14 @@
                         </ul>
                     </li>
 
-
+                    <li class="nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">Appearance</span></a>
+                        <ul  class="menu-content">
+                            <li data-menu=""><a class="dropdown-item" href="{{Route('admin.home-page-settings')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Home Page Settings</a>
+                                    </li>
+                            <li data-menu=""><a class="dropdown-item" href="{{Route('admin.cetegory-settings')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Category Settings</a>
+                            </li>        
+                        </ul>
+                    </li>
 
                    {{--  <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">UI Elements</span></a>
                         <ul class="dropdown-menu">
