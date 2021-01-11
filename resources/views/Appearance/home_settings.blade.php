@@ -106,7 +106,7 @@
             <!-- Photos -->
             <div class="card form-group">
                 <div class="card-body">
-                    <form class="form-horizontal" action="{{ route('appearance_logo') }}" method="POST" enctype="multipart/form-data">
+                    <form class="form-horizontal" action="{{ route('admin.appearance_logo') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="logo">Frontend Header logo <small>(max height 40px)</small></label>
