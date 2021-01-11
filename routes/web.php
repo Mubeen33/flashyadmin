@@ -20,6 +20,8 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
 
   //application
   Route::resource('site-maintenance', 'Application\SiteMaintenanceController');
+    
+    Route::post('appearance_logo' , 'Appearances\AppearanceController@appearance_logo')->name('appearance_logo');
 
     Route::get('home-page-settings' , function(){
     return view('Appearance.home_settings');
