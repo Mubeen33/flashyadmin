@@ -15,21 +15,41 @@ Route::get('/home', 'HomeController@index')->name('home');
 //feed
 // Route::feeds();
 
-
+Route::get('/{slug}', 'Pages\PagesController@show_custom_page')->name('custom-pages.show_custom_page');
 Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], function(){
-
+Route::post('appearance_logo' , 'Appearances\AppearanceController@appearance_logo')->name('appearance_logo');
   //application
   Route::resource('site-maintenance', 'Application\SiteMaintenanceController');
-    
-    Route::post('appearance_logo' , 'Appearances\AppearanceController@appearance_logo')->name('appearance_logo');
 
-    Route::get('home-page-settings' , function(){
-    return view('Appearance.home_settings');
-  })->name('home-page-settings');
+    Route::resource('pages/quicklinks', 'Pages\QuickLinksController');
+    Route::resource('pages/company', 'Pages\CompanyController');
+    Route::resource('pages/business', 'Pages\BusinessController');
 
-   Route::get('cetegory-settings' , function(){
-    return view('Appearance.categories_setting');
-  })->name('cetegory-settings');
+    Route::get('logo-settings' , function(){
+        $headerlogo = \App\AppearanceSetting::where('action' , 'header_logo')->first();
+        $footerlogo = \App\AppearanceSetting::where('action' , 'footer_logo')->first();
+        $favicon = \App\AppearanceSetting::where('action' , 'favicon')->first();
+        $adminlogo = \App\AppearanceSetting::where('action' , 'admin_logo')->first();
+        $sellerlogo = \App\AppearanceSetting::where('action' , 'seller_logo')->first();
+        return view('Appearance.logo_settings' , compact(['headerlogo' , 'footerlogo' , 'favicon' , 'adminlogo' , 'sellerlogo']));
+    })->name('logo-settings');
+
+    Route::get('cetegory-settings' , function(){
+
+        return view('Appearance.categories_setting');
+    })->name('cetegory-settings');
+
+    Route::get('home-settings' , function(){
+        return view('Appearance.home_settings');
+    })->name('home-settings');
+
+    Route::post('categories_update_status' , 'Appearances\HomeCategoryController@categories_update_status')->name('categories_update_status');
+
+    Route::post('update_visibility' , 'Pages\QuickLinksController@update_visibility')->name('update_visibility');
+
+    Route::post('update_positions' , 'Pages\QuickLinksController@update_positions')->name('update_positions');
+
+    Route::resource('home-category', 'Appearances\HomeCategoryController');
 
 	//vendors controller
 	Route::resource('vendors', 'Vendors\VendorController');
@@ -39,7 +59,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::get('pending-vendors','Vendors\VendorController@get_pending_vendors')->name("pendingVendors.get");
   //ajax requests
   Route::get('vendors-ajax-pagination/fetch', 'Vendors\VendorController@fetch_paginate_data')->name('vendors.ajaxPgination');
-  
+
   //add vendor
   Route::get('vendor-add', 'Vendors\VendorController@add_vendor_form')->name('vendor.addvendor.get');
   Route::post('vendor-add', 'Vendors\VendorController@add_vendor_post')->name('vendor.addvendor.post');
@@ -51,7 +71,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::get('vendor/activity/{vendorID}','Vendors\VendorController@vendor_actitvity')->name('vendor.activity.get');
   Route::post('vendor/activity','Vendors\VendorController@delete_vendor_activity')->name('vendor.activityDelete.post');
   Route::get('signle-vendor-activity-ajax/fetch','Vendors\VendorController@ajax_single_vendor_actitvity')->name('signleVendorActivity.ajaxPgination');
-  
+
   //Vendor Inventory Report
   Route::get('vendor/inventory/{vendorID}', 'Vendors\InventoryController@get_vendor_products')->name('vendorProducts.get');
   Route::get('ajax-vendor/inventory/fetch', 'Vendors\InventoryController@ajax_fetch_data')->name('vendorProducts.ajaxPgination');
@@ -65,7 +85,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
 
   //auth pages
   Route::resource('auth-pages','Auth\PagesController');
-    
+
   //vendor bank details updates
   Route::get('vendor/bank-updates','Vendors\VendorController@get_bank_updates')->name('vendor.bankUpdates.get');
   Route::post('vendor/bank-updates','Vendors\VendorController@approve_bank_updates')->name('vendor.bankUpdatesApprove.post');
@@ -119,7 +139,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::get('product/vendors/{productID}/{product_variationID?}', 'Products\ProductController@get_product_all_vendors')->name('productVendors.get');
    Route::get('ajax-product-vendors', 'Products\ProductController@product_vendors_fetch')->name('searchProductVendorsURL.ajaxPgination');
    Route::get('ajax-product-vendor-assign', 'Products\ProductController@product_vendor_assign_fetch')->name('searchVendorsAssignURL.ajaxPgination');
-   
+
    Route::get('product/show/{id}', 'Products\ProductController@product_details_show')->name('productDetails.get');
    Route::post('product/update/{id}', 'Products\ProductController@approve_product')->name('productUpdate.post');
    Route::get('product-approval/show/{id}', 'Products\ProductController@getProductApproval')->name('productControl.post');
@@ -136,7 +156,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::post('delete-product-image','Products\ProductController@removeProductImage');
    Route::get('products/ajax-pagination/fetch', 'Products\ProductController@fetch__data')->name('products.ajaxPgination');
    Route::get('pending-products/ajax-pagination/fetch', 'Products\ProductController@pending_fetch__data')->name('pendingProducts.ajaxPgination');
-   
+
    //export products
    Route::get('export-products', function(){return abort(404);});
    Route::post('export-products', 'Products\ProductController@export_products_post')->name('productsExport.post');
@@ -146,7 +166,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::get('show-product-reviews/{reivew_tbl_id}', 'Products\ProductReviewController@show_single_product_reviews')->name('showProductReviews.get');
    Route::get('ajax-product-reviews/fetch', 'Products\ProductReviewController@fetch_product_reviews')->name('productReivews.ajaxPgination');
    Route::get('single-product-reviews/fetch', 'Products\ProductReviewController@fetch_single_product_reviews')->name('reviews.ajaxPgination');
-  
+
 
 
    //orders
@@ -159,8 +179,8 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
    Route::get('waybill-order-detail/{id}','order\OrderController@wayBillOrderDetial')->name('wayBillOrderDetail');
    Route::post('attached-waybill','order\OrderController@attachedWayBill')->name('orders.attached-waybill');
 
-   // 
-  
+   //
+
   // General Route
   Route::post('get_subcategories/{id}','HomeController@getSubcategories')->name('subCategories.get');
   Route::post('get_categories_commission/{id}','HomeController@getCategoriesCommission')->name('subCategories.post');
@@ -177,7 +197,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::post('update-brand','brand\BrandController@updateBrand')->name('updateBrand.post');
   Route::get('brand-active/{id}','brand\BrandController@activeBrand')->name('activeBrand.post');
   Route::get('brands-ajax-pagination/fetch', 'brand\BrandController@fetch_paginate_data')->name('brands.ajaxPgination');
-  // 
+  //
 
   // Variation routes
   Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
@@ -212,7 +232,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::get('customfield-list','customfields\CustomfieldController@customFieldList')->name('customFieldList.get');
   Route::get('customfield-edit/{id}','customfields\CustomfieldController@edit_custom_field')->name('customFields.edit.get');
   Route::post('customfield-update/{id}','customfields\CustomfieldController@update_custom_field')->name('customFields.update.post');
-  
+
   // categories
   Route::get('add-category','category\CategoryController@index')->name('addCategory.get');
   Route::get('category-list','category\CategoryController@categoryList')->name('category.categorylist');
@@ -235,18 +255,18 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], func
   Route::post('edit-warranty/{id}','warranty\WarrantyController@update_warranty_post')->name('warranty.edit.post');
   Route::get('delete-warranty/{id}','warranty\WarrantyController@delete_warranty')->name('warranty.delete');
   // Products Warranty
-  
+
   Route::get('add-variation','variation\VariationController@addVariation')->name('variations.addvariation');
   Route::post('/get_subcategories/{id}','HomeController@getSubcategories');
 
   // Transactions
 
-    Route::get('transaction','transaction\TransactionController@index')->name('transactions'); 
+    Route::get('transaction','transaction\TransactionController@index')->name('transactions');
 
 
-  // 
+  //
   // files added by asad ..
-  
+
   // order page ..
   Route::get("/test/order",function(){
     return view("order");

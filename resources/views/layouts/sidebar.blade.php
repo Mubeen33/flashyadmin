@@ -259,10 +259,22 @@
 
                     <li class="nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">Appearance</span></a>
                         <ul  class="menu-content">
-                            <li data-menu=""><a class="dropdown-item" href="{{Route('admin.home-page-settings')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Home Page Settings</a>
+                            <li data-menu=""><a class="dropdown-item" href="{{Route('admin.logo-settings')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Logo Settings</a>
                                     </li>
-                            <li data-menu=""><a class="dropdown-item" href="{{Route('admin.cetegory-settings')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Category Settings</a>
-                            </li>        
+                            <li data-menu=""><a class="dropdown-item" href="{{Route('admin.cetegory-settings')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Attach Categories</a>
+                            </li>
+                            <li data-menu=""><a class="dropdown-item" href="{{Route('admin.home-settings')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Home Settings</a>
+                            </li> 
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Pages</a>
+                                <ul  class="menu-content">
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.quicklinks.index')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Quick Links</a>
+                                            </li>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.company.index')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Company</a>
+                                    </li>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.business.index')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Business</a>
+                                    </li>
+                                </ul>
+                            </li>       
                         </ul>
                     </li>
 

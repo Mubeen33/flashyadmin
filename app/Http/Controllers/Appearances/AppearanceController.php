@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\AppearanceSetting; 
 
+
 class AppearanceController extends Controller
 {
     public function appearance_logo(Request $request){
@@ -32,7 +33,7 @@ class AppearanceController extends Controller
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashyadmin/public/appearance/images/webfooter".$file->getClientOriginalName();
+	    	$sett->path = "http://localhost/flashyadmin/public/appearance/images/webfooter/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "footer_logo";
 	    	$file->move(public_path('\appearance\images\webfooter'), $file->getClientOriginalName());
@@ -47,7 +48,7 @@ class AppearanceController extends Controller
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashyadmin/public/appearance/images/adminlogo".$file->getClientOriginalName();
+	    	$sett->path = "http://localhost/flashyadmin/public/appearance/images/adminlogo/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "admin_logo";
 	    	$file->move(public_path('\appearance\images\adminlogo'), $file->getClientOriginalName());
@@ -62,7 +63,7 @@ class AppearanceController extends Controller
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashyadmin/public/appearance/images/favicon".$file->getClientOriginalName();
+	    	$sett->path = "http://localhost/flashyadmin/public/appearance/images/favicon/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "favicon";
 	    	$file->move(public_path('\appearance\images\favicon'), $file->getClientOriginalName());
@@ -77,7 +78,7 @@ class AppearanceController extends Controller
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashyadmin/public/appearance/images/sellerlogo".$file->getClientOriginalName();
+	    	$sett->path = "http://localhost/flashyadmin/public/appearance/images/sellerlogo/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "seller_logo";
 	    	$file->move(public_path('\appearance\images\sellerlogo'), $file->getClientOriginalName());
@@ -86,4 +87,6 @@ class AppearanceController extends Controller
 	   	
 	    return back();
     }
+
+    
 }

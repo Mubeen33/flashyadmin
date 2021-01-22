@@ -22,11 +22,15 @@
 
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('app-assets/js/core/app-menu.js')}}"></script>
+
     <script src="{{ asset('app-assets/js/core/app.js')}}"></script>
     <script src="{{ asset('app-assets/js/scripts/components.js')}}"></script>
     <!-- END: Theme JS-->
     <script src="{{ asset('app-assets/vendors/js/extensions/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('app-assets/js/scripts/extensions/sweet-alerts.js') }}"></script>
+ 
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+  <script src="{{ asset('src/js/scripts/extensions/sweet-alerts.js')}}"></script>
  
     
 
