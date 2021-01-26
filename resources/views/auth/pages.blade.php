@@ -183,7 +183,7 @@
   </div>
 </div>
 @endsection
-
+0
 @push('scripts')
 <script type="text/javascript">
     //Image Preview

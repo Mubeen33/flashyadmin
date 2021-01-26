@@ -84,7 +84,7 @@
                                 @if($headerlogo == null)
                                 <div class="ml-5"><h3><i class="feather icon-image"></i></h3>No Logo</div>
                                 @else
-                                <img src="{{ $headerlogo->path }}">
+                                <img src="{{$headerlogo->path}}">
                                 @endif
                             </div>
                         </div>

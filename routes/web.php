@@ -25,14 +25,7 @@ Route::post('appearance_logo' , 'Appearances\AppearanceController@appearance_log
     Route::resource('pages/company', 'Pages\CompanyController');
     Route::resource('pages/business', 'Pages\BusinessController');
 
-    Route::get('logo-settings' , function(){
-        $headerlogo = \App\AppearanceSetting::where('action' , 'header_logo')->first();
-        $footerlogo = \App\AppearanceSetting::where('action' , 'footer_logo')->first();
-        $favicon = \App\AppearanceSetting::where('action' , 'favicon')->first();
-        $adminlogo = \App\AppearanceSetting::where('action' , 'admin_logo')->first();
-        $sellerlogo = \App\AppearanceSetting::where('action' , 'seller_logo')->first();
-        return view('Appearance.logo_settings' , compact(['headerlogo' , 'footerlogo' , 'favicon' , 'adminlogo' , 'sellerlogo']));
-    })->name('logo-settings');
+    Route::get('logo-settings' , 'Appearances\AppearanceController@index')->name('logo-settings');
 
     Route::get('cetegory-settings' , function(){
 
@@ -48,6 +41,8 @@ Route::post('appearance_logo' , 'Appearances\AppearanceController@appearance_log
     Route::post('update_visibility' , 'Pages\QuickLinksController@update_visibility')->name('update_visibility');
 
     Route::post('update_positions' , 'Pages\QuickLinksController@update_positions')->name('update_positions');
+
+    Route::post('preview-style' , 'Appearances\AppearanceController@change_preview')->name('preview-style');
 
     Route::resource('home-category', 'Appearances\HomeCategoryController');
 

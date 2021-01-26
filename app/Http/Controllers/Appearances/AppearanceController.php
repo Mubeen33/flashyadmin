@@ -4,21 +4,31 @@ namespace App\Http\Controllers\Appearances;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\AppearanceSetting; 
+use App\AppearanceSetting;
+use App\Application; 
 
 
 class AppearanceController extends Controller
 {
+	public function index(){
+		$headerlogo = AppearanceSetting::where('action' , 'header_logo')->first();
+        $footerlogo = AppearanceSetting::where('action' , 'footer_logo')->first();
+        $favicon = AppearanceSetting::where('action' , 'favicon')->first();
+        $adminlogo = AppearanceSetting::where('action' , 'admin_logo')->first();
+        $sellerlogo = AppearanceSetting::where('action' , 'seller_logo')->first();
+        return view('Appearance.logo_settings' , compact(['headerlogo' , 'footerlogo' , 'favicon' , 'adminlogo' , 'sellerlogo']));
+	}
+
     public function appearance_logo(Request $request){
-	    if($request->hasFile('logo')){
-	    	$file = $request->file('logo');
+	    if($request->hasFile('header_logo')){
+	    	$file = $request->file('header_logo');
 	    	if(AppearanceSetting::where('role','site')->where('action','header_logo')->select('path')->exists()){
 	    		$sett = AppearanceSetting::where('role','site')->where('action','header_logo')->first();
 	    	}
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashyadmin/public/appearance/images/webheader/".$file->getClientOriginalName();
+	    	$sett->path = "http://localhost/flashy/flashyadmin/public/appearance/images/webheader/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "header_logo";
 	    	$file->move(public_path('\appearance\images\webheader'), $file->getClientOriginalName());
@@ -33,7 +43,7 @@ class AppearanceController extends Controller
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashyadmin/public/appearance/images/webfooter/".$file->getClientOriginalName();
+	    	$sett->path = "http://localhost/flashy/flashyadmin/public/appearance/images/webfooter/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "footer_logo";
 	    	$file->move(public_path('\appearance\images\webfooter'), $file->getClientOriginalName());
@@ -48,7 +58,7 @@ class AppearanceController extends Controller
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashyadmin/public/appearance/images/adminlogo/".$file->getClientOriginalName();
+	    	$sett->path = "http://localhost/flashy/flashyadmin/public/appearance/images/adminlogo/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "admin_logo";
 	    	$file->move(public_path('\appearance\images\adminlogo'), $file->getClientOriginalName());
@@ -63,7 +73,7 @@ class AppearanceController extends Controller
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashyadmin/public/appearance/images/favicon/".$file->getClientOriginalName();
+	    	$sett->path = "http://localhost/flashy/flashyadmin/public/appearance/images/favicon/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "favicon";
 	    	$file->move(public_path('\appearance\images\favicon'), $file->getClientOriginalName());
@@ -78,7 +88,7 @@ class AppearanceController extends Controller
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashyadmin/public/appearance/images/sellerlogo/".$file->getClientOriginalName();
+	    	$sett->path = "http://localhost/flashy/flashyadmin/public/appearance/images/sellerlogo/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "seller_logo";
 	    	$file->move(public_path('\appearance\images\sellerlogo'), $file->getClientOriginalName());
@@ -88,5 +98,16 @@ class AppearanceController extends Controller
 	    return back();
     }
 
+    public function change_preview(Request $request){
+    	$mode =  $request->get('preview');
+
+    	$style = Application::where('type' , 'site')->first();
+
+    	$style->preview_mode = $mode;
+
+    	$style->save();
+
+    	return back();
+    }
     
 }
