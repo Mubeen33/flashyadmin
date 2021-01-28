@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CustomField extends Model
 {
-	protected $table = 'customfields';
+	protected $table = 'custom_fields';
 	protected $fillable = [
 		'category_id',
 		'options',

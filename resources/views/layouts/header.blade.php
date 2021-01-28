@@ -106,6 +106,10 @@
                             <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                                 <li class="dropdown-menu-header">
                                     <div class="dropdown-header m-0 p-2">
+
+
+
+                                        .
                                         <h3 class="white">5 New</h3><span class="notification-title">App Notifications</span>
                                     </div>
                                 </li>

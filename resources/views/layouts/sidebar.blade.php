@@ -64,14 +64,17 @@
                             </span> 
                         </a>
                         <ul class="menu-content">
-                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Vendor Deals</a>
+                            <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendorDeals.pending.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Vendor Deals</a>
+                            </li>
+                            <!-- <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendor-deals.index')}}" data-toggle="dropdown" data-i18n="Thumb View"><i class="feather icon-circle"></i>All Deals</a>
+                            </li> -->
+                            <!-- <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Vendor Deals</a>
                                 <ul class="menu-content">
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendorDeals.pending.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Pending Deals</a>
                                     </li>
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendor-deals.index')}}" data-toggle="dropdown" data-i18n="Thumb View"><i class="feather icon-circle"></i>All Deals</a>
-                                    </li>
+                                    
                                 </ul>
-                            </li>
+                            </li> -->
                         </ul>
                     </li>
                     <li class="nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-package"></i><span data-i18n="Apps">Transaction</span></a>
@@ -91,30 +94,25 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">Sliders</span></a>
-                        <ul class="menu-content">
-                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Sliders</a>
-                                <ul class="menu-content">
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.sliders.create')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Add New</a>
-                                    </li>
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.sliders.index')}}" data-toggle="dropdown" data-i18n="Thumb View"><i class="feather icon-circle"></i>All Sliders</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Content"><i class="feather icon-layout"></i>Banners</a>
-                                <ul class="menu-content">
-                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.banners.index')}}" data-toggle="dropdown" data-i18n="Typography"><i class="feather icon-circle"></i>Home Banners</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+                    
 
                     <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Products</a>
                         <ul class="menu-content">
-                            <li class="nav-item" ><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-package"></i><span data-i18n="Apps">Product Attributes</span></a>
-                        <ul class="menu-content">
+                            <li data-menu=""><a class="dropdown-item" href="{{Route('admin.category.categorylist')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Categories</a>
+                            </li>
+                            <li data-menu=""><a class="dropdown-item" href="{{Route('admin.brands.brandslist')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Brands</a>
+                            </li>
+                            <li data-menu=""><a class="dropdown-item" href="{{ Route('admin.variations.variationslist')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Variations</a>
+                            </li>
+                            <li data-menu=""><a class="dropdown-item" href="{{ route('admin.customFieldList.get')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Custom Fields</a>
+                            </li>
+                            <li data-menu=""><a class="dropdown-item" href="{{ route('admin.productWarranty.get')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Products Warranty</a>
+                            </li>
+                            <li data-menu=""><a class="dropdown-item" href="{{route('admin.pendingProducts.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Pending</a>
+                            </li>
+                            <li data-menu=""><a class="dropdown-item" href="{{route('admin.allProducts.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>All</a>
+                            </li>
+                        <!-- <ul class="menu-content">
                             <li ><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Ecommerce"><i class="feather icon-circle"></i>Categories</a>
                                 <ul class="menu-content">
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('admin.category.categorylist')}}" data-toggle="dropdown" data-i18n="Shop"><i class="feather icon-circle"></i>Active Categories</a>
@@ -157,12 +155,8 @@
                                     </li>
                                 </ul>
                             </li>
-                        </ul>
-                    </li>
-                        <li data-menu=""><a class="dropdown-item" href="{{route('admin.pendingProducts.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Pending</a>
-                        </li>
-                        <li data-menu=""><a class="dropdown-item" href="{{route('admin.allProducts.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>All</a>
-                        </li>
+                        </ul> -->
+                        
                     </ul>
                 </li>
 
@@ -255,8 +249,27 @@
 
                     <li class="nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">Frontend Settings</span></a>
                         <ul  class="menu-content">
-                            <li data-menu=""><a class="dropdown-item" href="{{Route('admin.logo-settings')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Logo Settings</a>
+                            <li class="nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-layers"></i><span data-i18n="UI Elements">Sliders</span></a>
+                        <ul class="menu-content">
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Sliders</a>
+                                <ul class="menu-content">
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.sliders.create')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Add New</a>
                                     </li>
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.sliders.index')}}" data-toggle="dropdown" data-i18n="Thumb View"><i class="feather icon-circle"></i>All Sliders</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Content"><i class="feather icon-layout"></i>Banners</a>
+                                <ul class="menu-content">
+                                    <li data-menu=""><a class="dropdown-item" href="{{Route('admin.banners.index')}}" data-toggle="dropdown" data-i18n="Typography"><i class="feather icon-circle"></i>Home Banners</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                            <li data-menu=""><a class="dropdown-item" href="{{Route('admin.logo-settings')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Logo Settings</a>
+                            </li>
                             <!-- <li data-menu=""><a class="dropdown-item" href="{{Route('admin.cetegory-settings')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Category Settings</a>
                             </li> -->
                             <li data-menu=""><a class="dropdown-item" href="{{Route('admin.home-settings')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Category Settings</a>

@@ -31,6 +31,11 @@
                                     <a class="btn btn-success btn-sm" href="{{Route('admin.brands.addbrand')}}">Add new</a>
                                 </div>
                                 <div>
+                                    <select id="selected_row_per_page" title="Display row per page">
+                                        <option value="5" selected="1">All</option>
+                                        <option value="10">Active</option>
+                                        <option value="15">Disable</option>
+                                    </select>
                                     <input type="text" id="searchKey__" placeholder="Search">
                                     <select id="selected_row_per_page" title="Display row per page">
                                         <option value="5" selected="1">Show 5</option>
