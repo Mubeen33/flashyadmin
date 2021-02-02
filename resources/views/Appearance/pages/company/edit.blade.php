@@ -8,6 +8,48 @@
 @endsection    
                             
 @section('content') 
+<style type="text/css">
+    .file-drop-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    padding: 25px;
+    border: 1px dashed rgba(255, 255, 255, 0.4);
+    border-radius: 3px;
+    transition: .2s
+}
+
+.choose-file-button {
+    flex-shrink: 0;
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    padding: 8px 15px;
+    margin-right: 10px;
+    font-size: 12px;
+    text-transform: uppercase
+}
+
+.file-message {
+    font-size: small;
+    font-weight: 300;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.file-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    widows: 100%;
+    cursor: pointer;
+    opacity: 0
+}
+</style>
 <link href="{{ asset('app-assets/css/jodit.min.css') }}" rel="stylesheet">
 <div class="content-body">
     <div class="container-fluid">
@@ -66,7 +108,13 @@
                     <div class="row form-group">
                         <label class="col-sm-3 control-label" for="meta_image">Meta Image <small>(200x300)</small></label>
                         <div class="col-sm-9">
-                            <input type="file" id="meta_image" name="meta_image" class="form-control" value="{{$page->meta_image}}">
+                            <div id="div_header_logo">
+                                            @if($page->meta_image == "")
+                                            <div class="ml-2"><h3><i class="feather icon-image"></i></h3>No Logo</div>
+                                            @else
+                                            <img src="{{url($page->meta_image)}}" width="70px">
+                                            @endif
+                                        </div>
                         </div>
                     </div>
                 <div class="text-right">
@@ -99,6 +147,55 @@
         });
 
     });
+                        var _URL = window.URL;
+      $("#meta_image").change(function () {
+    var file, img;
+    var object = $(this);
+    var textbox = $(this).prev();
+    var filesCount = $(this)[0].files.length;
+    if ((file = this.files[0])) {
+        img = new Image();
+        img.onload = function () {
+            // alert("Width:" + this.width + "   Height: " + this.height);
+            if(this.height > 40 || this.width > 200){
+                alert("Please Upload Logo of size 200x40")
+                $("#meta_image").val(''); 
+            }
+            else{
+                gothere5();
+            }
+        };
+        img.src = _URL.createObjectURL(file);
+    }
+function gothere5(){
+if (filesCount === 1) {
+var fileName = object.val().split('\\').pop();
+textbox.text(fileName);
+} else {
+textbox.text(filesCount + ' files selected');
+}
+if (typeof (FileReader) != "undefined") {
+var dvPreview = $("#div_header_logo");
+
+$(object[0].files).each(function () {
+
+var file = $(this);
+var reader = new FileReader();
+reader.onload = function (e) {
+    dvPreview.html("");
+var img = $("<img />");
+img.attr("style", "width: 120px; padding: 10px");
+img.attr("src", e.target.result);
+dvPreview.append(img);
+}
+reader.readAsDataURL(file[0]);
+});
+} else {
+alert("This browser does not support HTML5 FileReader.");
+}
+}
+
+});
   </script>
   @endpush
 @endsection

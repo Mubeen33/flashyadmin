@@ -294,16 +294,14 @@ class CategoryController extends Controller
 
             if ($request->search_key != "") {
                 $categories = Category::where([
-                                ["name", "LIKE", "%".$searchKey."%"],
-                                ["deleted", "=", $status]
+                                ["name", "LIKE", "%".$searchKey."%"]
                             ])
                             ->orderBy($sort_by, $sorting_order)
                             ->paginate($row_per_page);
 
                 return view($viewName, compact('categories'))->render();
             }
-
-            $categories = Category::where("deleted", "=", $status)
+                $categories = Category::where("deleted", "=", $status)
                             ->orderBy($sort_by, $sorting_order)
                             ->paginate($row_per_page);
             return view($viewName, compact('categories'))->render();

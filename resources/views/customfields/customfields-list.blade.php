@@ -7,7 +7,8 @@
 @push('styles')
 <style type="text/css">
     #searchKey__,
-    #selected_row_per_page{
+    #selected_row_per_page,
+    #selected_active_status{
         border: 1px solid #ddd;
         padding: 2px 10px;
         outline: none;
@@ -26,10 +27,9 @@
                     <h4 class="card-title">Custom Fields List<a class="btn btn-warning btn-sm" href="{{route('admin.addCustomField.get')}}">Add new</a>
                     </h4>
                     <div>
-                        <select id="selected_row_per_page" title="Display row per page">
-                            <option value="5" selected="1">All</option>
-                            <option value="10">Active</option>
-                            <option value="15">Disable</option>
+                        <select id="selected_active_status" title="Status">
+                            <option value="1">Active</option>
+                            <option value="0">Disable</option>
                         </select>
                         <input type="text" id="searchKey__" placeholder="Search">
                         <select id="selected_row_per_page" title="Display row per page">

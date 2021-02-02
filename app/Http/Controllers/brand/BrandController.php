@@ -155,7 +155,6 @@ class BrandController extends Controller
             if ($request->search_key != "") {
                 $brands = Brand::where([
                                 ["name", "LIKE", "%".$searchKey."%"],
-                                ["active", "=", $status]
                             ])
                             ->orderBy($sort_by, $sorting_order)
                             ->paginate($row_per_page);

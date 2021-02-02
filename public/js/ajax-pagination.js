@@ -72,6 +72,18 @@ $(document).ready(function(){
         let hidden__id = $("#hidden__id").val()
         fetch_paginate_data(action_url, pageNumber, searchKey, sort_by, sorting_order, hidden__status, row_per_page, hidden__id);
     })
+
+    $("#selected_active_status").on('change', function(){
+        let action_url = $("#hidden__action_url").val()
+        let searchKey = $("#searchKey__").val()
+        let pageNumber = 1;
+        let sort_by = $("#hidden__sort_by").val()
+        let sorting_order = $("#hidden__sorting_order").val()
+        let hidden__status = $(this).val()
+        let row_per_page = $("#selected_row_per_page").val()
+        let hidden__id = $("#hidden__id").val()
+        fetch_paginate_data(action_url, pageNumber, searchKey, sort_by, sorting_order, hidden__status, row_per_page, hidden__id);
+    })
 })
 
 
