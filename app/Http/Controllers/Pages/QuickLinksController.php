@@ -45,7 +45,7 @@ class QuickLinksController extends Controller
             $page->meta_description = $request->meta_description;
             $page->keywords         = $request->keywords;
             if ($request->hasFile('meta_image')) {
-                $page->meta_image   = $request->meta_image->move('uploads/custom-pages');;
+                $page->meta_image   = $request->meta_image->store('uploads/custom-pages');;
             }
             $position = Page::max('position')->where('page_type' , 'Q');
             $page->position         = $position+1;
@@ -96,7 +96,7 @@ class QuickLinksController extends Controller
             $page->meta_description = $request->meta_description;
             $page->keywords         = $request->keywords;
             if ($request->hasFile('meta_image')) {
-                $page->meta_image   = $request->meta_image->move('uploads/custom-pages');;
+                $page->meta_image   = $request->meta_image->store('uploads/custom-pages');;
             }
             $page->page_type        = "Q";
             $page->save();
