@@ -3,7 +3,14 @@
                 <ul class="nav navbar-nav flex-row">
                     <li class="nav-item mr-auto"><a class="navbar-brand" href="../../../html/ltr/horizontal-menu-template/index.html">
                             <div class="brand-logo"></div>
-                            <h2 class="brand-text mb-0">Vuexy</h2>
+                            @php
+                                $adminlogo = \App\AppearanceSetting::where('action' , 'admin_logo')->first();
+                            @endphp
+                            @if($adminlogo != null)
+                            <img src="{{url($adminlogo->path)}}">
+                            @else
+                            <h3>Admin</h3>
+                            @endif
                         </a></li>
                     <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="feather icon-x d-block d-xl-none font-medium-4 warning toggle-icon"></i><i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block collapse-toggle-icon warning" data-ticon="icon-disc"></i></a></li>
                 </ul>
@@ -27,7 +34,9 @@
                     
                     <li class="nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-package"></i><span data-i18n="Apps">Vendors</span></a>
                         <ul class="menu-content">
-                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
+                             <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendors.index')}}" data-toggle="dropdown" data-i18n="Thumb View"><i class="feather icon-circle"></i>Vendors List</a>
+                            </li>
+                            <!-- <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
                                 <a class="dropdown-item" href=""><i class="feather icon-circle"></i>Vendors</a>
                                 <ul class="menu-content">
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('admin.pendingVendors.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Pending</a>
@@ -35,7 +44,7 @@
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendors.index')}}" data-toggle="dropdown" data-i18n="Thumb View"><i class="feather icon-circle"></i>All</a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> -->
                                 <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendor.activities.get')}}"><i class="feather icon-circle"></i>Vendors Activity</a></li>
                                 <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendor.bankUpdates.get')}}"><i class="feather icon-circle"></i>Bank Updates 
                                     @php

@@ -16,7 +16,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/forms/select/select2.min.css')}}">
     <link href="{{ asset('app-assets/vendors/css/jquery.tagsinput-revisited.css')}}" rel="stylesheet" type="text/css">
 
-
+    <link href="{{ asset('app-assets/css/upload-image.css') }}" rel="stylesheet">
+    
 <style type="text/css">
 
 <?php $today = date('YmdHi');
@@ -24,47 +25,6 @@
       $range = $today - $startDate;
       $prod_img_id = rand(0, $range);  
 ?>
-
-.file-drop-area {
-    position: relative;
-    display: flex;
-    align-items: center;
-    max-width: 100%;
-    padding: 25px;
-    border: 1px dashed rgba(255, 255, 255, 0.4);
-    border-radius: 3px;
-    transition: .2s
-}
-
-.choose-file-button {
-    flex-shrink: 0;
-    background-color: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-    padding: 8px 15px;
-    margin-right: 10px;
-    font-size: 12px;
-    text-transform: uppercase
-}
-
-.file-message {
-    font-size: small;
-    font-weight: 300;
-    line-height: 1.4;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis
-}
-
-.file-input {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    widows: 100%;
-    cursor: pointer;
-    opacity: 0
-}
 </style>
 <div class="content-body">
     <div class="container-fluid">
@@ -76,7 +36,7 @@
                 <div class="card-body">
                     <form class="form-horizontal" action="{{ route('admin.appearance_logo') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <label class="col-sm-3 control-label" for="logo"><b>Frontend Header Logo</b></label>
+                <label class="col-sm-3 control-label"><b>Frontend Header Logo</b></label>
                 <div class="row px-2 pb-2 pt-1">
                     <div class="border border-dark col-sm-3  text-center">
                         <div class="file-drop-area">
@@ -91,11 +51,11 @@
                     </div>
                     <div class=" border border-dark col-sm-8">
                         <div class="file-drop-area"> <span class="choose-file-button"><u class="text-primary"><i class="feather icon-upload"></i> Choose File</u></span> <span class="file-message">or drag and drop files here</span>
-                            <input type="file" class="file-input" name="{{$headerlogo->action}}" id="{{$headerlogo->action}}">
+                            <input type="file" class="file-input" name="header_logo" id="header_logo">
                         </div>
                     </div>
                 </div>
-                <label class="col-sm-3 control-label" for="footer_logo"><b>Frontend Footer Logo</b></label>
+                <label class="col-sm-3 control-label"><b>Frontend Footer Logo</b></label>
                 <div class="row px-2 pb-2 pt-1">
                     <div class="border border-dark col-sm-3  text-center">
                         <div class="file-drop-area">
@@ -114,7 +74,7 @@
                     </div>
                 </div>
 
-                <label class="col-sm-3 control-label" for="favicon"><b>Favicon</b></label>
+                <label class="col-sm-3 control-label"><b>Favicon</b></label>
                 <div class="row px-2 pb-2 pt-1">
                     <div class="border border-dark col-sm-3  text-center">
                         <div class="file-drop-area">
@@ -133,7 +93,7 @@
                     </div>
                 </div>
 
-                <label class="col-sm-3 control-label" for="admin_logo"><b>Admin Logo</b></label>
+                <label class="col-sm-3 control-label"><b>Admin Logo</b></label>
                 <div class="row px-2 pb-2 pt-1">
                     <div class="border border-dark col-sm-3  text-center">
                         <div class="file-drop-area">
@@ -152,7 +112,7 @@
                     </div>
                 </div>
 
-                <label class="col-sm-3 control-label" for="seller_logo"><b>Seller Logo</b></label>
+                <label class="col-sm-3 control-label"><b>Seller Logo</b></label>
                 <div class="row px-2 pb-2 pt-1">
                     <div class="border border-dark col-sm-3  text-center">
                         <div class="file-drop-area">
