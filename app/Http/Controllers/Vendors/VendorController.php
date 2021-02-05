@@ -559,9 +559,6 @@ class VendorController extends Controller
         }
     }
 
-
-
-
     //ajax pagination
     public function fetch_paginate_data(Request $request){
         if ($request->ajax()) {

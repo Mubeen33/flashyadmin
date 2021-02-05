@@ -6,7 +6,8 @@
     #searchKey__,
     #selected_row_per_page,
     #hidden__id,
-    #hidden__status{
+    #hidden__status,
+    #selected_row_status{
         border: 1px solid #ddd;
         padding: 2px 10px;
         outline: none;
@@ -35,6 +36,7 @@
                                         <option value="CSV">CSV</option>
                                     </select>
                                     {{-- exports form --}}
+
                                     <form id="expertForm" class="d-none" action="{{ route('admin.productsExport.post') }}" method="POST">
                                         @csrf
                                         <input type="hidden" id="setExportType" name="expert_as" value="">
@@ -46,6 +48,10 @@
                                         @foreach($vendors as $vendor)
                                         <option value="{{ $vendor->id }}">{{ $vendor->first_name." ".$vendor->last_name }}</option>
                                         @endforeach
+                                    </select>
+                                    <select id="selected_row_status" title="Display row per page">
+                                        <option value="1">Approved</option>
+                                        <option value="0">Unapproved</option>
                                     </select>
                                     <input type="text" id="searchKey__" placeholder="Search">
                                     <select id="selected_row_per_page" title="Display row per page">
@@ -119,7 +125,8 @@
         let hidden__status = $("#hidden__status").val()
         let row_per_page = $("#selected_row_per_page").val()
         let hidden__id = $("#hidden__id").val()
-        fetch_paginate_data(action_url, pageNumber, searchKey, sort_by, sorting_order, hidden__status, row_per_page, hidden__id);
+        let status = $("#selected_row_status").val()
+        fetch_paginate_data(action_url, pageNumber, searchKey, sort_by, sorting_order, hidden__status, row_per_page, hidden__id , status);
     })
 
     $(document).on('change', '#hidden__status', function(e){
@@ -133,7 +140,8 @@
         let hidden__status = $("#hidden__status").val()
         let row_per_page = $("#selected_row_per_page").val()
         let hidden__id = $("#hidden__id").val()
-        fetch_paginate_data(action_url, pageNumber, searchKey, sort_by, sorting_order, hidden__status, row_per_page, hidden__id);
+        let status = $("#selected_row_status").val()
+        fetch_paginate_data(action_url, pageNumber, searchKey, sort_by, sorting_order, hidden__status, row_per_page, hidden__id , status);
     })
 </script>
 

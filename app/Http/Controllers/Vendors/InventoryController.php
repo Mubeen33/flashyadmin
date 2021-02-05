@@ -46,55 +46,6 @@ class InventoryController extends Controller
 
             $renderPage = "Vendors.inventory.partials.product-list";
 
-            if ($searchKey != '') {
-                $vendor_products_id = [];
-
-                //search products title
-                $product_id = Product::where("title", "LIKE", "%$searchKey%")
-                            ->get('id');
-
-                foreach ($product_id as $key => $value) {
-                    $data = VendorProduct::where(['ven_id'=>$vendorID, 'prod_id'=>$value->id])->first();
-                    if ($data) {
-                        $vendor_products_id[] = $data->id;
-                    }
-                }
-
-                //search product variations
-                $product_variation_id = ProductVariation::where("first_variation_value", "LIKE", "%$searchKey%")
-                            ->orWhere("second_variation_value", "LIKE", "%$searchKey%")
-                            ->where('active', '=', 1)
-                            ->get('id');
-
-                foreach ($product_variation_id as $key => $value) {
-                    $data = VendorProduct::where(['ven_id'=>$vendorID, 'variation_id'=>$value->id])->first();
-                    if ($data) {
-                        $vendor_products_id[] = $data->id;
-                    }
-                }
-
-
-                $vendor_products_id = array_unique($vendor_products_id);
-                if ($status != '' && is_numeric($status)) {
-                    $data = VendorProduct::whereIn('id', $vendor_products_id)
-                                    ->where('ven_id', $vendorID)
-                                    ->where('active', $status)
-                                    ->orderBy($sort_by, $sorting_order)
-                                    ->with(['get_product', 'get_active_variation'])
-                                    ->paginate($row_per_page);
-                    return view($renderPage, compact('data'))->render();
-                }
-
-                $data = VendorProduct::whereIn('id', $vendor_products_id)
-                                    ->where('ven_id', $vendorID)
-                                    ->orderBy($sort_by, $sorting_order)
-                                    ->with(['get_product', 'get_active_variation'])
-                                    ->paginate($row_per_page);
-                return view($renderPage, compact('data'))->render();
-                
-            }
-
-
             //without search key
             if ($status != '' && is_numeric($status)) {
                 $data = VendorProduct::where('ven_id', $vendorID)
@@ -117,8 +68,6 @@ class InventoryController extends Controller
             $data = $data->sortBy($sort_by);//asc
             $data = (new Collection($data))->paginate_build_by_developer_rijan($row_per_page);
             return view($renderPage, compact('data'))->render();
-
-            
         }
         return abort(404);
    }

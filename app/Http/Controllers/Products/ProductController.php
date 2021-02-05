@@ -524,13 +524,12 @@ class ProductController extends Controller
                 $sorting_order = "DESC";
             }
             
-
             if (!empty($request->search_key)) {
                 //if have specific vendor ID
                 if (!empty($id) && is_numeric($id)) {
                     $data1 = Product::where([
                                 ['vendor_id', '=', $id],
-                                ['approved', '=', 1],
+                                ['approved', '=', $status],
                                 ['rejected', '=', 0],
                                 ['disable', '=', 0],
                             ])
@@ -546,7 +545,7 @@ class ProductController extends Controller
 
                     $data2 = Product::where([
                                 ['vendor_id', '=', $id],
-                                ['approved', '=', 1],
+                                ['approved', '=', $status],
                                 ['rejected', '=', 0],
                                 ['disable', '=', 0],
                             ])
@@ -560,8 +559,9 @@ class ProductController extends Controller
 
                     return view('product.partials.product-list', compact('data', 'id'))->render();
                 }
+
                 $data1 = Product::where([
-                                ['approved', '=', 1],
+                                ['approved', '=', $status],
                                 ['rejected', '=', 0],
                                 ['disable', '=', 0]
                             ])
@@ -575,7 +575,7 @@ class ProductController extends Controller
                             ->orderBy($sort_by, $sorting_order)
                             ->get();
                 $data2 = Product::where([
-                                ['approved', '=', 1],
+                                ['approved', '=', $status],
                                 ['rejected', '=', 0],
                                 ['disable', '=', 0]
                             ])
@@ -588,7 +588,6 @@ class ProductController extends Controller
                 $data = $data1->merge($data2);
                 $data = (new Collection($data))->paginate_build_by_developer_rijan($row_per_page);
                 return view('product.partials.product-list', compact('data', 'id'))->render();
-                
             }
 
             //without search
@@ -596,7 +595,7 @@ class ProductController extends Controller
             if (!empty($id) && is_numeric($id)) {
                 $data = Product::where([
                             ['vendor_id', '=', $id],
-                            ['approved', '=', 1],
+                            ['approved', '=', $status],
                             ['rejected', '=', 0],
                             ['disable', '=', 0]
                         ])
@@ -607,7 +606,7 @@ class ProductController extends Controller
             }
 
             $data = Product::where([
-                        ['approved', '=', 1],
+                        ['approved', '=', $status],
                         ['rejected', '=', 0],
                         ['disable', '=', 0]
                     ])

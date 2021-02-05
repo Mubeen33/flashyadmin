@@ -4,7 +4,9 @@
 @push('styles')
 <style type="text/css">
     #searchKey__,
-    #selected_row_per_page{
+    #selected_row_per_page,
+    #selected_row_status
+    {
         border: 1px solid #ddd;
         padding: 2px 10px;
         outline: none;
@@ -29,6 +31,10 @@
                             <div class="card-header justify-content-between">
                                 <div><h4 class="card-title">Vendors List</h4></div>
                                 <div>
+                                    <select id="selected_row_status" title="Display row per page">
+                                        <option value="1">Approved</option>
+                                        <option value="0">Unapproved</option>
+                                    </select>
                                     <input type="text" id="searchKey__" placeholder="Search">
                                     <select id="selected_row_per_page" title="Display row per page">
                                         <option value="5" selected="1">Show 5</option>
