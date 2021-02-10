@@ -110,4 +110,11 @@ class AppearanceController extends Controller
     	return back();
     }
     
+    public function remove_logo($id){
+    	$logo = AppearanceSetting::find($id);
+
+    	$logo->delete();
+
+    	return redirect()->route('admin.logo-settings');
+    }
 }

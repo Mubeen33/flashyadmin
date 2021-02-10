@@ -12,12 +12,19 @@ Auth::routes();
 Route::get('/', 'HomeController@checkLogin');
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::group(['domain' => 'http://mejensi.com/'], function(){
+    Route::get('/other', function(){
+      return "abc";
+    })->name('others');
+});
+
 //feed
 // Route::feeds();
 
 Route::get('/{slug}', 'Pages\PagesController@show_custom_page')->name('custom-pages.show_custom_page');
 Route::group(['as'=>'admin.', 'prefix'=>'admin', 'middleware' => ['auth']], function(){
 Route::post('appearance_logo' , 'Appearances\AppearanceController@appearance_logo')->name('appearance_logo');
+
   //application
   Route::resource('site-maintenance', 'Application\SiteMaintenanceController');
 
@@ -26,7 +33,7 @@ Route::post('appearance_logo' , 'Appearances\AppearanceController@appearance_log
     Route::resource('pages/business', 'Pages\BusinessController');
 
     Route::get('logo-settings' , 'Appearances\AppearanceController@index')->name('logo-settings');
-
+Route::get('removelogo/{id}' , 'Appearances\AppearanceController@remove_logo')->name('removelogo');
     Route::get('cetegory-settings' , function(){
 
         return view('Appearance.categories_setting');

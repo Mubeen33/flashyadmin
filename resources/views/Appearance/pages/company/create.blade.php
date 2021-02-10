@@ -65,7 +65,20 @@
                     <div class="row form-group">
                         <label class="col-sm-3 control-label" for="meta_image">Meta Image <small>(200x300)</small></label>
                         <div class="col-sm-9">
-                            <input type="file" id="meta_image" name="meta_image" class="form-control">
+                            <div class="row px-1 pb-2 pt-1">
+                                <div class="border col-sm-3  text-center">
+                                    <div class="file-drop-area">
+                                        <div id="div_meta_image">
+                                            <div><h3><i class="feather icon-image"></i></h3>No Logo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" border col-sm-9">
+                                    <div class="file-drop-area"> <span class="choose-file-button"><u class="text-primary"><i class="feather icon-upload"></i> Choose File</u></span> <span class="file-message">or drag and drop files here</span> 
+                                        <input type="file" class="file-input" name="meta_image" id="meta_image"> </div>
+                                </div>
+                            </div>
+                            <!-- <input type="file" id="meta_image" name="meta_image" class="form-control"> -->
                         </div>
                     </div>
                 <div class="text-right">
@@ -78,6 +91,7 @@
 </div>
 @push('scripts')
   <script src="{{ asset('app-assets/js/scripts/editors/jodit.min.js')}}"></script>
+  <script src="{{ asset('js/upload-image.js')}}"></script>
   <script type="text/javascript">
       $(".editor").each(function (el) {
         var $this = $(this);
@@ -96,7 +110,6 @@
             showXPathInStatusbar: false,
             buttons: buttons,
         });
-
     });
   </script>
   @endpush

@@ -44,12 +44,13 @@ class CompanyController extends Controller
             $page->meta_description = $request->meta_description;
             $page->keywords = $request->keywords;
             if ($request->hasFile('meta_image')) {
-                $page->meta_image   = $request->meta_image->store('uploads/custom-pages');;
+                $page->meta_image   = $request->meta_image->move('uploads/custom-pages');;
             }
             $position = Page::where('page_type' , 'C')->max('position');
             $page->position         = $position+1;
             $page->page_type        = "C";
             $page->save();
+
             return redirect()->route('admin.company.index')->with('msg' , 'Company page has been added');
         }
         return back();
@@ -95,7 +96,7 @@ class CompanyController extends Controller
             $page->meta_description = $request->meta_description;
             $page->keywords         = $request->keywords;
             if ($request->hasFile('meta_image')) {
-                $page->meta_image   = $request->meta_image->store('uploads/custom-pages');;
+                $page->meta_image   = $request->meta_image->move('uploads/custom-pages');;
             }
             $page->page_type        = "C";
             $page->save();

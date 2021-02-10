@@ -593,13 +593,7 @@ class ProductController extends Controller
             //without search
                 //if have specific vendor id
             if (!empty($id) && is_numeric($id)) {
-                $data = Product::where([
-                            ['vendor_id', '=', $id],
-                            ['approved', '=', $status],
-                            ['rejected', '=', 0],
-                            ['disable', '=', 0]
-                        ])
-                        ->orderBy($sort_by, $sorting_order)
+                $data = Product::orderBy($sort_by, $sorting_order)
                         ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                         ->paginate($row_per_page );
                     return view('product.partials.product-list', compact('data'))->render();
@@ -613,6 +607,7 @@ class ProductController extends Controller
                     ->orderBy($sort_by, $sorting_order)
                     ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                     ->paginate($row_per_page );
+                
                 return view('product.partials.product-list', compact('data'))->render();
             
         }
@@ -642,6 +637,7 @@ class ProductController extends Controller
                             ['approved', '=', 0],
                             ['rejected', '=', 0],
                             ['disable', '=', 0]
+                       
                         ])
                         ->orderBy($sort_by, $sorting_order)
                         ->where("title", "LIKE", "%$searchKey%")

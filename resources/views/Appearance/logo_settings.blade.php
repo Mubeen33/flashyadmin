@@ -38,18 +38,19 @@
                 @csrf
                 <label class="col-sm-3 control-label"><b>Frontend Header Logo</b></label>
                 <div class="row px-2 pb-2 pt-1">
-                    <div class="border border-dark col-sm-3  text-center">
+                    <div class="border col-sm-3  text-center">
                         <div class="file-drop-area">
                             <div id="div_header_logo">
                                 @if($headerlogo == null)
                                 <div class="ml-5"><h3><i class="feather icon-image"></i></h3>No Logo</div>
                                 @else
-                                <img src="{{$headerlogo->path}}">
+                                <img class="mb-1" src="{{$headerlogo->path}}">
+                                <span><small><u><a href="{{route('admin.removelogo' , $headerlogo->id)}}">Remove</a></u></small></span>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <div class=" border border-dark col-sm-8">
+                    <div class=" border col-sm-8">
                         <div class="file-drop-area"> <span class="choose-file-button"><u class="text-primary"><i class="feather icon-upload"></i> Choose File</u></span> <span class="file-message">or drag and drop files here</span>
                             <input type="file" class="file-input" name="header_logo" id="header_logo">
                         </div>
@@ -57,18 +58,19 @@
                 </div>
                 <label class="col-sm-3 control-label"><b>Frontend Footer Logo</b></label>
                 <div class="row px-2 pb-2 pt-1">
-                    <div class="border border-dark col-sm-3  text-center">
+                    <div class="border col-sm-3  text-center">
                         <div class="file-drop-area">
                             <div id="div_footer_logo">
                                 @if($footerlogo == null)
                                     <div class="ml-5"><h3><i class="feather icon-image"></i></h3>No Logo</div>
                                 @else
-                                    <img src="{{ $footerlogo->path }}">
+                                    <img class="mb-1" src="{{ $footerlogo->path }}">
+                                    <span><small><u><a href="{{route('admin.removelogo' , $footerlogo->id)}}">Remove</a></u></small></span>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <div class=" border border-dark col-sm-8">
+                    <div class=" border col-sm-8">
                         <div class="file-drop-area"> <span class="choose-file-button"><u class="text-primary"><i class="feather icon-upload"></i> Choose File</u></span> <span class="file-message">or drag and drop files here</span> 
                             <input type="file" class="file-input" name="footer_logo" id="footer_logo"> </div>
                     </div>
@@ -76,18 +78,19 @@
 
                 <label class="col-sm-3 control-label"><b>Favicon</b></label>
                 <div class="row px-2 pb-2 pt-1">
-                    <div class="border border-dark col-sm-3  text-center">
+                    <div class="border col-sm-3  text-center">
                         <div class="file-drop-area">
                             <div id="div_favicon">
                                 @if($favicon == null)
                                     <div class="ml-5"><h3><i class="feather icon-image"></i></h3>No Logo</div>
                                 @else
-                                    <img src="{{ $favicon->path }}">
+                                    <img class="mb-1" src="{{ $favicon->path }}">
+                                    <span><small><u><a href="{{route('admin.removelogo' , $favicon->id)}}">Remove</a></u></small></span>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <div class=" border border-dark col-sm-8">
+                    <div class=" border col-sm-8">
                         <div class="file-drop-area"> <span class="choose-file-button"><u class="text-primary"><i class="feather icon-upload"></i> Choose File</u></span> <span class="file-message">or drag and drop files here</span> 
                             <input type="file" class="file-input" name="favicon" id="favicon"> </div>
                     </div>
@@ -95,18 +98,19 @@
 
                 <label class="col-sm-3 control-label"><b>Admin Logo</b></label>
                 <div class="row px-2 pb-2 pt-1">
-                    <div class="border border-dark col-sm-3  text-center">
+                    <div class="border col-sm-3  text-center">
                         <div class="file-drop-area">
                             <div id="div_admin_logo">
                                 @if($adminlogo == null)
                                     <div class="ml-5"><h3><i class="feather icon-image"></i></h3>No Logo</div>
                                 @else
-                                    <img src="{{ $adminlogo->path }}">
+                                    <img class="mb-1" src="{{ $adminlogo->path }}">
+                                    <span><small><u><a href="{{route('admin.removelogo' , $adminlogo->id)}}">Remove</a></u></small></span>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <div class=" border border-dark col-sm-8">
+                    <div class=" border col-sm-8">
                         <div class="file-drop-area"> <span class="choose-file-button"><u class="text-primary"><i class="feather icon-upload"></i> Choose File</u></span> <span class="file-message">or drag and drop files here</span> 
                             <input type="file" class="file-input" name="admin_logo" id="admin_logo"> </div>
                     </div>
@@ -114,18 +118,19 @@
 
                 <label class="col-sm-3 control-label"><b>Seller Logo</b></label>
                 <div class="row px-2 pb-2 pt-1">
-                    <div class="border border-dark col-sm-3  text-center">
+                    <div class="border col-sm-3  text-center">
                         <div class="file-drop-area">
                             <div id="div_seller_logo">
                                 @if($sellerlogo == null)
                                     <div class="ml-5"><h3><i class="feather icon-image"></i></h3>No Logo</div>
                                 @else
-                                    <img src="{{ $sellerlogo->path }}">
+                                    <img class="mb-1" src="{{ $sellerlogo->path }}">
+                                    <span><small><u><a href="{{route('admin.removelogo' , $sellerlogo->id)}}">Remove</a></u></small></span>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <div class=" border border-dark col-sm-8">
+                    <div class=" border col-sm-8">
                         <div class="file-drop-area"> <span class="choose-file-button"><u class="text-primary"><i class="feather icon-upload"></i> Choose File</u></span> <span class="file-message">or drag and drop files here</span> 
                             <input type="file" class="file-input" name="seller_logo" id="seller_logo"> </div>
                     </div>

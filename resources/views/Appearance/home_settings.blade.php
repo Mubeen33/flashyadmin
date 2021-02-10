@@ -4,7 +4,7 @@
 
 @section('breadcrumbs')                            
     <li class="breadcrumb-item"><a href="#">Appearance</a></li>
-    <li class="breadcrumb-item active">Home Page Settings</li>
+    <li class="breadcrumb-item active">Home Categories Settings</li>
 @endsection    
                             
 @section('content') 

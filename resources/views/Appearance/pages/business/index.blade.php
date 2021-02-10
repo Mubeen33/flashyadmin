@@ -43,7 +43,7 @@
                             <td class="id" style="display: none;">{{$page->id}}</td>
                             <td class="index">{{$key+1}}</td>
                             <td class="text-left">{{$page->title}}</td>
-                            <td class="text-left slug">{{ route('custom-pages.show_custom_page', $page->slug) }}</td>
+                            <td class="text-left slug"><a target="_blank" href="{{ route('custom-pages.show_custom_page', $page->slug) }}">http://mejensi.com/{{ $page->slug }}<a></td>
                             <td>
                               <div class="custom-control-primary custom-control custom-switch" data-v-78a2cb7d=""><input onchange="update_visibility(this)" type="checkbox" name="check-button" class="custom-control-input" value="{{$page->id}}" id="__BVID_{{$key+1}}" <?php if($page->visibility == 1) echo "checked";?>><label class="custom-control-label" for="__BVID_{{$key+1}}"></label></div>
                             </td>

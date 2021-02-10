@@ -1,6 +1,6 @@
 @foreach($data as $key=>$content)
 
-@if(intval($content->get_vendor->active) === 1 && intval($content->approved) === 1)
+@if(intval($content->get_vendor->active) === 1)
 
     @if(!$content->get_product_variations->isEmpty())
         @foreach($content->get_product_variations as $v_key=>$variation)
@@ -44,6 +44,8 @@
                         <span class="badge badge-warning">Rejected</span>
                     @elseif(intval($content->disable) === 1 && intval($content->approved) === 0 && intval($content->rejected) === 0)
                         <span class="badge badge-danger">Disabled</span>
+                    @elseif(intval($content->approved) === 0)
+                        <span class="badge badge-warning">Unapproved</span>
                     @endif
                 </td>
                 <td>
