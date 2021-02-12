@@ -38,12 +38,15 @@ class HomeCategoryController extends Controller
     {
         $category = new HomeCategory();
 
+        if(HomeCategory::where('category_id' , $request->category_id)->exists()){
+            return redirect()->route('admin.home-settings')->with('message' , 'Error ! Category already exists');
+        }
         $category->category_id = $request->category_id;
         $category->status = 1;
 
         $category->save();
 
-        return redirect()->route('admin.home-settings')->with('message' , 'Home Category added Successfully');;
+        return redirect()->route('admin.home-settings')->with('message' , 'Home Category added Successfully');
     }
 
     /**
@@ -64,7 +67,8 @@ class HomeCategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
+        $id = decrypt($id);
         return view('Appearance.edit_home_category')->with('id' , $id);
     }
 

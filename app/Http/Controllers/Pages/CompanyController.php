@@ -75,6 +75,7 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
+        $id = decrypt($id);
         return view('Appearance.pages.company.edit')->with('id' , $id);
     }
 

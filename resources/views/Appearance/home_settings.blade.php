@@ -60,12 +60,12 @@
                                       Actions <i class="dropdown-caret"></i>
                                   </button>
                                   <ul class="dropdown-menu dropdown-menu-right">
-                                      <li class="dropdown-item"><a class="btn btn-sm btn-info col-12" href="{{route('admin.home-category.edit' , $home_category->category_id )}}">Edit</a></li>
-                                      <li class="dropdown-item">
+                                      <li><a class="dropdown-item" href="{{route('admin.home-category.edit' , encrypt($home_category->category_id ))}}">Edit</a></li>
+                                      <li>
                                       <form action="{{ route('admin.home-category.destroy', $home_category->category_id )}}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                                        <button class="dropdown-item col-lg-12" type="submit">Delete</button>
                                       </form>
                                       </li>
                                   </ul>

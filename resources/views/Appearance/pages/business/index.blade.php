@@ -53,7 +53,7 @@
                                         Actions <i class="dropdown-caret"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a class="dropdown-item" href="{{route('admin.business.edit', $page->id)}}">Edit</a></li>
+                                        <li><a class="dropdown-item" href="{{route('admin.business.edit', encrypt($page->id))}}">Edit</a></li>
                                         <li>
                                         <a class="dropdown-item"
                                        onclick="event.preventDefault();

@@ -75,6 +75,7 @@ class QuickLinksController extends Controller
      */
     public function edit($id)
     {
+        $id = decrypt($id);
         return view('Appearance.pages.quicklinks.edit')->with('id' , $id);
     }
 
