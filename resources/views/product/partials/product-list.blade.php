@@ -114,10 +114,12 @@
         <td>
             @if(intval($content->approved) === 1 && intval($content->rejected) === 0 && intval($content->disable) === 0)
                 <span class="badge badge-success">Approved</span>
-            @elseif(intval($content->rejected) === 0 && intval($content->approved) === 0 && intval($content->disable) === 0)
+            @elseif(intval($content->rejected) === 1 && intval($content->approved) === 0 && intval($content->disable) === 0)
                 <span class="badge badge-warning">Unapproved</span>
             @elseif(intval($content->disable) === 1 && intval($content->approved) === 0 && intval($content->rejected) === 0)
                 <span class="badge badge-danger">Disabled</span>
+            @elseif(intval($content->disable) === 0 && intval($content->approved) === 0 && intval($content->rejected) === 0)
+                <span class="badge badge-danger">Unapproved</span>
             @endif
         </td>
         <td>
