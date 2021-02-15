@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Appearances;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\HomeCategory;
+use App\Category;
 
 class HomeCategoryController extends Controller
 {
@@ -24,7 +25,7 @@ class HomeCategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {   
         return view('Appearance.create_home_category');
     }
 
@@ -43,6 +44,10 @@ class HomeCategoryController extends Controller
         }
         $category->category_id = $request->category_id;
         $category->status = 1;
+
+        $cat = Category::find($request->category_id);
+        $cat->show_on_homepage = 1;
+        $cat->save();
 
         $category->save();
 
@@ -84,6 +89,13 @@ class HomeCategoryController extends Controller
         $category = HomeCategory::where('category_id', $id)->first();
         $category->category_id = $request->category_id;
         $category->save();
+        $cat = Category::find($id);
+        $cat->show_on_homepage = 0;
+        $cat->save();
+        $cat = Category::find($request->category_id);
+        $cat->show_on_homepage = 1;
+        $cat->save();
+
         return redirect()->route('admin.home-settings')->with('message' , 'Home Category Updated Successfully');
     }
 

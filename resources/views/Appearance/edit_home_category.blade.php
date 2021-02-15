@@ -29,7 +29,7 @@
                     <div class="col-12">
                       <select class="form-control select2" name="category_id">
                         <option>Choose Category</option>
-                        @foreach(App\Category::all() as $category)
+                        @foreach(App\Category::where('deleted', 0)->where('parent_id' , 0)->where('show_on_homepage' , 0)->get() as $category)
                         <option value="{{$category->id}}" @if($category->id == $id) selected @endif>{{$category->name}}</option>
                         @endforeach
                       </select>
