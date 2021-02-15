@@ -28,10 +28,10 @@ class AppearanceController extends Controller
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashy/flashyadmin/public/appearance/images/webheader/".$file->getClientOriginalName();
+	    	$sett->path = url("/appearance/images/webheader/")."/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "header_logo";
-	    	$file->move(public_path('\appearance\images\webheader'), $file->getClientOriginalName());
+	    	$file->move(public_path('/appearance/images/webheader/'), $file->getClientOriginalName());
 	    	$sett->save();
 	    }
 
@@ -43,10 +43,10 @@ class AppearanceController extends Controller
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashy/flashyadmin/public/appearance/images/webfooter/".$file->getClientOriginalName();
+	    	$sett->path = url("/appearance/images/webfooter/")."/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "footer_logo";
-	    	$file->move(public_path('\appearance\images\webfooter'), $file->getClientOriginalName());
+	    	$file->move(public_path('/appearance/images/webfooter/'), $file->getClientOriginalName());
 	    	$sett->save();
 	    }
 
@@ -58,10 +58,10 @@ class AppearanceController extends Controller
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashy/flashyadmin/public/appearance/images/adminlogo/".$file->getClientOriginalName();
+	    	$sett->path = url("/appearance/images/adminlogo/")."/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "admin_logo";
-	    	$file->move(public_path('\appearance\images\adminlogo'), $file->getClientOriginalName());
+	    	$file->move(public_path('/appearance/images/adminlogo/'), $file->getClientOriginalName());
 	    	$sett->save();
 	    }
 
@@ -73,10 +73,10 @@ class AppearanceController extends Controller
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashy/flashyadmin/public/appearance/images/favicon/".$file->getClientOriginalName();
+	    	$sett->path = url("/appearance/images/favicon/")."/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "favicon";
-	    	$file->move(public_path('\appearance\images\favicon'), $file->getClientOriginalName());
+	    	$file->move(public_path('/appearance/images/favicon/'), $file->getClientOriginalName());
 	    	$sett->save();
 	    }
 	    
@@ -88,10 +88,10 @@ class AppearanceController extends Controller
 	    	else{
 	    		$sett = new AppearanceSetting();
 	    	}
-	    	$sett->path = "http://localhost/flashy/flashyadmin/public/appearance/images/sellerlogo/".$file->getClientOriginalName();
+	    	$sett->path = url("/appearance/images/sellerlogo/")."/".$file->getClientOriginalName();
 	    	$sett->role = "site";
 	    	$sett->action = "seller_logo";
-	    	$file->move(public_path('\appearance\images\sellerlogo'), $file->getClientOriginalName());
+	    	$file->move(public_path('/appearance/images/sellerlogo/'), $file->getClientOriginalName());
 	    	$sett->save();
 	    }
 	   	
