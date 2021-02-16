@@ -1,4 +1,4 @@
-<?php
+C<?php
 
 namespace App\Http\Controllers\Pages;
 
@@ -53,7 +53,7 @@ class CompanyController extends Controller
 
             return redirect()->route('admin.company.index')->with('msg' , 'Company page has been added');
         }
-        return back();
+        return back();;
     }
 
     /**
@@ -90,7 +90,7 @@ class CompanyController extends Controller
     {
         $page = Page::findOrFail($id);
         $page->title = $request->title;
-        if (Page::where('slug', preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug)))->first() != null) {
+        if (Page::where('slug', preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug)))->first() == null) {
             $page->slug             = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug));
             $page->content          = $request->content;
             $page->meta_title       = $request->meta_title;
@@ -103,7 +103,7 @@ class CompanyController extends Controller
             $page->save();
             return redirect()->route('admin.company.index')->with('msg' , 'Company page has been updated');
         }
-        return back();
+        return redirect()->route('admin.company.index')->with('errormsg' , 'Slug Already Exist');
     }
 
     /**

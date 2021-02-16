@@ -142,5 +142,10 @@
   toastr.success('{{session('msg')}}', 'Success');
 </script>
 @endif
+@if(session('errormsg'))
+<script type="text/javascript">
+  toastr.error('{{session('errormsg')}}', 'Error');
+</script>
+@endif
   @endpush
 @endsection

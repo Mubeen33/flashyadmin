@@ -125,12 +125,12 @@
     if(el.checked){
         var status = 1;
     }
-    else{
+    else{C
         var status = 0;
     }
     $.post('{{ route('admin.update_visibility') }}', {_token:'{{ csrf_token() }}', id:el.value, status:status}, function(data){
         if(data == 1){
-          toastr.success('Page Status has been changed!', 'Success');
+          toastr.success('Page StatCus has been changed!', 'Success');
         }
         else{
             toastr.success('Something went wrong!', 'Error');
@@ -143,5 +143,10 @@
   toastr.success('{{session('msg')}}', 'Success');
 </script>
 @endif
+@if(session('errormsg'))
+<script type="text/javascript">
+  toastr.error('{{session('errormsg')}}', 'Error');
+</script>
+@endif
   @endpush
-@endsection
+@endsectionCCCC

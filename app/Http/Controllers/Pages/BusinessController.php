@@ -91,7 +91,7 @@ class BusinessController extends Controller
     {
         $page = Page::findOrFail($id);
         $page->title = $request->title;
-        if (Page::where('slug', preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug)))->first() != null) {
+        if (Page::where('slug', preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug)))->first() == null) {
             $page->slug             = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug));
             $page->content          = $request->content;
             $page->meta_title       = $request->meta_title;
@@ -104,7 +104,7 @@ class BusinessController extends Controller
             $page->save();
             return redirect()->route('admin.business.index')->with('msg' , 'Business page has been updated');
         }
-        return back();
+        return redirect()->route('admin.business.index')->with('errormsg' , 'Slug Already Exist');
     }
 
     /**
