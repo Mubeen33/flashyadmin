@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <form class="form-horizontal" action="{{ route('admin.appearance_logo') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <label class="col-sm-3 control-label"><b>Frontend Header Logo</b></label>
+                <label class="col-sm-3 control-label"><b>Frontend Header Logo<small> (200x40)</small></b></label>
                 <div class="row px-2 pb-2 pt-1">
                     <div class="border col-sm-3  text-center">
                         <div class="file-drop-area">
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 </div>
-                <label class="col-sm-3 control-label"><b>Frontend Footer Logo</b></label>
+                <label class="col-sm-4 control-label"><b>Frontend Footer Logo<small> (max height 40)</small></b></label>
                 <div class="row px-2 pb-2 pt-1">
                     <div class="border col-sm-3  text-center">
                         <div class="file-drop-area">
@@ -76,7 +76,7 @@
                     </div>
                 </div>
 
-                <label class="col-sm-3 control-label"><b>Favicon</b></label>
+                <label class="col-sm-3 control-label"><b>Favicon<small> (32x32)</small></b></label>
                 <div class="row px-2 pb-2 pt-1">
                     <div class="border col-sm-3  text-center">
                         <div class="file-drop-area">
@@ -96,7 +96,7 @@
                     </div>
                 </div>
 
-                <label class="col-sm-3 control-label"><b>Admin Logo</b></label>
+                <label class="col-sm-3 control-label"><b>Admin Logo<small> (200x40)</small></b></label>
                 <div class="row px-2 pb-2 pt-1">
                     <div class="border col-sm-3  text-center">
                         <div class="file-drop-area">
@@ -116,7 +116,7 @@
                     </div>
                 </div>
 
-                <label class="col-sm-3 control-label"><b>Seller Logo</b></label>
+                <label class="col-sm-3 control-label"><b>Seller Logo<small> (200x40)</small></b></label>
                 <div class="row px-2 pb-2 pt-1">
                     <div class="border col-sm-3  text-center">
                         <div class="file-drop-area">
@@ -285,6 +285,7 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="{{ asset('js/index.js') }}"></script>
   <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+  <script src="{{ asset('src/js/scripts/extensions/sweet-alerts.js')}}"></script>
   <script type="text/javascript">
     var table = $('#example').DataTable({
         "searching": false,
@@ -341,7 +342,10 @@ $("#header_logo").change(function () {
         img.onload = function () {
             // alert("Width:" + this.width + "   Height: " + this.height);
             if(this.height > 40 || this.width > 200){
-                alert("Please Upload Logo of size 200x40")
+                Swal.fire({
+                    title: 'Error! Please Upload Logo of size 200x40',
+                  });
+                // alert("Please Upload Logo of size 200x40")
                 $("#header_logo").val(''); 
             }
             else{
@@ -389,8 +393,11 @@ $("#footer_logo").change(function () {
         img = new Image();
         img.onload = function () {
             // alert("Width:" + this.width + "   Height: " + this.height);
-            if(this.height > 40 || this.width > 200){
-                alert("Please Upload Logo of size 200x40")
+            if(this.height > 40){
+                Swal.fire({
+                    title: 'Error! Please Upload Logo of height less than 40',
+                  });
+                // alert("Please Upload Logo of height less than 40");
                 $("#footer_logo").val(''); 
             }
             else{
@@ -439,7 +446,10 @@ $("#favicon").change(function () {
         img.onload = function () {
             // alert("Width:" + this.width + "   Height: " + this.height);
             if(this.height > 32 || this.width > 32){
-                alert("Please Upload Logo of size 32x32")
+                Swal.fire({
+                    title: 'Error! Please Upload Logo of size 32x32',
+                  });
+                // alert("Please Upload Logo of size 32x32")
                 $("#favicon").val(''); 
             }
             else{
@@ -488,7 +498,10 @@ $("#admin_logo").change(function () {
         img.onload = function () {
             // alert("Width:" + this.width + "   Height: " + this.height);
             if(this.height > 40 || this.width > 200){
-                alert("Please Upload Logo of size 200x40")
+                Swal.fire({
+                    title: 'Error! Please Upload Logo of size 200x40',
+                  });
+                // alert("Please Upload Logo of size 200x40")
                 $("#admin_logo").val(''); 
             }
             else{
@@ -537,7 +550,10 @@ $("#seller_logo").change(function () {
         img.onload = function () {
             // alert("Width:" + this.width + "   Height: " + this.height);
             if(this.height > 40 || this.width > 200){
-                alert("Please Upload Logo of size 200x40")
+                Swal.fire({
+                    title: 'Error! Please Upload Logo of size 200x40',
+                  });
+                // alert("Please Upload Logo of size 200x40")
                 $("#seller_logo").val(''); 
             }
             else{

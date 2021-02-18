@@ -1,4 +1,4 @@
-C<?php
+<?php
 
 namespace App\Http\Controllers\Pages;
 
@@ -88,9 +88,11 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $oldslug = Page::find($id);
+        $oldslug = $oldslug->slug;
         $page = Page::findOrFail($id);
         $page->title = $request->title;
-        if (Page::where('slug', preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug)))->first() == null) {
+        if (Page::where('slug', preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug)))->first() == null || $oldslug == preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug))) {
             $page->slug             = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug));
             $page->content          = $request->content;
             $page->meta_title       = $request->meta_title;
