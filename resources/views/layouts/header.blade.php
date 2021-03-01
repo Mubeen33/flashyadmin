@@ -52,7 +52,7 @@
     <!-- END: Custom CSS-->
      <!-- END: Custom CSS-->
       <link rel="stylesheet" type="text/css" href="{{ asset('css/index.css')}}">
-
+      @livewireStyles
 </head>
 <!-- END: Head-->
 

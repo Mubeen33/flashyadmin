@@ -122,6 +122,8 @@
                             </li> -->
                             <li data-menu=""><a class="dropdown-item" href="{{route('admin.allProducts.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>All Products</a>
                             </li>
+                            <li data-menu=""><a class="dropdown-item" href="{{route('admin.pendingApproval.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Pending Approvals</a>
+                            </li>
                         <!-- <ul class="menu-content">
                             <li ><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Ecommerce"><i class="feather icon-circle"></i>Categories</a>
                                 <ul class="menu-content">

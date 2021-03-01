@@ -137,6 +137,7 @@ Route::get('removelogo/{id}' , 'Appearances\AppearanceController@remove_logo')->
 
    //products
    Route::get('products/pending-products', 'Products\ProductController@get_pending_products')->name('pendingProducts.get');
+   Route::get('products/pending-approval', 'Products\ProductController@pending_approval')->name('pendingApproval.get');
    Route::get('products/all', 'Products\ProductController@get_all_products')->name('allProducts.get');
    Route::get('product/vendors/{productID}/{product_variationID?}', 'Products\ProductController@get_product_all_vendors')->name('productVendors.get');
    Route::get('ajax-product-vendors', 'Products\ProductController@product_vendors_fetch')->name('searchProductVendorsURL.ajaxPgination');

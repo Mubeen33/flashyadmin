@@ -354,8 +354,15 @@ class ProductController extends Controller
                     ->get();
         return view('product.products', compact('data', 'vendors'));
     }
+    //start all pending approval products
+    public function pending_approval(){
+      
+        return view('product.pending-for-approval');
+        
+    }
+     //end all pending approval products
 
-    // 
+
     // get Categories 
 
     public function getCategories(Request $request){
