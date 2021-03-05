@@ -1066,8 +1066,6 @@ protected function inventorysData($request){
         
         ProductMedia::where('image', $request->name)->delete();
         $imageSizes=array('1200','600','300');
-       
-              
         for($i=0;$i<count($imageSizes);$i++){
             $image_path = public_path()."/product_images/product_".$product_image_id.'/'.$imageSizes[$i].'_'.$request->name;
             @unlink($image_path);

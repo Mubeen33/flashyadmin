@@ -27,9 +27,9 @@
                                              <div class="row">
                                                 <div class="imgicon" style="max-width: 20%; ">
                                                         <div class="imgdivtrash" id="imgicon-upload{{$countBTN}}">
-                                                        <img src="{{ asset('images/upld.png') }}" style="max-width: 100%; " class="cardimg" id='img-upload{{$countBTN}}'/>
+                                                        <img src="{{ asset('img/upld.png') }}" style="max-width: 100%; " class="cardimg" id='img-upload{{$countBTN}}'/>
                                                     </div>
-                                                        <a href="javascript:void(0)" style="display: none;" id="trashicon{{$countBTN}}" onclick="removeImgVer('img-upload{{$countBTN}}','file-2{{$countBTN}}','trashicon{{$countBTN}}','{{ asset('images/upld.png') }}')" class="btn btn-link btn-icon text-danger"><i class="fa fa-trash-o imageTrashTag"></i></a>	
+                                                        <a href="javascript:void(0)" style="display: none;" id="trashicon{{$countBTN}}" onclick="removeImgVer('img-upload{{$countBTN}}','file-2{{$countBTN}}','trashicon{{$countBTN}}','{{ asset('img/upld.png') }}')" class="btn btn-link btn-icon text-danger"><i class="fa fa-trash-o imageTrashTag"></i></a>	
                                                 
                                                 </div>
                                                 <div id="input-group{{$countBTN}}" style="margin-top: -38%;">

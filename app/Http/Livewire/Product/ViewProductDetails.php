@@ -26,8 +26,8 @@ class ViewProductDetails extends Component
             $variationList = Variation::where('active',1)->get();
             $brandModel=new brand();
             $brandsList=$brandModel->brands();
-            // debug($productDetails->get_brand->id);
-            // exit;
+           // debug($productDetails,true);
+           
             return view('livewire.product.view-product-details',compact('variationList','categoryList','brandsList','productDetails'))->extends('layouts.master');
 
         }

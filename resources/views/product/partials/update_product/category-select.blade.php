@@ -1,5 +1,6 @@
 
-    
+ @if(!empty($productDetails->category_id))   
+
 <div class="resource-slider-item alldiv "  id="supperParent">
     <div class="card resource-slider-inset">
         <div class="card-content">
@@ -23,9 +24,17 @@
                         $title_sub=$catRow->name;
                     }
                    @endphp
-                   <li   class="catlogLi"><a class="dropdown-item"  style="padding: 0.4rem 0.4rem;"  href="javascript:void(0)" onclick="category('{{$catRow->id}}','category','supperParent','maincategory','{{$catRow->name}}')" title="{{$catRow->name}}">{{$title_sub}}</a></li>
+                   @if($product_category[0]==$catRow->id)
+                   <script>
+                   $( document ).ready(function() {
+                        $("#spParent{{$catRow->id}}").trigger( "click" );
+                    });
+                           
+                   </script>
+                   @endif
+                   <li   class="catlogLi "  style="background-color: {{ ($product_category[0]==$catRow->id) ? ' red !important;' : ''}}" ><a class="dropdown-item" id="spParent{{$catRow->id}}"  style="padding: 0.4rem 0.4rem;"  href="javascript:void(0)" onclick="category('{{$catRow->id}}','category','supperParent','maincategory','{{$catRow->name}}')" title="{{$catRow->name}}">{{$title_sub}}  </a></li>
                    @endforeach
-                 
+                    
                </ul>
                @endif
                </fieldset>
@@ -33,4 +42,4 @@
        </div>
     </div>
 </div>
-
+@endif
