@@ -17,7 +17,7 @@
 
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
-    <li class="breadcrumb-item active">Vendors Products</li>
+    <li class="breadcrumb-item active">Pending Approvals</li>
 @endsection 
 @section('content')
 
