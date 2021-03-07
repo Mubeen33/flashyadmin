@@ -82,7 +82,7 @@
                         <div class="card card-radiouse"  id="category-div">
                             <div class="card-header" >
                                 <h4 class="card-title">Category And Custom Fields</h4>
-                                
+                             
                             </div>
                             <form id="categoryFrm" action="" method="post" enctype="multipart/form-data" >
                                 @csrf
@@ -106,6 +106,9 @@
                                                     <a href="javascript:void(0)" class='arrow prev catBtn waves-effect waves-light'></a>
                                                     <a href="javascript:void(0)" class='arrow next catBtn  waves-effect waves-light' id="nextslider"></a>
                                                     <div class=" resource-slider-frame" id="categoryDivs">
+                                                        @php
+                                                        $product_category = json_decode($productDetails->category_id);
+                                                       @endphp
                                                         @include('product.partials.update_product.category-select')
                                                     
                                                     </div>
