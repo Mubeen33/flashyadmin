@@ -15,6 +15,7 @@ class VendorProduct extends Model
 		'price',
 		'dispatched_days',
 		'active',
+		'is_auto_approved',
 		'comments'
 	];
 

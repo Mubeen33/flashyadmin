@@ -21,8 +21,8 @@
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Vendors</li>
-@endsection 
-@section('content')                                
+@endsection
+@section('content')
             <div class="content-body">
                 @include('msg.msg')
                 <div class="row" id="basic-table">
@@ -31,8 +31,8 @@
                             <div class="card-header justify-content-between">
                                 <div><h4 class="card-title">Vendors List</h4></div>
                                 <div>
-                                    <select id="selected_row_status" title="Display row per page">
-                                        <option value="1">Approved</option>
+                                    <select class="hidden" id="selected_row_status" title="Display row per page">
+                                        <option selected value="1">Approved</option>
                                         <option value="0">Unapproved</option>
                                     </select>
                                     <input type="text" id="searchKey__" placeholder="Search">
@@ -66,7 +66,7 @@
                                             <tbody id="render__data">
                                                 @include('Vendors.partials.vendors-list')
                                             </tbody>
-                                            
+
                                         </table>
                                         <input type="hidden" id="hidden__action_url" value="{{ route('admin.vendors.ajaxPgination') }}">
                                         <input type="hidden" id="hidden__page_number" value="1">

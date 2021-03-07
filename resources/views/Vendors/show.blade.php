@@ -13,8 +13,8 @@
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
     <li class="breadcrumb-item active">Vendors Details</li>
-@endsection    
-@section('content')                                
+@endsection
+@section('content')
             <div class="content-body">
                 @include('msg.msg')
                 <div class="row" id="basic-table">
@@ -36,6 +36,7 @@
                                           <a class="list-group-item list-group-item-action" data-toggle="list" href="#settings" role="tab">Director Details</a>
                                           <a class="list-group-item list-group-item-action" data-toggle="list" href="#business-address" role="tab">Business Address</a>
                                           <a class="list-group-item list-group-item-action" data-toggle="list" href="#warehouse-address" role="tab">Warehouse Address</a>
+                                          <a class="list-group-item list-group-item-action" data-toggle="list" href="#vendor-settings" role="tab">Settings</a>
                                         </div>
                                       </div>
 
@@ -59,14 +60,19 @@
                                           <div class="tab-pane" id="warehouse-address" role="tabpanel">
                                               @include('Vendors.partials.warehouse-address')
                                           </div>
+                                         <div class="tab-pane" id="vendor-settings" role="tabpanel">
+{{--                                             @include('Vendors.partials.warehouse-address')--}}
+
+                                             @include('Vendors.partials.vendor-settings')
+                                          </div>
                                         </div>
 
                                       </div>
                                     </div>
 
 
-                                    
-                                    
+
+
 
 
                                 </div> <!-- card-body end here -->

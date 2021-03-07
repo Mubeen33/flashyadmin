@@ -55,6 +55,7 @@ Route::get('removelogo/{id}' , 'Appearances\AppearanceController@remove_logo')->
 
 	//vendors controller
 	Route::resource('vendors', 'Vendors\VendorController');
+	Route::get('vendors/pending/list', 'Vendors\VendorController@pending')->name('vendors.pending.list');
 	Route::get('new-vendors/requests','Vendors\VendorController@get_vendors_requests')->name("vendors.requests.get");
   Route::post('new-vendor/approve-account','Vendors\VendorController@vendor_account_approve')->name("vendor.approve_account.post");
   Route::post('new-vendor/update-pass','Vendors\VendorController@update_vendor_pass')->name("vendor.passUpdate.post");
@@ -138,6 +139,7 @@ Route::get('removelogo/{id}' , 'Appearances\AppearanceController@remove_logo')->
    //products
    Route::get('products/pending-products', 'Products\ProductController@get_pending_products')->name('pendingProducts.get');
    Route::get('products/pending-approval', 'Products\ProductController@pending_approval')->name('pendingApproval.get');
+   Route::get('products/auto-approval', 'Products\ProductController@pending_approval')->name('pendingApproval.get');
 
    Route::match(['get','post'],'products/view-product-details/{id}', 'Products\ProductController@viewProductDetails')->name('viewProductDetails');
    Route::match(['get','post'],'products/add-product','Products\ProductController@addProduct')->name('addProduct');
@@ -154,7 +156,7 @@ Route::get('removelogo/{id}' , 'Appearances\AppearanceController@remove_logo')->
    Route::get('make-rejected-product/{id}', 'Products\ProductController@reject_product')->name('rejectProduct.post');
    Route::get('make-disable-product/{id}', 'Products\ProductController@disable_product')->name('disableProduct.post');
    Route::get('ajax-get-category/fetch','Products\ProductController@getCategories');
-   Route::get('ajax-get-category-customfields/fetch','Products\ProductController@getCustomFields'); 
+   Route::get('ajax-get-category-customfields/fetch','Products\ProductController@getCustomFields');
    Route::match(['get','post'],'ajax-category-find', 'Products\ProductController@ajax_category_find')->name("ajaxCategoryFind");
 
    Route::post('products/sku_combination','Products\ProductController@skuCombinations')->name('products.sku_combination');
@@ -163,7 +165,7 @@ Route::get('removelogo/{id}' , 'Appearances\AppearanceController@remove_logo')->
    Route::post('delete-product-image','Products\ProductController@removeProductImage');
    Route::get('products/ajax-pagination/fetch', 'Products\ProductController@fetch__data')->name('products.ajaxPgination');
    Route::get('pending-products/ajax-pagination/fetch', 'Products\ProductController@pending_fetch__data')->name('pendingProducts.ajaxPgination');
-   
+
    //export products
    Route::get('export-products', function(){return abort(404);});
    Route::post('export-products', 'Products\ProductController@export_products_post')->name('productsExport.post');

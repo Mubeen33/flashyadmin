@@ -8,7 +8,7 @@ $(document).ready(function(){
 		$('#show--seller-details').removeClass('d-none')
     	$('#edit--seller-details').addClass('d-none')
 	})
-	
+
 	//contact edit
 	$("#btn-edit-contact-details").on("click", function(){
 		$('#show--contact-details').addClass('d-none')
@@ -58,4 +58,17 @@ $(document).ready(function(){
 		$('#show--wireHouseAddress-details').removeClass('d-none')
     	$('#edit--wireHouseAddress-details').addClass('d-none')
 	})
+
+	//wireHouseAddress edit
+	$("#btn-edit-vendor-settings").on("click", function(){
+		$('#show--vendor-settings').addClass('d-none')
+    	$('#edit--vendor-settings').removeClass('d-none')
+	})
+
+    $("#cancel-vendor-settings-edit--btn").on("click", function(){
+        $('#show--vendor-settings').removeClass('d-none')
+        $('#edit--vendor-settings').addClass('d-none')
+    })
+
+
 })

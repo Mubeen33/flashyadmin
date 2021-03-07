@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Vendors;
 
 use App\Http\Controllers\Controller;
+use App\ProductAutoApprovedHistory;
 use Illuminate\Http\Request;
 use App\Vendor;
 use App\VendorActivity;
@@ -28,6 +29,12 @@ class VendorController extends Controller
         return view('Vendors.index', compact('data'));
     }
 
+    public function pending(){
+        $data = Vendor::where('active', 0)
+            ->orderBy('id', 'DESC')
+            ->paginate(5);
+        return view('Vendors.pending-vendors', compact('data'));
+    }
     public function get_pending_vendors(){
         $data = Vendor::where('active', 0)
                     ->orderBy('id', 'DESC')
@@ -99,7 +106,7 @@ class VendorController extends Controller
                 'mobile' => ['required', 'string', 'max:16']
             ]);
             return $this->updateSellerDetails($request, $id);
-        
+
         }elseif ($request->type === "UpdateBusinessDetails") {
             $this->validate($request, [
                 'company_name' => ['required', 'string', 'max:250'],
@@ -109,7 +116,7 @@ class VendorController extends Controller
                 'product_type' => ['required', 'string', 'in:Physical Products,Digital Products,Grouped Products,Services']
             ]);
             return $this->updateBusinessDetails($request, $id);
-        
+
         }elseif ($request->type === "UpdateBankDetails") {
             $this->validate($request, [
                 'account_holder' => ['nullable', 'string', 'max:250'],
@@ -129,7 +136,7 @@ class VendorController extends Controller
                 'additional_info' => ['nullable', 'string', 'max:300'],
             ]);
             return $this->updateDirectorDetails($request, $id);
-        
+
         }elseif ($request->type === "UpdateBusinessAddressDetails") {
             $this->validate($request, [
                 'address' => ['nullable', 'string', 'max:250'],
@@ -141,7 +148,7 @@ class VendorController extends Controller
                 'country' => ['nullable', 'string', 'max:250'],
             ]);
             return $this->updateBusinessAddressDetails($request, $id);
-        
+
         }elseif ($request->type === "UpdateWireHouseAddressDetails") {
             $this->validate($request, [
                 'waddress' => ['nullable', 'string', 'max:250'],
@@ -153,12 +160,23 @@ class VendorController extends Controller
                 'wcountry' => ['nullable', 'string', 'max:250'],
             ]);
             return $this->updateWireHouseAddressDetails($request, $id);
+
+        }elseif ($request->type === "UpdateVendorSettingsDetails") {
+
+            $validated=$this->validate($request, [
+                'product_auto_approved' => ['in:on']
+            ]);
+            $validated=$validated ? :['product_auto_approved'=>'off'];
+
+
+
+            return $this->updateVendorSettinsDetails($validated, $id,$request);
         }else{
             return redirect()->back()->with('error', 'SORRY - Invalid Request');
         }
-        
-        
-        
+
+
+
     }
 
 
@@ -173,7 +191,7 @@ class VendorController extends Controller
            'mobile'=> $request->mobile,
            'updated_at'=> Carbon::now()
         ]);
-        
+
         if($updated == true){
             return redirect()->back()->with('success', 'Seller Details Updated');
         }
@@ -191,7 +209,7 @@ class VendorController extends Controller
            'product_type' => $request->product_type,
            'updated_at'=> Carbon::now()
         ]);
-        
+
         if($updated == true){
             return redirect()->back()->with('success', 'Business Details Updated');
         }
@@ -209,7 +227,7 @@ class VendorController extends Controller
            'branch_code'=> $request->branch_code,
            'updated_at'=> Carbon::now()
         ]);
-        
+
         if($updated == true){
             return redirect()->back()->with('success', 'Bank Details Updated');
         }
@@ -227,7 +245,7 @@ class VendorController extends Controller
            'additional_info'=> $request->additional_info,
            'updated_at'=> Carbon::now()
         ]);
-        
+
         if($updated == true){
             return redirect()->back()->with('success', 'Director Details Updated');
         }
@@ -247,7 +265,7 @@ class VendorController extends Controller
            'country'=> $request->country,
            'updated_at'=> Carbon::now()
         ]);
-        
+
         if($updated == true){
             return redirect()->back()->with('success', 'Business Address Details Updated');
         }
@@ -267,9 +285,27 @@ class VendorController extends Controller
            'wcountry'=> $request->wcountry,
            'updated_at'=> Carbon::now()
         ]);
-        
+
         if($updated == true){
             return redirect()->back()->with('success', 'WireHouse Address Details Updated');
+        }
+        return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
+    }
+
+    private function updateVendorSettinsDetails($validated, $id,$request){
+
+
+        $updated= Vendor::findOrFail($id)->update($validated);
+
+        $history['vendor_id']=$id;
+        $history['action']=$validated['product_auto_approved']=='on' ? 'e' : 'd';
+        $history['type']='p';
+        $history['notes']=$request->notes;
+
+        ProductAutoApprovedHistory::create($history);
+
+        if($updated == true){
+            return redirect()->back()->with('success', 'Vendor Setting Updated Successfully');
         }
         return redirect()->back()->with('error', 'SORRY - Something wrong, please try again later.');
     }
@@ -294,7 +330,7 @@ class VendorController extends Controller
                 'active'=>1,
                 'updated_at'=>Carbon::now()
             ]);
-            
+
         if($updated == true){
             return redirect()->back()->with('success', 'Seller Account Approved');
         }else{
@@ -408,7 +444,7 @@ class VendorController extends Controller
             $sort_by = $request->sort_by;
             $sorting_order = $request->sorting_order;
             $row_per_page = $request->row_per_page;
-            
+
             $vendorID = $request->id;
             $status = $request->status;
 
@@ -437,7 +473,7 @@ class VendorController extends Controller
                 }else{
                     return response()->json('Unknown request type, Please refresh page & try again.', 422);
                 }
-                
+
             }
 
             //if not search key then
@@ -472,7 +508,7 @@ class VendorController extends Controller
         if ($deleted == true) {
             return redirect()->back()->with('success', 'Activity Record Deleted');
         }else{
-           return redirect()->back()->with('error', 'SORRY - Something wrong!'); 
+           return redirect()->back()->with('error', 'SORRY - Something wrong!');
         }
     }
 
@@ -519,7 +555,7 @@ class VendorController extends Controller
             ->with('get_vendor')
             ->paginate($row_per_page);
             return view('Vendors.partials.bank-updates-request-list', compact('data'))->render();
-            
+
         }
         return abort(404);
     }
@@ -529,7 +565,7 @@ class VendorController extends Controller
     public function approve_bank_updates(Request $request){
         $id = \Crypt::decrypt($request->id);
         $vendorID = \Crypt::decrypt($request->vendorID);
-        
+
         $data = VendorBankDetailsTempData::where([
             'id'=>$id,
             'vendor_id'=>$vendorID,
@@ -594,14 +630,14 @@ class VendorController extends Controller
                             $idList[] = $value->id;
                         }
                     }
-                    
+
                 }elseif (intval($status) === 1) {
                     foreach ($vendors_data as $key => $value) {
                         if (intval($value->active) === 1) {
                             $idList[] = $value->id;
                         }
                     }
-                    
+
                 }else{
                     return response()->json('Invalid Vendors Type', 422);
                 }
@@ -616,7 +652,7 @@ class VendorController extends Controller
             return view($renderPage, compact('data'))->render();
         }
         return abort(404);
-        
+
     }
 
 
@@ -633,11 +669,11 @@ class VendorController extends Controller
             'mobile' => ['required', 'string', 'max:16'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:vendors'],
             'phone' => ['nullable', 'string', 'max:16'],
-            
-            
+
+
             'company_name' => ['required', 'string', 'max:250'],
             'business_information' => ['nullable', 'string', 'max:300'],
-            
+
             'account_holder' => ['nullable', 'string', 'max:250'],
             'bank_name' => ['nullable', 'string', 'max:250'],
             'bank_account' => ['nullable', 'string', 'max:250'],
@@ -668,7 +704,7 @@ class VendorController extends Controller
             'wsubrub' => ['nullable', 'string', 'max:250'],
             'wzip_code' => ['nullable', 'string', 'max:250'],
             'wcountry' => ['nullable', 'string', 'max:250'],
-            
+
             'password' => ['nullable', 'string', 'min:8', 'max:33'],
             'active' => ['required', 'numeric', 'in:0,1']
         ]);
