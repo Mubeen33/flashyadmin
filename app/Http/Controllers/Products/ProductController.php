@@ -40,7 +40,7 @@ class ProductController extends Controller
         		->orderBy('id', 'DESC')
                 ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                 ->paginate(5);
-        
+
         $vendors = Vendor::where('active', 1)
                     ->orderBy('first_name', 'ASC')
                     ->get();
@@ -88,7 +88,7 @@ class ProductController extends Controller
         $variationList          = Variation::where('active',1)->get();
 
         $categories             = Category::where('deleted',0)->get();
-        
+
         return view('product.approval-product', compact('product','productCustomField', 'currentCategory', 'currentImages','variationList','productVariations','second_variation_name','first_variation_name','first_variation_value','second_variation_value','categories', 'product_other_categories'));
     }
 
@@ -118,12 +118,12 @@ class ProductController extends Controller
         $variationList          = Variation::where('active',1)->get();
         $categories             = Category::where('deleted',0)->get();
 
-       
+
         return view('product.edit-product', compact('product','productCustomField', 'currentCategory', 'currentImages','variationList','productVariations','second_variation_name','first_variation_name','first_variation_value','second_variation_value','categories'));
     }
 
-    // 
-     
+    //
+
     public function skuCombinations(Request $request){
 
         $options = Array();
@@ -139,10 +139,10 @@ class ProductController extends Controller
             }
         }
         if ($request->has('variation_name')) {
-            
+
             $count        = count($request->variation_name);
             if ($count == 1) {
-                
+
                     $variantOne   = $request->variation_name[0];
                     $variationOne = Variation::where('variation_name',$variantOne)->first();
             }
@@ -154,7 +154,7 @@ class ProductController extends Controller
                 $variationTwo = Variation::where('variation_name',$variantTwo)->first();
 
             }
-            
+
 
         }
 
@@ -164,9 +164,9 @@ class ProductController extends Controller
         }else{
 
             return view('product.partials.update_product.sku_combinations', compact('combinations','variationOne','variationTwo','count'));
-        }    
-    } 
-    // 
+        }
+    }
+    //
     public function getWarranty(Request $request){
 
         if ($request->ajax()) {
@@ -192,21 +192,21 @@ class ProductController extends Controller
                      'veriant' => $categoryVer,
                      'catID' => '<input class="alldiv" type="hidden" name="cate_id[]" value="'.$_GET['id'].'" >'
                  );
-                 
+
              return $responseData;
          }
          else{
-             
+
              $data['category_id'] = $_GET['id'];
              return view('product.partials.update_product.ajax-category-select',$data);
- 
+
          }
         }else{
             return null;
         }
-          
+
      }
-     
+
 // addProduct title,categories and customfields start
 private function addProductTitle($request){
     $brand=null;
@@ -221,11 +221,11 @@ private function addProductTitle($request){
      $product->image_id     = $request->input('image_id');
      $product->slug         = $newSlug.'-'.$this->uniqueSlug();
      $product->vendor_id    = Auth::id();
-     $product->submission_id    =  $this->randomid();     
+     $product->submission_id    =  $this->randomid();
          if($product->save()){
              $Id=$product->id;
              $request->session()->put('add_pro_img_id', $Id);
-          $responseData=array( 
+          $responseData=array(
                  'product_id' => encrypt($Id),
                  'msg' => 'Product Created Successfully'
              );
@@ -235,42 +235,42 @@ private function addProductTitle($request){
                  'msg' => 'Product Not Created Successfully'
              );
          }
-         
-    
-       
-    
+
+
+
+
      return json_encode($responseData);
-    
-     
+
+
 }
-// addProduct title,categories and customfields end 
+// addProduct title,categories and customfields end
 // addProduct title,categories and customfields start
 private function addProductCategory($request){
     //  echo '<pre>';
     //  print_r($request->all());
     //  exit;
-        $category=array();    
+        $category=array();
         $category_id=null;
         if(!empty($request->input('cate_id'))){
             $category=$request->input('cate_id');
             $category_id=array_values(array_slice($request->input('cate_id'), -1))[0];
-       
+
         }
-        
-            
+
+
             $Id=$this->getProductID($request->input('productId'));
             $product = Product::where('id',$Id)->first();
             $product->category_id        = json_encode($category);
             if($product->save()){
-           
+
             //custome fields start
              if ($request['element_0']) {
-                    
+
                     $data = array();
                     $i = 0;
-                    
+
                     foreach (json_decode(CustomField::where('category_id', $category_id)->first()->options) as $key => $element) {
-                        
+
                         $item = array();
                         if ($element->type == 'text') {
                             $item['type'] = 'text';
@@ -292,7 +292,7 @@ private function addProductCategory($request){
                             $item['label'] = $element->label;
                             $item['value'] = $request['element_'.$i]->move('product_images/media',$request['element_'.$i]);
                         }
-                        array_push($data, $item);      
+                        array_push($data, $item);
                         $i++;
                     }
 
@@ -311,29 +311,29 @@ private function addProductCategory($request){
                 $responseData=array(
                     'product_id' => encrypt($Id),
                     'msg' => 'Category Not Created Successfully'
-                ); 
+                );
             }
-            
-    
-       
-       
+
+
+
+
         return json_encode($responseData);
-       
-        
+
+
 }
 // addProduct title,categories and customfields end
  //update current product code start
  private function updateCurrentProduct($request){
-     
+
     $brand=null;
     if(!empty($request->input('brand'))){
         $brand=decrypt($request->input('brand'));
     }
-   
+
         $prodID=$this->getProductID($request->input('productId'));
         $product = Product::where('id',$prodID)->first();
         $newSlug=Str::slug($request->input('title'), '-');
-        
+
         $product->title        = $request->input('title');
         $product->image_id     = $request->input('image_id');
         $product->sku= $request->sku;
@@ -346,25 +346,25 @@ private function addProductCategory($request){
             'product_id' => encrypt($prodID),
             'msg' => 'Product Updated Successfully'
         );
-       
+
         return json_encode($responseData);
-       
-     
-}  
+
+
+}
 //update current product code end
 //update product action
 public function viewProductDetails(){
 
-    
+
     return view('product.view-product-details');
 
     }
 
  //main addproduct action
  public function addProduct(Request $request){
-   
+
     // $product->product_type = $request->product_type;
-   
+
    //  title,category and custom fields form data submit
       if(!empty($request->input('action')) && $request->input('action')=='titleForm' && empty($request->input('productId')) && $request->input('productId')=='')
       {
@@ -381,16 +381,16 @@ public function viewProductDetails(){
          }else{
              return $this->addProductTitle($request);
          }
-         
-        
-   
+
+
+
       }
 
       //update category title and custom fields
      if(!empty($request->input('action')) && $request->input('action')=='titleForm' && !empty($request->input('productId')) && $request->input('productId')!='')
-     {   
+     {
          $validator = Validator::make($request->all(), [
-             'title' => 'required|max:80|min:10',   
+             'title' => 'required|max:80|min:10',
          ]);
          if($validator->fails()){
              $allErorrs=$validator->errors();
@@ -401,68 +401,68 @@ public function viewProductDetails(){
              return json_encode($responseData);
          }else{
          return $this->updateCurrentProduct($request);
-         }   
+         }
      }
-    
+
      //product category start
      if(!empty($request->input('action')) && $request->input('action')=='categoryForm' && !empty($request->input('cate_id')) && !empty($request->input('productId')))
-     { 
-            
+     {
+
          return $this->addProductCategory($request);
      }
     //product category
      //Description add or update here
-     
+
      if(!empty($request['action']) && $request['action']=='descriptionfrm' && !empty($request['description']) && !empty($request['productId']))
      {
-         
+
          $prodID=$this->getProductID($request['productId']);
          $product = Product::where('id',$prodID)->first();
          $product->description  = $request['description'];
          $product->whats_in_box  = $request['whatsbox'];
          if($product->save()){
              $responseData=array(
- 
+
                  'product_id' => encrypt($prodID),
                  'msg' => 'Product Description Updated Successfully'
              );
-            
+
              return json_encode($responseData);
          }else{
              $responseData=array(
                  'product_id' => encrypt($prodID),
                  'msg' => 'Product Description Not Updated'
              );
-            
+
              return json_encode($responseData);
          }
      }
 
 
-    
+
      //inventory submit or update here
      if(!empty($request->input('action')) && $request->input('action')=='choice_form' && !empty($request->input('productId')) && $request->input('productId')!='')
      {
          return $this->inventorysData($request);
-     } 
-        
+     }
+
      //veriations submit or update here
      if(!empty($request->input('action')) && $request->input('action')=='variations_form' && !empty($request->input('productId')) && $request->input('productId')!='')
      {
          return $this->veriationsData($request);
      }
-   
-       
+
+
     //Exit listing here
-  
+
     if(!empty($request->input('action')) && $request->input('action')=='exitListing' && !empty($request->input('productId')) && $request->input('productId')!='')
       {
-         
+
         return $this->exitListing($request);
-        
-         
+
+
       }
-     
+
  }
  protected function exitListing($request){
     $prodID=$this->getProductID($request->input('productId'));
@@ -470,10 +470,10 @@ public function viewProductDetails(){
     $customFieldsStatus=false;
     $variationStatus=false;
     $vendor_id=Auth::guard('vendor')->user()->id;
-    //delete product 
-    
+    //delete product
+
     $product = Product::where(['id'=> $prodID,'vendor_id'=> $vendor_id])->first();
-   
+
     if(!empty($product->id)){
         if(Product:: where(['id'=> $prodID,'vendor_id'=> $vendor_id])->delete())
         {
@@ -486,7 +486,7 @@ public function viewProductDetails(){
                 $customFieldsStatus=true;
 
                 // //if veriations created than delete
-      
+
                 $productVeriant = ProductVariation::where('product_id',$prodID)->first();
                 if(!empty($productVeriant->product_id)){
                     ProductVariation:: where('product_id',$prodID)->delete();
@@ -512,7 +512,7 @@ public function viewProductDetails(){
                 'msg' => 'Product not deleted'
             );
         }
-        
+
     }else{
         $responseData=array(
             'productStatus'=> $productStatus,
@@ -521,77 +521,77 @@ public function viewProductDetails(){
             'msg' => 'Product not deleted'
         );
     }
-    
-    
+
+
 if(!empty($request->session()->get('add_pro_img_id'))){
-   $request->session()->forget('add_pro_img_id');    
+   $request->session()->forget('add_pro_img_id');
  }
-   
+
 
 return json_encode($responseData);
 }
 
 //veriations data
 protected function inventorysData($request){
-    
+
     $prodID=$this->getProductID($request->input('productId'));
-   
+
            $validator = Validator::make($request->all(), [
-              
+
                'width' =>  'required|numeric|max:100000|min:1',
                'hieght' => 'required|numeric|max:100000|min:1',
                'length' => 'required|numeric|max:100000|min:1',
                'weight' => 'required|numeric|max:100000|min:1',
-              
+
            ]);
            if($validator->fails()){
                $allErorrs=$validator->errors();
                $responseData=array(
-                   
+
                    'width' =>$allErorrs->first('width'),
                    'hieght' => $allErorrs->first('hieght'),
                    'length' => $allErorrs->first('length'),
                    'weight' => $allErorrs->first('weight'),
-                  
+
                );
                return json_encode($responseData);
            }else{
-         
+
            $product = Product::where('id',$prodID)->first();
-          
-          
+
+
            $product->width= $request->width;
            $product->hieght= $request->hieght;
            $product->length= $request->length;
            $product->weight= $request->weight;
            if($product->save()){
             if ($request->has('variation_name')) {
-                 
+
                 $count= count($request->variation_name);
                 if ($count == 1) {
                     //check veratrine available or not
                     $productVeriant = ProductVariation::where('product_id',$prodID)->first();
-                   
+
                     if(!empty($productVeriant->product_id)){
                         ProductVariation:: where('product_id',$prodID)->delete();
                     }
-                        
+
                     foreach ($request->variant_combinations as $key => $value) {
-                        
+
                         $productVariations = new ProductVariation();
-    
+
                         $productVariations->first_variation_name  = $request->variation_name[0];
                         $productVariations->first_variation_value = $request->variant_combinations[$key];
                         $productVariations->sku                   = $request->variant_sku[$key];
                         $productVariations->product_id            = $prodID;
-    
+
                         if ($request->has('variant_image')) {
-                            
+
                             $image = $request->file('variant_image')[$key];
-            
+
                             $file_name=uniqid().(Auth::guard('vendor')->user()->id).$image->getClientOriginalName();
                             //resize image
-                            $image_resize = Image::make($image->getRealPath());              
+                            $image_resize = Image::make($image->getRealPath());
                             $imageSizes=array('1200','600','300');
                             $imagePath='product_images/product_'.$prodID;
                             $path = public_path($imagePath);
@@ -612,8 +612,8 @@ protected function inventorysData($request){
                                      $image->save($imagePath.'/variant_image/'. $file_nameRenew);
                                    }
                                }
-                              
-                               
+
+
                              }else{
                                  if(!File::isDirectory($imagePath.'/variant_image')){
                                      File::makeDirectory($path.'/variant_image', 0777, true, true);
@@ -632,41 +632,41 @@ protected function inventorysData($request){
                              }
                             $productVariations->variant_image = url('/').$imagePath.'/variant_image/'.$file_name;
                         }
-                         
+
                         $productVariations->save();
-                        
-    
+
+
                     }
                 }
                 if ($count == 2) {
                     $productVeriant = ProductVariation::where('product_id',$prodID)->first();
-                   
+
                     if(!empty($productVeriant->product_id)){
                         ProductVariation:: where('product_id',$prodID)->delete();
                     }
                     foreach ($request->variant_combinations as $key => $value) {
-                        
+
                         $variants = $request->variant_combinations[$key];
                         $variants = explode("-",$variants);
                         $first_variation_value = $variants[0];
                         $second_variation_value = $variants[1];
-    
+
                         $productVariations = new ProductVariation();
-    
+
                         $productVariations->first_variation_name   = $request->variation_name[0];
                         $productVariations->first_variation_value  = $first_variation_value;
                         $productVariations->second_variation_name  = $request->variation_name[1];
                         $productVariations->second_variation_value = $second_variation_value;
                         $productVariations->sku                    = $request->variant_sku[$key];
                         $productVariations->product_id             = $prodID;
-    
+
                         if ($request->has('variant_image')) {
-                            
+
                          $image = $request->file('variant_image')[$key];
-         
+
                          $file_name=uniqid().(Auth::guard('vendor')->user()->id).$image->getClientOriginalName();
                          //resize image
-                         $image_resize = Image::make($image->getRealPath());              
+                         $image_resize = Image::make($image->getRealPath());
                          $imageSizes=array('1200','600','300');
                          $imagePath='product_images/product_'.$prodID;
                          $path = public_path($imagePath);
@@ -687,8 +687,8 @@ protected function inventorysData($request){
                                   $image->save($imagePath.'/variant_image/'. $file_nameRenew);
                                 }
                             }
-                           
-                            
+
+
                           }else{
                               if(!File::isDirectory($imagePath.'/variant_image')){
                                   File::makeDirectory($path.'/variant_image', 0777, true, true);
@@ -707,27 +707,27 @@ protected function inventorysData($request){
                           }
                          $productVariations->variant_image = url('/').$imagePath.'/variant_image/'.$file_name;
                      }
-    
+
                         $productVariations->save();
-                        
-    
+
+
                     }
                 }
             }
                    $responseData=array(
-   
+
                        'product_id' => encrypt($prodID),
                        'msg' => 'Product Inventory Updated Successfully'
                    );
                    return json_encode($responseData);
-               
+
                }else{
                $responseData=array(
-   
+
                    'product_id' => encrypt($prodID),
                    'msg' => 'Product Inventory Not Updated'
                );
-              
+
                return json_encode($responseData);
            }
           }
@@ -736,9 +736,9 @@ protected function inventorysData($request){
 // //veriations data
     //approve_product
     public function approve_product(Request $request,$id){
-        
+
         $product = Product::find(decrypt($id));
-      
+
         $isNewImageUploaded = ProductMedia::where([
             'image_id'=>$request->image_id
         ])->get();
@@ -749,7 +749,7 @@ protected function inventorysData($request){
         }else{
             $isImagesUpdated = NULL;
         }
-        // 
+        //
         $oldData = Product::where('id', decrypt($id))->first();
         if (!$oldData) {
             return redirect()->back()->with('error', 'SORRY - Requested Product Not Found.');
@@ -774,7 +774,7 @@ protected function inventorysData($request){
             }else{
                 return redirect()->back()->with('error', 'Invalid Product Other Categories Data.');
             }
-            
+
         }else{
             if (ProductOtherCategory::where('product_id', decrypt($id))->exists()) {
                 //update
@@ -799,24 +799,24 @@ protected function inventorysData($request){
             'video_link'=>$request->video_link,
             'approved'=> 1,
             'updated_at'=>Carbon::now()
-            
+
         ]);
-        // 
+        //
         $Id = decrypt($id);
         if ($request->has('variant_combinations')) {
 
             foreach ($request->variant_combinations as $key => $variantUpdate) {
-                
+
                 $productVariationsUpdate = ProductVariation::find($request->variant_id[$key]);
 
                 $productVariationsUpdate->sku = $request->variant_sku[$key];
                 if ($request->has('variant_image')) {
-                    
+
                      $image = $request->file('variant_image')[$key];
-        
+
                         $file_name=uniqid().(Auth::guard('vendor')->user()->id)."_300_".$image->getClientOriginalName();
                         //resize image
-                        $image_resize = Image::make($image->getRealPath());              
+                        $image_resize = Image::make($image->getRealPath());
                         $image_300 = $image_resize->resize(300, 300);
                         $image_300->save('product_images/'.$file_name);
 
@@ -825,7 +825,7 @@ protected function inventorysData($request){
 
                 if ($request->has('active')) {
                     if(isset($request->active[$key])){
-                        
+
                         $productVariationsUpdate->active = $request->active[$key];
                     }else{
 
@@ -833,12 +833,12 @@ protected function inventorysData($request){
                     }
                 }
 
-                $productVariationsUpdate->save();       
+                $productVariationsUpdate->save();
 
             }
-           $productVariants = ProductVariation::where('product_id',$Id)->get(); 
+           $productVariants = ProductVariation::where('product_id',$Id)->get();
            foreach ($productVariants as $key => $vari) {
-                
+
                 if($vari->active == 1){
                     VendorProduct::insert([
                         'ven_id'=>$product->vendor_id,
@@ -850,7 +850,7 @@ protected function inventorysData($request){
                     ]);
                 }
             }
-            return redirect()->route('admin.pendingProducts.get')->with('success', 'Product Approved'); 
+            return redirect()->route('admin.pendingProducts.get')->with('success', 'Product Approved');
         }else{
 
             if ($updated == true) {
@@ -867,7 +867,7 @@ protected function inventorysData($request){
             else{
                 return redirect()->route('admin.pendingProducts.get')->with('error', 'Something went wrong.');
             }
-        } 
+        }
     }
 
     //reject_product
@@ -923,14 +923,19 @@ protected function inventorysData($request){
     }
     //start all pending approval products
     public function pending_approval(){
-      
-        return view('product.pending-for-approval');
-        
+        $type='pending';
+        return view('product.pending-for-approval',compact('type'));
+
+    }
+     public function auto_approved(){
+
+         $type='auto_approved';
+         return view('product.auto-approved',compact('type'));
     }
      //end all pending approval products
 
 
-    // get Categories 
+    // get Categories
 
     public function getCategories(Request $request){
 
@@ -943,7 +948,7 @@ protected function inventorysData($request){
     		return view('product.partials.auto-category', compact('categories'))->render();
     	}
     }
-   
+
     // get getCustomFields
 
     public function getCustomFields(Request $request){
@@ -956,7 +961,7 @@ protected function inventorysData($request){
     		return view('product.partials.update_product.auto-customfields', compact('customFields'))->render();
     	}
     }
-    // 
+    //
     // ajax-get-variant-options
 
     public function getVariationsOptions(Request $request){
@@ -968,7 +973,7 @@ protected function inventorysData($request){
     		$options       = VariationOption::where('variation_id',$variation_id)->where('active',1)->get();
 
 			$variationList = Variation::where('active',1)->get();
-			
+
 			return response()->json(array(
 				'second_variations' => $options,
 				'variationName' => $variationName,
@@ -979,10 +984,10 @@ protected function inventorysData($request){
 
     	}
 
-    } 
+    }
 
     //
-    
+
     // getSecondVariationsOptions
 
     public function getSecondVariationsOptions(Request $request){
@@ -1005,29 +1010,29 @@ protected function inventorysData($request){
     }
     //
     // product Images
-    public function addProductImages(Request $request,$product_image_id) 
+    public function addProductImages(Request $request,$product_image_id)
 	{
         $product_image_id=$request->session()->get('add_pro_img_id');
-        
+
         $validate = Validator::make($request->all(), [
             'fileDropzone'=>'required|image|mimes:png,jpeg,jpg,gif,webp'
         ]);
         if ($validate->fails()) {
             return response()->json('Please upload valid image', 422);
         }
-		
+
         $image = $request->file('fileDropzone');
-		
+
 		$file_name=uniqid().(Auth::guard('vendor')->user()->id).$product_image_id.$image->getClientOriginalName();
 		$is_present=ProductMedia::where(['image'=>$file_name,'image_id'=>$product_image_id])->get();
-		
+
         if(count($is_present) > 0){
 			return;
 		}
 
-       
+
       ///new code start
-      $image_resize = Image::make($image->getRealPath());              
+      $image_resize = Image::make($image->getRealPath());
       $imageSizes=array('1200','600','300');
       $imagePath='product_images/product_'.$product_image_id;
       $path = public_path($imagePath);
@@ -1039,7 +1044,7 @@ protected function inventorysData($request){
                $image->save($imagePath.'/'. $file_nameRenew);
              }
              $image->save($imagePath.'/'. $file_name);
-         }else{    
+         }else{
             for($i=0;$i<count($imageSizes);$i++){
                 $file_nameRenew=$imageSizes[$i].'_'.$file_name;
                 $image = $image_resize->resize($imageSizes[$i], $imageSizes[$i]);
@@ -1047,8 +1052,8 @@ protected function inventorysData($request){
               }
               $image->save($imagePath.'/'.$file_name);
          }
-         
-           
+
+
 		$product_image = new ProductMedia;
 		$product_image->image_id = $product_image_id;
 		$product_image->image = url('/').$imagePath.'/'.$file_name;
@@ -1058,12 +1063,12 @@ protected function inventorysData($request){
 			'filename' => $file_name,
 		);
 		return json_encode($success_message);
-		
+
 	 }
-     
+
      public function removeProductImage(Request $request) {
         $product_image_id=$request->session()->get('add_pro_img_id');
-        
+
         ProductMedia::where('image', $request->name)->delete();
         $imageSizes=array('1200','600','300');
         for($i=0;$i<count($imageSizes);$i++){
@@ -1109,7 +1114,7 @@ protected function inventorysData($request){
             'sku'=>$request->sku,
             'video_link'=>$request->video_link,
             'updated_at'=>Carbon::now()
-            
+
         ]);
         if ($updated == true) {
             return redirect()->back()->with('success', "Product updated successfully");
@@ -1119,7 +1124,7 @@ protected function inventorysData($request){
 
     }
 
-    // Get Products Vendors 
+    // Get Products Vendors
     public function get_product_all_vendors($product_id, $variationID=NULL){
         //referer id is product id of products tbl
         //get product
@@ -1153,7 +1158,7 @@ protected function inventorysData($request){
                         ->orderBy('created_at', 'desc')
                         ->get();
 
-        
+
         $total_vendors = [];
         $total_active_vendors = [];
 
@@ -1165,11 +1170,11 @@ protected function inventorysData($request){
         }
         $total_vendors = array_unique($total_vendors);
         $total_active_vendors = array_unique($total_active_vendors);
-        
+
         $vendors = Vendor::where('active', 1)->orderBy('first_name', 'ASC')->paginate(5);
         return view('product.show-product-vendors', compact('ven_product', 'product_vendors', 'total_vendors', 'total_active_vendors', 'vendors', 'product_id', 'variationID'));
     }
-    // 
+    //
     public function fetch__data(Request $request){
     	if ($request->ajax()) {
             $searchKey = $request->search_key;
@@ -1185,7 +1190,7 @@ protected function inventorysData($request){
             if ($sorting_order == "") {
                 $sorting_order = "DESC";
             }
-            
+
             if (!empty($request->search_key)) {
                 //if have specific vendor ID
                 if (!empty($id) && is_numeric($id)) {
@@ -1269,9 +1274,9 @@ protected function inventorysData($request){
                     ->orderBy($sort_by, $sorting_order)
                     ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                     ->paginate($row_per_page );
-                
+
                 return view('product.partials.product-list', compact('data'))->render();
-            
+
         }
         return abort(404);
     }
@@ -1299,7 +1304,7 @@ protected function inventorysData($request){
                             ['approved', '=', 0],
                             ['rejected', '=', 0],
                             ['disable', '=', 0]
-                       
+
                         ])
                         ->orderBy($sort_by, $sorting_order)
                         ->where("title", "LIKE", "%$searchKey%")
@@ -1319,8 +1324,8 @@ protected function inventorysData($request){
                         ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                         ->paginate($row_per_page );
                         return view('product.partials.pending-product-list', compact('data', 'id'))->render();
-                
-                    
+
+
             }
 
 
@@ -1334,7 +1339,7 @@ protected function inventorysData($request){
                     ->orderBy($sort_by, $sorting_order)
                     ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                     ->paginate($row_per_page );
-                return view('product.partials.pending-product-list', compact('data'))->render(); 
+                return view('product.partials.pending-product-list', compact('data'))->render();
             }
             $data = Product::where([
                         ['approved', '=', 0],
@@ -1344,8 +1349,8 @@ protected function inventorysData($request){
                     ->orderBy($sort_by, $sorting_order)
                     ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                     ->paginate($row_per_page );
-                return view('product.partials.pending-product-list', compact('data'))->render(); 
-            
+                return view('product.partials.pending-product-list', compact('data'))->render();
+
         }
         return abort(404);
     }
@@ -1388,7 +1393,7 @@ protected function inventorysData($request){
                     ->orderBy($sort_by, $sorting_order)
                     ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                     ->paginate($row_per_page );
-                return view('product.partials.pending-product-list', compact('data'))->render(); 
+                return view('product.partials.pending-product-list', compact('data'))->render();
             }
             $data = Product::where([
                         ['approved', '=', 0],
@@ -1398,8 +1403,8 @@ protected function inventorysData($request){
                     ->orderBy($sort_by, $sorting_order)
                     ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations'])
                     ->paginate($row_per_page );
-                return view('product.partials.pending-product-list', compact('data'))->render(); 
-            
+                return view('product.partials.pending-product-list', compact('data'))->render();
+
         }
         return abort(404);
     }
@@ -1433,7 +1438,7 @@ protected function inventorysData($request){
     //pdf
     public function Export_as_PDF($data){
         $pdf = PDF::loadView('export.pdf.products-export', compact('data'))->setPaper('letter', 'landscape');
-        return $pdf->download(date('d-m-Y').'-products.pdf');    
+        return $pdf->download(date('d-m-Y').'-products.pdf');
     }
 
     public function Export_as_CSV($data){

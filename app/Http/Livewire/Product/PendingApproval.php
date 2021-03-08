@@ -16,7 +16,7 @@ class PendingApproval extends Component
     public $search;
     protected $paginationTheme = 'bootstrap';
 
-    public function mount(Request $request){   
+    public function mount(Request $request){
         $this->perpage=10;
         $this->orderBy='desc';
         $this->search=null;
@@ -33,10 +33,10 @@ class PendingApproval extends Component
                 'approved'=>0,
                  $qry
                ];
-           
+
         }else{
             $where=['approved'=>0 ];
-            
+
         }
         $data = Product::where($where)
         ->orderBy('id', $this->orderBy)

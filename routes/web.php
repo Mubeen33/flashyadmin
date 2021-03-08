@@ -139,7 +139,7 @@ Route::get('removelogo/{id}' , 'Appearances\AppearanceController@remove_logo')->
    //products
    Route::get('products/pending-products', 'Products\ProductController@get_pending_products')->name('pendingProducts.get');
    Route::get('products/pending-approval', 'Products\ProductController@pending_approval')->name('pendingApproval.get');
-   Route::get('products/auto-approval', 'Products\ProductController@pending_approval')->name('pendingApproval.get');
+   Route::get('products/auto-approval', 'Products\ProductController@auto_approved')->name('autoApproved.get');
 
    Route::match(['get','post'],'products/view-product-details/{id}', 'Products\ProductController@viewProductDetails')->name('viewProductDetails');
    Route::match(['get','post'],'products/add-product','Products\ProductController@addProduct')->name('addProduct');

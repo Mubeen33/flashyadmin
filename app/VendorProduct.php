@@ -34,4 +34,6 @@ class VendorProduct extends Model
     public function get_vendor(){
     	return $this->belongsTo('App\Vendor', 'ven_id', 'id');
     }
+
+
 }

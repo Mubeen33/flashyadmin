@@ -5,18 +5,15 @@
       <change beforePath="$PROJECT_DIR$/.idea/flashyadmin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/flashyadmin.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Vendors/VendorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Vendors/VendorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Vendor.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Vendor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Products/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Products/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Helpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Helpers.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Livewire/Product/PendingApproval.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Livewire/Product/PendingApproval.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Product.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/VendorProduct.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/VendorProduct.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_08_17_073544_create_vendors_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_08_17_073544_create_vendors_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/seller.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/seller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Vendors/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Vendors/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Vendors/pending-vendors.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Vendors/pending-vendors.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Vendors/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Vendors/show.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/sidebar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/product/pending-for-approval.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/product/pending-for-approval.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -158,6 +155,9 @@
       <path value="$PROJECT_DIR$/vendor/livewire/livewire" />
       <path value="$PROJECT_DIR$/vendor/fideloper/proxy" />
       <path value="$PROJECT_DIR$/vendor/freshbitsweb/laratables" />
+      <path value="$PROJECT_DIR$/vendor/barryvdh/laravel-debugbar" />
+      <path value="$PROJECT_DIR$/vendor/maximebf/debugbar" />
+      <path value="$PROJECT_DIR$/vendor/symfony/debug" />
     </include_path>
   </component>
   <component name="ProjectId" id="1nQAlSSB7ivRFoeOciqW4uRpChi" />
@@ -170,7 +170,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/database/migrations" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/product" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -182,6 +182,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\flashyadmin\resources\views\product" />
       <recent name="C:\xampp\htdocs\flashyadmin\database\migrations" />
       <recent name="C:\xampp\htdocs\flashyadmin\resources\views\Vendors\partials" />
     </key>
@@ -207,6 +208,7 @@
       <workItem from="1615053292232" duration="18246000" />
       <workItem from="1615124268092" duration="661000" />
       <workItem from="1615130131462" duration="11868000" />
+      <workItem from="1615198425733" duration="13118000" />
     </task>
     <servers />
   </component>
@@ -224,5 +226,16 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/Http/Controllers/Products/ProductController.php</url>
+          <line>920</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

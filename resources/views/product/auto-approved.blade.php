@@ -17,10 +17,10 @@
 
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="">Home</a></li>
-    <li class="breadcrumb-item active">Pending Approvals</li>
+    <li class="breadcrumb-item active">Auto Approved Products</li>
 @endsection
 @section('content')
 
-     @livewire('product.pending-approval')
+     @livewire('product.auto-approved')
 
 @endsection

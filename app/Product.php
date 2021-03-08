@@ -24,6 +24,10 @@ class Product extends Model
 		'rejected',
 		'disable'
 	];
+    protected $casts = [
+        'created_d'  => 'date:d/m/Y',
+        'joined_at' => 'datetime:Y-m-d H:00',
+    ];
 
     public function get_vendor(){
     	return $this->belongsTo('App\Vendor', 'vendor_id', 'id');
@@ -43,7 +47,7 @@ class Product extends Model
     public function get_vendor_products(){
     	return $this->hasMany('App\VendorProduct', 'prod_id');
     }
-	
+
 	public function get_brand()
     {
       return $this->belongsTo('App\Brand','brand_id','id');
