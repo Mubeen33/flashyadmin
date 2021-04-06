@@ -21,22 +21,22 @@
             <div class="main-menu-content">
                 <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                     <li class="nav-item">
-                        
+
                         <a class=" nav-link" href="{{url('/')}}" data-toggle="dropdown">
                             <i class="feather icon-home"></i><span data-i18n="Dashboard">Dashboard</span>
                         </a>
-                     
+
                     </li>
                     <li class=" navigation-header"><span>Apps</span>
                     </li>
-                    
 
-        
-                    
+
+
+
                     <li class="nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="feather icon-package"></i><span data-i18n="Apps">Vendors</span></a>
                         <ul class="menu-content">
-                             <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendors.index')}}" data-toggle="dropdown" data-i18n="Thumb View"><i class="feather icon-circle"></i>Vendors List</a>
-                            </li>
+                             <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendors.index')}}" data-toggle="dropdown" data-i18n="Thumb View"><i class="feather icon-circle"></i>Approved</a></li>
+                             <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendors.pending.list')}}" data-toggle="dropdown" data-i18n="Thumb View"><i class="feather icon-circle"></i>Pending</a></li>
                             <!-- <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
                                 <a class="dropdown-item" href=""><i class="feather icon-circle"></i>Vendors</a>
                                 <ul class="menu-content">
@@ -47,14 +47,14 @@
                                 </ul>
                             </li> -->
                                 <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendor.activities.get')}}"><i class="feather icon-circle"></i>Vendors Activity</a></li>
-                                <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendor.bankUpdates.get')}}"><i class="feather icon-circle"></i>Bank Updates 
+                                <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendor.bankUpdates.get')}}"><i class="feather icon-circle"></i>Bank Updates
                                     @php
                                         $vendorBankDetailsUpdates = (\App\VendorBankDetailsTempData::where('status', 0)->count());
                                         if($vendorBankDetailsUpdates > 0){
                                             echo "<span class='badge badge-danger ml-2'>".$vendorBankDetailsUpdates."</span>";
                                         }
                                     @endphp
-                                    
+
                                 </a></li>
                                 <li data-menu=""><a class="dropdown-item" href="{{route('admin.vendor.addvendor.get')}}"><i class="feather icon-circle"></i>Add Vendor</a></li>
                             </li>
@@ -71,7 +71,7 @@
                                         echo "<span class='badge badge-danger'>".$vendorsDealRequests."</span>";
                                     }
                                 @endphp
-                            </span> 
+                            </span>
                         </a>
                         <ul class="menu-content">
                             <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendorDeals.pending.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Vendor Deals</a>
@@ -82,7 +82,7 @@
                                 <ul class="menu-content">
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('admin.vendorDeals.pending.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Pending Deals</a>
                                     </li>
-                                    
+
                                 </ul>
                             </li> -->
                         </ul>
@@ -91,7 +91,7 @@
                         <ul class="menu-content">
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
                                 <a class="dropdown-item" href="{{route('admin.transactions')}}"><i class="feather icon-circle"></i>All Transactions</a>
-                                
+
                             </li>
                         </ul>
                     </li>
@@ -99,12 +99,12 @@
                         <ul class="menu-content">
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
                                 <a class="dropdown-item" href="{{route('admin.customers.index')}}"><i class="feather icon-circle"></i>All Customers</a>
-                                
+
                             </li>
                         </ul>
                     </li>
 
-                    
+
 
                     <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Products</a>
                         <ul class="menu-content">
@@ -122,8 +122,8 @@
                             </li> -->
                             <li data-menu=""><a class="dropdown-item" href="{{route('admin.allProducts.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>All Products</a>
                             </li>
-                            <li data-menu=""><a class="dropdown-item" href="{{route('admin.pendingApproval.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Pending Approvals</a>
-                            </li>
+                            <li data-menu=""><a class="dropdown-item" href="{{route('admin.pendingApproval.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Pending Approvals</a></li>
+                            <li data-menu=""><a class="dropdown-item" href="{{route('admin.autoApproved.get')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Auto Approvals</a></li>
                         <!-- <ul class="menu-content">
                             <li ><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Ecommerce"><i class="feather icon-circle"></i>Categories</a>
                                 <ul class="menu-content">
@@ -168,7 +168,7 @@
                                 </ul>
                             </li>
                         </ul> -->
-                        
+
                     </ul>
                 </li>
 
@@ -305,7 +305,7 @@
                             <!-- <li data-menu=""><a class="dropdown-item" href="{{Route('admin.cetegory-settings')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Category Settings</a>
                             </li> -->
                             <li data-menu=""><a class="dropdown-item" href="{{Route('admin.home-settings')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Category Settings</a>
-                            </li> 
+                            </li>
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown" data-i18n="Data List"><i class="feather icon-list"></i>Link Pages</a>
                                 <ul  class="menu-content">
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('admin.quicklinks.index')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Quick Links</a>
@@ -315,7 +315,7 @@
                                     <li data-menu=""><a class="dropdown-item" href="{{Route('admin.business.index')}}" data-toggle="dropdown" data-i18n="List View"><i class="feather icon-circle"></i>Business</a>
                                     </li>
                                 </ul>
-                            </li>       
+                            </li>
                         </ul>
                     </li>
 
@@ -578,5 +578,5 @@
                     </li> --}}
                 </ul>
             </div>
-       
+
     </div>

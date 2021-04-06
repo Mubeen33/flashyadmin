@@ -11,15 +11,19 @@ class PendingApproval extends Component
 {
     use WithPagination;
 
-    public $totalProducts;
+    public $perpage;
     public $orderBy;
     public $search;
     protected $paginationTheme = 'bootstrap';
 
-    public function mount(Request $request){   
-        $this->totalProducts=10;
+    public function mount(Request $request){
+        $this->perpage=10;
         $this->orderBy='desc';
         $this->search=null;
+    }
+    public function updatingSearch()
+    {
+        $this->resetPage();
     }
     public function render()
     {
@@ -29,19 +33,16 @@ class PendingApproval extends Component
                 'approved'=>0,
                  $qry
                ];
-           
+
         }else{
             $where=['approved'=>0 ];
-            
+
         }
         $data = Product::where($where)
         ->orderBy('id', $this->orderBy)
         ->with(['get_vendor', 'get_category', 'get_images', 'get_product_variations', 'get_vendor_products'])
-        ->paginate($this->totalProducts);
+        ->paginate($this->perpage);
 
-        $vendors = Vendor::where('active', 1)
-            ->orderBy('first_name', 'ASC')
-            ->get();
-        return view('livewire.product.pending-approval',['data'=>$data,'vendors' =>  $vendors])->extends('master.app');
+        return view('livewire.product.pending-approval',['data'=>$data])->extends('layouts.master');
     }
 }

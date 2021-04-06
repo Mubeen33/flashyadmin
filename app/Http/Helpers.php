@@ -24,5 +24,17 @@ if (! function_exists('combinations')) {
     }
 }
 
+//print data with well formate
+//function debug($data,$exit = null){
+//
+//    echo '<pre>';
+//    print_r($data);
+//    if($exit!=null){
+//     exit;
+//    }
+//
+//
+//}
+
 
 ?>
